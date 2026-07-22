@@ -1,12 +1,29 @@
 "use client"
 
 import { Moon, Sun } from "lucide-react"
+import * as React from "react"
 import { useTheme } from "next-themes"
+
+const subscribe = () => () => {}
+
+function useMounted() {
+  return React.useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  )
+}
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
-  const label = isDark ? "Switch to light mode" : "Switch to dark mode"
+  const mounted = useMounted()
+
+  const isDark = mounted && resolvedTheme === "dark"
+  const label = mounted
+    ? isDark
+      ? "Switch to light mode"
+      : "Switch to dark mode"
+    : "Toggle color theme"
 
   return (
     <button
@@ -16,7 +33,9 @@ export function ThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className="inline-flex size-9 items-center justify-center rounded-full text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
     >
-      {isDark ? (
+      {!mounted ? (
+        <span aria-hidden="true" className="size-4" />
+      ) : isDark ? (
         <Sun aria-hidden="true" className="size-4" />
       ) : (
         <Moon aria-hidden="true" className="size-4" />
