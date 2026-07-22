@@ -1,4 +1,5 @@
 import type { Publication } from "../../types"
+import { markdownBlogFormat } from "./posts/markdown-blog-format"
 import { markdownComponents } from "./posts/markdown-components"
 
 export const blogTech: Publication = {
@@ -30,6 +31,20 @@ export const blogTech: Publication = {
       isFeatured: false,
       tags: ["Markdown", "Rendering", "Documentation"],
       content: markdownComponents,
+    },
+    {
+      postId: 402,
+      slug: "markdown-blog-format",
+      title: "Markdown Blog Format",
+      excerpt:
+        "How to add publications and posts using the blog's internal content and Markdown format.",
+      created: "2026-07-22",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: true,
+      isFeatured: true,
+      tags: ["Markdown", "Publishing", "Documentation"],
+      content: markdownBlogFormat,
     },
   ],
 }

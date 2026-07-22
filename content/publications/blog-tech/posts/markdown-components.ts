@@ -61,6 +61,24 @@ npm run lint
 
 @[youtube](dQw4w9WgXcQ)
 
+## Links and line breaks
+
+Use [this hash link](#heading-depth) to jump within the post. Internal paths
+such as [the library](\/?content=posts) stay in the app router, while external
+links such as [the project reference](https://example.com) open in a new tab.
+
+This line ends with two spaces  
+so the next line becomes an explicit hard break.
+
+## GFM extensions
+
+Autolink literals work for www.example.com, https://example.com, and
+contact@example.com without writing link syntax.
+
+Footnotes are supported with a reference[^gfm-note].
+
+[^gfm-note]: Footnotes are parsed by remark-gfm and rendered with backlinks.
+
 ### Heading depth
 
 #### H4 detail heading
@@ -69,4 +87,9 @@ This section verifies fourth-level headings appear in the table of contents.
 
 ##### H5 detail heading
 
-This section verifies fifth-level headings render with stable IDs too.`
+This section verifies fifth-level headings render with stable IDs too.
+
+###### H6 fallback heading
+
+H6 headings are parsed by Markdown but are not included in the table of contents
+because the blog applies its custom heading treatment to H2 through H5.`
