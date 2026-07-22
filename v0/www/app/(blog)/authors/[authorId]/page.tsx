@@ -49,7 +49,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
 
   return (
     <main className="min-h-svh bg-background">
-      <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-12 lg:px-10 lg:py-16">
+      <div className="mx-auto max-w-6xl px-5 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
