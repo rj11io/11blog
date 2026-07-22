@@ -55,7 +55,7 @@ export const materialCulture: Publication = {
       excerpt:
         "Build a compact toolkit around recurring jobs instead of speculative needs.",
       created: "2026-04-30",
-      authorIds: ["ricardo-jorge"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,

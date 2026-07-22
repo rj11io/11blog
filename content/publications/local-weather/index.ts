@@ -26,7 +26,7 @@ export const localWeather: Publication = {
       excerpt:
         "Returning to one ordinary walk reveals changes that novelty tends to hide.",
       created: "2026-05-31",
-      authorIds: ["ricardo-jorge"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,

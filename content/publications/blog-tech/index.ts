@@ -24,7 +24,7 @@ export const blogTech: Publication = {
       excerpt:
         "A complete reference for the Markdown components supported by the blog renderer.",
       created: "2026-07-22",
-      authorIds: ["ricardo-jorge"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: true,
       isFeatured: false,

@@ -2,7 +2,7 @@ import type { Author } from "./types"
 
 export const authors: Author[] = [
   {
-    id: "ricardo-jorge",
+    id: "rj11io",
     name: "Ricardo Jorge",
     displayName: "RJ",
     bio: "Designer and engineer working on calmer systems, practical interfaces, and durable product decisions.",
@@ -10,7 +10,9 @@ export const authors: Author[] = [
     tags: ["Systems", "Interfaces", "Product"],
     links: [
       { label: "Website", url: "https://rj11.io" },
-      { label: "GitHub", url: "https://github.com/ricardojorge" },
+      { label: "CV", url: "https://cv.rj11.io" },
+      { label: "GitHub", url: "https://github.com/rj11io" },
+      { label: "AI Skills", url: "https://ai.rj11.io" },
     ],
   },
   {
