@@ -8,7 +8,7 @@ import { FilterToggle, PostResult } from "./browse"
 
 type Tab = "posts" | "synopsis" | "notes"
 type ViewMode = "list" | "cards"
-type SortOrder = "featured" | "newest" | "oldest"
+type SortOrder = "relevance" | "newest" | "oldest"
 
 type PublicationBrowserProps = {
   posts: PostPreview[]
@@ -23,7 +23,7 @@ export function PublicationBrowser({
 }: PublicationBrowserProps) {
   const [tab, setTab] = React.useState<Tab>("posts")
   const [viewMode, setViewMode] = React.useState<ViewMode>("list")
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("featured")
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = React.useState(false)
@@ -49,7 +49,7 @@ export function PublicationBrowser({
       )
     })
 
-    if (sortOrder === "featured") return filtered
+    if (sortOrder === "relevance") return filtered
     return [...filtered].sort((a, b) => {
       const comparison = a.created.localeCompare(b.created)
       return sortOrder === "newest" ? -comparison : comparison
@@ -146,7 +146,7 @@ export function PublicationBrowser({
                 }
                 className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <option value="featured">Featured</option>
+                <option value="relevance">Relevance</option>
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
               </select>

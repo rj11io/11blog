@@ -363,7 +363,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
     [searchParams]
   )
   const [viewMode, setViewMode] = React.useState<ViewMode>("list")
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("relevance")
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = React.useState(false)
@@ -568,7 +568,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
               }
               className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <option value="relevance">Featured</option>
+              <option value="relevance">Relevance</option>
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
             </select>
