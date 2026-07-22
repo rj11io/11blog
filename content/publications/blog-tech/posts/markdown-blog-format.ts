@@ -21,7 +21,7 @@ content/
             └── post-slug.ts
 ~~~
 
-The registry imports every publication. A publication imports its post content. The application imports the registry through the content boundary and generates the library, publication, author, and post pages from it.
+The registry imports every publication. A publication imports its post content. The application imports the registry through the content boundary and generates the browse, publication, author, and post pages from it.
 
 ## Publication format
 
@@ -35,7 +35,7 @@ export const publicationName: Publication = {
   relId: 5,
   pubId: "publication-id",
   title: "Publication title",
-  description: "A short description for library cards and page metadata.",
+  description: "A short description for browse cards and page metadata.",
   created: "2026-07-22",
   updated: "2026-07-22",
   isNSFW: false,
@@ -82,7 +82,7 @@ Add the post object to the publication's posts array:
   postId: 501,
   slug: "post-slug",
   title: "Post title",
-  excerpt: "A short summary for library cards and metadata.",
+  excerpt: "A short summary for browse cards and metadata.",
   created: "2026-07-22",
   updated: "2026-07-22",
   authorIds: ["rj11io"],
@@ -123,7 +123,7 @@ YouTube watch, embed, and youtu.be URLs are also recognized when they form a sta
 Use root-relative paths for internal links:
 
 ~~~md
-[Browse the library](/?content=posts)
+[Browse the posts](/browse?content=posts)
 [Jump to a section](#section-heading)
 ~~~
 

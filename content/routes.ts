@@ -1,6 +1,6 @@
 import type { Post } from "./types"
 
-export const blogHref = "/"
+export const browseHref = "/browse"
 
 export function publicationHref(pubId: string) {
   return `/publications/${encodeURIComponent(pubId)}`

@@ -8,7 +8,7 @@ import {
   getAuthor,
   getPostsByAuthor,
 } from "@content/registry"
-import { blogHref } from "@content/routes"
+import { browseHref } from "@content/routes"
 
 type AuthorPageProps = {
   params: Promise<{ authorId: string }>
@@ -54,10 +54,10 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link
-                href={blogHref}
+                href={browseHref}
                 className="rounded-sm underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
-                Library
+                Browse
               </Link>
             </li>
             <li aria-hidden="true">/</li>

@@ -4,7 +4,7 @@ import { Grid2X2, List, Search } from "lucide-react"
 import * as React from "react"
 
 import type { PostPreview } from "@content/types"
-import { PostResult } from "./library"
+import { PostResult } from "./browse"
 
 type Tab = "posts" | "synopsis" | "notes"
 type ViewMode = "list" | "cards"

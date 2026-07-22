@@ -14,7 +14,7 @@ import {
 } from "@content/registry"
 import {
   authorHref,
-  blogHref,
+  browseHref,
   postHref,
   publicationHref,
 } from "@content/routes"
@@ -132,10 +132,10 @@ export default async function PostPage({ params }: PostPageProps) {
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link
-                href={blogHref}
+                href={browseHref}
                 className="rounded-sm underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
-                Library
+                Browse
               </Link>
             </li>
             <li aria-hidden="true">/</li>

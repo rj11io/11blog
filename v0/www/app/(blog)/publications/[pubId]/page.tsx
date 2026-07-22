@@ -3,7 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { PublicationBrowser } from "../../components/publication-browser"
-import { blogHref } from "@content/routes"
+import { browseHref } from "@content/routes"
 import {
   getPostPreview,
   getPublication,
@@ -58,10 +58,10 @@ export default async function PublicationPage({
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link
-                href={blogHref}
+                href={browseHref}
                 className="rounded-sm underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
-                Library
+                Browse
               </Link>
             </li>
             <li aria-hidden="true">/</li>

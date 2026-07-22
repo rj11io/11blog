@@ -16,7 +16,7 @@ type ContentType = "posts" | "publications" | "authors"
 type ViewMode = "list" | "cards"
 type SortOrder = "relevance" | "newest" | "oldest"
 
-type LibraryProps = {
+type BrowseProps = {
   authors: AuthorListItem[]
   posts: PostPreview[]
   publications: PublicationPreview[]
@@ -334,7 +334,7 @@ function PublicationResult({
   )
 }
 
-export function Library({ authors, posts, publications }: LibraryProps) {
+export function Browse({ authors, posts, publications }: BrowseProps) {
   const searchParams = useSearchParams()
   const contentType = React.useMemo(
     () =>
@@ -458,17 +458,17 @@ export function Library({ authors, posts, publications }: LibraryProps) {
   }
 
   return (
-    <section aria-labelledby="library-heading" className="mt-12">
+    <section aria-labelledby="browse-heading">
       <div className="flex flex-col justify-between gap-6 border-b border-border pb-6 lg:flex-row lg:items-end">
         <div>
           <p className="text-xs font-semibold tracking-[0.2em] text-primary uppercase">
-            Library
+            Browse
           </p>
           <h2
-            id="library-heading"
+            id="browse-heading"
             className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
           >
-            Browse the collection
+            Browse content
           </h2>
         </div>
 

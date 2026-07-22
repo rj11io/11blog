@@ -14,7 +14,7 @@ export const blogTech: Publication = {
   isFeatured: false,
   tags: ["Blog", "Technology", "Publishing"],
   synopsis:
-    "Blog Tech documents the systems behind this publication: content contracts, Markdown rendering, and the tools that make a small editorial library dependable.",
+    "Blog Tech documents the systems behind this publication: content contracts, Markdown rendering, and the tools that make a small editorial collection dependable.",
   editorNotes:
     "Practical notes about the blog itself, written as part of the same publishing system described in the posts.",
   posts: [
