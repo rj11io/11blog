@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const demoContent = `
 ## Prose and inline formatting
 
-This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, \`inline code\`, an [internal blog link](/v1/blog?content=posts), and an [external reference](https://example.com).
+This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, \`inline code\`, an [internal blog link](/?content=posts), and an [external reference](https://example.com).
 
 ### Lists and tasks
 
