@@ -11,14 +11,14 @@ import {
   getPost,
   getPostContent,
   stripLeadingH1,
-} from "../../../content/registry"
+} from "@content/registry"
 import {
   authorHref,
   blogHref,
   postHref,
   publicationHref,
-} from "../../../content/routes"
-import type { AuthorPreview } from "../../../content/types"
+} from "@content/routes"
+import type { AuthorPreview } from "@content/types"
 
 type PostPageProps = {
   params: Promise<{ pubId: string; postId: string }>

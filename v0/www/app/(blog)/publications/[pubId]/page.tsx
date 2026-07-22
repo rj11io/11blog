@@ -3,12 +3,12 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { PublicationBrowser } from "../../components/publication-browser"
-import { blogHref } from "../../content/routes"
+import { blogHref } from "@content/routes"
 import {
   getPostPreview,
   getPublication,
   publications,
-} from "../../content/registry"
+} from "@content/registry"
 
 type PublicationPageProps = {
   params: Promise<{ pubId: string }>

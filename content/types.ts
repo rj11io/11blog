@@ -37,6 +37,7 @@ export type Post = {
   authorIds: string[]
   isNSFW: boolean
   isNew: boolean
+  isFeatured: boolean
   tags: string[]
   content?: string
 }
@@ -50,6 +51,7 @@ export type Publication = {
   updated?: string
   isNSFW: boolean
   isNew: boolean
+  isFeatured: boolean
   tags: string[]
   synopsis?: string
   editorNotes?: string

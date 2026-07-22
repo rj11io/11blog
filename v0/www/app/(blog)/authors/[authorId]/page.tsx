@@ -7,8 +7,8 @@ import {
   blogAuthors,
   getAuthor,
   getPostsByAuthor,
-} from "../../content/registry"
-import { blogHref } from "../../content/routes"
+} from "@content/registry"
+import { blogHref } from "@content/routes"
 
 type AuthorPageProps = {
   params: Promise<{ authorId: string }>

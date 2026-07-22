@@ -1,4 +1,5 @@
 import { authors } from "./authors"
+import { blogTech } from "./publications/blog-tech"
 import { localWeather } from "./publications/local-weather"
 import { materialCulture } from "./publications/material-culture"
 import { signalPath } from "./publications/signal-path"
@@ -19,6 +20,7 @@ export const publications: Publication[] = [
   signalPath,
   materialCulture,
   localWeather,
+  blogTech,
 ]
 
 export const blogAuthors: Author[] = authors
@@ -78,6 +80,7 @@ function toPostPreview(post: PostListItem): PostPreview {
     authors: post.authors,
     isNSFW: post.isNSFW,
     isNew: post.isNew,
+    isFeatured: post.isFeatured,
     tags: post.tags,
     publicationId: post.publicationId,
     publicationTitle: post.publicationTitle,

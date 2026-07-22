@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@content/*": ["../../content/*"]
     }
   },
   "include": [
@@ -28,6 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.mts",
+    "../../content/**/*.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],

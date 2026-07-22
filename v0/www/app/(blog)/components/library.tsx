@@ -10,7 +10,7 @@ import type {
   AuthorListItem,
   PostPreview,
   PublicationPreview,
-} from "../content/types"
+} from "@content/types"
 
 type ContentType = "posts" | "publications" | "authors"
 type ViewMode = "list" | "cards"

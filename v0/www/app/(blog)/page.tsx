@@ -6,12 +6,12 @@ import {
   authorPreviews,
   postPreviews,
   publicationPreviews,
-} from "./content/registry"
+} from "@content/registry"
 
 export const metadata: Metadata = {
   title: "Editorial Library",
   description:
-    "Three independent publications exploring systems, objects, and places.",
+    "Independent publications exploring systems, objects, places, and the tools behind the library.",
 }
 
 export default function BlogPage() {
@@ -35,21 +35,25 @@ export default function BlogPage() {
               Ideas for more attentive work and everyday life.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-pretty text-muted-foreground sm:text-lg">
-              Three publications collecting practical essays on systems,
-              material culture, and the places we share.
+              A growing collection of practical essays on systems, material
+              culture, places, and the tools behind the library.
             </p>
             <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-border pt-6">
               <div>
                 <dt className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
                   Publications
                 </dt>
-                <dd className="mt-1 text-2xl font-semibold">03</dd>
+                  <dd className="mt-1 text-2xl font-semibold">
+                    {String(publicationPreviews.length).padStart(2, "0")}
+                  </dd>
               </div>
               <div>
                 <dt className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
                   Essays
                 </dt>
-                <dd className="mt-1 text-2xl font-semibold">09</dd>
+                  <dd className="mt-1 text-2xl font-semibold">
+                    {String(postPreviews.length).padStart(2, "0")}
+                  </dd>
               </div>
               <div>
                 <dt className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
