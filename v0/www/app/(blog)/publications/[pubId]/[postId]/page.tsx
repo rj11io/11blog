@@ -64,8 +64,8 @@ function AuthorAvatar({
 
 function AuthorByline({ authors }: { authors: AuthorPreview[] }) {
   return (
-    <div className="mt-8" aria-label="Authors">
-      <p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+    <div className="mt-6" aria-label="Authors">
+      <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
         Written by
       </p>
       <ul className="mt-3 flex flex-wrap gap-3">
@@ -157,27 +157,27 @@ export default async function PostPage({ params }: PostPageProps) {
           </ol>
         </nav>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-16">
+        <div className="mt-6 grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-16">
           <ContentIndex headings={headings} />
 
           <article className="min-w-0">
-            <header className="border-b border-border pb-10 sm:pb-14">
+            <header className="border-b border-border pb-6 sm:pb-8">
               <Link
                 href={publicationHref(publication.pubId)}
                 className="inline-flex rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold tracking-[0.16em] text-primary uppercase outline-none hover:bg-primary/15 focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {publication.title}
               </Link>
-              <h1 className="mt-6 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-balance sm:text-6xl lg:text-7xl">
+              <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-balance sm:text-5xl lg:text-6xl">
                 {post.title}
               </h1>
               {post.excerpt && (
-                <p className="mt-6 max-w-3xl text-lg leading-8 text-pretty text-muted-foreground sm:text-xl sm:leading-9">
+                <p className="mt-4 max-w-3xl text-base leading-7 text-pretty text-muted-foreground sm:text-lg sm:leading-8">
                   {post.excerpt}
                 </p>
               )}
               <AuthorByline authors={authors} />
-              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted-foreground">
+              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted-foreground">
                 <time dateTime={post.created}>
                   Created{" "}
                   {dateFormatter.format(new Date(`${post.created}T00:00:00Z`))}
@@ -210,7 +210,7 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
             </header>
 
-            <div className="mx-auto max-w-3xl py-10 sm:py-14">
+            <div className="mx-auto max-w-3xl pt-4 pb-8 sm:pt-6 sm:pb-10">
               {renderedContent ? (
                 <Markdown content={renderedContent} />
               ) : (
@@ -227,7 +227,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
             <nav
               aria-label="Adjacent posts"
-              className="grid gap-4 border-t border-border pt-8 sm:grid-cols-2"
+              className="grid gap-4 border-t border-border pt-6 sm:grid-cols-2"
             >
               {previous ? (
                 <Link
