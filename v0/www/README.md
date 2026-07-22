@@ -1,21 +1,34 @@
-# Next.js template
+# 11blog web app
 
-This is a Next.js template with shadcn/ui.
+This directory contains the private Next.js frontend for 11blog. It renders the TypeScript content stored in the repository-level `content/` directory.
 
-## Adding components
-
-To add components to your app, run the following command:
+## Development
 
 ```bash
-npx shadcn@latest add button
+npm install
+npm run dev
 ```
 
-This will place the ui components in the `components` directory.
+Run these commands from `v0/www`. The available scripts are:
 
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button";
+```text
+npm run lint       # Check the app with ESLint
+npm run typecheck  # Run TypeScript without emitting files
+npm run build      # Create a production build
+npm run start      # Serve the production build
+npm run format     # Format TypeScript and TSX files
 ```
+
+## Routes
+
+- `/` redirects to `/browse`.
+- `/browse` lists the blog content.
+- `/publications/[pubId]` shows a publication.
+- `/publications/[pubId]/[postId]` shows a post.
+- `/authors/[authorId]` shows an author and their posts.
+
+## Content
+
+Content is defined outside this app in `../../content`. The `@content/*` alias configured in `tsconfig.json` makes it available to the app; edit the content files there when adding authors, publications, or posts.
+
+The app uses local UI components in `components/ui/` and shared helpers in `lib/`.
