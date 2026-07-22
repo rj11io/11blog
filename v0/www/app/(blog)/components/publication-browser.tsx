@@ -4,7 +4,7 @@ import { Grid2X2, List, Search } from "lucide-react"
 import * as React from "react"
 
 import type { PostPreview } from "@content/types"
-import { PostResult } from "./browse"
+import { FilterToggle, PostResult } from "./browse"
 
 type Tab = "posts" | "synopsis" | "notes"
 type ViewMode = "list" | "cards"
@@ -26,6 +26,7 @@ export function PublicationBrowser({
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("featured")
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
+  const [filtersOpen, setFiltersOpen] = React.useState(false)
 
   const availableTags = React.useMemo(
     () =>
@@ -110,7 +111,13 @@ export function PublicationBrowser({
 
       {tab === "posts" && (
         <div role="tabpanel" className="py-8">
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto_auto] lg:items-end">
+          <div
+            className={`grid gap-4 lg:items-end ${
+              availableTags.length > 0
+                ? "lg:grid-cols-[minmax(0,1fr)_auto_auto_auto]"
+                : "lg:grid-cols-[minmax(0,1fr)_auto_auto]"
+            }`}
+          >
             <label className="relative block">
               <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
                 Search posts
@@ -145,6 +152,15 @@ export function PublicationBrowser({
               </select>
             </label>
 
+            {availableTags.length > 0 && (
+              <div className="flex items-end">
+                <FilterToggle
+                  open={filtersOpen}
+                  onToggle={() => setFiltersOpen((open) => !open)}
+                />
+              </div>
+            )}
+
             <div>
               <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
                 Layout
@@ -175,22 +191,24 @@ export function PublicationBrowser({
             </div>
           </div>
 
-          <div
-            className="mt-5 flex flex-wrap gap-2"
-            aria-label="Filter posts by tag"
-          >
-            {availableTags.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                aria-pressed={selectedTags.includes(tag)}
-                onClick={() => toggleTag(tag)}
-                className="rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
+          {filtersOpen && availableTags.length > 0 && (
+            <div
+              className="mt-5 flex flex-wrap gap-2"
+              aria-label="Filter posts by tag"
+            >
+              {availableTags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  aria-pressed={selectedTags.includes(tag)}
+                  onClick={() => toggleTag(tag)}
+                  className="rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
 
           <p className="mt-6 text-sm text-muted-foreground" aria-live="polite">
             {filteredPosts.length}{" "}

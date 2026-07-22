@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { Grid2X2, List, Search } from "lucide-react"
+import { Grid2X2, List, Search, SlidersHorizontal } from "lucide-react"
 import * as React from "react"
 
 import type {
@@ -120,6 +120,27 @@ function UpdatedDate({ value }: { value?: string }) {
     <span className="mt-1 block text-xs text-muted-foreground">
       Updated {formatDate(value)}
     </span>
+  )
+}
+
+export function FilterToggle({
+  open,
+  onToggle,
+}: {
+  open: boolean
+  onToggle: () => void
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={open ? "Hide filters" : "Show filters"}
+      aria-expanded={open}
+      title={open ? "Hide filters" : "Show filters"}
+      onClick={onToggle}
+      className="inline-flex size-11 items-center justify-center rounded-xl border border-input bg-background text-muted-foreground outline-none transition hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-expanded:border-primary aria-expanded:bg-primary/10 aria-expanded:text-primary"
+    >
+      <SlidersHorizontal aria-hidden="true" className="size-4" />
+    </button>
   )
 }
 
@@ -345,6 +366,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("relevance")
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
+  const [filtersOpen, setFiltersOpen] = React.useState(false)
 
   const availableTags = React.useMemo(
     () =>
@@ -509,8 +531,12 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
       <div
         className={`mt-6 grid gap-4 lg:items-end ${
           contentType === "authors"
-            ? "lg:grid-cols-[minmax(0,1fr)_auto]"
-            : "lg:grid-cols-[minmax(0,1fr)_auto_auto]"
+            ? availableTags.length > 0
+              ? "lg:grid-cols-[minmax(0,1fr)_auto_auto]"
+              : "lg:grid-cols-[minmax(0,1fr)_auto]"
+            : availableTags.length > 0
+              ? "lg:grid-cols-[minmax(0,1fr)_auto_auto_auto]"
+              : "lg:grid-cols-[minmax(0,1fr)_auto_auto]"
         }`}
       >
         <label className="relative block">
@@ -549,6 +575,15 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
           </label>
         )}
 
+        {availableTags.length > 0 && (
+          <div className="flex items-end">
+            <FilterToggle
+              open={filtersOpen}
+              onToggle={() => setFiltersOpen((open) => !open)}
+            />
+          </div>
+        )}
+
         <div>
           <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
             Layout
@@ -579,7 +614,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
         </div>
       </div>
 
-      {availableTags.length > 0 && (
+      {filtersOpen && availableTags.length > 0 && (
         <div
           className="mt-5 flex flex-wrap gap-2"
           aria-label={`Filter ${contentType} by tag`}
