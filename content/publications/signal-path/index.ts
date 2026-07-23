@@ -13,7 +13,7 @@ export const signalPath: Publication = {
   updated: "2026-06-20",
   isNSFW: false,
   isNew: true,
-  isFeatured: false,
+  isFeatured: true,
   tags: ["Systems", "Practice", "Teams"],
   synopsis:
     "Signal Path examines the small structures that shape how work moves: handoffs, feedback, defaults, and the records teams leave behind.",

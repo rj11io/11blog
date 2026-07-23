@@ -21,7 +21,7 @@ npm run format     # Format TypeScript and TSX files
 
 ## Routes
 
-- `/` redirects to `/browse`.
+- `/` is the landing page.
 - `/browse` lists the blog content.
 - `/publications/[pubId]` shows a publication.
 - `/publications/[pubId]/[postId]` shows a post.
