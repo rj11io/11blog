@@ -22,7 +22,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
         <nav aria-label="Primary navigation" className="flex items-center gap-6">
           <Link
-            href="/browse"
+            href="/"
             className="text-sm font-semibold tracking-tight text-foreground transition hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
             11blog
