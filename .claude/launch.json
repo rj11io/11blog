@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "blog-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "v0/www", "run", "dev"],
+      "port": 4100
+    }
+  ]
+}
