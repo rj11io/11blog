@@ -483,12 +483,9 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
     <section aria-labelledby="browse-heading">
       <div className="flex flex-col justify-between gap-6 border-b border-border pb-6 lg:flex-row lg:items-end">
         <div>
-          <p className="text-xs font-semibold tracking-[0.2em] text-primary uppercase">
-            Browse
-          </p>
           <h2
             id="browse-heading"
-            className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
+            className="text-2xl font-semibold tracking-tight sm:text-3xl"
           >
             Browse content
           </h2>
@@ -529,15 +526,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
       </div>
 
       <div
-        className={`mt-6 grid gap-4 lg:items-end ${
-          contentType === "authors"
-            ? availableTags.length > 0
-              ? "lg:grid-cols-[minmax(0,1fr)_auto_auto]"
-              : "lg:grid-cols-[minmax(0,1fr)_auto]"
-            : availableTags.length > 0
-              ? "lg:grid-cols-[minmax(0,1fr)_auto_auto_auto]"
-              : "lg:grid-cols-[minmax(0,1fr)_auto_auto]"
-        }`}
+        className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end"
       >
         <label className="relative block">
           <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
@@ -556,60 +545,62 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
           />
         </label>
 
-        {contentType !== "authors" && (
-          <label>
+        <div className="flex flex-wrap items-end gap-4">
+          {contentType !== "authors" && (
+            <label>
+              <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+                Sort
+              </span>
+              <select
+                value={sortOrder}
+                onChange={(event) =>
+                  setSortOrder(event.target.value as SortOrder)
+                }
+                className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <option value="relevance">Relevance</option>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+              </select>
+            </label>
+          )}
+
+          {availableTags.length > 0 && (
+            <div className="flex items-end">
+              <FilterToggle
+                open={filtersOpen}
+                onToggle={() => setFiltersOpen((open) => !open)}
+              />
+            </div>
+          )}
+
+          <div>
             <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-              Sort
+              Layout
             </span>
-            <select
-              value={sortOrder}
-              onChange={(event) =>
-                setSortOrder(event.target.value as SortOrder)
-              }
-              className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            <div
+              className="inline-flex h-11 rounded-xl border border-border bg-muted/50 p-1"
+              aria-label="Result layout"
             >
-              <option value="relevance">Relevance</option>
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
-            </select>
-          </label>
-        )}
-
-        {availableTags.length > 0 && (
-          <div className="flex items-end">
-            <FilterToggle
-              open={filtersOpen}
-              onToggle={() => setFiltersOpen((open) => !open)}
-            />
-          </div>
-        )}
-
-        <div>
-          <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-            Layout
-          </span>
-          <div
-            className="inline-flex h-11 rounded-xl border border-border bg-muted/50 p-1"
-            aria-label="Result layout"
-          >
-            <button
-              type="button"
-              aria-label="List view"
-              aria-pressed={viewMode === "list"}
-              onClick={() => setViewMode("list")}
-              className="rounded-lg px-3 transition aria-pressed:bg-background aria-pressed:shadow-sm"
-            >
-              <List aria-hidden="true" className="size-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Card view"
-              aria-pressed={viewMode === "cards"}
-              onClick={() => setViewMode("cards")}
-              className="rounded-lg px-3 transition aria-pressed:bg-background aria-pressed:shadow-sm"
-            >
-              <Grid2X2 aria-hidden="true" className="size-4" />
-            </button>
+              <button
+                type="button"
+                aria-label="List view"
+                aria-pressed={viewMode === "list"}
+                onClick={() => setViewMode("list")}
+                className="rounded-lg px-3 transition aria-pressed:bg-background aria-pressed:shadow-sm"
+              >
+                <List aria-hidden="true" className="size-4" />
+              </button>
+              <button
+                type="button"
+                aria-label="Card view"
+                aria-pressed={viewMode === "cards"}
+                onClick={() => setViewMode("cards")}
+                className="rounded-lg px-3 transition aria-pressed:bg-background aria-pressed:shadow-sm"
+              >
+                <Grid2X2 aria-hidden="true" className="size-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

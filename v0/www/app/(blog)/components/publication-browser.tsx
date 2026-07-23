@@ -111,13 +111,7 @@ export function PublicationBrowser({
 
       {tab === "posts" && (
         <div role="tabpanel" className="py-8">
-          <div
-            className={`grid gap-4 lg:items-end ${
-              availableTags.length > 0
-                ? "lg:grid-cols-[minmax(0,1fr)_auto_auto_auto]"
-                : "lg:grid-cols-[minmax(0,1fr)_auto_auto]"
-            }`}
-          >
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
             <label className="relative block">
               <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
                 Search posts
@@ -135,58 +129,60 @@ export function PublicationBrowser({
               />
             </label>
 
-            <label>
-              <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-                Sort
-              </span>
-              <select
-                value={sortOrder}
-                onChange={(event) =>
-                  setSortOrder(event.target.value as SortOrder)
-                }
-                className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                <option value="relevance">Relevance</option>
-                <option value="newest">Newest first</option>
-                <option value="oldest">Oldest first</option>
-              </select>
-            </label>
-
-            {availableTags.length > 0 && (
-              <div className="flex items-end">
-                <FilterToggle
-                  open={filtersOpen}
-                  onToggle={() => setFiltersOpen((open) => !open)}
-                />
-              </div>
-            )}
-
-            <div>
-              <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-                Layout
-              </span>
-              <div
-                className="inline-flex h-11 rounded-xl border border-border bg-muted/50 p-1"
-                aria-label="Post layout"
-              >
-                <button
-                  type="button"
-                  aria-label="List view"
-                  aria-pressed={viewMode === "list"}
-                  onClick={() => setViewMode("list")}
-                  className="rounded-lg px-3 aria-pressed:bg-background aria-pressed:shadow-sm"
+            <div className="flex flex-wrap items-end gap-4">
+              <label>
+                <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+                  Sort
+                </span>
+                <select
+                  value={sortOrder}
+                  onChange={(event) =>
+                    setSortOrder(event.target.value as SortOrder)
+                  }
+                  className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <List aria-hidden="true" className="size-4" />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Card view"
-                  aria-pressed={viewMode === "cards"}
-                  onClick={() => setViewMode("cards")}
-                  className="rounded-lg px-3 aria-pressed:bg-background aria-pressed:shadow-sm"
+                  <option value="relevance">Relevance</option>
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                </select>
+              </label>
+
+              {availableTags.length > 0 && (
+                <div className="flex items-end">
+                  <FilterToggle
+                    open={filtersOpen}
+                    onToggle={() => setFiltersOpen((open) => !open)}
+                  />
+                </div>
+              )}
+
+              <div>
+                <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+                  Layout
+                </span>
+                <div
+                  className="inline-flex h-11 rounded-xl border border-border bg-muted/50 p-1"
+                  aria-label="Post layout"
                 >
-                  <Grid2X2 aria-hidden="true" className="size-4" />
-                </button>
+                  <button
+                    type="button"
+                    aria-label="List view"
+                    aria-pressed={viewMode === "list"}
+                    onClick={() => setViewMode("list")}
+                    className="rounded-lg px-3 aria-pressed:bg-background aria-pressed:shadow-sm"
+                  >
+                    <List aria-hidden="true" className="size-4" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Card view"
+                    aria-pressed={viewMode === "cards"}
+                    onClick={() => setViewMode("cards")}
+                    className="rounded-lg px-3 aria-pressed:bg-background aria-pressed:shadow-sm"
+                  >
+                    <Grid2X2 aria-hidden="true" className="size-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
