@@ -7,6 +7,7 @@ import {
   CONTENT_HEADING_OFFSET,
   createHeadingIdFactory,
 } from "./markdown-headings"
+import { CodeBlock } from "./code-block"
 import { isInternalHref, remarkYouTube } from "./markdown-utils"
 
 type MarkdownElementProps = {
@@ -128,26 +129,32 @@ function MarkdownImage({ src, alt }: ComponentProps<"img">) {
 }
 
 function MarkdownCode({
-  className,
   children,
 }: MarkdownElementProps & ComponentProps<"code">) {
-  const language = className?.match(/language-([\w-]+)/)?.[1]
-
-  if (language) {
-    return (
-      <code
-        className={`${className} block overflow-x-auto p-4 font-mono text-sm leading-6 text-foreground`}
-        data-language={language}
-      >
-        {children}
-      </code>
-    )
-  }
-
   return (
     <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground">
       {children}
     </code>
+  )
+}
+
+function MarkdownPre({ children }: MarkdownElementProps) {
+  const child = Array.isArray(children) ? children[0] : children
+
+  if (
+    isValidElement<{ children?: ReactNode; className?: string }>(child) &&
+    typeof child.props.className === "string"
+  ) {
+    const language = child.props.className.match(/language-([\w-]+)/)?.[1]
+    const code = reactNodeText(child.props.children).replace(/\n$/, "")
+
+    return <CodeBlock code={code} language={language} />
+  }
+
+  return (
+    <pre className="my-8 overflow-hidden rounded-2xl border border-border bg-muted/50 p-4 font-mono text-sm leading-6 text-foreground">
+      {children}
+    </pre>
   )
 }
 
@@ -211,11 +218,7 @@ export function Markdown({ content }: { content: string }) {
         {children}
       </td>
     ),
-    pre: ({ children }: MarkdownElementProps) => (
-      <pre className="my-8 overflow-hidden rounded-2xl border border-border bg-muted/50">
-        {children}
-      </pre>
-    ),
+    pre: MarkdownPre,
     code: MarkdownCode,
     input: ({ type, checked }: ComponentProps<"input">) => (
       <input
