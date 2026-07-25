@@ -166,12 +166,19 @@ export default async function PostPage({ params }: PostPageProps) {
 
           <article className="min-w-0">
             <header className="border-b border-border pb-6 sm:pb-8">
-              <Link
-                href={publicationHref(publication.pubId)}
-                className="inline-flex rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold tracking-[0.16em] text-primary uppercase outline-none hover:bg-primary/15 focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                {publication.title}
-              </Link>
+              <div className="flex flex-wrap items-center gap-2">
+                <Link
+                  href={publicationHref(publication.pubId)}
+                  className="inline-flex rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold tracking-[0.16em] text-primary uppercase outline-none hover:bg-primary/15 focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  {publication.title}
+                </Link>
+                {post.isFeatured && (
+                  <span className="rounded-full bg-primary/12 px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                    Featured
+                  </span>
+                )}
+              </div>
               <h1
                 id={CONTENT_TITLE_ID}
                 style={{ scrollMarginTop: CONTENT_HEADING_OFFSET }}

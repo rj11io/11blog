@@ -256,6 +256,7 @@ export function PostResult({
         </div>
         <div>
           <div className="flex flex-wrap items-center gap-2">
+            {post.isFeatured && <Badge strong>Featured</Badge>}
             {post.isNew && <Badge strong>New</Badge>}
             {post.isNSFW && <Badge>Adult</Badge>}
           </div>
@@ -323,7 +324,8 @@ function PublicationResult({
         </div>
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            {publication.isNew && <Badge strong>New issue</Badge>}
+            {publication.isFeatured && <Badge strong>Featured</Badge>}
+            {publication.isNew && <Badge strong>New post</Badge>}
             {publication.isNSFW && <Badge>Adult</Badge>}
           </div>
           <h2 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary sm:text-2xl">
