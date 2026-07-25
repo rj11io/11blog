@@ -18,14 +18,14 @@ function IndexLinks({
   onNavigate: (id: string) => void
 }) {
   return (
-    <ol className="mt-4 space-y-1 border-l border-border">
+    <ol className="mt-3 space-y-0.5 border-l border-border">
       {headings.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
             aria-current={activeId === heading.id ? "location" : undefined}
             onClick={() => onNavigate(heading.id)}
-            className={`-ml-px block border-l py-1.5 text-sm leading-5 transition outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+            className={`-ml-px block border-l py-1 text-sm leading-5 transition outline-none focus-visible:ring-2 focus-visible:ring-ring ${
               heading.level === 2
                 ? "pl-4"
                 : heading.level === 3
