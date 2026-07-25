@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm"
 
 import { MasonryImageList } from "@/components/media/masonry-image-list"
 import { QuiltedImageList } from "@/components/media/quilted-image-list"
-import type { PostImageLists } from "@content/types"
+import type { PostImageLists, PostImages } from "@content/types"
 
 import {
   CONTENT_HEADING_OFFSET,
@@ -15,6 +15,7 @@ import { CodeBlock } from "./code-block"
 import {
   isInternalHref,
   remarkImageList,
+  remarkPostImage,
   remarkYouTube,
 } from "./markdown-utils"
 import { MarkdownImage as MarkdownImageViewer } from "./markdown-image"
@@ -27,6 +28,7 @@ type MarkdownElementProps = {
   className?: string
   videoid?: string
   title?: string
+  imagekey?: string
   listkey?: string
 }
 
@@ -89,6 +91,37 @@ function PostImageList({
         aria-label={imageList.ariaLabel}
       />
     </div>
+  )
+}
+
+function ConfiguredPostImage({
+  imagekey,
+  images,
+}: MarkdownElementProps & { images?: PostImages }) {
+  if (!imagekey) return null
+
+  const image = images?.[imagekey]
+
+  if (!image) {
+    return process.env.NODE_ENV === "development" ? (
+      <div className="my-8 rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+        Image &quot;{imagekey}&quot; is not configured for this post.
+      </div>
+    ) : null
+  }
+
+  return (
+    <span className="my-8 block overflow-hidden rounded-2xl border border-border bg-muted/30">
+      <MarkdownImageViewer
+        src={image.src}
+        thumbnailSrc={image.thumbnailSrc}
+        width={image.width}
+        height={image.height}
+        alt={image.alt}
+        title={image.title}
+        subtitle={image.subtitle}
+      />
+    </span>
   )
 }
 
@@ -199,9 +232,11 @@ function MarkdownPre({ children }: MarkdownElementProps) {
 
 export function Markdown({
   content,
+  images,
   imageLists,
 }: {
   content: string
+  images?: PostImages
   imageLists?: PostImageLists
 }) {
   const createHeadingId = createHeadingIdFactory()
@@ -274,17 +309,26 @@ export function Markdown({
       />
     ),
     "youtube-embed": YouTubeEmbed,
+    "post-image": (props: MarkdownElementProps) => (
+      <ConfiguredPostImage {...props} images={images} />
+    ),
     "image-list": (props: MarkdownElementProps) => (
       <PostImageList {...props} imageLists={imageLists} />
     ),
   } satisfies Partial<Components> & {
     "youtube-embed": (props: MarkdownElementProps) => ReactNode
+    "post-image": (props: MarkdownElementProps) => ReactNode
     "image-list": (props: MarkdownElementProps) => ReactNode
   }
 
   return (
     <ReactMarkdown
-      remarkPlugins={[remarkGfm, remarkYouTube, remarkImageList]}
+      remarkPlugins={[
+        remarkGfm,
+        remarkYouTube,
+        remarkPostImage,
+        remarkImageList,
+      ]}
       components={components as Components}
     >
       {content}

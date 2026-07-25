@@ -30,6 +30,8 @@ const SWIPE_THRESHOLD = 48
 export type LightboxImage = {
   src: string
   alt: string
+  width?: number
+  height?: number
   title?: string
   subtitle?: string
 }
@@ -335,6 +337,8 @@ export function ImageLightbox({
                   ref={imageRef}
                   src={image.src}
                   alt={image.alt}
+                  width={image.width}
+                  height={image.height}
                   draggable={false}
                   className={`max-h-[calc(100vh-9rem)] max-w-[calc(100vw-4rem)] object-contain will-change-transform ${view.zoom <= 1 ? "transition-transform duration-200 ease-out" : ""}`}
                   style={{

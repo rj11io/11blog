@@ -1,68 +1,131 @@
-import type { PostImageLists } from "../../../../types"
+import type { PostImage, PostImageLists, PostImages } from "../../../../types"
 
-const pressKitRoot = "/static/pokemon-champions-official-press-kit"
+import cutleryStudyThumbnail from "./assets/cutlery-study-thumb.webp"
+import cutleryStudy from "./assets/cutlery-study.webp"
+import deskOverheadThumbnail from "./assets/desk-overhead-thumb.webp"
+import deskOverhead from "./assets/desk-overhead.webp"
+import everydayEssentialsThumbnail from "./assets/everyday-essentials-thumb.webp"
+import everydayEssentials from "./assets/everyday-essentials.webp"
+import openNotebookThumbnail from "./assets/open-notebook-thumb.webp"
+import openNotebook from "./assets/open-notebook.webp"
+import planningDeskThumbnail from "./assets/planning-desk-thumb.webp"
+import planningDesk from "./assets/planning-desk.webp"
+import quietLaptopThumbnail from "./assets/quiet-laptop-thumb.webp"
+import quietLaptop from "./assets/quiet-laptop.webp"
+import teamTableThumbnail from "./assets/team-table-thumb.webp"
+import teamTable from "./assets/team-table.webp"
+import workspaceOverviewThumbnail from "./assets/workspace-overview-thumb.webp"
+import workspaceOverview from "./assets/workspace-overview.webp"
 
-const pokemonChampionsImages = [
-  {
-    src: `${pressKitRoot}/Pokémon Champions Key Art February 27 2026/Pokemon_Champions_Key_Art.png`,
-    alt: "Pokémon Champions key artwork",
-    title: "Pokémon Champions",
-    subtitle: "Key artwork",
+type StaticImageAsset = {
+  src: string
+  width: number
+  height: number
+}
+
+type ImageDetails = Pick<PostImage, "alt" | "title" | "subtitle" | "credit">
+
+const alejandroCredit = {
+  label: "Alejandro Escamilla on Unsplash",
+  href: "https://unsplash.com/@alejandroescamilla",
+} as const
+
+function localImage(
+  source: StaticImageAsset,
+  thumbnail: StaticImageAsset,
+  details: ImageDetails
+): PostImage {
+  return {
+    src: source.src,
+    thumbnailSrc: thumbnail.src,
+    width: source.width,
+    height: source.height,
+    ...details,
+  }
+}
+
+export const markdownComponentsImages = {
+  "workspace-overview": localImage(
+    workspaceOverview,
+    workspaceOverviewThumbnail,
+    {
+      alt: "Laptop, phone, notebook, and coffee arranged on a wooden table",
+      title: "Workspace overview",
+      subtitle: "Local WebP · Photo by Alejandro Escamilla",
+      credit: alejandroCredit,
+    }
+  ),
+  "open-notebook": localImage(openNotebook, openNotebookThumbnail, {
+    alt: "Person writing notes beside a laptop",
+    title: "Open notebook",
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",
+    credit: alejandroCredit,
+  }),
+  "quiet-laptop": localImage(quietLaptop, quietLaptopThumbnail, {
+    alt: "Open laptop resting on a warm wooden table",
+    title: "Quiet laptop",
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",
+    credit: alejandroCredit,
+  }),
+  "team-table": localImage(teamTable, teamTableThumbnail, {
+    alt: "Two people collaborating with a notebook and tablet at a café table",
+    title: "Around the table",
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",
+    credit: alejandroCredit,
+  }),
+  "desk-overhead": localImage(deskOverhead, deskOverheadThumbnail, {
+    alt: "Laptop, notebook, phone, and coffee seen from above",
+    title: "Desk overhead",
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",
+    credit: alejandroCredit,
+  }),
+  "planning-desk": localImage(planningDesk, planningDeskThumbnail, {
+    alt: "Laptop and handwritten planning notes on a wooden desk",
+    title: "Planning desk",
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",
+    credit: alejandroCredit,
+  }),
+  "cutlery-study": localImage(cutleryStudy, cutleryStudyThumbnail, {
+    alt: "Monochrome arrangement of overlapping forks",
+    title: "Cutlery study",
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",
+    credit: alejandroCredit,
+  }),
+  "everyday-essentials": localImage(
+    everydayEssentials,
+    everydayEssentialsThumbnail,
+    {
+      alt: "Everyday accessories arranged in a precise flat lay",
+      title: "Everyday essentials",
+      subtitle: "Local WebP · Photo by Vadim Sherbakov",
+      credit: {
+        label: "Vadim Sherbakov on Unsplash",
+        href: "https://unsplash.com/@madebyvadim",
+      },
+    }
+  ),
+  "remote-open-book": {
+    src: "https://picsum.photos/id/24/2000/743.webp",
+    thumbnailSrc: "https://picsum.photos/id/24/960/356.webp",
+    width: 2000,
+    height: 743,
+    alt: "An open book resting on a wooden surface",
+    title: "Open book",
+    subtitle: "Remote URL · Photo by Alejandro Escamilla",
+    credit: alejandroCredit,
   },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Screenshots February 27 2026/Pokemon_Champions_1.png`,
-    alt: "Pokémon facing one another in a Champions arena",
-    title: "Arena showdown",
-    subtitle: "Battle screenshot",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Screenshots February 27 2026/Pokemon_Champions_2.png`,
-    alt: "Pokémon Champions battle action",
-    title: "Battle action",
-    subtitle: "Battle screenshot",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Screenshots February 27 2026/Pokemon_Champions_3.png`,
-    alt: "Pokémon using a move in the Champions arena",
-    title: "Power move",
-    subtitle: "Battle screenshot",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Screenshots June 3 2026/Pokemon_Champions_Screenshot_1.jpg`,
-    alt: "Pokémon Champions stadium battle",
-    title: "Stadium battle",
-    subtitle: "June 2026",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Screenshots June 3 2026/Pokemon_Champions_Screenshot_2.jpg`,
-    alt: "Pokémon Champions team selection screen",
-    title: "Team selection",
-    subtitle: "June 2026",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Screenshots June 3 2026/Pokemon_Champions_Screenshot_3.jpg`,
-    alt: "Pokémon Champions battle interface",
-    title: "Battle interface",
-    subtitle: "June 2026",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Screenshots June 3 2026/Pokemon_Champions_Screenshot_4_ENG.jpg`,
-    alt: "English Pokémon Champions game screen",
-    title: "Championship match",
-    subtitle: "English interface",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Artwork/Pokemon_Champions_Key_Art.png`,
-    alt: "Pokémon Champions promotional artwork",
-    title: "Champions artwork",
-    subtitle: "Promotional artwork",
-  },
-  {
-    src: `${pressKitRoot}/Pokémon Champions Logo/Pokemon_Champions_Logo.png`,
-    alt: "Pokémon Champions logo",
-    title: "Pokémon Champions",
-    subtitle: "Official logo",
-  },
+} as const satisfies PostImages
+
+const mixedSourceGallery = [
+  markdownComponentsImages["workspace-overview"],
+  markdownComponentsImages["open-notebook"],
+  markdownComponentsImages["quiet-laptop"],
+  markdownComponentsImages["team-table"],
+  markdownComponentsImages["desk-overhead"],
+  markdownComponentsImages["planning-desk"],
+  markdownComponentsImages["cutlery-study"],
+  markdownComponentsImages["everyday-essentials"],
+  markdownComponentsImages["remote-open-book"],
 ] as const
 
 function imageList(
@@ -72,8 +135,8 @@ function imageList(
   return {
     layout,
     variant,
-    images: pokemonChampionsImages,
-    ariaLabel: `${layout === "quilted" ? "Quilted" : "Masonry"} Pokémon Champions image list, ${variant.replaceAll("-", " ")}`,
+    images: mixedSourceGallery,
+    ariaLabel: `${layout === "quilted" ? "Quilted" : "Masonry"} workspace image list, ${variant.replaceAll("-", " ")}`,
   } as const
 }
 

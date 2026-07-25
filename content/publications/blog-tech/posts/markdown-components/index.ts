@@ -1,7 +1,10 @@
 import type { Post } from "../../../../types"
 
 import content from "./markdown-components.md"
-import { markdownComponentsImageLists } from "./markdown-components.images"
+import {
+  markdownComponentsImageLists,
+  markdownComponentsImages,
+} from "./markdown-components.images"
 
 export const markdownComponents = {
   postId: 401,
@@ -16,5 +19,6 @@ export const markdownComponents = {
   isFeatured: false,
   tags: ["Markdown", "Rendering", "Documentation"],
   content,
+  images: markdownComponentsImages,
   imageLists: markdownComponentsImageLists,
 } satisfies Post

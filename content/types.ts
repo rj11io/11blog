@@ -32,10 +32,19 @@ export type ImageListVariant = "image-only" | "title-inside" | "title-below"
 
 export type PostImage = {
   src: string
+  thumbnailSrc?: string
+  width: number
+  height: number
   alt: string
   title?: string
   subtitle?: string
+  credit?: {
+    label: string
+    href: string
+  }
 }
+
+export type PostImages = Readonly<Record<string, PostImage>>
 
 export type PostImageList = {
   layout: ImageListLayout
@@ -60,6 +69,7 @@ export type Post = {
   isFeatured: boolean
   tags: string[]
   content?: string
+  images?: PostImages
   imageLists?: PostImageLists
 }
 
@@ -91,7 +101,7 @@ export type PostListItem = Post & {
 
 export type PostPreview = Omit<
   PostListItem,
-  "content" | "imageLists" | "authorIds"
+  "content" | "images" | "imageLists" | "authorIds"
 >
 
 export type PublicationPreview = Omit<Publication, "posts"> & {

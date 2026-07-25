@@ -143,9 +143,12 @@ export function MultiImageListBase({
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={image.src}
+                  src={image.thumbnailSrc ?? image.src}
                   alt={image.alt}
+                  width={image.width}
+                  height={image.height}
                   loading="lazy"
+                  decoding="async"
                   className={cn(
                     "transition-[transform,opacity] duration-300 group-hover:scale-[1.015] group-hover:opacity-95",
                     layout === "quilted"

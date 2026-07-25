@@ -1,4 +1,4 @@
-import type { Author, Publication } from "./types"
+import type { Author, PostImage, Publication } from "./types"
 
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/
 const pubIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -61,6 +61,39 @@ function assertUrl(value: string, label: string) {
     }
   } catch {
     throw new Error(`${label} must be an absolute HTTP URL`)
+  }
+}
+
+function assertImageSource(value: string, label: string) {
+  if (value.startsWith("/")) return
+
+  try {
+    if (new URL(value).protocol !== "https:") throw new Error()
+  } catch {
+    throw new Error(`${label} must be root-relative or use HTTPS`)
+  }
+}
+
+function assertPostImage(image: PostImage, label: string) {
+  assertImageSource(image.src, `${label}.src`)
+  if (image.thumbnailSrc !== undefined) {
+    assertImageSource(image.thumbnailSrc, `${label}.thumbnailSrc`)
+  }
+  if (!Number.isInteger(image.width) || image.width <= 0) {
+    throw new Error(`${label}.width must be a positive integer`)
+  }
+  if (!Number.isInteger(image.height) || image.height <= 0) {
+    throw new Error(`${label}.height must be a positive integer`)
+  }
+  assertNonEmpty(image.alt, `${label}.alt`)
+
+  if (image.title !== undefined) assertNonEmpty(image.title, `${label}.title`)
+  if (image.subtitle !== undefined) {
+    assertNonEmpty(image.subtitle, `${label}.subtitle`)
+  }
+  if (image.credit) {
+    assertNonEmpty(image.credit.label, `${label}.credit.label`)
+    assertUrl(image.credit.href, `${label}.credit.href`)
   }
 }
 
@@ -179,6 +212,15 @@ export function validatePublications(
         throw new Error(`${publication.pubId}/${post.postId} has no content`)
       }
 
+      for (const [key, image] of Object.entries(post.images ?? {})) {
+        const label = `${publication.pubId}/${post.postId}.images.${key}`
+
+        if (!imageListKeyPattern.test(key)) {
+          throw new Error(`${label} must use a shortcode-safe image key`)
+        }
+        assertPostImage(image, label)
+      }
+
       for (const [key, imageList] of Object.entries(post.imageLists ?? {})) {
         const label = `${publication.pubId}/${post.postId}.imageLists.${key}`
 
@@ -193,8 +235,7 @@ export function validatePublications(
         }
 
         for (const [index, image] of imageList.images.entries()) {
-          assertNonEmpty(image.src, `${label}.images[${index}].src`)
-          assertNonEmpty(image.alt, `${label}.images[${index}].alt`)
+          assertPostImage(image, `${label}.images[${index}]`)
         }
       }
     }

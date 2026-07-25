@@ -7,18 +7,29 @@ import { ImageLightbox } from "@/components/media/image-lightbox"
 
 export function MarkdownImage({
   src,
+  thumbnailSrc,
+  width,
+  height,
   alt,
   title,
+  subtitle,
 }: {
   src: string
+  thumbnailSrc?: string
+  width?: number
+  height?: number
   alt?: string
   title?: string
+  subtitle?: string
 }) {
   const [open, setOpen] = useState(false)
   const image = {
     src,
     alt: alt ?? "",
     title,
+    subtitle,
+    width,
+    height,
   }
 
   return (
@@ -31,8 +42,12 @@ export function MarkdownImage({
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={src}
+          src={thumbnailSrc ?? src}
           alt={alt ?? ""}
+          width={width}
+          height={height}
+          loading="lazy"
+          decoding="async"
           className="h-auto w-full object-cover transition-opacity group-hover:opacity-90"
         />
         <span className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-background/80 p-2 text-foreground opacity-0 shadow-sm backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">

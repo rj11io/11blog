@@ -21,6 +21,10 @@ content/
         └── posts/
             ├── legacy-post.ts
             └── modular-post/
+                ├── assets/
+                │   ├── image-thumb.webp
+                │   ├── image.webp
+                │   └── SOURCES.md
                 ├── index.ts
                 ├── modular-post.md
                 └── modular-post.images.ts
@@ -90,7 +94,7 @@ The directory's index.ts is the post entry point. It owns the metadata and expli
 import type { Post } from "../../../../types"
 
 import content from "./first-post.md"
-import { firstPostImageLists } from "./first-post.images"
+import { firstPostImageLists, firstPostImages } from "./first-post.images"
 
 export const firstPost = {
   postId: 501,
@@ -105,42 +109,81 @@ export const firstPost = {
   isFeatured: false,
   tags: ["Topic", "Practice"],
   content,
+  images: firstPostImages,
   imageLists: firstPostImageLists,
 } satisfies Post
 ~~~
 
 The .md file contains only the raw Markdown body, including its leading H1. Raw Markdown imports are typed by content/markdown.d.ts and converted to strings by the application's Markdown loader.
 
-The optional first-post.images.ts file contains named multi-image list configurations for that post:
+The optional first-post.images.ts file contains the post's named single images and multi-image list configurations. Local files are statically imported from the sibling assets directory. The build gives them hashed URLs, while the content contract remains independent of the rendering application.
 
 ~~~ts
-import type { PostImageLists } from "../../../../types"
+import type { PostImageLists, PostImages } from "../../../../types"
+
+import localThumbnail from "./assets/image-thumb.webp"
+import localImage from "./assets/image.webp"
+
+export const firstPostImages = {
+  "local-example": {
+    src: localImage.src,
+    thumbnailSrc: localThumbnail.src,
+    width: localImage.width,
+    height: localImage.height,
+    alt: "Descriptive alternative text",
+    title: "Local image",
+    subtitle: "Post-owned WebP",
+  },
+  "remote-example": {
+    src: "https://images.example.com/photo-2000.webp",
+    thumbnailSrc: "https://images.example.com/photo-960.webp",
+    width: 2000,
+    height: 1333,
+    alt: "Descriptive alternative text",
+    title: "Remote image",
+    subtitle: "External HTTPS URL",
+    credit: {
+      label: "Photographer name",
+      href: "https://example.com/original-photo",
+    },
+  },
+} satisfies PostImages
 
 export const firstPostImageLists = {
   highlights: {
     layout: "quilted",
     variant: "title-inside",
     images: [
-      {
-        src: "/static/path/to-image.png",
-        alt: "Descriptive alternative text",
-        title: "Image title",
-        subtitle: "Optional supporting text",
-      },
+      firstPostImages["local-example"],
+      firstPostImages["remote-example"],
     ],
   },
 } satisfies PostImageLists
 ~~~
 
-Reference a configured list from the post's Markdown using its key:
+Reference configured single images and lists from the post's Markdown using their keys:
 
 ~~~md
+@[image](local-example)
+@[image](remote-example)
 @[image-list](highlights)
 ~~~
 
-The renderer resolves the key only against the current post's imageLists. The list configuration selects the quilted or masonry layout and one of the image-only, title-inside, or title-below variants. Opening any image uses the shared carousel, zoom, and pan lightbox.
+The renderer resolves each key only against the current post. A PostImage uses src for the larger lightbox source and thumbnailSrc for its inline or gallery preview. Width and height reserve the correct aspect ratio before the file loads. Local and remote sources then share the same native img rendering, fullscreen lightbox, zoom, and pan behavior; the blog intentionally does not use next/image.
 
-If the post has no multi-image lists, omit imageLists and the .images.ts file.
+Remote image sources must use HTTPS. Prefer explicit thumbnail and full-size CDN URLs over loading an original multi-megabyte file. Because native img elements are used, remote hosts do not need a Next.js image allowlist. Keep a SOURCES.md file beside downloaded assets with the photographer, original page, license, and download date.
+
+Standard Markdown can also reference a remote image URL directly:
+
+~~~md
+![Remote image description](https://images.example.com/photo.webp "Optional title")
+~~~
+
+Direct Markdown URLs are useful for simple external-image behavior. The named image registry is preferred when dimensions, separate thumbnail and lightbox sources, credits, or reuse inside an image list are important.
+
+The list configuration selects the quilted or masonry layout and one of the image-only, title-inside, or title-below variants. A list can mix local and remote entries, and opening any image uses the shared carousel.
+
+If the post has no configured images or multi-image lists, omit images, imageLists, and the .images.ts file.
 
 ### Legacy single-file format
 
@@ -206,13 +249,14 @@ Use root-relative paths for internal links:
 
 Internal root-relative links stay inside the Next.js router. Hash links use native anchor navigation. Absolute HTTP and HTTPS links are treated as external and open in a new tab.
 
-Images can use files in public:
+Standard Markdown images can use files in public or external HTTPS URLs:
 
 ~~~md
 ![Descriptive alt text](/static/blog-authors/rj-pic.png)
+![Remote image](https://images.example.com/photo.webp)
 ~~~
 
-Always provide useful alt text unless the image is genuinely decorative.
+Modular posts should prefer post-owned assets and the @[image](image-key) shortcode when an image needs optimized thumbnail and lightbox sources. Always provide useful alt text unless the image is genuinely decorative.
 
 ## Deliberately unsupported formats
 
@@ -224,8 +268,10 @@ Do not add YAML frontmatter, MDX, or raw HTML to posts. The application does not
 2. Use unique positive IDs, URL-safe slugs, valid ISO dates, and existing author IDs.
 3. Start each post body with its matching H1.
 4. Use H2-H5 for navigable sections.
-5. Put named multi-image list configurations in the modular post's .images.ts file when needed.
-6. Check component syntax against the [Markdown Components](/publications/blog-tech/markdown-components) reference.
-7. Add the new publication to content/registry.ts.
-8. Run typecheck, lint, and build so the content validator and static route generation can verify the new entry.
+5. Put post-owned files and their source record in the modular post's assets directory.
+6. Put named single-image and image-list configurations in the post's .images.ts file when needed.
+7. Give configured images dimensions, useful alt text, and separate thumbnail and lightbox sources where practical.
+8. Check component syntax against the [Markdown Components](/publications/blog-tech/markdown-components) reference.
+9. Add the new publication to content/registry.ts.
+10. Run typecheck, lint, and build so the content validator and static route generation can verify the new entry.
 `

@@ -25,7 +25,17 @@ This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~
 
 ---
 
-![Decorative author workspace](/static/blog-authors/rj-pic.png)
+#### Post-owned local image
+
+This image is configured by the post module and uses a local thumbnail plus a larger local lightbox source.
+
+@[image](workspace-overview)
+
+#### Remote URL image
+
+This standard Markdown image is loaded directly from an external HTTPS URL and uses the same lightbox behavior.
+
+![An open book resting on a wooden surface](https://picsum.photos/id/24/2000/743.webp "Remote image from Lorem Picsum")
 
 ### Tables
 
@@ -63,9 +73,10 @@ npm run lint
 
 ## Multi-image lists
 
-Multi-image lists present a related collection as one browsable unit. Select any
-image to open the shared fullscreen viewer, then use its carousel, zoom, and pan
-controls to explore the complete group.
+Multi-image lists present a related collection as one browsable unit. These demos
+combine optimized local WebP assets with one remote image. Select any image to
+open the shared fullscreen viewer, then use its carousel, zoom, and pan controls
+to explore the complete group.
 
 ### Quilted image list
 

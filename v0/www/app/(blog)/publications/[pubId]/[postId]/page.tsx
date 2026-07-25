@@ -222,6 +222,7 @@ export default async function PostPage({ params }: PostPageProps) {
               {renderedContent ? (
                 <Markdown
                   content={renderedContent}
+                  images={post.images}
                   imageLists={post.imageLists}
                 />
               ) : (
