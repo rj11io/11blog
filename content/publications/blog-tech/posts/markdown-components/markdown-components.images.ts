@@ -1,12 +1,8 @@
-"use client"
-
-import { MasonryImageList } from "./masonry-image-list"
-import type { ImageListItem, ImageListVariant } from "./multi-image-list"
-import { QuiltedImageList } from "./quilted-image-list"
+import type { PostImageLists } from "../../../../types"
 
 const pressKitRoot = "/static/pokemon-champions-official-press-kit"
 
-const pokemonChampionsImages: ImageListItem[] = [
+const pokemonChampionsImages = [
   {
     src: `${pressKitRoot}/Pokémon Champions Key Art February 27 2026/Pokemon_Champions_Key_Art.png`,
     alt: "Pokémon Champions key artwork",
@@ -67,34 +63,25 @@ const pokemonChampionsImages: ImageListItem[] = [
     title: "Pokémon Champions",
     subtitle: "Official logo",
   },
-]
+] as const
 
-export type PokemonChampionsImageListDemoProps = {
-  layout: "quilted" | "masonry"
-  variant: ImageListVariant
+function imageList(
+  layout: "quilted" | "masonry",
+  variant: "image-only" | "title-inside" | "title-below"
+) {
+  return {
+    layout,
+    variant,
+    images: pokemonChampionsImages,
+    ariaLabel: `${layout === "quilted" ? "Quilted" : "Masonry"} Pokémon Champions image list, ${variant.replaceAll("-", " ")}`,
+  } as const
 }
 
-export function PokemonChampionsImageListDemo({
-  layout,
-  variant,
-}: PokemonChampionsImageListDemoProps) {
-  const label = `${layout === "quilted" ? "Quilted" : "Masonry"} Pokémon Champions image list, ${variant.replaceAll("-", " ")}`
-
-  return (
-    <div className="my-8">
-      {layout === "quilted" ? (
-        <QuiltedImageList
-          images={pokemonChampionsImages}
-          variant={variant}
-          aria-label={label}
-        />
-      ) : (
-        <MasonryImageList
-          images={pokemonChampionsImages}
-          variant={variant}
-          aria-label={label}
-        />
-      )}
-    </div>
-  )
-}
+export const markdownComponentsImageLists = {
+  "quilted:image-only": imageList("quilted", "image-only"),
+  "quilted:title-inside": imageList("quilted", "title-inside"),
+  "quilted:title-below": imageList("quilted", "title-below"),
+  "masonry:image-only": imageList("masonry", "image-only"),
+  "masonry:title-inside": imageList("masonry", "title-inside"),
+  "masonry:title-below": imageList("masonry", "title-below"),
+} satisfies PostImageLists

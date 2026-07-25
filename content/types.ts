@@ -26,6 +26,26 @@ export type AuthorListItem = Pick<
   postCount: number
 }
 
+export type ImageListLayout = "quilted" | "masonry"
+
+export type ImageListVariant = "image-only" | "title-inside" | "title-below"
+
+export type PostImage = {
+  src: string
+  alt: string
+  title?: string
+  subtitle?: string
+}
+
+export type PostImageList = {
+  layout: ImageListLayout
+  variant?: ImageListVariant
+  images: readonly PostImage[]
+  ariaLabel?: string
+}
+
+export type PostImageLists = Readonly<Record<string, PostImageList>>
+
 export type Post = {
   postId: number
   slug?: string
@@ -40,6 +60,7 @@ export type Post = {
   isFeatured: boolean
   tags: string[]
   content?: string
+  imageLists?: PostImageLists
 }
 
 export type Publication = {
@@ -68,7 +89,10 @@ export type PostListItem = Post & {
   editorialIndex: number
 }
 
-export type PostPreview = Omit<PostListItem, "content" | "authorIds">
+export type PostPreview = Omit<
+  PostListItem,
+  "content" | "imageLists" | "authorIds"
+>
 
 export type PublicationPreview = Omit<Publication, "posts"> & {
   href: string

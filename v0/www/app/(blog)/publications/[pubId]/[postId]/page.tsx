@@ -220,7 +220,10 @@ export default async function PostPage({ params }: PostPageProps) {
 
             <div className="mx-auto max-w-3xl pt-4 pb-8 sm:pt-6 sm:pb-10">
               {renderedContent ? (
-                <Markdown content={renderedContent} />
+                <Markdown
+                  content={renderedContent}
+                  imageLists={post.imageLists}
+                />
               ) : (
                 <div className="rounded-2xl border border-border bg-muted/40 p-8 text-center">
                   <h2 className="text-xl font-semibold">

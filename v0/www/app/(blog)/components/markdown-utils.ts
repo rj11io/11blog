@@ -13,8 +13,7 @@ type MarkdownNode = {
 }
 
 const youtubeIdPattern = /^[a-zA-Z0-9_-]{11}$/
-const imageListDemoPattern =
-  /^(quilted|masonry):(image-only|title-inside|title-below)$/
+const imageListKeyPattern = /^[a-z0-9]+(?:[-_:][a-z0-9]+)*$/i
 
 export function isInternalHref(href: string) {
   return (
@@ -81,7 +80,7 @@ export const remarkYouTube: Plugin = () => (tree) => {
   })
 }
 
-export const remarkImageListDemo: Plugin = () => (tree) => {
+export const remarkImageList: Plugin = () => (tree) => {
   visit(tree, "paragraph", (node) => {
     const paragraph = node as MarkdownNode
     const [prefix, link, ...rest] = paragraph.children ?? []
@@ -97,14 +96,12 @@ export const remarkImageListDemo: Plugin = () => (tree) => {
       return
     }
 
-    const match = link.url.match(imageListDemoPattern)
-    if (!match) return
+    if (!imageListKeyPattern.test(link.url)) return
 
     paragraph.data = {
-      hName: "image-list-demo",
+      hName: "image-list",
       hProperties: {
-        layout: match[1],
-        variant: match[2],
+        listkey: link.url,
       },
     }
     paragraph.children = []

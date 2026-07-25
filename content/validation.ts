@@ -2,6 +2,7 @@ import type { Author, Publication } from "./types"
 
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/
 const pubIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const imageListKeyPattern = /^[a-z0-9]+(?:[-_:][a-z0-9]+)*$/
 
 function assertNonEmpty(value: string, label: string) {
   if (!value.trim()) {
@@ -176,6 +177,25 @@ export function validatePublications(
 
       if (!post.content?.trim()) {
         throw new Error(`${publication.pubId}/${post.postId} has no content`)
+      }
+
+      for (const [key, imageList] of Object.entries(post.imageLists ?? {})) {
+        const label = `${publication.pubId}/${post.postId}.imageLists.${key}`
+
+        if (!imageListKeyPattern.test(key)) {
+          throw new Error(`${label} must use a URL-safe image-list key`)
+        }
+        if (!imageList.images.length) {
+          throw new Error(`${label} must contain at least one image`)
+        }
+        if (imageList.ariaLabel !== undefined) {
+          assertNonEmpty(imageList.ariaLabel, `${label}.ariaLabel`)
+        }
+
+        for (const [index, image] of imageList.images.entries()) {
+          assertNonEmpty(image.src, `${label}.images[${index}].src`)
+          assertNonEmpty(image.alt, `${label}.images[${index}].alt`)
+        }
       }
     }
   }

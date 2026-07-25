@@ -1,8 +1,8 @@
-export const markdownComponents = `# Markdown components
+# Markdown components
 
 ## Prose and inline formatting
 
-This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, \`inline code\`, an [internal blog link](/browse?content=posts), and an [external reference](https://example.com).
+This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, `inline code`, an [internal blog link](/browse?content=posts), and an [external reference](https://example.com).
 
 ### Lists and tasks
 
@@ -37,11 +37,11 @@ This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~
 
 ### Code blocks
 
-#### Inline \`code\` heading
+#### Inline `code` heading
 
 This heading verifies renderer and TOC IDs stay aligned when heading text contains inline code.
 
-\`\`\`tsx
+```tsx
 type Post = {
   title: string
   authorIds: string[]
@@ -50,7 +50,7 @@ type Post = {
 export function PostTitle({ title }: Pick<Post, "title">) {
   return <h1>{title}</h1>
 }
-\`\`\`
+```
 
 ~~~bash
 npm run typecheck
@@ -130,4 +130,4 @@ This section verifies fifth-level headings render with stable IDs too.
 ###### H6 fallback heading
 
 H6 headings are parsed by Markdown but are not included in the table of contents
-because the blog applies its custom heading treatment to H2 through H5.`
+because the blog applies its custom heading treatment to H2 through H5.

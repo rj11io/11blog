@@ -3,12 +3,13 @@
 import { useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
+import type { ImageListVariant, PostImage } from "@content/types"
 
-import { ImageLightbox, type LightboxImage } from "./image-lightbox"
+import { ImageLightbox } from "./image-lightbox"
 
-export type ImageListVariant = "image-only" | "title-inside" | "title-below"
+export type { ImageListVariant } from "@content/types"
 
-export type ImageListItem = LightboxImage
+export type ImageListItem = PostImage
 
 export type MultiImageListProps = {
   images: readonly ImageListItem[]

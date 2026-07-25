@@ -18,20 +18,7 @@ export const blogTech: Publication = {
   editorNotes:
     "Practical notes about the blog itself, written as part of the same publishing system described in the posts.",
   posts: [
-    {
-      postId: 401,
-      slug: "markdown-components",
-      title: "Markdown components",
-      excerpt:
-        "A complete reference for the Markdown components supported by the blog renderer.",
-      created: "2026-07-22",
-      authorIds: ["rj11io"],
-      isNSFW: false,
-      isNew: true,
-      isFeatured: false,
-      tags: ["Markdown", "Rendering", "Documentation"],
-      content: markdownComponents,
-    },
+    markdownComponents,
     {
       postId: 402,
       slug: "markdown-blog-format",

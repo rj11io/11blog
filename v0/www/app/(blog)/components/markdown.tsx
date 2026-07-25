@@ -3,7 +3,9 @@ import { isValidElement, type ComponentProps, type ReactNode } from "react"
 import ReactMarkdown, { type Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
 
-import { PokemonChampionsImageListDemo } from "@/components/media/pokemon-champions-image-list-demo"
+import { MasonryImageList } from "@/components/media/masonry-image-list"
+import { QuiltedImageList } from "@/components/media/quilted-image-list"
+import type { PostImageLists } from "@content/types"
 
 import {
   CONTENT_HEADING_OFFSET,
@@ -12,7 +14,7 @@ import {
 import { CodeBlock } from "./code-block"
 import {
   isInternalHref,
-  remarkImageListDemo,
+  remarkImageList,
   remarkYouTube,
 } from "./markdown-utils"
 import { MarkdownImage as MarkdownImageViewer } from "./markdown-image"
@@ -25,8 +27,7 @@ type MarkdownElementProps = {
   className?: string
   videoid?: string
   title?: string
-  layout?: string
-  variant?: string
+  listkey?: string
 }
 
 function reactNodeText(value: ReactNode): string {
@@ -61,17 +62,34 @@ function YouTubeEmbed({ videoid, title }: MarkdownElementProps) {
   )
 }
 
-function ImageListDemo({ layout, variant }: MarkdownElementProps) {
-  if (
-    (layout !== "quilted" && layout !== "masonry") ||
-    (variant !== "image-only" &&
-      variant !== "title-inside" &&
-      variant !== "title-below")
-  ) {
-    return null
+function PostImageList({
+  listkey,
+  imageLists,
+}: MarkdownElementProps & { imageLists?: PostImageLists }) {
+  if (!listkey) return null
+
+  const imageList = imageLists?.[listkey]
+
+  if (!imageList) {
+    return process.env.NODE_ENV === "development" ? (
+      <div className="my-8 rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+        Image list &quot;{listkey}&quot; is not configured for this post.
+      </div>
+    ) : null
   }
 
-  return <PokemonChampionsImageListDemo layout={layout} variant={variant} />
+  const Component =
+    imageList.layout === "quilted" ? QuiltedImageList : MasonryImageList
+
+  return (
+    <div className="my-8">
+      <Component
+        images={imageList.images}
+        variant={imageList.variant}
+        aria-label={imageList.ariaLabel}
+      />
+    </div>
+  )
 }
 
 function createHeadingComponent(
@@ -179,7 +197,13 @@ function MarkdownPre({ children }: MarkdownElementProps) {
   )
 }
 
-export function Markdown({ content }: { content: string }) {
+export function Markdown({
+  content,
+  imageLists,
+}: {
+  content: string
+  imageLists?: PostImageLists
+}) {
   const createHeadingId = createHeadingIdFactory()
 
   const components = {
@@ -250,15 +274,17 @@ export function Markdown({ content }: { content: string }) {
       />
     ),
     "youtube-embed": YouTubeEmbed,
-    "image-list-demo": ImageListDemo,
+    "image-list": (props: MarkdownElementProps) => (
+      <PostImageList {...props} imageLists={imageLists} />
+    ),
   } satisfies Partial<Components> & {
     "youtube-embed": (props: MarkdownElementProps) => ReactNode
-    "image-list-demo": (props: MarkdownElementProps) => ReactNode
+    "image-list": (props: MarkdownElementProps) => ReactNode
   }
 
   return (
     <ReactMarkdown
-      remarkPlugins={[remarkGfm, remarkYouTube, remarkImageListDemo]}
+      remarkPlugins={[remarkGfm, remarkYouTube, remarkImageList]}
       components={components as Components}
     >
       {content}
