@@ -145,6 +145,7 @@ export function ImageLightbox({
   const [view, setView] = useState(INITIAL_VIEW)
   const image = images[activeIndex]
   const hasMultipleImages = images.length > 1
+  const displayTitle = image?.title || image?.alt
 
   useEffect(() => {
     if (!zoomViewport) return
@@ -369,9 +370,9 @@ export function ImageLightbox({
 
         <div className="grid min-h-10 grid-cols-[1fr_auto_1fr] items-center gap-2">
           <div className="min-w-0">
-            {image.title && (
+            {displayTitle && (
               <p className="truncate text-sm font-medium text-white">
-                {image.title}
+                {displayTitle}
               </p>
             )}
             {image.subtitle && (

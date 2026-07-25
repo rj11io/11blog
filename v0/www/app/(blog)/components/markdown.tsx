@@ -139,12 +139,12 @@ function MarkdownLink({ href = "", children }: MarkdownElementProps) {
   )
 }
 
-function MarkdownImage({ src, alt }: ComponentProps<"img">) {
+function MarkdownImage({ src, alt, title }: ComponentProps<"img">) {
   if (!src || typeof src !== "string") return null
 
   return (
     <span className="my-8 block overflow-hidden rounded-2xl border border-border bg-muted/30">
-      <MarkdownImageViewer src={src} alt={alt} />
+      <MarkdownImageViewer src={src} alt={alt} title={title} />
     </span>
   )
 }

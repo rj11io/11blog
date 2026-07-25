@@ -5,11 +5,20 @@ import { useState } from "react"
 
 import { ImageLightbox } from "@/components/media/image-lightbox"
 
-export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
+export function MarkdownImage({
+  src,
+  alt,
+  title,
+}: {
+  src: string
+  alt?: string
+  title?: string
+}) {
   const [open, setOpen] = useState(false)
   const image = {
     src,
     alt: alt ?? "",
+    title,
   }
 
   return (
