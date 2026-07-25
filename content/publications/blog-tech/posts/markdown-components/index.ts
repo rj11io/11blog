@@ -6,7 +6,7 @@ import {
   markdownComponentsImages,
 } from "./markdown-components.images"
 
-export const markdownComponents = {
+export const markdownComponents: Post = {
   postId: 401,
   slug: "markdown-components",
   title: "Markdown components",
@@ -21,4 +21,4 @@ export const markdownComponents = {
   content,
   images: markdownComponentsImages,
   imageLists: markdownComponentsImageLists,
-} satisfies Post
+}
