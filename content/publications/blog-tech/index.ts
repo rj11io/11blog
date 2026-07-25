@@ -11,7 +11,7 @@ export const blogTech: Publication = {
   created: "2026-07-22",
   isNSFW: false,
   isNew: true,
-  isFeatured: false,
+  isFeatured: true,
   tags: ["Blog", "Technology", "Publishing"],
   synopsis:
     "Blog Tech documents the systems behind this publication: content contracts, Markdown rendering, and the tools that make a small editorial collection dependable.",
