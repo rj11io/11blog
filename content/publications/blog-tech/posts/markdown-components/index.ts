@@ -14,7 +14,7 @@ export const markdownComponents: Post = {
     "A complete reference for the Markdown components supported by the blog renderer.",
   created: "2026-07-22",
   authorIds: ["rj11io"],
-  isNSFW: true,
+  isNSFW: false,
   isNew: true,
   isFeatured: true,
   tags: ["Markdown", "Rendering", "Documentation"],

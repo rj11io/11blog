@@ -231,7 +231,7 @@ export function PostResult({
       <Link
         href={post.href}
         aria-label={`Read ${post.title} in ${post.publicationTitle}`}
-        className={`block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+        className={`relative block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
           viewMode === "list"
             ? "p-5 sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
             : "p-5 sm:p-6"
@@ -255,7 +255,13 @@ export function PostResult({
           </p>
         </div>
         <div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div
+            className={`flex flex-wrap items-center gap-2 ${
+              viewMode === "cards"
+                ? "absolute top-5 right-5 justify-end sm:top-6 sm:right-6"
+                : ""
+            }`}
+          >
             {post.isFeatured && <Badge strong>Featured</Badge>}
             {post.isNew && <Badge strong>New</Badge>}
             {post.isNSFW && <Badge>Adult</Badge>}
@@ -302,7 +308,7 @@ function PublicationResult({
       <Link
         href={publication.href}
         aria-label={`Open publication ${publication.title}`}
-        className={`block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+        className={`relative block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
           viewMode === "list"
             ? "p-5 sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
             : "p-5 sm:p-6"
@@ -323,7 +329,13 @@ function PublicationResult({
           )}
         </div>
         <div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div
+            className={`flex flex-wrap items-center gap-2 ${
+              viewMode === "cards"
+                ? "absolute top-5 right-5 justify-end sm:top-6 sm:right-6"
+                : ""
+            }`}
+          >
             {publication.isFeatured && <Badge strong>Featured</Badge>}
             {publication.isNew && <Badge strong>New post</Badge>}
             {publication.isNSFW && <Badge>Adult</Badge>}
