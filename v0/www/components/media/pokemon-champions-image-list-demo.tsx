@@ -81,7 +81,7 @@ export function PokemonChampionsImageListDemo({
   const label = `${layout === "quilted" ? "Quilted" : "Masonry"} Pokémon Champions image list, ${variant.replaceAll("-", " ")}`
 
   return (
-    <div className="my-8 rounded-2xl border border-border bg-muted/20 p-2 sm:p-4">
+    <div className="my-8">
       {layout === "quilted" ? (
         <QuiltedImageList
           images={pokemonChampionsImages}
