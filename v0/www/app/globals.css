@@ -132,6 +132,7 @@
   .shiki,
   .shiki span {
     background-color: transparent !important;
+    color: var(--shiki-light) !important;
   }
 
   .dark .shiki,
