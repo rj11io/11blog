@@ -15,7 +15,7 @@ import {
 const MIN_ZOOM = 0.5
 const MAX_ZOOM = 3
 const CONTROL_ZOOM_STEP = 0.1
-const WHEEL_ZOOM_SENSITIVITY = 0.0015
+const WHEEL_ZOOM_SENSITIVITY = 0.00165
 const MAX_WHEEL_DELTA = 100
 
 type ViewState = {
