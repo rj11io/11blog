@@ -35,6 +35,12 @@ type ZoomAnchor = {
   clientY: number
 }
 
+type ImageGeometry = {
+  rect: DOMRect
+  width: number
+  height: number
+}
+
 type DragState = {
   pointerId: number
   startClientX: number
@@ -49,22 +55,31 @@ function clampZoom(value: number) {
 function zoomViewAt(
   currentView: ViewState,
   requestedZoom: number,
-  imageRect?: DOMRect,
+  image?: ImageGeometry,
   anchor?: ZoomAnchor
 ) {
   const zoom = clampZoom(requestedZoom)
 
-  if (zoom === currentView.zoom) return currentView
-  if (!imageRect) return { ...currentView, zoom }
+  if (zoom <= 1) {
+    return {
+      zoom,
+      offsetX: image ? ((1 - zoom) * image.width) / 2 : 0,
+      offsetY: image ? ((1 - zoom) * image.height) / 2 : 0,
+    }
+  }
 
-  const clientX = anchor?.clientX ?? imageRect.left + imageRect.width / 2
-  const clientY = anchor?.clientY ?? imageRect.top + imageRect.height / 2
+  if (zoom === currentView.zoom) return currentView
+  if (!image) return { ...currentView, zoom }
+
+  const clientX = anchor?.clientX ?? image.rect.left + image.rect.width / 2
+  const clientY = anchor?.clientY ?? image.rect.top + image.rect.height / 2
   const zoomRatio = zoom / currentView.zoom
 
   return {
     zoom,
-    offsetX: currentView.offsetX + (1 - zoomRatio) * (clientX - imageRect.left),
-    offsetY: currentView.offsetY + (1 - zoomRatio) * (clientY - imageRect.top),
+    offsetX:
+      currentView.offsetX + (1 - zoomRatio) * (clientX - image.rect.left),
+    offsetY: currentView.offsetY + (1 - zoomRatio) * (clientY - image.rect.top),
   }
 }
 
@@ -101,12 +116,19 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
     function handleWheel(event: WheelEvent) {
       event.preventDefault()
 
-      const imageRect = imageRef.current?.getBoundingClientRect()
+      const imageElement = imageRef.current
+      const image = imageElement
+        ? {
+            rect: imageElement.getBoundingClientRect(),
+            width: imageElement.offsetWidth,
+            height: imageElement.offsetHeight,
+          }
+        : undefined
       const delta = normalizeWheelDelta(event, viewport.clientHeight)
       const zoomFactor = Math.exp(-delta * WHEEL_ZOOM_SENSITIVITY)
 
       setView((currentView) =>
-        zoomViewAt(currentView, currentView.zoom * zoomFactor, imageRect, event)
+        zoomViewAt(currentView, currentView.zoom * zoomFactor, image, event)
       )
     }
 
@@ -124,10 +146,17 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
   }
 
   function setZoomAt(requestedZoom: number, anchor?: ZoomAnchor) {
-    const imageRect = imageRef.current?.getBoundingClientRect()
+    const imageElement = imageRef.current
+    const image = imageElement
+      ? {
+          rect: imageElement.getBoundingClientRect(),
+          width: imageElement.offsetWidth,
+          height: imageElement.offsetHeight,
+        }
+      : undefined
 
     setView((currentView) =>
-      zoomViewAt(currentView, requestedZoom, imageRect, anchor)
+      zoomViewAt(currentView, requestedZoom, image, anchor)
     )
   }
 
@@ -154,7 +183,11 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
     if (!drag || drag.pointerId !== event.pointerId) return
 
     event.preventDefault()
-    setView(panView(drag, event.clientX, event.clientY))
+    setView((currentView) =>
+      currentView.zoom > 1
+        ? panView(drag, event.clientX, event.clientY)
+        : currentView
+    )
   }
 
   function handlePointerEnd(event: ReactPointerEvent<HTMLDivElement>) {
@@ -221,7 +254,7 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
                 src={src}
                 alt={alt ?? ""}
                 draggable={false}
-                className="max-h-[calc(100vh-8rem)] max-w-[calc(100vw-4rem)] object-contain will-change-transform"
+                className={`max-h-[calc(100vh-8rem)] max-w-[calc(100vw-4rem)] object-contain will-change-transform ${view.zoom <= 1 ? "transition-transform duration-200 ease-out" : ""}`}
                 style={{
                   transform: `translate3d(${view.offsetX}px, ${view.offsetY}px, 0) scale(${view.zoom})`,
                   transformOrigin: "top left",
