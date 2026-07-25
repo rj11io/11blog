@@ -61,6 +61,44 @@ npm run lint
 
 @[youtube](dQw4w9WgXcQ)
 
+## Multi-image lists
+
+Multi-image lists present a related collection as one browsable unit. Select any
+image to open the shared fullscreen viewer, then use its carousel, zoom, and pan
+controls to explore the complete group.
+
+### Quilted image list
+
+Quilted lists create hierarchy with a dense arrangement of varied tile sizes.
+
+#### Image only
+
+@[image-list](quilted:image-only)
+
+#### Title inside
+
+@[image-list](quilted:title-inside)
+
+#### Title below
+
+@[image-list](quilted:title-below)
+
+### Masonry image list
+
+Masonry lists preserve each image's natural aspect ratio in balanced columns.
+
+#### Image only
+
+@[image-list](masonry:image-only)
+
+#### Title inside
+
+@[image-list](masonry:title-inside)
+
+#### Title below
+
+@[image-list](masonry:title-below)
+
 ## Links and line breaks
 
 Use [this hash link](#heading-depth) to jump within the post. Internal paths

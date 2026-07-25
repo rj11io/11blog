@@ -13,6 +13,8 @@ type MarkdownNode = {
 }
 
 const youtubeIdPattern = /^[a-zA-Z0-9_-]{11}$/
+const imageListDemoPattern =
+  /^(quilted|masonry):(image-only|title-inside|title-below)$/
 
 export function isInternalHref(href: string) {
   return (
@@ -76,5 +78,35 @@ export const remarkYouTube: Plugin = () => (tree) => {
       }
       paragraph.children = []
     }
+  })
+}
+
+export const remarkImageListDemo: Plugin = () => (tree) => {
+  visit(tree, "paragraph", (node) => {
+    const paragraph = node as MarkdownNode
+    const [prefix, link, ...rest] = paragraph.children ?? []
+
+    if (
+      rest.length > 0 ||
+      prefix?.type !== "text" ||
+      prefix.value !== "@" ||
+      link?.type !== "link" ||
+      markdownText(link).toLocaleLowerCase() !== "image-list" ||
+      !link.url
+    ) {
+      return
+    }
+
+    const match = link.url.match(imageListDemoPattern)
+    if (!match) return
+
+    paragraph.data = {
+      hName: "image-list-demo",
+      hProperties: {
+        layout: match[1],
+        variant: match[2],
+      },
+    }
+    paragraph.children = []
   })
 }

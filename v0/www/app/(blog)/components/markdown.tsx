@@ -3,12 +3,18 @@ import { isValidElement, type ComponentProps, type ReactNode } from "react"
 import ReactMarkdown, { type Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
 
+import { PokemonChampionsImageListDemo } from "@/components/media/pokemon-champions-image-list-demo"
+
 import {
   CONTENT_HEADING_OFFSET,
   createHeadingIdFactory,
 } from "./markdown-headings"
 import { CodeBlock } from "./code-block"
-import { isInternalHref, remarkYouTube } from "./markdown-utils"
+import {
+  isInternalHref,
+  remarkImageListDemo,
+  remarkYouTube,
+} from "./markdown-utils"
 import { MarkdownImage as MarkdownImageViewer } from "./markdown-image"
 
 type MarkdownElementProps = {
@@ -19,6 +25,8 @@ type MarkdownElementProps = {
   className?: string
   videoid?: string
   title?: string
+  layout?: string
+  variant?: string
 }
 
 function reactNodeText(value: ReactNode): string {
@@ -51,6 +59,19 @@ function YouTubeEmbed({ videoid, title }: MarkdownElementProps) {
       </div>
     </div>
   )
+}
+
+function ImageListDemo({ layout, variant }: MarkdownElementProps) {
+  if (
+    (layout !== "quilted" && layout !== "masonry") ||
+    (variant !== "image-only" &&
+      variant !== "title-inside" &&
+      variant !== "title-below")
+  ) {
+    return null
+  }
+
+  return <PokemonChampionsImageListDemo layout={layout} variant={variant} />
 }
 
 function createHeadingComponent(
@@ -229,13 +250,15 @@ export function Markdown({ content }: { content: string }) {
       />
     ),
     "youtube-embed": YouTubeEmbed,
+    "image-list-demo": ImageListDemo,
   } satisfies Partial<Components> & {
     "youtube-embed": (props: MarkdownElementProps) => ReactNode
+    "image-list-demo": (props: MarkdownElementProps) => ReactNode
   }
 
   return (
     <ReactMarkdown
-      remarkPlugins={[remarkGfm, remarkYouTube]}
+      remarkPlugins={[remarkGfm, remarkYouTube, remarkImageListDemo]}
       components={components as Components}
     >
       {content}
