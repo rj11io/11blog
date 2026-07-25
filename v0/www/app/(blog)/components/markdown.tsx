@@ -9,6 +9,7 @@ import {
 } from "./markdown-headings"
 import { CodeBlock } from "./code-block"
 import { isInternalHref, remarkYouTube } from "./markdown-utils"
+import { MarkdownImage as MarkdownImageViewer } from "./markdown-image"
 
 type MarkdownElementProps = {
   children?: ReactNode
@@ -122,8 +123,7 @@ function MarkdownImage({ src, alt }: ComponentProps<"img">) {
 
   return (
     <span className="my-8 block overflow-hidden rounded-2xl border border-border bg-muted/30">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt ?? ""} className="h-auto w-full object-cover" />
+      <MarkdownImageViewer src={src} alt={alt} />
     </span>
   )
 }
