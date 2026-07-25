@@ -1,7 +1,7 @@
 "use client"
 
 import { Maximize2, RotateCcw, ZoomIn, ZoomOut } from "lucide-react"
-import { useState, type WheelEvent } from "react"
+import { useEffect, useRef, useState, type MouseEvent } from "react"
 
 import {
   Dialog,
@@ -13,32 +13,121 @@ import {
 
 const MIN_ZOOM = 0.5
 const MAX_ZOOM = 3
-const ZOOM_STEP = 0.25
+const CONTROL_ZOOM_STEP = 0.1
+const WHEEL_ZOOM_SENSITIVITY = 0.00125
+const MAX_WHEEL_DELTA = 100
+
+type ViewState = {
+  zoom: number
+  offsetX: number
+  offsetY: number
+}
+
+const INITIAL_VIEW: ViewState = {
+  zoom: 1,
+  offsetX: 0,
+  offsetY: 0,
+}
+
+type ZoomAnchor = {
+  clientX: number
+  clientY: number
+}
 
 function clampZoom(value: number) {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value))
 }
 
+function zoomViewAt(
+  currentView: ViewState,
+  requestedZoom: number,
+  imageRect?: DOMRect,
+  anchor?: ZoomAnchor
+) {
+  const zoom = clampZoom(requestedZoom)
+
+  if (zoom === currentView.zoom) return currentView
+  if (!imageRect) return { ...currentView, zoom }
+
+  const clientX = anchor?.clientX ?? imageRect.left + imageRect.width / 2
+  const clientY = anchor?.clientY ?? imageRect.top + imageRect.height / 2
+  const zoomRatio = zoom / currentView.zoom
+
+  return {
+    zoom,
+    offsetX: currentView.offsetX + (1 - zoomRatio) * (clientX - imageRect.left),
+    offsetY: currentView.offsetY + (1 - zoomRatio) * (clientY - imageRect.top),
+  }
+}
+
+function normalizeWheelDelta(event: WheelEvent, viewportHeight: number) {
+  const delta =
+    event.deltaMode === WheelEvent.DOM_DELTA_LINE
+      ? event.deltaY * 16
+      : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
+        ? event.deltaY * viewportHeight
+        : event.deltaY
+
+  return Math.max(-MAX_WHEEL_DELTA, Math.min(MAX_WHEEL_DELTA, delta))
+}
+
 export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
-  const [zoom, setZoom] = useState(1)
+  const imageRef = useRef<HTMLImageElement>(null)
+  const [zoomViewport, setZoomViewport] = useState<HTMLDivElement | null>(null)
+  const [view, setView] = useState(INITIAL_VIEW)
 
-  function changeZoom(amount: number) {
-    setZoom((currentZoom) => clampZoom(currentZoom + amount))
+  useEffect(() => {
+    if (!zoomViewport) return
+    const viewport = zoomViewport
+
+    function handleWheel(event: WheelEvent) {
+      event.preventDefault()
+
+      const imageRect = imageRef.current?.getBoundingClientRect()
+      const delta = normalizeWheelDelta(event, viewport.clientHeight)
+      const zoomFactor = Math.exp(-delta * WHEEL_ZOOM_SENSITIVITY)
+
+      setView((currentView) =>
+        zoomViewAt(currentView, currentView.zoom * zoomFactor, imageRect, event)
+      )
+    }
+
+    viewport.addEventListener("wheel", handleWheel, { passive: false })
+
+    return () => {
+      viewport.removeEventListener("wheel", handleWheel)
+    }
+  }, [zoomViewport])
+
+  function resetView() {
+    setView(INITIAL_VIEW)
   }
 
-  function handleWheel(event: WheelEvent<HTMLDivElement>) {
-    event.preventDefault()
-    changeZoom(event.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)
+  function setZoomAt(requestedZoom: number, anchor?: ZoomAnchor) {
+    const imageRect = imageRef.current?.getBoundingClientRect()
+
+    setView((currentView) =>
+      zoomViewAt(currentView, requestedZoom, imageRect, anchor)
+    )
   }
 
-  function handlePreviewClick() {
-    setZoom((currentZoom) => (currentZoom < 2 ? 2 : 1))
+  function changeZoom(amount: number, anchor?: ZoomAnchor) {
+    setZoomAt(view.zoom + amount, anchor)
+  }
+
+  function handlePreviewClick(event: MouseEvent<HTMLButtonElement>) {
+    if (view.zoom < 2) {
+      setZoomAt(2, event)
+      return
+    }
+
+    resetView()
   }
 
   return (
     <Dialog
       onOpenChange={(open) => {
-        if (!open) setZoom(1)
+        if (!open) resetView()
       }}
     >
       <DialogTrigger asChild>
@@ -70,24 +159,25 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
         </DialogDescription>
 
         <div
+          ref={setZoomViewport}
           className="flex min-h-0 flex-1 items-center justify-center overflow-auto rounded-lg bg-black/40 p-2 sm:p-4"
-          onWheel={handleWheel}
         >
           <div className="flex min-h-full min-w-full items-center justify-center">
             <button
               type="button"
               onClick={handlePreviewClick}
-              aria-label={zoom < 2 ? "Zoom image in" : "Reset image zoom"}
-              className={`border-0 bg-transparent p-0 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none ${zoom < 2 ? "cursor-zoom-in" : "cursor-zoom-out"}`}
+              aria-label={view.zoom < 2 ? "Zoom image in" : "Reset image zoom"}
+              className={`border-0 bg-transparent p-0 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none ${view.zoom < 2 ? "cursor-zoom-in" : "cursor-zoom-out"}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                ref={imageRef}
                 src={src}
                 alt={alt ?? ""}
-                className="max-h-[calc(100vh-8rem)] max-w-[calc(100vw-4rem)] object-contain transition-transform duration-200"
+                className="max-h-[calc(100vh-8rem)] max-w-[calc(100vw-4rem)] object-contain will-change-transform"
                 style={{
-                  transform: `scale(${zoom})`,
-                  transformOrigin: "center",
+                  transform: `translate3d(${view.offsetX}px, ${view.offsetY}px, 0) scale(${view.zoom})`,
+                  transformOrigin: "top left",
                 }}
               />
             </button>
@@ -97,8 +187,8 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
         <div className="flex items-center justify-center gap-1">
           <button
             type="button"
-            onClick={() => changeZoom(-ZOOM_STEP)}
-            disabled={zoom === MIN_ZOOM}
+            onClick={() => changeZoom(-CONTROL_ZOOM_STEP)}
+            disabled={view.zoom <= MIN_ZOOM}
             aria-label="Zoom out"
             className="cursor-zoom-out rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
           >
@@ -106,16 +196,16 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
           </button>
           <button
             type="button"
-            onClick={() => setZoom(1)}
+            onClick={resetView}
             aria-label="Reset zoom"
             className="min-w-14 rounded-md px-2 py-1 text-center text-xs text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
-            {Math.round(zoom * 100)}%
+            {Math.round(view.zoom * 100)}%
           </button>
           <button
             type="button"
-            onClick={() => changeZoom(ZOOM_STEP)}
-            disabled={zoom === MAX_ZOOM}
+            onClick={() => changeZoom(CONTROL_ZOOM_STEP)}
+            disabled={view.zoom >= MAX_ZOOM}
             aria-label="Zoom in"
             className="cursor-zoom-in rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
           >
@@ -123,7 +213,7 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
           </button>
           <button
             type="button"
-            onClick={() => setZoom(1)}
+            onClick={resetView}
             aria-label="Reset zoom"
             className="ml-2 rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
