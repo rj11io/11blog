@@ -40,8 +40,6 @@ type DragState = {
   startClientX: number
   startClientY: number
   startView: ViewState
-  imageRect: DOMRect
-  viewportRect: DOMRect
 }
 
 function clampZoom(value: number) {
@@ -81,45 +79,11 @@ function normalizeWheelDelta(event: WheelEvent, viewportHeight: number) {
   return Math.max(-MAX_WHEEL_DELTA, Math.min(MAX_WHEEL_DELTA, delta))
 }
 
-function panAxis(
-  currentOffset: number,
-  delta: number,
-  imageStart: number,
-  imageSize: number,
-  viewportStart: number,
-  viewportSize: number
-) {
-  if (imageSize <= viewportSize) {
-    const centeredStart = viewportStart + (viewportSize - imageSize) / 2
-    return currentOffset + centeredStart - imageStart
-  }
-
-  const minDelta = viewportStart + viewportSize - (imageStart + imageSize)
-  const maxDelta = viewportStart - imageStart
-  const clampedDelta = Math.max(minDelta, Math.min(maxDelta, delta))
-
-  return currentOffset + clampedDelta
-}
-
 function panView(drag: DragState, clientX: number, clientY: number): ViewState {
   return {
     ...drag.startView,
-    offsetX: panAxis(
-      drag.startView.offsetX,
-      clientX - drag.startClientX,
-      drag.imageRect.left,
-      drag.imageRect.width,
-      drag.viewportRect.left,
-      drag.viewportRect.width
-    ),
-    offsetY: panAxis(
-      drag.startView.offsetY,
-      clientY - drag.startClientY,
-      drag.imageRect.top,
-      drag.imageRect.height,
-      drag.viewportRect.top,
-      drag.viewportRect.height
-    ),
+    offsetX: drag.startView.offsetX + clientX - drag.startClientX,
+    offsetY: drag.startView.offsetY + clientY - drag.startClientY,
   }
 }
 
@@ -174,16 +138,6 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
     if (event.button !== 0 || view.zoom <= 1 || dragRef.current) return
 
-    const imageRect = imageRef.current?.getBoundingClientRect()
-    if (!imageRect) return
-
-    const viewportRect = event.currentTarget.getBoundingClientRect()
-    const canPan =
-      imageRect.width > viewportRect.width ||
-      imageRect.height > viewportRect.height
-
-    if (!canPan) return
-
     event.preventDefault()
     event.currentTarget.setPointerCapture(event.pointerId)
     dragRef.current = {
@@ -191,8 +145,6 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
       startClientX: event.clientX,
       startClientY: event.clientY,
       startView: view,
-      imageRect,
-      viewportRect,
     }
     setIsDragging(true)
   }
