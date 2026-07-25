@@ -4,6 +4,7 @@ import * as React from "react"
 
 import {
   CONTENT_HEADING_OFFSET,
+  CONTENT_TITLE_ID,
   type MarkdownHeading,
 } from "./markdown-headings"
 
@@ -46,9 +47,15 @@ function IndexLinks({
   )
 }
 
-export function ContentIndex({ headings }: { headings: MarkdownHeading[] }) {
+export function ContentIndex({
+  title,
+  headings,
+}: {
+  title: string
+  headings: MarkdownHeading[]
+}) {
   const [activeId, setActiveId] = React.useState<string | null>(
-    headings[0]?.id ?? null
+    title ? CONTENT_TITLE_ID : (headings[0]?.id ?? null)
   )
   const navigationLock = React.useRef<string | null>(null)
 
@@ -59,9 +66,10 @@ export function ContentIndex({ headings }: { headings: MarkdownHeading[] }) {
 
   React.useEffect(() => {
     function getHeadingElements() {
-      return headings
-        .map((heading) => document.getElementById(heading.id))
-        .filter((element): element is HTMLElement => element !== null)
+      return [
+        document.getElementById(CONTENT_TITLE_ID),
+        ...headings.map((heading) => document.getElementById(heading.id)),
+      ].filter((element): element is HTMLElement => element !== null)
     }
 
     function updateActiveHeading() {
@@ -151,10 +159,20 @@ export function ContentIndex({ headings }: { headings: MarkdownHeading[] }) {
   return (
     <aside className="min-w-0 lg:pt-1">
       <details className="rounded-2xl border border-border bg-muted/30 px-4 py-3 lg:hidden">
-        <summary className="cursor-pointer text-sm font-semibold">
-          On this page
+        <summary className="cursor-pointer text-sm font-semibold text-foreground">
+          {title}
         </summary>
         <nav aria-label="Table of contents">
+          <a
+            href={`#${CONTENT_TITLE_ID}`}
+            aria-current={
+              activeId === CONTENT_TITLE_ID ? "location" : undefined
+            }
+            onClick={() => lockToHeading(CONTENT_TITLE_ID)}
+            className="mt-4 block rounded-sm text-sm leading-5 font-semibold text-foreground underline-offset-4 transition outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {title}
+          </a>
           <IndexLinks
             headings={headings}
             activeId={activeId}
@@ -167,9 +185,14 @@ export function ContentIndex({ headings }: { headings: MarkdownHeading[] }) {
         aria-label="Table of contents"
         className="sticky top-8 hidden lg:block"
       >
-        <p className="text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-          On this page
-        </p>
+        <a
+          href={`#${CONTENT_TITLE_ID}`}
+          aria-current={activeId === CONTENT_TITLE_ID ? "location" : undefined}
+          onClick={() => lockToHeading(CONTENT_TITLE_ID)}
+          className="block max-w-60 rounded-sm text-sm leading-5 font-semibold text-foreground underline-offset-4 transition outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {title}
+        </a>
         <IndexLinks
           headings={headings}
           activeId={activeId}

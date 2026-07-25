@@ -4,6 +4,10 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { ContentIndex } from "../../../components/content-index"
+import {
+  CONTENT_HEADING_OFFSET,
+  CONTENT_TITLE_ID,
+} from "../../../components/markdown-headings"
 import { Markdown } from "../../../components/markdown"
 import { extractMarkdownHeadings } from "../../../components/markdown-headings"
 import {
@@ -158,7 +162,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </nav>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-16">
-          <ContentIndex headings={headings} />
+          <ContentIndex title={post.title} headings={headings} />
 
           <article className="min-w-0">
             <header className="border-b border-border pb-6 sm:pb-8">
@@ -168,7 +172,11 @@ export default async function PostPage({ params }: PostPageProps) {
               >
                 {publication.title}
               </Link>
-              <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-balance sm:text-5xl lg:text-6xl">
+              <h1
+                id={CONTENT_TITLE_ID}
+                style={{ scrollMarginTop: CONTENT_HEADING_OFFSET }}
+                className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] text-balance sm:text-5xl lg:text-6xl"
+              >
                 {post.title}
               </h1>
               {post.excerpt && (

@@ -15,6 +15,7 @@ type HeadingNode = {
 }
 
 export const CONTENT_HEADING_OFFSET = 96
+export const CONTENT_TITLE_ID = "post-title"
 
 export function createHeadingIdFactory() {
   const occurrences = new Map<string, number>()
