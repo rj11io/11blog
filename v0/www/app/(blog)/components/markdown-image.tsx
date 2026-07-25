@@ -1,7 +1,8 @@
 "use client"
 
 import { Maximize2, RotateCcw, ZoomIn, ZoomOut } from "lucide-react"
-import { useEffect, useRef, useState, type MouseEvent } from "react"
+import { useEffect, useRef, useState } from "react"
+import type { PointerEvent as ReactPointerEvent } from "react"
 
 import {
   Dialog,
@@ -14,7 +15,7 @@ import {
 const MIN_ZOOM = 0.5
 const MAX_ZOOM = 3
 const CONTROL_ZOOM_STEP = 0.1
-const WHEEL_ZOOM_SENSITIVITY = 0.00125
+const WHEEL_ZOOM_SENSITIVITY = 0.0015
 const MAX_WHEEL_DELTA = 100
 
 type ViewState = {
@@ -32,6 +33,15 @@ const INITIAL_VIEW: ViewState = {
 type ZoomAnchor = {
   clientX: number
   clientY: number
+}
+
+type DragState = {
+  pointerId: number
+  startClientX: number
+  startClientY: number
+  startView: ViewState
+  imageRect: DOMRect
+  viewportRect: DOMRect
 }
 
 function clampZoom(value: number) {
@@ -71,9 +81,53 @@ function normalizeWheelDelta(event: WheelEvent, viewportHeight: number) {
   return Math.max(-MAX_WHEEL_DELTA, Math.min(MAX_WHEEL_DELTA, delta))
 }
 
+function panAxis(
+  currentOffset: number,
+  delta: number,
+  imageStart: number,
+  imageSize: number,
+  viewportStart: number,
+  viewportSize: number
+) {
+  if (imageSize <= viewportSize) {
+    const centeredStart = viewportStart + (viewportSize - imageSize) / 2
+    return currentOffset + centeredStart - imageStart
+  }
+
+  const minDelta = viewportStart + viewportSize - (imageStart + imageSize)
+  const maxDelta = viewportStart - imageStart
+  const clampedDelta = Math.max(minDelta, Math.min(maxDelta, delta))
+
+  return currentOffset + clampedDelta
+}
+
+function panView(drag: DragState, clientX: number, clientY: number): ViewState {
+  return {
+    ...drag.startView,
+    offsetX: panAxis(
+      drag.startView.offsetX,
+      clientX - drag.startClientX,
+      drag.imageRect.left,
+      drag.imageRect.width,
+      drag.viewportRect.left,
+      drag.viewportRect.width
+    ),
+    offsetY: panAxis(
+      drag.startView.offsetY,
+      clientY - drag.startClientY,
+      drag.imageRect.top,
+      drag.imageRect.height,
+      drag.viewportRect.top,
+      drag.viewportRect.height
+    ),
+  }
+}
+
 export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
   const imageRef = useRef<HTMLImageElement>(null)
+  const dragRef = useRef<DragState | null>(null)
   const [zoomViewport, setZoomViewport] = useState<HTMLDivElement | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
   const [view, setView] = useState(INITIAL_VIEW)
 
   useEffect(() => {
@@ -100,6 +154,8 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
   }, [zoomViewport])
 
   function resetView() {
+    dragRef.current = null
+    setIsDragging(false)
     setView(INITIAL_VIEW)
   }
 
@@ -115,13 +171,50 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
     setZoomAt(view.zoom + amount, anchor)
   }
 
-  function handlePreviewClick(event: MouseEvent<HTMLButtonElement>) {
-    if (view.zoom < 2) {
-      setZoomAt(2, event)
-      return
-    }
+  function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    if (event.button !== 0 || view.zoom <= 1 || dragRef.current) return
 
-    resetView()
+    const imageRect = imageRef.current?.getBoundingClientRect()
+    if (!imageRect) return
+
+    const viewportRect = event.currentTarget.getBoundingClientRect()
+    const canPan =
+      imageRect.width > viewportRect.width ||
+      imageRect.height > viewportRect.height
+
+    if (!canPan) return
+
+    event.preventDefault()
+    event.currentTarget.setPointerCapture(event.pointerId)
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startClientX: event.clientX,
+      startClientY: event.clientY,
+      startView: view,
+      imageRect,
+      viewportRect,
+    }
+    setIsDragging(true)
+  }
+
+  function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current
+    if (!drag || drag.pointerId !== event.pointerId) return
+
+    event.preventDefault()
+    setView(panView(drag, event.clientX, event.clientY))
+  }
+
+  function handlePointerEnd(event: ReactPointerEvent<HTMLDivElement>) {
+    const drag = dragRef.current
+    if (!drag || drag.pointerId !== event.pointerId) return
+
+    dragRef.current = null
+    setIsDragging(false)
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    }
   }
 
   return (
@@ -155,32 +248,34 @@ export function MarkdownImage({ src, alt }: { src: string; alt?: string }) {
       >
         <DialogTitle className="sr-only">{alt || "Image preview"}</DialogTitle>
         <DialogDescription className="sr-only">
-          Fullscreen image preview. Use the controls or mouse wheel to zoom.
+          Fullscreen image preview. Use the controls or mouse wheel to zoom,
+          then drag to move around the image.
         </DialogDescription>
 
         <div
           ref={setZoomViewport}
-          className="flex min-h-0 flex-1 items-center justify-center overflow-auto rounded-lg bg-black/40 p-2 sm:p-4"
+          className={`flex min-h-0 flex-1 touch-none items-center justify-center overflow-hidden rounded-lg bg-black/40 p-2 select-none sm:p-4 ${view.zoom > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""}`}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerEnd}
+          onPointerCancel={handlePointerEnd}
+          onLostPointerCapture={handlePointerEnd}
         >
           <div className="flex min-h-full min-w-full items-center justify-center">
-            <button
-              type="button"
-              onClick={handlePreviewClick}
-              aria-label={view.zoom < 2 ? "Zoom image in" : "Reset image zoom"}
-              className={`border-0 bg-transparent p-0 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none ${view.zoom < 2 ? "cursor-zoom-in" : "cursor-zoom-out"}`}
-            >
+            <div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 ref={imageRef}
                 src={src}
                 alt={alt ?? ""}
+                draggable={false}
                 className="max-h-[calc(100vh-8rem)] max-w-[calc(100vw-4rem)] object-contain will-change-transform"
                 style={{
                   transform: `translate3d(${view.offsetX}px, ${view.offsetY}px, 0) scale(${view.zoom})`,
                   transformOrigin: "top left",
                 }}
               />
-            </button>
+            </div>
           </div>
         </div>
 
