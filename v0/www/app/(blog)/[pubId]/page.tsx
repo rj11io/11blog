@@ -6,11 +6,7 @@ import { PublicationBrowser } from "../components/publication-browser"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
 import { browseHref } from "@content/routes"
-import {
-  getPostPreview,
-  getPublication,
-  publications,
-} from "@content/registry"
+import { getPostPreview, getPublication, publications } from "@content/registry"
 
 type PublicationPageProps = {
   params: Promise<{ pubId: string }>
@@ -100,12 +96,12 @@ export default async function PublicationPage({
           <div className="max-w-4xl">
             <div className="flex flex-wrap gap-2">
               {publication.isFeatured && (
-                <span className="rounded-full bg-primary/12 px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
                   Featured
                 </span>
               )}
               {publication.isNew && (
-                <span className="rounded-full bg-primary/12 px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
                   New post
                 </span>
               )}

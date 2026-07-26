@@ -209,12 +209,12 @@ export default async function PostPage({ params }: PostPageProps) {
               <div className="flex flex-wrap items-center gap-2">
                 <Link
                   href={publicationHref(publication.pubId)}
-                  className="inline-flex rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold tracking-[0.16em] text-primary uppercase outline-none hover:bg-primary/15 focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase outline-none hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {publication.title}
                 </Link>
                 {post.isFeatured && (
-                  <span className="rounded-full bg-primary/12 px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                  <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
                     Featured
                   </span>
                 )}
@@ -293,7 +293,11 @@ export default async function PostPage({ params }: PostPageProps) {
                   href={postHref(publication.pubId, previous)}
                   className="flex items-center gap-4 rounded-2xl border border-border p-4 transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:p-5"
                 >
-                  <AdjacentCover post={previous} publicationTitle={publication.title} pubId={publication.pubId} />
+                  <AdjacentCover
+                    post={previous}
+                    publicationTitle={publication.title}
+                    pubId={publication.pubId}
+                  />
                   <span className="min-w-0">
                     <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
                       Previous
@@ -311,7 +315,11 @@ export default async function PostPage({ params }: PostPageProps) {
                   href={postHref(publication.pubId, next)}
                   className="flex flex-row-reverse items-center gap-4 rounded-2xl border border-border p-4 text-right transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:col-start-2 sm:p-5"
                 >
-                  <AdjacentCover post={next} publicationTitle={publication.title} pubId={publication.pubId} />
+                  <AdjacentCover
+                    post={next}
+                    publicationTitle={publication.title}
+                    pubId={publication.pubId}
+                  />
                   <span className="min-w-0">
                     <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
                       Next
