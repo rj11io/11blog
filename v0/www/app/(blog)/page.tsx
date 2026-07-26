@@ -29,6 +29,12 @@ const dateFormatter = new Intl.DateTimeFormat("en", {
   timeZone: "UTC",
 })
 
+const monthFormatter = new Intl.DateTimeFormat("en", {
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+})
+
 function formatDate(value: string) {
   return dateFormatter.format(new Date(`${value}T00:00:00Z`))
 }
@@ -56,8 +62,10 @@ function publicationSeed(publication: PublicationPreview) {
   return `${publication.pubId}-${publication.title}`
 }
 
-function issueNumber(publication: PublicationPreview) {
-  return String(publication.relId).padStart(2, "0")
+function postCountLabel(publication: PublicationPreview) {
+  return `${publication.postCount} ${
+    publication.postCount === 1 ? "post" : "posts"
+  }`
 }
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
@@ -270,19 +278,24 @@ function PublicationFeature({
             lead ? "lg:self-center lg:p-10" : ""
           }`}
         >
-          <p className="text-3xl font-semibold text-primary/35 tabular-nums">
-            {issueNumber(publication)}
-          </p>
-          <h3 className="mt-2 text-2xl font-semibold tracking-tight group-hover:text-primary">
+          <div className="flex flex-wrap items-baseline gap-x-3 text-xs">
+            <span className="font-semibold tracking-[0.14em] text-primary uppercase">
+              {postCountLabel(publication)}
+            </span>
+            <span aria-hidden="true" className="text-muted-foreground">
+              ·
+            </span>
+            <time className="text-muted-foreground" dateTime={publication.created}>
+              {formatDate(publication.created)}
+            </time>
+          </div>
+          <h3 className="mt-3 text-2xl font-semibold tracking-tight group-hover:text-primary">
             {publication.title}
           </h3>
           <p className="mt-2 leading-7 text-muted-foreground">
             {publication.description}
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-1.5">
-            <span className="rounded-full bg-primary/12 px-2.5 py-1 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase">
-              {publication.postCount} posts
-            </span>
             {publication.tags.map((tag) => (
               <Tag key={tag}>{tag}</Tag>
             ))}
@@ -293,18 +306,21 @@ function PublicationFeature({
   )
 }
 
-/** Typographic index row. The issue number carries the identity, so no cover. */
+/** Typographic index row. The date column is the spine, so no cover is needed. */
 function PublicationRow({ publication }: { publication: PublicationPreview }) {
   return (
     <article className="group">
       <Link
         href={publication.href}
         aria-label={`Open publication ${publication.title}`}
-        className="grid gap-x-6 gap-y-1 rounded-2xl py-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[4rem_1fr_auto] sm:items-baseline"
+        className="grid gap-x-6 gap-y-1 rounded-2xl py-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[5.5rem_1fr_auto] sm:items-baseline"
       >
-        <span className="text-2xl font-semibold text-primary/35 tabular-nums">
-          {issueNumber(publication)}
-        </span>
+        <time
+          className="font-mono text-xs text-muted-foreground tabular-nums"
+          dateTime={publication.created}
+        >
+          {monthFormatter.format(new Date(`${publication.created}T00:00:00Z`))}
+        </time>
         <div className="min-w-0">
           <h3 className="text-lg font-semibold tracking-tight group-hover:text-primary sm:text-xl">
             {publication.title}
@@ -314,7 +330,7 @@ function PublicationRow({ publication }: { publication: PublicationPreview }) {
           </p>
         </div>
         <span className="text-xs text-muted-foreground tabular-nums">
-          {publication.postCount} posts
+          {postCountLabel(publication)}
         </span>
       </Link>
     </article>

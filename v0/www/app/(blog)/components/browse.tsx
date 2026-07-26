@@ -381,7 +381,9 @@ function PublicationResult({
   publication: PublicationPreview
   viewMode: ViewMode
 }) {
-  const issueNumber = String(publication.relId).padStart(2, "0")
+  const postCount = `${publication.postCount} ${
+    publication.postCount === 1 ? "post" : "posts"
+  }`
 
   const cover = (
     <CoverImage
@@ -399,11 +401,9 @@ function PublicationResult({
 
   const meta = (
     <>
-      {viewMode !== "cards" && (
-        <p className="text-3xl font-semibold text-primary/35 tabular-nums">
-          {issueNumber}
-        </p>
-      )}
+      <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+        {postCount}
+      </p>
       <div
         className={
           viewMode === "cards"
@@ -433,7 +433,6 @@ function PublicationResult({
         {publication.description}
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-1.5">
-        <Badge strong>{publication.postCount} posts</Badge>
         {publication.tags.map((tag) => (
           <Badge key={tag}>{tag}</Badge>
         ))}

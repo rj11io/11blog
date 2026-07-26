@@ -51,7 +51,6 @@ export default async function PublicationPage({
   const previews = publication.posts.map((post) =>
     getPostPreview(publication, post)
   )
-  const issueNumber = String(publication.relId).padStart(2, "0")
 
   return (
     <main className="min-h-svh bg-background">
@@ -83,18 +82,17 @@ export default async function PublicationPage({
               aspect="banner"
               lightbox
               title={publication.title}
-              subtitle={`Issue ${issueNumber}`}
               eager
             />
           </figure>
         )}
 
-        <header className="mt-8 grid gap-8 border-b border-border pb-10 lg:grid-cols-[9rem_1fr] lg:gap-12 lg:pb-14">
-          <div className="flex size-28 items-center justify-center rounded-3xl border border-primary/20 bg-primary/10 text-4xl font-semibold text-primary lg:size-36">
-            {issueNumber}
-          </div>
+        <header className="mt-8 border-b border-border pb-10 lg:pb-14">
           <div className="max-w-4xl">
-            <div className="flex flex-wrap gap-2">
+            <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">
+              Publication
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
               {publication.isFeatured && (
                 <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
                   Featured
