@@ -148,7 +148,7 @@ export function FilterToggle({
       aria-expanded={open}
       title={open ? "Hide filters" : "Show filters"}
       onClick={onToggle}
-      className="inline-flex size-11 items-center justify-center rounded-xl border border-input bg-background text-muted-foreground outline-none transition hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-expanded:border-primary aria-expanded:bg-primary/10 aria-expanded:text-primary"
+      className="inline-flex size-11 items-center justify-center rounded-xl border border-input bg-background text-muted-foreground transition outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-expanded:border-primary aria-expanded:bg-primary/10 aria-expanded:text-primary"
     >
       <SlidersHorizontal aria-hidden="true" className="size-4" />
     </button>
@@ -288,13 +288,21 @@ export function PostResult({
       <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
         {post.publicationTitle}
       </p>
-      <time
-        className="mt-1 block text-xs text-muted-foreground"
-        dateTime={post.created}
+      <div
+        className={
+          viewMode === "cards"
+            ? "flex flex-wrap items-baseline gap-x-3"
+            : undefined
+        }
       >
-        {formatDate(post.created)}
-      </time>
-      {post.updated !== post.created && <UpdatedDate value={post.updated} />}
+        <time
+          className="mt-1 block text-xs text-muted-foreground"
+          dateTime={post.created}
+        >
+          {formatDate(post.created)}
+        </time>
+        {post.updated !== post.created && <UpdatedDate value={post.updated} />}
+      </div>
       <p className="mt-2 text-xs text-muted-foreground">
         By {formatAuthorNames(post.authors)}
       </p>
@@ -394,15 +402,23 @@ function PublicationResult({
       <p className="text-3xl font-semibold text-primary/35 tabular-nums">
         {issueNumber}
       </p>
-      <time
-        className="mt-1 block text-xs text-muted-foreground"
-        dateTime={publication.created}
+      <div
+        className={
+          viewMode === "cards"
+            ? "flex flex-wrap items-baseline gap-x-3"
+            : undefined
+        }
       >
-        {formatDate(publication.created)}
-      </time>
-      {publication.updated !== publication.created && (
-        <UpdatedDate value={publication.updated} />
-      )}
+        <time
+          className="mt-1 block text-xs text-muted-foreground"
+          dateTime={publication.created}
+        >
+          {formatDate(publication.created)}
+        </time>
+        {publication.updated !== publication.created && (
+          <UpdatedDate value={publication.updated} />
+        )}
+      </div>
     </>
   )
 
@@ -640,9 +656,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
         </div>
       </div>
 
-      <div
-        className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end"
-      >
+      <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <label className="relative block">
           <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
             Search {contentType}
