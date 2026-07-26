@@ -85,6 +85,10 @@ export default async function PublicationPage({
               seed={`${publication.pubId}-${publication.title}`}
               monogram={coverMonogram(publication.title)}
               aspect="banner"
+              lightbox
+              title={publication.title}
+              subtitle={`Issue ${issueNumber}`}
+              zoomOnHover
               eager
             />
           </figure>

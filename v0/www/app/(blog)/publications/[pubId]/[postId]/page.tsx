@@ -197,6 +197,10 @@ export default async function PostPage({ params }: PostPageProps) {
                   seed={`${publication.pubId}-${post.postId}-${post.title}`}
                   monogram={coverMonogram(publication.title)}
                   aspect="banner"
+                  lightbox
+                  title={post.title}
+                  subtitle={publication.title}
+                  zoomOnHover
                   eager
                 />
               </figure>

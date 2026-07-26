@@ -1,8 +1,17 @@
 "use client"
 
+import { Maximize2 } from "lucide-react"
+import dynamic from "next/dynamic"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+
+// Loaded on first click so list and card surfaces, which are never zoomable,
+// do not carry the dialog.
+const ImageLightbox = dynamic(
+  () => import("./image-lightbox").then((module) => module.ImageLightbox),
+  { ssr: false }
+)
 
 export type CoverAspect = "thumb" | "square" | "card" | "banner"
 
@@ -15,6 +24,14 @@ export type CoverImageProps = {
   /** Short mark drawn into generated cover art, such as "04" or "MC". */
   monogram?: string
   aspect?: CoverAspect
+  /**
+   * Open the image full screen when clicked. Only takes effect once a real
+   * image has loaded, and never inside a link, which cannot hold a button.
+   */
+  lightbox?: boolean
+  /** Caption shown under the image in the lightbox. */
+  title?: string
+  subtitle?: string
   /** Grow the image slightly while the surrounding `group` is hovered. */
   zoomOnHover?: boolean
   /** Load immediately instead of lazily. Use for the first image on a page. */
@@ -88,6 +105,8 @@ function CoverArt({ seed, monogram }: { seed: string; monogram?: string }) {
   )
 }
 
+type PhotoStatus = "pending" | "loaded" | "failed"
+
 /**
  * Content covers can point at any host, so they are plain images rather than
  * `next/image`, which would need every host allow-listed up front. Rendered
@@ -99,21 +118,26 @@ function CoverPhoto({
   alt,
   eager,
   zoomOnHover,
+  onStatusChange,
 }: {
   src: string
   alt: string
   eager: boolean
   zoomOnHover: boolean
+  onStatusChange: (status: PhotoStatus) => void
 }) {
-  const [status, setStatus] = React.useState<"pending" | "loaded" | "failed">(
-    "pending"
-  )
+  const [status, setStatus] = React.useState<PhotoStatus>("pending")
+
+  function report(next: PhotoStatus) {
+    setStatus(next)
+    onStatusChange(next)
+  }
 
   // A cached image can finish before hydration, so its load event never reaches
   // React. Read the element as it attaches to catch that case.
   function readOnAttach(image: HTMLImageElement | null) {
     if (!image?.complete) return
-    setStatus(image.naturalWidth > 0 ? "loaded" : "failed")
+    report(image.naturalWidth > 0 ? "loaded" : "failed")
   }
 
   if (status === "failed") return null
@@ -127,8 +151,8 @@ function CoverPhoto({
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       fetchPriority={eager ? "high" : "auto"}
-      onLoad={() => setStatus("loaded")}
-      onError={() => setStatus("failed")}
+      onLoad={() => report("loaded")}
+      onError={() => report("failed")}
       className={cn(
         "absolute inset-0 size-full object-cover transition-[opacity,transform] duration-700 ease-out",
         status === "loaded" ? "opacity-100" : "opacity-0",
@@ -144,19 +168,22 @@ export function CoverImage({
   seed,
   monogram,
   aspect = "card",
+  lightbox = false,
+  title,
+  subtitle,
   zoomOnHover = false,
   eager = false,
   className,
   children,
 }: CoverImageProps) {
-  return (
-    <div
-      className={cn(
-        "@container relative isolate w-full overflow-hidden bg-muted",
-        aspectClass[aspect],
-        className
-      )}
-    >
+  const [photoStatus, setPhotoStatus] = React.useState<PhotoStatus>("pending")
+  const [lightboxOpen, setLightboxOpen] = React.useState(false)
+
+  // Generated art and broken sources have nothing worth enlarging.
+  const canZoom = Boolean(lightbox && src && photoStatus === "loaded")
+
+  const layers = (
+    <>
       <CoverArt seed={seed} monogram={monogram} />
 
       {src && (
@@ -166,6 +193,7 @@ export function CoverImage({
           alt={alt}
           eager={eager}
           zoomOnHover={zoomOnHover}
+          onStatusChange={setPhotoStatus}
         />
       )}
 
@@ -176,6 +204,43 @@ export function CoverImage({
       />
 
       {children}
-    </div>
+    </>
+  )
+
+  const frame = cn(
+    "@container relative isolate w-full overflow-hidden bg-muted",
+    aspectClass[aspect],
+    className
+  )
+
+  if (!canZoom) return <div className={frame}>{layers}</div>
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setLightboxOpen(true)}
+        aria-label={`Open cover image full screen${title ? `: ${title}` : ""}`}
+        className={cn(
+          frame,
+          "group block cursor-zoom-in text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        )}
+      >
+        {layers}
+        <span className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-background/80 p-2 text-foreground opacity-0 shadow-sm backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          <Maximize2 className="size-4" aria-hidden="true" />
+        </span>
+      </button>
+
+      {lightboxOpen && src && (
+        <ImageLightbox
+          images={[{ src, alt, title, subtitle }]}
+          activeIndex={0}
+          open={lightboxOpen}
+          onActiveIndexChange={() => undefined}
+          onOpenChange={setLightboxOpen}
+        />
+      )}
+    </>
   )
 }

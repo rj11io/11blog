@@ -5,6 +5,7 @@ import {
   markdownComponentsImageLists,
   markdownComponentsImages,
 } from "./markdown-components.images"
+import quietLaptop from "./assets/quiet-laptop.webp"
 
 export const markdownComponents: Post = {
   postId: 401,
@@ -21,5 +22,5 @@ export const markdownComponents: Post = {
   content,
   images: markdownComponentsImages,
   imageLists: markdownComponentsImageLists,
-  coverImage: "https://picsum.photos/900"
+  coverImage: quietLaptop.src
 }
