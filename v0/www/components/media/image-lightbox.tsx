@@ -307,7 +307,7 @@ export function ImageLightbox({
       <DialogContent
         showCloseButton
         onKeyDown={handleKeyDown}
-        className="flex h-[calc(100vh-1.5rem)] max-w-[calc(100vw-1.5rem)] flex-col gap-3 overflow-hidden border-white/10 bg-black/95 p-3 text-white shadow-2xl sm:h-[calc(100vh-3rem)] sm:max-w-[calc(100vw-3rem)]"
+        className="flex h-[calc(100vh-1rem)] max-w-[calc(100vw-1rem)] flex-col gap-3 overflow-hidden rounded-xl border-white/10 bg-black/95 p-3 text-white shadow-2xl sm:h-[calc(100vh-2rem)] sm:max-w-[calc(100vw-2rem)]"
       >
         <DialogTitle className="sr-only">
           {image.title || image.alt || "Image preview"}
