@@ -23,9 +23,10 @@ export function SiteHeader() {
         <nav aria-label="Primary navigation" className="flex items-center gap-6">
           <Link
             href="/"
-            className="text-sm font-semibold tracking-tight text-foreground transition hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+            aria-label="11blog home"
+            className="rounded-sm font-mono text-sm font-medium text-foreground transition hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
-            11blog
+            ~/11blog
           </Link>
           <Link
             href="/browse"
