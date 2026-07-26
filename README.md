@@ -19,7 +19,7 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Next.js. `/` is the landing page, which pulls featured and recent posts, featured and recent publications, and the author list straight from the registry. `/browse` is the searchable index, and publication, post, and author pages are available below `/publications/...` and `/authors/...`.
+Open the local URL printed by Next.js. `/` is the landing page, which pulls featured and recent posts, featured and recent publications, and the author list straight from the registry. `/browse` is the searchable index. Publication and post pages use `/{pubId}` and `/{pubId}/{postId}`, while author pages are available below `/authors/...`.
 
 Other available checks and production commands are:
 

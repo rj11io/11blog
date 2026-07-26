@@ -3,13 +3,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { ContentIndex } from "../../../components/content-index"
+import { ContentIndex } from "../../components/content-index"
 import {
   CONTENT_HEADING_OFFSET,
   CONTENT_TITLE_ID,
-} from "../../../components/markdown-headings"
-import { Markdown } from "../../../components/markdown"
-import { extractMarkdownHeadings } from "../../../components/markdown-headings"
+} from "../../components/markdown-headings"
+import { Markdown } from "../../components/markdown"
+import { extractMarkdownHeadings } from "../../components/markdown-headings"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
 import {

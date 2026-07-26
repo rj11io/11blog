@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { PublicationBrowser } from "../../components/publication-browser"
+import { PublicationBrowser } from "../components/publication-browser"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
 import { browseHref } from "@content/routes"

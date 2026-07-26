@@ -3,6 +3,7 @@ import type { Author, PostImage, Publication } from "./types"
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/
 const pubIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const imageListKeyPattern = /^[a-z0-9]+(?:[-_:][a-z0-9]+)*$/
+const reservedPublicationIds = new Set(["authors", "browse", "publications"])
 
 function assertNonEmpty(value: string, label: string) {
   if (!value.trim()) {
@@ -136,6 +137,11 @@ export function validatePublications(
 
     if (!pubIdPattern.test(publication.pubId)) {
       throw new Error(`${publication.pubId}: pubId must be a URL-safe slug`)
+    }
+    if (reservedPublicationIds.has(publication.pubId)) {
+      throw new Error(
+        `${publication.pubId}: pubId conflicts with a reserved route`
+      )
     }
     if (pubIds.has(publication.pubId)) {
       throw new Error(`Duplicate publication pubId: ${publication.pubId}`)

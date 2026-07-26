@@ -23,8 +23,8 @@ npm run format     # Format TypeScript and TSX files
 
 - `/` redirects to `/browse`.
 - `/browse` lists the blog content.
-- `/publications/[pubId]` shows a publication.
-- `/publications/[pubId]/[postId]` shows a post.
+- `/[pubId]` shows a publication.
+- `/[pubId]/[postId]` shows a post.
 - `/authors/[authorId]` shows an author and their posts.
 
 ## Content

@@ -3,7 +3,7 @@ import type { Post } from "./types"
 export const browseHref = "/browse"
 
 export function publicationHref(pubId: string) {
-  return `/publications/${encodeURIComponent(pubId)}`
+  return `/${encodeURIComponent(pubId)}`
 }
 
 export function authorHref(authorId: string) {
