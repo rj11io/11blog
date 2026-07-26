@@ -337,8 +337,8 @@ export function PostResult({
         >
           {cover}
           <div className="p-5 sm:p-6">
-            {meta}
             {body}
+            <div className="mt-5">{meta}</div>
           </div>
         </Link>
       </article>
