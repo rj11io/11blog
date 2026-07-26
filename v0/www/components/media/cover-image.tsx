@@ -32,8 +32,6 @@ export type CoverImageProps = {
   /** Caption shown under the image in the lightbox. */
   title?: string
   subtitle?: string
-  /** Grow the image slightly while the surrounding `group` is hovered. */
-  zoomOnHover?: boolean
   /** Load immediately instead of lazily. Use for the first image on a page. */
   eager?: boolean
   className?: string
@@ -117,13 +115,11 @@ function CoverPhoto({
   src,
   alt,
   eager,
-  zoomOnHover,
   onStatusChange,
 }: {
   src: string
   alt: string
   eager: boolean
-  zoomOnHover: boolean
   onStatusChange: (status: PhotoStatus) => void
 }) {
   const [status, setStatus] = React.useState<PhotoStatus>("pending")
@@ -154,9 +150,8 @@ function CoverPhoto({
       onLoad={() => report("loaded")}
       onError={() => report("failed")}
       className={cn(
-        "absolute inset-0 size-full object-cover transition-[opacity,transform] duration-700 ease-out",
-        status === "loaded" ? "opacity-100" : "opacity-0",
-        zoomOnHover && "group-hover:scale-[1.04]"
+        "absolute inset-0 size-full object-cover transition-opacity duration-700 ease-out",
+        status === "loaded" ? "opacity-100" : "opacity-0"
       )}
     />
   )
@@ -171,7 +166,6 @@ export function CoverImage({
   lightbox = false,
   title,
   subtitle,
-  zoomOnHover = false,
   eager = false,
   className,
   children,
@@ -192,7 +186,6 @@ export function CoverImage({
           src={src}
           alt={alt}
           eager={eager}
-          zoomOnHover={zoomOnHover}
           onStatusChange={setPhotoStatus}
         />
       )}
@@ -223,7 +216,7 @@ export function CoverImage({
         aria-label={`Open cover image full screen${title ? `: ${title}` : ""}`}
         className={cn(
           frame,
-          "group block cursor-zoom-in text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          "group block cursor-pointer text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
         )}
       >
         {layers}

@@ -277,7 +277,6 @@ export function PostResult({
       seed={`${post.publicationId}-${post.postId}-${post.title}`}
       monogram={coverMonogram(post.publicationTitle)}
       aspect={viewMode === "list" ? "thumb" : "card"}
-      zoomOnHover
       className={viewMode === "list" ? "rounded-xl sm:rounded-2xl" : undefined}
     >
       {viewMode === "cards" && <ResultFlags item={post} onCover />}
@@ -382,7 +381,6 @@ function PublicationResult({
       seed={`${publication.pubId}-${publication.title}`}
       monogram={coverMonogram(publication.title)}
       aspect={viewMode === "list" ? "thumb" : "card"}
-      zoomOnHover
       className={viewMode === "list" ? "rounded-xl sm:rounded-2xl" : undefined}
     >
       {viewMode === "cards" && (

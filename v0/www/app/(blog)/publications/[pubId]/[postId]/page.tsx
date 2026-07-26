@@ -200,7 +200,6 @@ export default async function PostPage({ params }: PostPageProps) {
                   lightbox
                   title={post.title}
                   subtitle={publication.title}
-                  zoomOnHover
                   eager
                 />
               </figure>

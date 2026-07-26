@@ -172,7 +172,6 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                       seed={`${post.publicationId}-${post.postId}-${post.title}`}
                       monogram={coverMonogram(post.publicationTitle)}
                       aspect="thumb"
-                      zoomOnHover
                       className="rounded-xl sm:rounded-2xl"
                     />
                   </div>

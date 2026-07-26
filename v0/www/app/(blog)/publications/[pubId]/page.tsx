@@ -88,7 +88,6 @@ export default async function PublicationPage({
               lightbox
               title={publication.title}
               subtitle={`Issue ${issueNumber}`}
-              zoomOnHover
               eager
             />
           </figure>
