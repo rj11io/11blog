@@ -152,6 +152,13 @@ export function validatePublications(
     )
     assertTags(publication.tags, `${publication.pubId}.tags`)
 
+    if (publication.coverImage !== undefined) {
+      assertImageSource(
+        publication.coverImage,
+        `${publication.pubId}.coverImage`
+      )
+    }
+
     const postIds = new Set<number>()
     const slugs = new Set<string>()
     for (const post of publication.posts) {
@@ -207,6 +214,13 @@ export function validatePublications(
         }
       }
       assertTags(post.tags, `${publication.pubId}/${post.postId}.tags`)
+
+      if (post.coverImage !== undefined) {
+        assertImageSource(
+          post.coverImage,
+          `${publication.pubId}/${post.postId}.coverImage`
+        )
+      }
 
       if (!post.content?.trim()) {
         throw new Error(`${publication.pubId}/${post.postId} has no content`)

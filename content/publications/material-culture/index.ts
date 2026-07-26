@@ -18,6 +18,7 @@ export const materialCulture: Publication = {
     "Material Culture looks closely at ordinary objects and the knowledge embedded in making, maintaining, and passing them on.",
   editorNotes:
     "Each issue connects material decisions to the habits and communities that sustain them.",
+  coverImage: "https://picsum.photos/900",
   posts: [
     {
       postId: 203,
@@ -33,6 +34,7 @@ export const materialCulture: Publication = {
       isFeatured: false,
       tags: ["Design", "Objects"],
       content: durableObjects,
+      coverImage: "https://picsum.photos/900"
     },
     {
       postId: 207,
@@ -47,6 +49,7 @@ export const materialCulture: Publication = {
       isFeatured: false,
       tags: ["Repair", "Community"],
       content: repairLanguage,
+      coverImage: "https://picsum.photos/900"
     },
     {
       postId: 211,

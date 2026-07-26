@@ -3,6 +3,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { CoverImage } from "@/components/media/cover-image"
+import { coverMonogram } from "@/components/media/cover-monogram"
 import {
   blogAuthors,
   getAuthor,
@@ -162,27 +164,42 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               >
                 <Link
                   href={post.href}
-                  className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex gap-4 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring sm:gap-6"
                 >
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-                    <span>{post.publicationTitle}</span>
-                    <span aria-hidden="true" className="text-muted-foreground">
-                      ·
-                    </span>
-                    <time dateTime={post.created}>
-                      {dateFormatter.format(
-                        new Date(`${post.created}T00:00:00Z`)
-                      )}
-                    </time>
+                  <div className="w-20 shrink-0 sm:w-28">
+                    <CoverImage
+                      src={post.coverImage}
+                      seed={`${post.publicationId}-${post.postId}-${post.title}`}
+                      monogram={coverMonogram(post.publicationTitle)}
+                      aspect="thumb"
+                      zoomOnHover
+                      className="rounded-xl sm:rounded-2xl"
+                    />
                   </div>
-                  <h3 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary sm:text-2xl">
-                    {post.title}
-                  </h3>
-                  {post.excerpt ? (
-                    <p className="mt-2 max-w-3xl leading-7 text-muted-foreground">
-                      {post.excerpt}
-                    </p>
-                  ) : null}
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                      <span>{post.publicationTitle}</span>
+                      <span
+                        aria-hidden="true"
+                        className="text-muted-foreground"
+                      >
+                        ·
+                      </span>
+                      <time dateTime={post.created}>
+                        {dateFormatter.format(
+                          new Date(`${post.created}T00:00:00Z`)
+                        )}
+                      </time>
+                    </div>
+                    <h3 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary sm:text-2xl">
+                      {post.title}
+                    </h3>
+                    {post.excerpt ? (
+                      <p className="mt-2 max-w-3xl leading-7 text-muted-foreground">
+                        {post.excerpt}
+                      </p>
+                    ) : null}
+                  </div>
                 </Link>
               </article>
             ))}

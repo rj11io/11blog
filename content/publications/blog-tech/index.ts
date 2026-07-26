@@ -32,7 +32,8 @@ export const blogTech: Publication = {
       isFeatured: true,
       tags: ["Markdown", "Publishing", "Documentation"],
       content: markdownBlogFormat,
+      coverImage: "https://picsum.photos/900"
     },
   ],
-  coverImage: "https://picsum.photos/id/24/2000/743.webp"
+  coverImage: "https://picsum.photos/900"
 }

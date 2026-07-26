@@ -10,6 +10,8 @@ import {
 } from "../../../components/markdown-headings"
 import { Markdown } from "../../../components/markdown"
 import { extractMarkdownHeadings } from "../../../components/markdown-headings"
+import { CoverImage } from "@/components/media/cover-image"
+import { coverMonogram } from "@/components/media/cover-monogram"
 import {
   allPosts,
   getPost,
@@ -22,7 +24,7 @@ import {
   postHref,
   publicationHref,
 } from "@content/routes"
-import type { AuthorPreview } from "@content/types"
+import type { AuthorPreview, Post } from "@content/types"
 
 type PostPageProps = {
   params: Promise<{ pubId: string; postId: string }>
@@ -86,6 +88,28 @@ function AuthorByline({ authors }: { authors: AuthorPreview[] }) {
         ))}
       </ul>
     </div>
+  )
+}
+
+function AdjacentCover({
+  post,
+  pubId,
+  publicationTitle,
+}: {
+  post: Post
+  pubId: string
+  publicationTitle: string
+}) {
+  return (
+    <span className="block w-14 shrink-0 sm:w-16">
+      <CoverImage
+        src={post.coverImage}
+        seed={`${pubId}-${post.postId}-${post.title}`}
+        monogram={coverMonogram(publicationTitle)}
+        aspect="square"
+        className="rounded-xl"
+      />
+    </span>
   )
 }
 
@@ -165,6 +189,19 @@ export default async function PostPage({ params }: PostPageProps) {
           <ContentIndex title={post.title} headings={headings} />
 
           <article className="min-w-0">
+            {post.coverImage && (
+              <figure className="mb-8 overflow-hidden rounded-3xl">
+                <CoverImage
+                  src={post.coverImage}
+                  alt={`Cover art for ${post.title}`}
+                  seed={`${publication.pubId}-${post.postId}-${post.title}`}
+                  monogram={coverMonogram(publication.title)}
+                  aspect="banner"
+                  eager
+                />
+              </figure>
+            )}
+
             <header className="border-b border-border pb-6 sm:pb-8">
               <div className="flex flex-wrap items-center gap-2">
                 <Link
@@ -251,13 +288,16 @@ export default async function PostPage({ params }: PostPageProps) {
               {previous ? (
                 <Link
                   href={postHref(publication.pubId, previous)}
-                  className="rounded-2xl border border-border p-5 transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex items-center gap-4 rounded-2xl border border-border p-4 transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:p-5"
                 >
-                  <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
-                    Previous
-                  </span>
-                  <span className="mt-2 block font-semibold">
-                    {previous.title}
+                  <AdjacentCover post={previous} publicationTitle={publication.title} pubId={publication.pubId} />
+                  <span className="min-w-0">
+                    <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
+                      Previous
+                    </span>
+                    <span className="mt-1 block font-semibold">
+                      {previous.title}
+                    </span>
                   </span>
                 </Link>
               ) : (
@@ -266,12 +306,17 @@ export default async function PostPage({ params }: PostPageProps) {
               {next && (
                 <Link
                   href={postHref(publication.pubId, next)}
-                  className="rounded-2xl border border-border p-5 text-right transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:col-start-2"
+                  className="flex flex-row-reverse items-center gap-4 rounded-2xl border border-border p-4 text-right transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:col-start-2 sm:p-5"
                 >
-                  <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
-                    Next
+                  <AdjacentCover post={next} publicationTitle={publication.title} pubId={publication.pubId} />
+                  <span className="min-w-0">
+                    <span className="text-xs tracking-[0.14em] text-muted-foreground uppercase">
+                      Next
+                    </span>
+                    <span className="mt-1 block font-semibold">
+                      {next.title}
+                    </span>
                   </span>
-                  <span className="mt-2 block font-semibold">{next.title}</span>
                 </Link>
               )}
             </nav>

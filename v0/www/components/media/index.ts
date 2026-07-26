@@ -1,6 +1,11 @@
 "use client"
 
 export {
+  CoverImage,
+  type CoverAspect,
+  type CoverImageProps,
+} from "./cover-image"
+export {
   MasonryImageList,
   type MasonryImageListProps,
 } from "./masonry-image-list"

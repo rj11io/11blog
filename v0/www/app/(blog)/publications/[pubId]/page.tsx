@@ -3,6 +3,8 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { PublicationBrowser } from "../../components/publication-browser"
+import { CoverImage } from "@/components/media/cover-image"
+import { coverMonogram } from "@/components/media/cover-monogram"
 import { browseHref } from "@content/routes"
 import {
   getPostPreview,
@@ -37,6 +39,9 @@ export async function generateMetadata({
   return {
     title: publication.title,
     description: publication.description,
+    openGraph: publication.coverImage
+      ? { images: [{ url: publication.coverImage }] }
+      : undefined,
   }
 }
 
@@ -50,6 +55,7 @@ export default async function PublicationPage({
   const previews = publication.posts.map((post) =>
     getPostPreview(publication, post)
   )
+  const issueNumber = String(publication.relId).padStart(2, "0")
 
   return (
     <main className="min-h-svh bg-background">
@@ -71,9 +77,22 @@ export default async function PublicationPage({
           </ol>
         </nav>
 
+        {publication.coverImage && (
+          <figure className="mt-6 overflow-hidden rounded-3xl">
+            <CoverImage
+              src={publication.coverImage}
+              alt={`Cover art for ${publication.title}`}
+              seed={`${publication.pubId}-${publication.title}`}
+              monogram={coverMonogram(publication.title)}
+              aspect="banner"
+              eager
+            />
+          </figure>
+        )}
+
         <header className="mt-8 grid gap-8 border-b border-border pb-10 lg:grid-cols-[9rem_1fr] lg:gap-12 lg:pb-14">
           <div className="flex size-28 items-center justify-center rounded-3xl border border-primary/20 bg-primary/10 text-4xl font-semibold text-primary lg:size-36">
-            {String(publication.relId).padStart(2, "0")}
+            {issueNumber}
           </div>
           <div className="max-w-4xl">
             <div className="flex flex-wrap gap-2">

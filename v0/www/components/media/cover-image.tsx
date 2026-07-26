@@ -1,0 +1,181 @@
+"use client"
+
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+export type CoverAspect = "thumb" | "square" | "card" | "banner"
+
+export type CoverImageProps = {
+  /** Content-provided image. When missing or broken, generated cover art is shown. */
+  src?: string
+  alt?: string
+  /** Stable string used to pick the generated palette, so a title always looks the same. */
+  seed: string
+  /** Short mark drawn into generated cover art, such as "04" or "MC". */
+  monogram?: string
+  aspect?: CoverAspect
+  /** Grow the image slightly while the surrounding `group` is hovered. */
+  zoomOnHover?: boolean
+  /** Load immediately instead of lazily. Use for the first image on a page. */
+  eager?: boolean
+  className?: string
+  /** Content drawn on top of the image, such as badges or a caption. */
+  children?: React.ReactNode
+}
+
+const aspectClass: Record<CoverAspect, string> = {
+  thumb: "aspect-square sm:aspect-4/3",
+  square: "aspect-square",
+  card: "aspect-16/9",
+  // Capped so a wide page keeps a cinematic strip instead of a full-height wall.
+  banner: "aspect-16/9 sm:aspect-21/9 sm:max-h-96",
+}
+
+/**
+ * Palettes are pairs of chart tokens, so generated covers stay inside the
+ * theme and follow light and dark mode without extra work.
+ */
+const palettes = [
+  ["var(--chart-1)", "var(--chart-4)"],
+  ["var(--chart-2)", "var(--chart-5)"],
+  ["var(--chart-3)", "var(--chart-1)"],
+  ["var(--chart-4)", "var(--chart-2)"],
+  ["var(--chart-5)", "var(--chart-3)"],
+] as const
+
+function hashSeed(seed: string) {
+  let hash = 0
+  for (let index = 0; index < seed.length; index += 1) {
+    hash = (hash * 31 + seed.charCodeAt(index)) % 100_000
+  }
+  return hash
+}
+
+function CoverArt({ seed, monogram }: { seed: string; monogram?: string }) {
+  const hash = hashSeed(seed)
+  const [from, to] = palettes[hash % palettes.length]
+  const angle = 108 + (hash % 5) * 18
+
+  return (
+    <div aria-hidden="true" className="absolute inset-0 bg-muted">
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: [
+            `radial-gradient(118% 124% at 6% 2%, color-mix(in oklab, ${from} 68%, transparent), transparent 62%)`,
+            `radial-gradient(96% 108% at 98% 100%, color-mix(in oklab, ${to} 58%, transparent), transparent 58%)`,
+            `linear-gradient(${angle}deg, color-mix(in oklab, ${from} 26%, transparent), transparent 52%, color-mix(in oklab, ${to} 34%, transparent))`,
+          ].join(", "),
+        }}
+      />
+      <div
+        className="absolute inset-0 opacity-70"
+        style={{
+          backgroundImage: `repeating-linear-gradient(${angle}deg, color-mix(in oklab, var(--foreground) 6%, transparent) 0 1px, transparent 1px 16px)`,
+        }}
+      />
+      {monogram && (
+        <span
+          className="absolute inset-0 flex items-center justify-center font-semibold tracking-[-0.05em] text-foreground/20 tabular-nums select-none dark:text-foreground/12"
+          style={{ fontSize: "clamp(0.85rem, 26cqi, 9rem)" }}
+        >
+          {monogram}
+        </span>
+      )}
+      <div className="absolute inset-0 bg-linear-to-t from-foreground/8 to-transparent" />
+    </div>
+  )
+}
+
+/**
+ * Content covers can point at any host, so they are plain images rather than
+ * `next/image`, which would need every host allow-listed up front. Rendered
+ * inside `CoverImage` with a `key` on the source, so a new source starts over
+ * from the pending state without any reset logic.
+ */
+function CoverPhoto({
+  src,
+  alt,
+  eager,
+  zoomOnHover,
+}: {
+  src: string
+  alt: string
+  eager: boolean
+  zoomOnHover: boolean
+}) {
+  const [status, setStatus] = React.useState<"pending" | "loaded" | "failed">(
+    "pending"
+  )
+
+  // A cached image can finish before hydration, so its load event never reaches
+  // React. Read the element as it attaches to catch that case.
+  function readOnAttach(image: HTMLImageElement | null) {
+    if (!image?.complete) return
+    setStatus(image.naturalWidth > 0 ? "loaded" : "failed")
+  }
+
+  if (status === "failed") return null
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      ref={readOnAttach}
+      src={src}
+      alt={alt}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      fetchPriority={eager ? "high" : "auto"}
+      onLoad={() => setStatus("loaded")}
+      onError={() => setStatus("failed")}
+      className={cn(
+        "absolute inset-0 size-full object-cover transition-[opacity,transform] duration-700 ease-out",
+        status === "loaded" ? "opacity-100" : "opacity-0",
+        zoomOnHover && "group-hover:scale-[1.04]"
+      )}
+    />
+  )
+}
+
+export function CoverImage({
+  src,
+  alt = "",
+  seed,
+  monogram,
+  aspect = "card",
+  zoomOnHover = false,
+  eager = false,
+  className,
+  children,
+}: CoverImageProps) {
+  return (
+    <div
+      className={cn(
+        "@container relative isolate w-full overflow-hidden bg-muted",
+        aspectClass[aspect],
+        className
+      )}
+    >
+      <CoverArt seed={seed} monogram={monogram} />
+
+      {src && (
+        <CoverPhoto
+          key={src}
+          src={src}
+          alt={alt}
+          eager={eager}
+          zoomOnHover={zoomOnHover}
+        />
+      )}
+
+      {/* Hairline edge that reads on both pale and dark artwork. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 rounded-[inherit] ring-1 ring-foreground/10 ring-inset"
+      />
+
+      {children}
+    </div>
+  )
+}

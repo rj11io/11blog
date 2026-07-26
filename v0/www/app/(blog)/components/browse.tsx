@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation"
 import { Grid2X2, List, Search, SlidersHorizontal } from "lucide-react"
 import * as React from "react"
 
+import { CoverImage } from "@/components/media/cover-image"
+import { coverMonogram } from "@/components/media/cover-monogram"
 import type {
   AuthorListItem,
   PostPreview,
@@ -86,16 +88,25 @@ function matchesTags(itemTags: string[], selectedTags: string[]) {
 function Badge({
   children,
   strong = false,
+  onCover = false,
 }: {
   children: React.ReactNode
   strong?: boolean
+  /** Sits on top of cover art, so it needs its own background to stay legible. */
+  onCover?: boolean
 }) {
   return (
     <span
       className={
-        strong
-          ? "rounded-full bg-primary/12 px-2 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase"
-          : "rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground"
+        onCover
+          ? `rounded-full bg-background/85 px-2 py-0.5 text-[11px] shadow-sm ring-1 ring-foreground/10 backdrop-blur-sm ${
+              strong
+                ? "font-semibold tracking-[0.14em] text-primary uppercase"
+                : "text-muted-foreground"
+            }`
+          : strong
+            ? "rounded-full bg-primary/12 px-2 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase"
+            : "rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground"
       }
     >
       {children}
@@ -219,6 +230,40 @@ function AuthorResult({
   )
 }
 
+function ResultFlags({
+  item,
+  onCover = false,
+  newLabel = "New",
+}: {
+  item: { isFeatured: boolean; isNew: boolean; isNSFW: boolean }
+  onCover?: boolean
+  newLabel?: string
+}) {
+  if (!item.isFeatured && !item.isNew && !item.isNSFW) return null
+
+  return (
+    <div
+      className={
+        onCover
+          ? "absolute top-3 right-3 flex flex-wrap justify-end gap-1.5 sm:top-4 sm:right-4"
+          : "flex flex-wrap items-center gap-2"
+      }
+    >
+      {item.isFeatured && (
+        <Badge strong onCover={onCover}>
+          Featured
+        </Badge>
+      )}
+      {item.isNew && (
+        <Badge strong onCover={onCover}>
+          {newLabel}
+        </Badge>
+      )}
+      {item.isNSFW && <Badge onCover={onCover}>Adult</Badge>}
+    </div>
+  )
+}
+
 export function PostResult({
   post,
   viewMode,
@@ -226,71 +271,97 @@ export function PostResult({
   post: PostPreview
   viewMode: ViewMode
 }) {
+  const cover = (
+    <CoverImage
+      src={post.coverImage}
+      seed={`${post.publicationId}-${post.postId}-${post.title}`}
+      monogram={coverMonogram(post.publicationTitle)}
+      aspect={viewMode === "list" ? "thumb" : "card"}
+      zoomOnHover
+      className={viewMode === "list" ? "rounded-xl sm:rounded-2xl" : undefined}
+    >
+      {viewMode === "cards" && <ResultFlags item={post} onCover />}
+    </CoverImage>
+  )
+
+  const meta = (
+    <>
+      <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+        {post.publicationTitle}
+      </p>
+      <time
+        className="mt-1 block text-xs text-muted-foreground"
+        dateTime={post.created}
+      >
+        {formatDate(post.created)}
+      </time>
+      {post.updated !== post.created && <UpdatedDate value={post.updated} />}
+      <p className="mt-2 text-xs text-muted-foreground">
+        By {formatAuthorNames(post.authors)}
+      </p>
+    </>
+  )
+
+  const body = (
+    <>
+      <h2 className="mt-2 text-xl font-semibold tracking-tight text-card-foreground group-hover:text-primary sm:text-2xl">
+        {post.title}
+      </h2>
+      {post.excerpt && (
+        <p className="mt-2 max-w-2xl leading-7 text-muted-foreground">
+          {post.excerpt}
+        </p>
+      )}
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {post.tags.map((tag) => (
+          <Badge key={tag}>{tag}</Badge>
+        ))}
+      </div>
+    </>
+  )
+
+  if (viewMode === "cards") {
+    return (
+      <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+        <Link
+          href={post.href}
+          aria-label={`Read ${post.title} in ${post.publicationTitle}`}
+          className="flex h-full flex-col rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          {cover}
+          <div className="p-5 sm:p-6">
+            {meta}
+            {body}
+          </div>
+        </Link>
+      </article>
+    )
+  }
+
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
       <Link
         href={post.href}
         aria-label={`Read ${post.title} in ${post.publicationTitle}`}
-        className={`relative block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-          viewMode === "list"
-            ? "p-5 sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
-            : "p-5 sm:p-6"
-        }`}
+        className="block h-full rounded-2xl p-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
       >
-        <div className="mb-3 sm:mb-0">
-          <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-            {post.publicationTitle}
-          </p>
-          <time
-            className="mt-1 block text-xs text-muted-foreground"
-            dateTime={post.created}
-          >
-            {formatDate(post.created)}
-          </time>
-          {post.updated !== post.created && (
-            <UpdatedDate value={post.updated} />
-          )}
-          <p className="mt-2 text-xs text-muted-foreground">
-            By {formatAuthorNames(post.authors)}
-          </p>
+        <div className="mb-4 flex items-center gap-3 sm:mb-0 sm:block">
+          <div className="w-20 shrink-0 sm:w-full">{cover}</div>
+          <div className="min-w-0 sm:mt-3">{meta}</div>
         </div>
         <div>
-          <div
-            className={`flex flex-wrap items-center gap-2 ${
-              viewMode === "cards"
-                ? "absolute top-5 right-5 justify-end sm:top-6 sm:right-6"
-                : ""
-            }`}
-          >
-            {post.isFeatured && <Badge strong>Featured</Badge>}
-            {post.isNew && <Badge strong>New</Badge>}
-            {post.isNSFW && <Badge>Adult</Badge>}
-          </div>
-          <h2 className="mt-2 text-xl font-semibold tracking-tight text-card-foreground group-hover:text-primary sm:text-2xl">
-            {post.title}
-          </h2>
-          {post.excerpt && (
-            <p className="mt-2 max-w-2xl leading-7 text-muted-foreground">
-              {post.excerpt}
-            </p>
-          )}
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {post.tags.map((tag) => (
-              <Badge key={tag}>{tag}</Badge>
-            ))}
-          </div>
+          <ResultFlags item={post} />
+          {body}
         </div>
-        {viewMode === "list" && (
-          <span className="mt-5 inline-flex text-sm font-semibold text-foreground sm:mt-0">
-            Read{" "}
-            <span
-              aria-hidden="true"
-              className="ml-1 transition group-hover:translate-x-1"
-            >
-              →
-            </span>
+        <span className="mt-5 inline-flex text-sm font-semibold text-foreground sm:mt-0">
+          Read{" "}
+          <span
+            aria-hidden="true"
+            className="ml-1 transition group-hover:translate-x-1"
+          >
+            →
           </span>
-        )}
+        </span>
       </Link>
     </article>
   )
@@ -303,67 +374,99 @@ function PublicationResult({
   publication: PublicationPreview
   viewMode: ViewMode
 }) {
+  const issueNumber = String(publication.relId).padStart(2, "0")
+
+  const cover = (
+    <CoverImage
+      src={publication.coverImage}
+      seed={`${publication.pubId}-${publication.title}`}
+      monogram={coverMonogram(publication.title)}
+      aspect={viewMode === "list" ? "thumb" : "card"}
+      zoomOnHover
+      className={viewMode === "list" ? "rounded-xl sm:rounded-2xl" : undefined}
+    >
+      {viewMode === "cards" && (
+        <ResultFlags item={publication} onCover newLabel="New post" />
+      )}
+    </CoverImage>
+  )
+
+  const meta = (
+    <>
+      <p className="text-3xl font-semibold text-primary/35 tabular-nums">
+        {issueNumber}
+      </p>
+      <time
+        className="mt-1 block text-xs text-muted-foreground"
+        dateTime={publication.created}
+      >
+        {formatDate(publication.created)}
+      </time>
+      {publication.updated !== publication.created && (
+        <UpdatedDate value={publication.updated} />
+      )}
+    </>
+  )
+
+  const body = (
+    <>
+      <h2 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary sm:text-2xl">
+        {publication.title}
+      </h2>
+      <p className="mt-2 max-w-2xl leading-7 text-muted-foreground">
+        {publication.description}
+      </p>
+      <div className="mt-4 flex flex-wrap items-center gap-1.5">
+        <Badge strong>{publication.postCount} posts</Badge>
+        {publication.tags.map((tag) => (
+          <Badge key={tag}>{tag}</Badge>
+        ))}
+      </div>
+    </>
+  )
+
+  if (viewMode === "cards") {
+    return (
+      <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+        <Link
+          href={publication.href}
+          aria-label={`Open publication ${publication.title}`}
+          className="flex h-full flex-col rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          {cover}
+          <div className="p-5 sm:p-6">
+            {meta}
+            {body}
+          </div>
+        </Link>
+      </article>
+    )
+  }
+
   return (
     <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
       <Link
         href={publication.href}
         aria-label={`Open publication ${publication.title}`}
-        className={`relative block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-          viewMode === "list"
-            ? "p-5 sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
-            : "p-5 sm:p-6"
-        }`}
+        className="block h-full rounded-2xl p-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
       >
-        <div className="mb-3 sm:mb-0">
-          <p className="text-3xl font-semibold text-primary/35 tabular-nums">
-            {String(publication.relId).padStart(2, "0")}
-          </p>
-          <time
-            className="mt-1 block text-xs text-muted-foreground"
-            dateTime={publication.created}
-          >
-            {formatDate(publication.created)}
-          </time>
-          {publication.updated !== publication.created && (
-            <UpdatedDate value={publication.updated} />
-          )}
+        <div className="mb-4 flex items-center gap-3 sm:mb-0 sm:block">
+          <div className="w-20 shrink-0 sm:w-full">{cover}</div>
+          <div className="min-w-0 sm:mt-3">{meta}</div>
         </div>
         <div>
-          <div
-            className={`flex flex-wrap items-center gap-2 ${
-              viewMode === "cards"
-                ? "absolute top-5 right-5 justify-end sm:top-6 sm:right-6"
-                : ""
-            }`}
-          >
-            {publication.isFeatured && <Badge strong>Featured</Badge>}
-            {publication.isNew && <Badge strong>New post</Badge>}
-            {publication.isNSFW && <Badge>Adult</Badge>}
-          </div>
-          <h2 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary sm:text-2xl">
-            {publication.title}
-          </h2>
-          <p className="mt-2 max-w-2xl leading-7 text-muted-foreground">
-            {publication.description}
-          </p>
-          <div className="mt-4 flex flex-wrap items-center gap-1.5">
-            <Badge strong>{publication.postCount} posts</Badge>
-            {publication.tags.map((tag) => (
-              <Badge key={tag}>{tag}</Badge>
-            ))}
-          </div>
+          <ResultFlags item={publication} newLabel="New post" />
+          {body}
         </div>
-        {viewMode === "list" && (
-          <span className="mt-5 inline-flex text-sm font-semibold text-foreground sm:mt-0">
-            Explore{" "}
-            <span
-              aria-hidden="true"
-              className="ml-1 transition group-hover:translate-x-1"
-            >
-              →
-            </span>
+        <span className="mt-5 inline-flex text-sm font-semibold text-foreground sm:mt-0">
+          Explore{" "}
+          <span
+            aria-hidden="true"
+            className="ml-1 transition group-hover:translate-x-1"
+          >
+            →
           </span>
-        )}
+        </span>
       </Link>
     </article>
   )

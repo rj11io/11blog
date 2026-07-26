@@ -18,6 +18,7 @@ export const localWeather: Publication = {
     "Local Weather treats observation as a civic practice, returning to familiar places to understand how they change and how people use them.",
   editorNotes:
     "Written from street level, with an emphasis on details that can be noticed without specialist equipment.",
+  coverImage: "https://picsum.photos/900",
   posts: [
     {
       postId: 302,
@@ -32,6 +33,7 @@ export const localWeather: Publication = {
       isFeatured: false,
       tags: ["Field Notes", "Practice"],
       content: morningRoute,
+      coverImage: "https://picsum.photos/900"
     },
     {
       postId: 308,
@@ -47,6 +49,7 @@ export const localWeather: Publication = {
       isFeatured: false,
       tags: ["Community", "Cities"],
       content: thirdPlaces,
+      coverImage: "https://picsum.photos/900"
     },
     {
       postId: 315,

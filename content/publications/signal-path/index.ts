@@ -34,6 +34,7 @@ export const signalPath: Publication = {
       isFeatured: false,
       tags: ["Systems", "Operations"],
       content: quietSystems,
+      coverImage: "https://picsum.photos/900"
     },
     {
       postId: 104,
