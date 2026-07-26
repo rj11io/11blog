@@ -21,4 +21,5 @@ export const markdownComponents: Post = {
   content,
   images: markdownComponentsImages,
   imageLists: markdownComponentsImageLists,
+  coverImage: "https://picsum.photos/id/24/2000/743.webp"
 }

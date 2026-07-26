@@ -34,4 +34,5 @@ export const blogTech: Publication = {
       content: markdownBlogFormat,
     },
   ],
+  coverImage: "https://picsum.photos/id/24/2000/743.webp"
 }
