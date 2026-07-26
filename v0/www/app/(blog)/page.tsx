@@ -43,8 +43,9 @@ function byNewest<T extends { created: string }>(items: readonly T[]) {
   return [...items].sort((a, b) => b.created.localeCompare(a.created))
 }
 
-const featuredPosts = byNewest(postPreviews.filter((post) => post.isFeatured))
-  .slice(0, 3)
+const featuredPosts = byNewest(
+  postPreviews.filter((post) => post.isFeatured)
+).slice(0, 3)
 const latestPosts = byNewest(postPreviews).slice(0, 5)
 const featuredPublications = byNewest(
   publicationPreviews.filter((publication) => publication.isFeatured)
@@ -156,7 +157,7 @@ function FeaturedLead({ post }: { post: PostPreview }) {
           seed={postSeed(post)}
           monogram={coverMonogram(post.publicationTitle)}
           aspect="card"
-          className="lg:h-full lg:aspect-auto"
+          className="lg:aspect-auto lg:h-full"
         />
         <div className="p-6 sm:p-8 lg:self-center lg:p-10">
           <PostMeta post={post} />
@@ -271,7 +272,7 @@ function PublicationFeature({
           seed={publicationSeed(publication)}
           monogram={coverMonogram(publication.title)}
           aspect="card"
-          className={lead ? "lg:h-full lg:aspect-auto" : "sm:max-h-72"}
+          className={lead ? "lg:aspect-auto lg:h-full" : "sm:max-h-72"}
         />
         <div
           className={`flex flex-1 flex-col p-6 sm:p-8 ${
@@ -285,7 +286,10 @@ function PublicationFeature({
             <span aria-hidden="true" className="text-muted-foreground">
               ·
             </span>
-            <time className="text-muted-foreground" dateTime={publication.created}>
+            <time
+              className="text-muted-foreground"
+              dateTime={publication.created}
+            >
               {formatDate(publication.created)}
             </time>
           </div>
@@ -315,12 +319,22 @@ function PublicationRow({ publication }: { publication: PublicationPreview }) {
         aria-label={`Open publication ${publication.title}`}
         className="grid gap-x-6 gap-y-1 rounded-2xl py-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[5.5rem_1fr_auto] sm:items-baseline"
       >
-        <time
-          className="font-mono text-xs text-muted-foreground tabular-nums"
-          dateTime={publication.created}
-        >
-          {monthFormatter.format(new Date(`${publication.created}T00:00:00Z`))}
-        </time>
+        <div className="font-mono text-xs text-muted-foreground tabular-nums">
+          <time dateTime={publication.created}>
+            {monthFormatter.format(
+              new Date(`${publication.created}T00:00:00Z`)
+            )}
+          </time>
+          {publication.updated &&
+            publication.updated !== publication.created && (
+              <time className="mt-1 block" dateTime={publication.updated}>
+                Updated{" "}
+                {monthFormatter.format(
+                  new Date(`${publication.updated}T00:00:00Z`)
+                )}
+              </time>
+            )}
+        </div>
         <div className="min-w-0">
           <h3 className="text-lg font-semibold tracking-tight group-hover:text-primary sm:text-xl">
             {publication.title}
@@ -435,9 +449,9 @@ export default function HomePage() {
               Field notes, kept in public.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-pretty text-muted-foreground sm:text-xl sm:leading-9">
-              A small collection of publications about systems, objects,
-              places, and the tools behind the writing. Each one is a short
-              series, written slowly and left here to be read in any order.
+              A small collection of publications about systems, objects, places,
+              and the tools behind the writing. Each one is a short series,
+              written slowly and left here to be read in any order.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
