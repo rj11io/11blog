@@ -99,10 +99,10 @@ function Badge({
     <span
       className={
         onCover
-          ? `rounded-full bg-background/85 px-2 py-0.5 text-[11px] shadow-sm ring-1 ring-foreground/10 backdrop-blur-sm ${
+          ? `rounded-full px-2 py-0.5 text-[11px] shadow-sm ring-1 ring-foreground/10 backdrop-blur-sm ${
               strong
-                ? "font-semibold tracking-[0.14em] text-primary uppercase"
-                : "text-muted-foreground"
+                ? "bg-primary font-semibold tracking-[0.14em] text-primary-foreground uppercase"
+                : "bg-background/90 text-foreground"
             }`
           : strong
             ? "rounded-full bg-primary/12 px-2 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase"
