@@ -150,7 +150,11 @@ export function MultiImageListBase({
                   loading="lazy"
                   decoding="async"
                   className={cn(
-                    "transition-[transform,opacity] duration-300 group-hover:scale-[1.015] group-hover:opacity-95",
+                    // Tailwind's scale-* sets the standalone `scale` property, so
+                    // that is what has to be transitioned. Listing `transform`
+                    // instead leaves the scale untransitioned, which is why it
+                    // used to jump. will-change keeps it on the compositor.
+                    "transition-[scale,opacity] duration-400 ease-out will-change-transform group-hover:scale-[1.03] group-hover:opacity-95 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
                     layout === "quilted"
                       ? "h-full w-full object-cover"
                       : "h-auto w-full object-cover"
