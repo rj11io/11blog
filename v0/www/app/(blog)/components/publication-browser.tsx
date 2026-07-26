@@ -22,7 +22,7 @@ export function PublicationBrowser({
   editorNotes,
 }: PublicationBrowserProps) {
   const [tab, setTab] = React.useState<Tab>("posts")
-  const [viewMode, setViewMode] = React.useState<ViewMode>("list")
+  const [viewMode, setViewMode] = React.useState<ViewMode>("cards")
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
