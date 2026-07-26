@@ -399,9 +399,11 @@ function PublicationResult({
 
   const meta = (
     <>
-      <p className="text-3xl font-semibold text-primary/35 tabular-nums">
-        {issueNumber}
-      </p>
+      {viewMode !== "cards" && (
+        <p className="text-3xl font-semibold text-primary/35 tabular-nums">
+          {issueNumber}
+        </p>
+      )}
       <div
         className={
           viewMode === "cards"
@@ -449,8 +451,8 @@ function PublicationResult({
         >
           {cover}
           <div className="p-5 sm:p-6">
-            {meta}
             {body}
+            <div className="mt-5">{meta}</div>
           </div>
         </Link>
       </article>
