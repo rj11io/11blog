@@ -7,7 +7,7 @@
 - `content/` contains authors, publications, posts, routes, and content validation.
 - `v0/www/` contains the private Next.js web application.
 
-The web app imports shared content through the `@content/*` TypeScript path alias. The current registry contains the `Signal Path`, `Material Culture`, `Local Weather`, and `Blog Tech` publications.
+The web app imports shared content through the `@content/*` TypeScript path alias. The current registry contains the `Signal Path`, `Material Culture`, `Local Weather`, and `Blog Platform` publications.
 
 ## Run the site
 

@@ -1,5 +1,5 @@
 import { authors } from "./authors"
-import { blogTech } from "./publications/blog-tech"
+import { blogPlatform } from "./publications/blog-platform"
 import { localWeather } from "./publications/local-weather"
 import { materialCulture } from "./publications/material-culture"
 import { signalPath } from "./publications/signal-path"
@@ -20,7 +20,7 @@ export const publications: Publication[] = [
   signalPath,
   materialCulture,
   localWeather,
-  blogTech,
+  blogPlatform,
 ]
 
 export const blogAuthors: Author[] = authors

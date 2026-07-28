@@ -5,6 +5,26 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/blog-tech/:postId",
+        destination: "/blog-platform/:postId",
+        permanent: true,
+      },
+      {
+        source: "/blog-tech",
+        destination: "/blog-platform",
+        permanent: true,
+      },
+      {
+        source: "/publications/blog-tech/:postId",
+        destination: "/blog-platform/:postId",
+        permanent: true,
+      },
+      {
+        source: "/publications/blog-tech",
+        destination: "/blog-platform",
+        permanent: true,
+      },
+      {
         source: "/publications/:pubId/:postId",
         destination: "/:pubId/:postId",
         permanent: true,
