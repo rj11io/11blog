@@ -459,13 +459,13 @@ export default function HomePage() {
                 href={browseHref}
                 className="inline-flex h-11 items-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition outline-none hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
               >
-                Browse everything
+                Browse the blog
               </Link>
               <Link
                 href={`${browseHref}?content=publications`}
                 className="inline-flex h-11 items-center rounded-xl border border-border px-5 text-sm font-semibold transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring"
               >
-                See publications
+                Explore publications
               </Link>
             </div>
 
