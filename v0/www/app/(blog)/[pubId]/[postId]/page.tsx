@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { ArrowUpRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -206,12 +207,22 @@ export default async function PostPage({ params }: PostPageProps) {
             )}
 
             <header className="border-b border-border pb-6 sm:pb-8">
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <Link
                   href={publicationHref(publication.pubId)}
-                  className="inline-flex rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase outline-none hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
+                  className="group inline-flex items-center gap-2 rounded-sm text-xs font-semibold tracking-[0.14em] text-foreground uppercase outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
-                  {publication.title}
+                  <span
+                    aria-hidden
+                    className="size-1.5 rounded-full bg-primary transition-transform duration-200 group-hover:scale-150"
+                  />
+                  <span className="underline decoration-foreground/25 decoration-1 underline-offset-[6px] transition-colors duration-200 group-hover:decoration-foreground">
+                    {publication.title}
+                  </span>
+                  <ArrowUpRight
+                    aria-hidden
+                    className="size-3.5 text-muted-foreground transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
+                  />
                 </Link>
                 {post.isFeatured && (
                   <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
