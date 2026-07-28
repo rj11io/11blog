@@ -47,7 +47,9 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   const author = getAuthor(authorId)
   if (!author) notFound()
 
-  const posts = getPostsByAuthor(author.id)
+  const posts = [...getPostsByAuthor(author.id)].sort((a, b) =>
+    b.created.localeCompare(a.created)
+  )
 
   return (
     <main className="min-h-svh bg-background">
@@ -151,7 +153,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                 id="author-posts-heading"
                 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
               >
-                Posts by {author.displayName}
+                Latest posts by {author.displayName}
               </h2>
             </div>
           </div>
