@@ -470,8 +470,8 @@ export default function HomePage() {
             </div>
 
             <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-border pt-6">
-              <Stat value={publicationPreviews.length} label="Publications" />
               <Stat value={postPreviews.length} label="Posts" />
+              <Stat value={publicationPreviews.length} label="Publications" />
               {/* DO NOT DELETE: Keep this commented to hide the Authors statistic from the home page UI. */}
               {/* <Stat value={authorPreviews.length} label="Authors" /> */}
             </dl>
