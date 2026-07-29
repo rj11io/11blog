@@ -79,7 +79,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded-full border border-border px-2.5 py-1 text-[11px] text-muted-foreground">
+    <span className="border border-border px-2.5 py-1 text-[11px] text-muted-foreground">
       {children}
     </span>
   )
@@ -146,11 +146,11 @@ function PostMeta({ post }: { post: PostPreview }) {
 /** Single featured post, wide enough to carry the cover beside the text. */
 function FeaturedLead({ post }: { post: PostPreview }) {
   return (
-    <article className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
       <Link
         href={post.href}
         aria-label={`Read ${post.title} in ${post.publicationTitle}`}
-        className="grid rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring lg:grid-cols-2"
+        className="grid outline-none focus-visible:ring-2 focus-visible:ring-ring lg:grid-cols-2"
       >
         <CoverImage
           src={post.coverImage}
@@ -161,7 +161,7 @@ function FeaturedLead({ post }: { post: PostPreview }) {
         />
         <div className="p-6 sm:p-8 lg:self-center lg:p-10">
           <PostMeta post={post} />
-          <h3 className="mt-3 text-2xl font-semibold tracking-tight text-balance group-hover:text-primary sm:text-3xl">
+          <h3 className="mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
             {post.title}
           </h3>
           {post.excerpt && (
@@ -182,11 +182,11 @@ function FeaturedLead({ post }: { post: PostPreview }) {
 
 function PostCard({ post }: { post: PostPreview }) {
   return (
-    <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
       <Link
         href={post.href}
         aria-label={`Read ${post.title} in ${post.publicationTitle}`}
-        className="flex h-full flex-col rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-full flex-col outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <CoverImage
           src={post.coverImage}
@@ -197,7 +197,7 @@ function PostCard({ post }: { post: PostPreview }) {
         />
         <div className="flex flex-1 flex-col p-5 sm:p-6">
           <PostMeta post={post} />
-          <h3 className="mt-3 text-xl font-semibold tracking-tight text-balance group-hover:text-primary">
+          <h3 className="mt-3 text-xl font-semibold tracking-tight text-balance">
             {post.title}
           </h3>
           {post.excerpt && (
@@ -217,7 +217,7 @@ function PostRow({ post }: { post: PostPreview }) {
       <Link
         href={post.href}
         aria-label={`Read ${post.title} in ${post.publicationTitle}`}
-        className="flex items-center gap-4 rounded-2xl py-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:gap-6"
+        className="-mx-3 flex items-center gap-4 px-3 py-5 transition-colors outline-none hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:gap-6"
       >
         <div className="w-16 shrink-0 sm:w-20">
           <CoverImage
@@ -225,12 +225,11 @@ function PostRow({ post }: { post: PostPreview }) {
             seed={postSeed(post)}
             monogram={coverMonogram(post.publicationTitle)}
             aspect="square"
-            className="rounded-xl"
           />
         </div>
         <div className="min-w-0 flex-1">
           <PostMeta post={post} />
-          <h3 className="mt-1.5 text-lg font-semibold tracking-tight group-hover:text-primary sm:text-xl">
+          <h3 className="mt-1.5 text-lg font-semibold tracking-tight sm:text-xl">
             {post.title}
           </h3>
           {post.excerpt && (
@@ -259,11 +258,11 @@ function PublicationFeature({
   lead?: boolean
 }) {
   return (
-    <article className="group overflow-hidden rounded-3xl border border-border bg-card transition hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
       <Link
         href={publication.href}
         aria-label={`Open publication ${publication.title}`}
-        className={`rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+        className={`outline-none focus-visible:ring-2 focus-visible:ring-ring ${
           lead ? "grid lg:grid-cols-2" : "flex h-full flex-col"
         }`}
       >
@@ -293,7 +292,7 @@ function PublicationFeature({
               {formatDate(publication.created)}
             </time>
           </div>
-          <h3 className="mt-3 text-2xl font-semibold tracking-tight group-hover:text-primary">
+          <h3 className="mt-3 text-2xl font-semibold tracking-tight">
             {publication.title}
           </h3>
           <p className="mt-2 leading-7 text-muted-foreground">
@@ -317,7 +316,7 @@ function PublicationRow({ publication }: { publication: PublicationPreview }) {
       <Link
         href={publication.href}
         aria-label={`Open publication ${publication.title}`}
-        className="grid gap-x-6 gap-y-1 rounded-2xl py-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[5.5rem_1fr_auto] sm:items-baseline"
+        className="-mx-3 grid gap-x-6 gap-y-1 px-3 py-5 transition-colors outline-none hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[5.5rem_1fr_auto] sm:items-baseline"
       >
         <div className="font-mono text-xs text-muted-foreground tabular-nums">
           <time dateTime={publication.created}>
@@ -336,7 +335,7 @@ function PublicationRow({ publication }: { publication: PublicationPreview }) {
             )}
         </div>
         <div className="min-w-0">
-          <h3 className="text-lg font-semibold tracking-tight group-hover:text-primary sm:text-xl">
+          <h3 className="text-lg font-semibold tracking-tight sm:text-xl">
             {publication.title}
           </h3>
           <p className="mt-1 leading-7 text-muted-foreground">
@@ -353,11 +352,11 @@ function PublicationRow({ publication }: { publication: PublicationPreview }) {
 
 function AuthorCard({ author }: { author: AuthorListItem }) {
   return (
-    <article className="group rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
       <Link
         href={author.href}
         aria-label={`Open author profile for ${author.name}`}
-        className="flex h-full flex-col rounded-2xl p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-full flex-col p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {author.avatar ? (
           <Image
@@ -365,17 +364,17 @@ function AuthorCard({ author }: { author: AuthorListItem }) {
             alt=""
             width={112}
             height={112}
-            className="size-14 rounded-2xl object-cover ring-1 ring-border"
+            className="size-14 object-cover ring-1 ring-border"
           />
         ) : (
           <span
             aria-hidden="true"
-            className="inline-flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-sm font-semibold text-primary ring-1 ring-primary/20"
+            className="inline-flex size-14 items-center justify-center bg-primary/10 text-sm font-semibold text-primary ring-1 ring-primary/20"
           >
             {author.displayName}
           </span>
         )}
-        <h3 className="mt-4 text-lg font-semibold tracking-tight group-hover:text-primary">
+        <h3 className="mt-4 text-lg font-semibold tracking-tight">
           {author.name}
         </h3>
         <p className="mt-2 flex-1 leading-7 text-muted-foreground">
@@ -404,7 +403,6 @@ function HeroArt({ posts }: { posts: PostPreview[] }) {
           monogram={coverMonogram(lead.publicationTitle)}
           aspect="card"
           eager
-          className="rounded-3xl"
         />
       </div>
       {rest.slice(0, 2).map((post) => (
@@ -414,7 +412,6 @@ function HeroArt({ posts }: { posts: PostPreview[] }) {
           seed={postSeed(post)}
           monogram={coverMonogram(post.publicationTitle)}
           aspect="square"
-          className="rounded-2xl"
         />
       ))}
     </div>
@@ -457,13 +454,13 @@ export default function HomePage() {
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href={browseHref}
-                className="inline-flex h-11 items-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition outline-none hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex h-11 items-center bg-primary px-5 text-sm font-semibold text-primary-foreground transition outline-none hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Browse the blog
               </Link>
               <Link
                 href={`${browseHref}?content=publications`}
-                className="inline-flex h-11 items-center rounded-xl border border-border px-5 text-sm font-semibold transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex h-11 items-center border border-border px-5 text-sm font-semibold transition outline-none hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Explore publications
               </Link>

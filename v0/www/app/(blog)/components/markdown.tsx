@@ -49,7 +49,7 @@ function YouTubeEmbed({ videoid, title }: MarkdownElementProps) {
   if (!videoid) return null
 
   return (
-    <div className="my-10 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+    <div className="my-10 overflow-hidden border border-border bg-card">
       <div className="aspect-video">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${videoid}`}
@@ -74,7 +74,7 @@ function PostImageList({
 
   if (!imageList) {
     return process.env.NODE_ENV === "development" ? (
-      <div className="my-8 rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+      <div className="my-8 border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
         Image list &quot;{listkey}&quot; is not configured for this post.
       </div>
     ) : null
@@ -104,14 +104,14 @@ function ConfiguredPostImage({
 
   if (!image) {
     return process.env.NODE_ENV === "development" ? (
-      <div className="my-8 rounded-xl border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+      <div className="my-8 border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
         Image &quot;{imagekey}&quot; is not configured for this post.
       </div>
     ) : null
   }
 
   return (
-    <span className="my-8 block overflow-hidden rounded-2xl border border-border bg-muted/30">
+    <span className="my-8 block overflow-hidden border border-border bg-muted/30">
       <MarkdownImageViewer
         src={image.src}
         thumbnailSrc={image.thumbnailSrc}
@@ -194,7 +194,7 @@ function MarkdownImage({ src, alt, title }: ComponentProps<"img">) {
   if (!src || typeof src !== "string") return null
 
   return (
-    <span className="my-8 block overflow-hidden rounded-2xl border border-border bg-muted/30">
+    <span className="my-8 block overflow-hidden border border-border bg-muted/30">
       <MarkdownImageViewer src={src} alt={alt} title={title} />
     </span>
   )
@@ -204,7 +204,7 @@ function MarkdownCode({
   children,
 }: MarkdownElementProps & ComponentProps<"code">) {
   return (
-    <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground">
+    <code className="bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground">
       {children}
     </code>
   )
@@ -224,7 +224,7 @@ function MarkdownPre({ children }: MarkdownElementProps) {
   }
 
   return (
-    <pre className="my-8 overflow-hidden rounded-2xl border border-border bg-muted/50 p-4 font-mono text-sm leading-6 text-foreground">
+    <pre className="my-8 overflow-hidden border border-border bg-muted/50 p-4 font-mono text-sm leading-6 text-foreground">
       {children}
     </pre>
   )
@@ -279,7 +279,7 @@ export function Markdown({
     ),
     hr: () => <hr className="my-10 border-border" />,
     table: ({ children }: MarkdownElementProps) => (
-      <div className="my-8 overflow-x-auto rounded-2xl border border-border">
+      <div className="my-8 overflow-x-auto border border-border">
         <table className="w-full min-w-96 border-collapse text-left text-sm">
           {children}
         </table>

@@ -20,7 +20,7 @@ export function CopyCodeButton({ code }: { code: string }) {
       onClick={handleCopy}
       aria-label={copied ? "Copied" : "Copy code"}
       className={cn(
-        "inline-flex size-7 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors",
+        "inline-flex size-7 shrink-0 items-center justify-center text-muted-foreground transition-colors",
         "hover:bg-foreground/10 hover:text-foreground",
         "focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none"
       )}

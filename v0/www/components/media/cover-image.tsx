@@ -220,7 +220,7 @@ export function CoverImage({
         )}
       >
         {layers}
-        <span className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-background/80 p-2 text-foreground opacity-0 shadow-sm backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+        <span className="pointer-events-none absolute right-3 bottom-3 bg-background/90 p-2 text-foreground opacity-0 ring-1 ring-foreground/15 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
           <Maximize2 className="size-4" aria-hidden="true" />
         </span>
       </button>

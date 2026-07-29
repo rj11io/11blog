@@ -99,14 +99,14 @@ function Badge({
     <span
       className={
         onCover
-          ? `rounded-full px-2 py-0.5 text-[11px] shadow-sm ring-1 ring-foreground/10 backdrop-blur-sm ${
+          ? `px-2 py-0.5 text-[11px] ring-1 ring-foreground/15 ${
               strong
                 ? "bg-primary font-semibold tracking-[0.14em] text-primary-foreground uppercase"
                 : "bg-background/90 text-foreground"
             }`
           : strong
-            ? "rounded-full bg-primary/12 px-2 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase"
-            : "rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground"
+            ? "bg-primary/12 px-2 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase"
+            : "border border-border px-2 py-0.5 text-[11px] text-muted-foreground"
       }
     >
       {children}
@@ -134,6 +134,14 @@ function UpdatedDate({ value }: { value?: string }) {
   )
 }
 
+/**
+ * One segment of a square segmented control. The group draws the outer border
+ * and the hairline dividers, so a segment only paints its own state, and the
+ * selected one inverts rather than floating on a shadow.
+ */
+export const segmentClass =
+  "inline-flex items-center px-3 text-muted-foreground transition-colors outline-none hover:bg-muted/60 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-pressed:bg-foreground aria-pressed:text-background"
+
 export function FilterToggle({
   open,
   onToggle,
@@ -148,7 +156,7 @@ export function FilterToggle({
       aria-expanded={open}
       title={open ? "Hide filters" : "Show filters"}
       onClick={onToggle}
-      className="inline-flex size-11 items-center justify-center rounded-xl border border-input bg-background text-muted-foreground transition outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-expanded:border-primary aria-expanded:bg-primary/10 aria-expanded:text-primary"
+      className="inline-flex size-11 items-center justify-center border border-input bg-background text-muted-foreground transition outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-expanded:border-primary aria-expanded:bg-primary/10 aria-expanded:text-primary"
     >
       <SlidersHorizontal aria-hidden="true" className="size-4" />
     </button>
@@ -163,7 +171,7 @@ function AuthorAvatar({ author }: { author: AuthorListItem }) {
         alt=""
         width={64}
         height={64}
-        className="size-12 rounded-full object-cover ring-1 ring-border sm:size-14"
+        className="size-12 object-cover ring-1 ring-border sm:size-14"
       />
     )
   }
@@ -171,7 +179,7 @@ function AuthorAvatar({ author }: { author: AuthorListItem }) {
   return (
     <span
       aria-hidden="true"
-      className="inline-flex size-12 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary ring-1 ring-primary/20 sm:size-14"
+      className="inline-flex size-12 items-center justify-center bg-primary/10 text-sm font-semibold text-primary ring-1 ring-primary/20 sm:size-14"
     >
       {author.displayName}
     </span>
@@ -186,11 +194,11 @@ function AuthorResult({
   viewMode: ViewMode
 }) {
   return (
-    <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
       <Link
         href={author.href}
         aria-label={`Open author profile for ${author.name}`}
-        className={`flex h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+        className={`flex h-full outline-none focus-visible:ring-2 focus-visible:ring-ring ${
           viewMode === "list"
             ? "gap-4 p-5 sm:items-start sm:p-6"
             : "flex-col gap-4 p-5 sm:p-6"
@@ -202,7 +210,7 @@ function AuthorResult({
             <Badge strong>{author.postCount} posts</Badge>
             <Badge>{author.displayName}</Badge>
           </div>
-          <h2 className="mt-2 text-xl font-semibold tracking-tight text-card-foreground group-hover:text-primary sm:text-2xl">
+          <h2 className="mt-2 text-xl font-semibold tracking-tight text-card-foreground sm:text-2xl">
             {author.name}
           </h2>
           <p className="mt-2 max-w-2xl leading-7 text-muted-foreground">
@@ -277,7 +285,6 @@ export function PostResult({
       seed={`${post.publicationId}-${post.postId}-${post.title}`}
       monogram={coverMonogram(post.publicationTitle)}
       aspect={viewMode === "list" ? "thumb" : "card"}
-      className={viewMode === "list" ? "rounded-xl sm:rounded-2xl" : undefined}
     >
       {viewMode === "cards" && <ResultFlags item={post} onCover />}
     </CoverImage>
@@ -311,7 +318,7 @@ export function PostResult({
 
   const body = (
     <>
-      <h2 className="mt-2 text-xl font-semibold tracking-tight text-card-foreground group-hover:text-primary sm:text-2xl">
+      <h2 className="mt-2 text-xl font-semibold tracking-tight text-card-foreground sm:text-2xl">
         {post.title}
       </h2>
       {post.excerpt && (
@@ -329,11 +336,11 @@ export function PostResult({
 
   if (viewMode === "cards") {
     return (
-      <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+      <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
         <Link
           href={post.href}
           aria-label={`Read ${post.title} in ${post.publicationTitle}`}
-          className="flex h-full flex-col rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="flex h-full flex-col outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           {cover}
           <div className="p-5 sm:p-6">
@@ -346,11 +353,11 @@ export function PostResult({
   }
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
       <Link
         href={post.href}
         aria-label={`Read ${post.title} in ${post.publicationTitle}`}
-        className="block h-full rounded-2xl p-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
+        className="block h-full p-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
       >
         <div className="mb-4 flex items-center gap-3 sm:mb-0 sm:block">
           <div className="w-20 shrink-0 sm:w-full">{cover}</div>
@@ -391,7 +398,6 @@ function PublicationResult({
       seed={`${publication.pubId}-${publication.title}`}
       monogram={coverMonogram(publication.title)}
       aspect={viewMode === "list" ? "thumb" : "card"}
-      className={viewMode === "list" ? "rounded-xl sm:rounded-2xl" : undefined}
     >
       {viewMode === "cards" && (
         <ResultFlags item={publication} onCover newLabel="New post" />
@@ -426,7 +432,7 @@ function PublicationResult({
 
   const body = (
     <>
-      <h2 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary sm:text-2xl">
+      <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
         {publication.title}
       </h2>
       <p className="mt-2 max-w-2xl leading-7 text-muted-foreground">
@@ -442,11 +448,11 @@ function PublicationResult({
 
   if (viewMode === "cards") {
     return (
-      <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+      <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
         <Link
           href={publication.href}
           aria-label={`Open publication ${publication.title}`}
-          className="flex h-full flex-col rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="flex h-full flex-col outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           {cover}
           <div className="p-5 sm:p-6">
@@ -459,11 +465,11 @@ function PublicationResult({
   }
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-lg hover:shadow-foreground/5">
+    <article className="group overflow-hidden border border-border bg-card transition-colors hover:border-foreground/40 hover:bg-muted/40">
       <Link
         href={publication.href}
         aria-label={`Open publication ${publication.title}`}
-        className="block h-full rounded-2xl p-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
+        className="block h-full p-5 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:grid sm:grid-cols-[10rem_1fr_auto] sm:items-start sm:gap-6 sm:p-6"
       >
         <div className="mb-4 flex items-center gap-3 sm:mb-0 sm:block">
           <div className="w-20 shrink-0 sm:w-full">{cover}</div>
@@ -628,7 +634,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
             Content
           </span>
           <div
-            className="inline-flex rounded-full border border-border bg-muted/50 p-1"
+            className="inline-flex divide-x divide-border border border-border"
             aria-label="Content type"
           >
             {contentTypes.map((type) => {
@@ -643,10 +649,10 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
                   )}
                   aria-current={isSelected ? "page" : undefined}
                   onClick={() => pruneSelectedTags(type)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium capitalize transition ${
+                  className={`px-4 py-2 text-sm font-medium capitalize transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     isSelected
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-foreground text-background"
+                      : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                   }`}
                 >
                   {type}
@@ -671,7 +677,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={`Search ${contentType}…`}
-            className="h-11 w-full rounded-xl border border-input bg-background pr-4 pl-10 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
+            className="h-11 w-full border border-input bg-background pr-4 pl-10 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
           />
         </label>
 
@@ -686,7 +692,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
                 onChange={(event) =>
                   setSortOrder(event.target.value as SortOrder)
                 }
-                className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="h-11 min-w-40 border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <option value="relevance">Relevance</option>
                 <option value="newest">Newest first</option>
@@ -709,7 +715,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
               Layout
             </span>
             <div
-              className="inline-flex h-11 rounded-xl border border-border bg-muted/50 p-1"
+              className="inline-flex h-11 divide-x divide-border border border-border"
               aria-label="Result layout"
             >
               <button
@@ -717,7 +723,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
                 aria-label="List view"
                 aria-pressed={viewMode === "list"}
                 onClick={() => setViewMode("list")}
-                className="rounded-lg px-3 transition aria-pressed:bg-background aria-pressed:shadow-sm"
+                className={segmentClass}
               >
                 <List aria-hidden="true" className="size-4" />
               </button>
@@ -726,7 +732,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
                 aria-label="Card view"
                 aria-pressed={viewMode === "cards"}
                 onClick={() => setViewMode("cards")}
-                className="rounded-lg px-3 transition aria-pressed:bg-background aria-pressed:shadow-sm"
+                className={segmentClass}
               >
                 <Grid2X2 aria-hidden="true" className="size-4" />
               </button>
@@ -746,7 +752,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
               type="button"
               aria-pressed={activeSelectedTags.includes(tag)}
               onClick={() => toggleTag(tag)}
-              className="rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-foreground/30 hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
+              className="border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-foreground/40 hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
             >
               {tag}
             </button>
@@ -793,7 +799,7 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
             ))}
         </div>
       ) : (
-        <div className="mt-4 rounded-2xl border border-dashed border-border px-6 py-16 text-center">
+        <div className="mt-4 border border-dashed border-border px-6 py-16 text-center">
           <p className="font-medium">No {contentType} match these filters.</p>
           <button
             type="button"

@@ -36,7 +36,7 @@ function IndexLinks({
             } ${
               activeId === heading.id
                 ? "border-primary font-medium text-foreground"
-                : "border-transparent text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                : "border-transparent text-muted-foreground hover:border-foreground/40 hover:text-foreground"
             }`}
           >
             {heading.label}
@@ -158,7 +158,7 @@ export function ContentIndex({
 
   return (
     <aside className="min-w-0 lg:pt-1">
-      <details className="rounded-2xl border border-border bg-muted/30 px-4 py-3 lg:hidden">
+      <details className="border border-border bg-muted/30 px-4 py-3 lg:hidden">
         <summary className="cursor-pointer text-sm font-semibold text-foreground">
           {title}
         </summary>
@@ -169,7 +169,7 @@ export function ContentIndex({
               activeId === CONTENT_TITLE_ID ? "location" : undefined
             }
             onClick={() => lockToHeading(CONTENT_TITLE_ID)}
-            className="mt-4 block rounded-sm text-sm leading-5 font-semibold text-foreground underline-offset-4 transition outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+            className="mt-4 block text-sm leading-5 font-semibold text-foreground underline-offset-4 transition outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
           >
             {title}
           </a>
@@ -189,7 +189,7 @@ export function ContentIndex({
           href={`#${CONTENT_TITLE_ID}`}
           aria-current={activeId === CONTENT_TITLE_ID ? "location" : undefined}
           onClick={() => lockToHeading(CONTENT_TITLE_ID)}
-          className="block max-w-60 rounded-sm text-sm leading-5 font-semibold text-foreground underline-offset-4 transition outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+          className="block max-w-60 text-sm leading-5 font-semibold text-foreground underline-offset-4 transition outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
         >
           {title}
         </a>

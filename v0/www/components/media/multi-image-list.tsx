@@ -136,7 +136,7 @@ export function MultiImageListBase({
                 onClick={() => openImage(index)}
                 aria-label={`Open image ${index + 1} of ${images.length}: ${label}`}
                 className={cn(
-                  "group relative block w-full min-w-0 cursor-pointer overflow-hidden rounded-xl bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
+                  "group relative block w-full min-w-0 cursor-pointer overflow-hidden bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
                   layout === "quilted" &&
                     (titleBelow ? "min-h-0 flex-1" : "h-full")
                 )}

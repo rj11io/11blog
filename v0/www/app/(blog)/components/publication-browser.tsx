@@ -4,7 +4,7 @@ import { Grid2X2, List, Search } from "lucide-react"
 import * as React from "react"
 
 import type { PostPreview } from "@content/types"
-import { FilterToggle, PostResult } from "./browse"
+import { FilterToggle, PostResult, segmentClass } from "./browse"
 
 type Tab = "posts" | "synopsis" | "notes"
 type ViewMode = "list" | "cards"
@@ -125,7 +125,7 @@ export function PublicationBrowser({
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search this publication…"
-                className="h-11 w-full rounded-xl border border-input bg-background pr-4 pl-10 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="h-11 w-full border border-input bg-background pr-4 pl-10 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
             </label>
 
@@ -139,7 +139,7 @@ export function PublicationBrowser({
                   onChange={(event) =>
                     setSortOrder(event.target.value as SortOrder)
                   }
-                  className="h-11 min-w-40 rounded-xl border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="h-11 min-w-40 border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <option value="relevance">Relevance</option>
                   <option value="newest">Newest first</option>
@@ -161,7 +161,7 @@ export function PublicationBrowser({
                   Layout
                 </span>
                 <div
-                  className="inline-flex h-11 rounded-xl border border-border bg-muted/50 p-1"
+                  className="inline-flex h-11 divide-x divide-border border border-border"
                   aria-label="Post layout"
                 >
                   <button
@@ -169,7 +169,7 @@ export function PublicationBrowser({
                     aria-label="List view"
                     aria-pressed={viewMode === "list"}
                     onClick={() => setViewMode("list")}
-                    className="rounded-lg px-3 aria-pressed:bg-background aria-pressed:shadow-sm"
+                    className={segmentClass}
                   >
                     <List aria-hidden="true" className="size-4" />
                   </button>
@@ -178,7 +178,7 @@ export function PublicationBrowser({
                     aria-label="Card view"
                     aria-pressed={viewMode === "cards"}
                     onClick={() => setViewMode("cards")}
-                    className="rounded-lg px-3 aria-pressed:bg-background aria-pressed:shadow-sm"
+                    className={segmentClass}
                   >
                     <Grid2X2 aria-hidden="true" className="size-4" />
                   </button>
@@ -198,7 +198,7 @@ export function PublicationBrowser({
                   type="button"
                   aria-pressed={selectedTags.includes(tag)}
                   onClick={() => toggleTag(tag)}
-                  className="rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
+                  className="border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
                 >
                   {tag}
                 </button>
@@ -228,7 +228,7 @@ export function PublicationBrowser({
               ))}
             </div>
           ) : (
-            <div className="mt-4 rounded-2xl border border-dashed border-border px-6 py-14 text-center">
+            <div className="mt-4 border border-dashed border-border px-6 py-14 text-center">
               <p className="font-medium">No posts match these filters.</p>
               <button
                 type="button"

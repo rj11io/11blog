@@ -307,7 +307,7 @@ export function ImageLightbox({
       <DialogContent
         showCloseButton
         onKeyDown={handleKeyDown}
-        className="flex h-[calc(100vh-1rem)] max-w-[calc(100vw-1rem)] flex-col gap-3 overflow-hidden rounded-xl border-white/10 bg-black/95 p-3 text-white shadow-2xl sm:h-[calc(100vh-2rem)] sm:max-w-[calc(100vw-2rem)]"
+        className="flex h-[calc(100vh-1rem)] max-w-[calc(100vw-1rem)] flex-col gap-3 overflow-hidden border-white/10 bg-black/95 p-3 text-white sm:h-[calc(100vh-2rem)] sm:max-w-[calc(100vw-2rem)]"
       >
         <DialogTitle className="sr-only">
           {image.title || image.alt || "Image preview"}
@@ -322,7 +322,7 @@ export function ImageLightbox({
         <div className="relative flex min-h-0 flex-1">
           <div
             ref={setZoomViewport}
-            className={`flex min-h-0 flex-1 touch-none items-center justify-center overflow-hidden rounded-lg bg-black/40 p-2 select-none sm:p-4 ${view.zoom > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""}`}
+            className={`flex min-h-0 flex-1 touch-none items-center justify-center overflow-hidden bg-black/40 p-2 select-none sm:p-4 ${view.zoom > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""}`}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerEnd}
@@ -356,7 +356,7 @@ export function ImageLightbox({
                 type="button"
                 onClick={goPrevious}
                 aria-label="Previous image"
-                className="absolute top-1/2 left-2 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white shadow-lg backdrop-blur transition-colors hover:bg-black/80 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:left-4"
+                className="absolute top-1/2 left-2 -translate-y-1/2 bg-black/60 p-2.5 text-white backdrop-blur transition-colors hover:bg-black/80 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:left-4"
               >
                 <ChevronLeft className="size-5" aria-hidden="true" />
               </button>
@@ -364,7 +364,7 @@ export function ImageLightbox({
                 type="button"
                 onClick={goNext}
                 aria-label="Next image"
-                className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full bg-black/60 p-2.5 text-white shadow-lg backdrop-blur transition-colors hover:bg-black/80 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:right-4"
+                className="absolute top-1/2 right-2 -translate-y-1/2 bg-black/60 p-2.5 text-white backdrop-blur transition-colors hover:bg-black/80 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:right-4"
               >
                 <ChevronRight className="size-5" aria-hidden="true" />
               </button>
@@ -390,7 +390,7 @@ export function ImageLightbox({
               onClick={() => changeZoom(-CONTROL_ZOOM_STEP)}
               disabled={view.zoom <= MIN_ZOOM}
               aria-label="Zoom out"
-              className="cursor-zoom-out rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+              className="cursor-zoom-out p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
             >
               <ZoomOut className="size-4" aria-hidden="true" />
             </button>
@@ -398,7 +398,7 @@ export function ImageLightbox({
               type="button"
               onClick={resetView}
               aria-label="Reset zoom"
-              className="min-w-14 rounded-md px-2 py-1 text-center text-xs text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+              className="min-w-14 px-2 py-1 text-center text-xs text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
               {Math.round(view.zoom * 100)}%
             </button>
@@ -407,7 +407,7 @@ export function ImageLightbox({
               onClick={() => changeZoom(CONTROL_ZOOM_STEP)}
               disabled={view.zoom >= MAX_ZOOM}
               aria-label="Zoom in"
-              className="cursor-zoom-in rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+              className="cursor-zoom-in p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
             >
               <ZoomIn className="size-4" aria-hidden="true" />
             </button>
@@ -415,7 +415,7 @@ export function ImageLightbox({
               type="button"
               onClick={resetView}
               aria-label="Reset zoom"
-              className="ml-1 rounded-md p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+              className="ml-1 p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
               <RotateCcw className="size-4" aria-hidden="true" />
             </button>

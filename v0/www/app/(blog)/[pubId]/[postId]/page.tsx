@@ -54,7 +54,7 @@ function AuthorAvatar({
         alt=""
         width={48}
         height={48}
-        className={`${sizeClass} rounded-full object-cover ring-1 ring-border`}
+        className={`${sizeClass} object-cover ring-1 ring-border`}
       />
     )
   }
@@ -62,7 +62,7 @@ function AuthorAvatar({
   return (
     <span
       aria-hidden="true"
-      className={`${sizeClass} inline-flex items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary ring-1 ring-primary/20`}
+      className={`${sizeClass} inline-flex items-center justify-center bg-primary/10 text-xs font-semibold text-primary ring-1 ring-primary/20`}
     >
       {author.displayName}
     </span>
@@ -80,10 +80,10 @@ function AuthorByline({ authors }: { authors: AuthorPreview[] }) {
           <li key={author.id}>
             <Link
               href={authorHref(author.id)}
-              className="group inline-flex items-center gap-3 rounded-full border border-border bg-background py-1.5 pr-4 pl-1.5 text-sm font-semibold transition outline-none hover:border-foreground/25 hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring"
+              className="group inline-flex items-center gap-3 border border-border bg-background py-1.5 pr-4 pl-1.5 text-sm font-semibold transition outline-none hover:border-foreground/40 hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <AuthorAvatar author={author} />
-              <span className="group-hover:text-primary">{author.name}</span>
+              <span>{author.name}</span>
             </Link>
           </li>
         ))}
@@ -108,7 +108,6 @@ function AdjacentCover({
         seed={`${pubId}-${post.postId}-${post.title}`}
         monogram={coverMonogram(publicationTitle)}
         aspect="square"
-        className="rounded-xl"
       />
     </span>
   )
@@ -162,7 +161,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <li>
               <Link
                 href={browseHref}
-                className="rounded-sm underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse
               </Link>
@@ -171,7 +170,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <li>
               <Link
                 href={publicationHref(publication.pubId)}
-                className="rounded-sm underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 {publication.title}
               </Link>
@@ -191,7 +190,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
           <article className="min-w-0">
             {post.coverImage && (
-              <figure className="mb-8 overflow-hidden rounded-3xl">
+              <figure className="mb-8 overflow-hidden">
                 <CoverImage
                   src={post.coverImage}
                   alt={`Cover art for ${post.title}`}
@@ -210,11 +209,11 @@ export default async function PostPage({ params }: PostPageProps) {
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <Link
                   href={publicationHref(publication.pubId)}
-                  className="group inline-flex items-center gap-2 rounded-sm text-xs font-semibold tracking-[0.14em] text-foreground uppercase outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="group inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] text-foreground uppercase outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <span
                     aria-hidden
-                    className="size-1.5 rounded-full bg-primary transition-transform duration-200 group-hover:scale-150"
+                    className="size-1.5 bg-primary transition-transform duration-200 group-hover:scale-150"
                   />
                   <span className="underline decoration-foreground/25 decoration-1 underline-offset-[6px] transition-colors duration-200 group-hover:decoration-foreground">
                     {publication.title}
@@ -225,7 +224,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   />
                 </Link>
                 {post.isFeatured && (
-                  <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
+                  <span className="bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
                     Featured
                   </span>
                 )}
@@ -267,7 +266,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-border px-2.5 py-1 text-xs"
+                      className="border border-border px-2.5 py-1 text-xs"
                     >
                       {tag}
                     </span>
@@ -284,7 +283,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   imageLists={post.imageLists}
                 />
               ) : (
-                <div className="rounded-2xl border border-border bg-muted/40 p-8 text-center">
+                <div className="border border-border bg-muted/40 p-8 text-center">
                   <h2 className="text-xl font-semibold">
                     This post requires access
                   </h2>
@@ -302,7 +301,7 @@ export default async function PostPage({ params }: PostPageProps) {
               {previous ? (
                 <Link
                   href={postHref(publication.pubId, previous)}
-                  className="flex items-center gap-4 rounded-2xl border border-border p-4 transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:p-5"
+                  className="flex items-center gap-4 border border-border p-4 transition outline-none hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:p-5"
                 >
                   <AdjacentCover
                     post={previous}
@@ -324,7 +323,7 @@ export default async function PostPage({ params }: PostPageProps) {
               {next && (
                 <Link
                   href={postHref(publication.pubId, next)}
-                  className="flex flex-row-reverse items-center gap-4 rounded-2xl border border-border p-4 text-right transition outline-none hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:col-start-2 sm:p-5"
+                  className="flex flex-row-reverse items-center gap-4 border border-border p-4 text-right transition outline-none hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:col-start-2 sm:p-5"
                 >
                   <AdjacentCover
                     post={next}

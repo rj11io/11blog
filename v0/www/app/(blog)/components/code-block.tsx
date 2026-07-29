@@ -57,7 +57,7 @@ export async function CodeBlock({
   const label = LANGUAGE_LABELS[lang] ?? lang
 
   return (
-    <div className="not-prose my-8 overflow-hidden rounded-2xl border border-border bg-muted/30">
+    <div className="not-prose my-8 overflow-hidden border border-border bg-muted/30">
       <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2">
         <span className="font-mono text-xs font-medium tracking-wide text-muted-foreground uppercase">
           {label}

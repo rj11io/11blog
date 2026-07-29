@@ -5,11 +5,7 @@ import { notFound } from "next/navigation"
 
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
-import {
-  blogAuthors,
-  getAuthor,
-  getPostsByAuthor,
-} from "@content/registry"
+import { blogAuthors, getAuthor, getPostsByAuthor } from "@content/registry"
 import { browseHref } from "@content/routes"
 
 type AuthorPageProps = {
@@ -59,7 +55,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
             <li>
               <Link
                 href={browseHref}
-                className="rounded-sm underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse
               </Link>
@@ -79,12 +75,12 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               width={128}
               height={128}
               priority
-              className="size-28 rounded-[2rem] object-cover ring-1 ring-border sm:size-32"
+              className="size-28 object-cover ring-1 ring-border sm:size-32"
             />
           ) : (
             <div
               aria-hidden="true"
-              className="flex size-28 items-center justify-center rounded-[2rem] border border-primary/20 bg-primary/10 text-4xl font-semibold text-primary sm:size-32"
+              className="flex size-28 items-center justify-center border border-primary/20 bg-primary/10 text-4xl font-semibold text-primary sm:size-32"
             >
               {author.displayName}
             </div>
@@ -104,7 +100,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               {author.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground"
+                  className="border border-border px-2.5 py-1 text-xs text-muted-foreground"
                 >
                   {tag}
                 </span>
@@ -132,7 +128,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                       href={link.url}
                       rel="noreferrer"
                       target="_blank"
-                      className="inline-flex rounded-full border border-border px-3 py-1.5 text-sm font-semibold transition hover:border-foreground/25 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                      className="inline-flex border border-border px-3 py-1.5 text-sm font-semibold transition hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                     >
                       {link.label}
                     </a>
@@ -162,11 +158,11 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
             {posts.map((post) => (
               <article
                 key={`${post.publicationId}-${post.postId}`}
-                className="group rounded-2xl border border-border bg-card p-5 transition hover:border-foreground/25 hover:bg-muted/30 sm:p-6"
+                className="group border border-border bg-card p-5 transition hover:border-foreground/40 hover:bg-muted/30 sm:p-6"
               >
                 <Link
                   href={post.href}
-                  className="flex gap-4 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring sm:gap-6"
+                  className="flex gap-4 outline-none focus-visible:ring-2 focus-visible:ring-ring sm:gap-6"
                 >
                   <div className="w-20 shrink-0 sm:w-28">
                     <CoverImage
@@ -174,7 +170,6 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                       seed={`${post.publicationId}-${post.postId}-${post.title}`}
                       monogram={coverMonogram(post.publicationTitle)}
                       aspect="thumb"
-                      className="rounded-xl sm:rounded-2xl"
                     />
                   </div>
                   <div className="min-w-0">
@@ -192,7 +187,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                         )}
                       </time>
                     </div>
-                    <h3 className="mt-2 text-xl font-semibold tracking-tight group-hover:text-primary sm:text-2xl">
+                    <h3 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
                       {post.title}
                     </h3>
                     {post.excerpt ? (

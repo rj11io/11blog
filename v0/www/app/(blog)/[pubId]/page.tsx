@@ -60,7 +60,7 @@ export default async function PublicationPage({
             <li>
               <Link
                 href={browseHref}
-                className="rounded-sm underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse
               </Link>
@@ -73,7 +73,7 @@ export default async function PublicationPage({
         </nav>
 
         {publication.coverImage && (
-          <figure className="mt-6 overflow-hidden rounded-3xl">
+          <figure className="mt-6 overflow-hidden">
             <CoverImage
               src={publication.coverImage}
               alt={`Cover art for ${publication.title}`}
@@ -94,19 +94,19 @@ export default async function PublicationPage({
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {publication.isFeatured && (
-                <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
+                <span className="bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
                   Featured
                 </span>
               )}
               {publication.isNew && (
-                <span className="rounded-full bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
+                <span className="bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
                   New post
                 </span>
               )}
               {publication.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground"
+                  className="border border-border px-2.5 py-1 text-xs text-muted-foreground"
                 >
                   {tag}
                 </span>
