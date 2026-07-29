@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@content/*": ["../../content/*"]
+      "@content/*": ["../../content/*"],
+      "@root/package.json": ["../../package.json"]
     }
   },
   "include": [

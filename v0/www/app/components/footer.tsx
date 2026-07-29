@@ -1,4 +1,6 @@
-import packageJson from "../../package.json"
+// The repository manifest, not this app's. That is the one the release pipeline
+// versions, so it is what the footer should report.
+import packageJson from "@root/package.json"
 
 const siteHref = "https://www.rj11.io/"
 
