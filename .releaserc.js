@@ -4,6 +4,9 @@ module.exports = {
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
+    // Writes the new version into package.json. Must run before the git plugin,
+    // which only commits assets that actually changed on disk.
+    ["@semantic-release/npm", { npmPublish: false }],
     [
       "@semantic-release/git",
       {
