@@ -94,12 +94,12 @@ export default async function PublicationPage({
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {publication.isFeatured && (
-                <span className="bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
+                <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
                   Featured
                 </span>
               )}
               {publication.isNew && (
-                <span className="bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
+                <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
                   New post
                 </span>
               )}

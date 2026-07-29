@@ -224,7 +224,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   />
                 </Link>
                 {post.isFeatured && (
-                  <span className="bg-primary px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary-foreground uppercase">
+                  <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
                     Featured
                   </span>
                 )}

@@ -25,6 +25,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-accent-surface: var(--accent-surface);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -67,6 +68,12 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+  /* Badge fill: a faint wash of the accent over the page colour. Opaque, so it
+     stays legible on top of cover photography, and derived from --primary and
+     --background so it follows light and dark mode on its own. Declared once
+     here because .dark also targets the root element, which is where the two
+     ingredients get their per-mode values. */
+  --accent-surface: color-mix(in oklab, var(--primary) 12%, var(--background));
   --chart-1: oklch(0.845 0.143 164.978);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.596 0.145 163.225);

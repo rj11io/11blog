@@ -101,11 +101,11 @@ function Badge({
         onCover
           ? `px-2 py-0.5 text-[11px] ring-1 ring-foreground/15 ${
               strong
-                ? "bg-primary font-semibold tracking-[0.14em] text-primary-foreground uppercase"
+                ? "bg-accent-surface font-semibold tracking-[0.14em] text-primary uppercase"
                 : "bg-background/90 text-foreground"
             }`
           : strong
-            ? "bg-primary/12 px-2 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase"
+            ? "bg-accent-surface px-2 py-0.5 text-[11px] font-semibold tracking-[0.14em] text-primary uppercase"
             : "border border-border px-2 py-0.5 text-[11px] text-muted-foreground"
       }
     >
