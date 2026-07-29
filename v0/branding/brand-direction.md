@@ -14,6 +14,10 @@ Use the [color palette](./color-palette.md) as the source of truth for brand col
 
 Current publication names, article copy, author profiles, tags, and image subjects in the repository are placeholders. They must not inform branding decisions unless they are replaced with approved real content or visual references.
 
+## Logo
+
+The primary [11blog logo](./logo/README.md) pairs a geometric double-one mark with a custom, mono-inspired wordmark. Its green signal square is the only accent, keeping the identity aligned with the sharp, restrained interface.
+
 ## Visual character
 
 - Use sharp lines, square corners, and crisp edges. The core interface has no border radius.
