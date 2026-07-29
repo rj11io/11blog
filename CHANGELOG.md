@@ -1,3 +1,11 @@
+## [1.0.1](https://github.com/rj11io/11blog/compare/v1.0.0...v1.0.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* bump ([522efc8](https://github.com/rj11io/11blog/commit/522efc8a80422f79ab80b64c3d4ada4d9cfd72a8))
+* show root version ([d0646bb](https://github.com/rj11io/11blog/commit/d0646bb116d66b8f3e1c8e2ef3166dedc93a9497))
+
 # 1.0.0 (2026-07-29)
 
 
