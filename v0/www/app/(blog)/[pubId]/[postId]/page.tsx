@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { ArrowUpRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -218,10 +217,6 @@ export default async function PostPage({ params }: PostPageProps) {
                   <span className="underline decoration-foreground/25 decoration-1 underline-offset-[6px] transition-colors duration-200 group-hover:decoration-foreground">
                     {publication.title}
                   </span>
-                  <ArrowUpRight
-                    aria-hidden
-                    className="size-3.5 text-muted-foreground transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
-                  />
                 </Link>
                 {post.isFeatured && (
                   <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
