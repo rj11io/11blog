@@ -29,12 +29,6 @@ const dateFormatter = new Intl.DateTimeFormat("en", {
   timeZone: "UTC",
 })
 
-const monthFormatter = new Intl.DateTimeFormat("en", {
-  month: "short",
-  year: "numeric",
-  timeZone: "UTC",
-})
-
 function formatDate(value: string) {
   return dateFormatter.format(new Date(`${value}T00:00:00Z`))
 }
@@ -139,6 +133,36 @@ function PostMeta({ post }: { post: PostPreview }) {
       <time className="text-muted-foreground" dateTime={post.created}>
         {formatDate(post.created)}
       </time>
+    </div>
+  )
+}
+
+/**
+ * The publication equivalent of PostMeta. A post leads with the publication it
+ * belongs to; a publication has no parent, so it leads with its post count.
+ */
+function PublicationMeta({ publication }: { publication: PublicationPreview }) {
+  const updated =
+    publication.updated && publication.updated !== publication.created
+      ? publication.updated
+      : null
+
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+      <span className="font-semibold tracking-[0.14em] text-primary uppercase">
+        {postCountLabel(publication)}
+      </span>
+      <span aria-hidden="true" className="text-muted-foreground">
+        ·
+      </span>
+      <time className="text-muted-foreground" dateTime={publication.created}>
+        {formatDate(publication.created)}
+      </time>
+      {updated && (
+        <time className="text-muted-foreground" dateTime={updated}>
+          Updated {formatDate(updated)}
+        </time>
+      )}
     </div>
   )
 }
@@ -309,41 +333,37 @@ function PublicationFeature({
   )
 }
 
-/** Typographic index row. The date column is the spine, so no cover is needed. */
+/** Built to match PostRow, so both index lists on this page read the same way. */
 function PublicationRow({ publication }: { publication: PublicationPreview }) {
   return (
     <article className="group">
       <Link
         href={publication.href}
         aria-label={`Open publication ${publication.title}`}
-        className="-mx-3 grid gap-x-6 gap-y-1 px-3 py-5 transition-colors outline-none hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-[5.5rem_1fr_auto] sm:items-baseline"
+        className="-mx-3 flex items-center gap-4 px-3 py-5 transition-colors outline-none hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:gap-6"
       >
-        <div className="font-mono text-xs text-muted-foreground tabular-nums">
-          <time dateTime={publication.created}>
-            {monthFormatter.format(
-              new Date(`${publication.created}T00:00:00Z`)
-            )}
-          </time>
-          {publication.updated &&
-            publication.updated !== publication.created && (
-              <time className="mt-1 block" dateTime={publication.updated}>
-                Updated{" "}
-                {monthFormatter.format(
-                  new Date(`${publication.updated}T00:00:00Z`)
-                )}
-              </time>
-            )}
+        <div className="w-16 shrink-0 sm:w-20">
+          <CoverImage
+            src={publication.coverImage}
+            seed={publicationSeed(publication)}
+            monogram={coverMonogram(publication.title)}
+            aspect="square"
+          />
         </div>
-        <div className="min-w-0">
-          <h3 className="text-lg font-semibold tracking-tight sm:text-xl">
+        <div className="min-w-0 flex-1">
+          <PublicationMeta publication={publication} />
+          <h3 className="mt-1.5 text-lg font-semibold tracking-tight sm:text-xl">
             {publication.title}
           </h3>
-          <p className="mt-1 leading-7 text-muted-foreground">
+          <p className="mt-1 line-clamp-2 leading-7 text-muted-foreground">
             {publication.description}
           </p>
         </div>
-        <span className="text-xs text-muted-foreground tabular-nums">
-          {postCountLabel(publication)}
+        <span
+          aria-hidden="true"
+          className="hidden shrink-0 text-muted-foreground transition group-hover:translate-x-1 group-hover:text-foreground sm:inline"
+        >
+          →
         </span>
       </Link>
     </article>
