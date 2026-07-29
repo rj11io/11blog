@@ -79,7 +79,7 @@ function AuthorByline({ authors }: { authors: AuthorPreview[] }) {
           <li key={author.id}>
             <Link
               href={authorHref(author.id)}
-              className="group inline-flex items-center gap-3 border border-border bg-background py-1.5 pr-4 pl-1.5 text-sm font-semibold transition outline-none hover:border-foreground/40 hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring"
+              className="group inline-flex items-center gap-3 border border-transparent bg-background py-1.5 pr-4 pl-1.5 text-sm font-semibold transition outline-none hover:border-foreground/40 hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring"
             >
               <AuthorAvatar author={author} />
               <span>{author.name}</span>
