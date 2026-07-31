@@ -247,7 +247,7 @@ YouTube watch, embed, and youtu.be URLs are also recognized when they form a sta
 Use root-relative paths for internal links:
 
 ~~~md
-[Browse the posts](/browse?content=posts)
+[Browse the posts](/browse/posts)
 [Jump to a section](#section-heading)
 ~~~
 

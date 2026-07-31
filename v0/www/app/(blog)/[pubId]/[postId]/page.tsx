@@ -20,7 +20,8 @@ import {
 } from "@content/registry"
 import {
   authorHref,
-  browseHref,
+  browseContentHref,
+  defaultBrowseContentType,
   postHref,
   publicationHref,
 } from "@content/routes"
@@ -163,7 +164,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link
-                href={browseHref}
+                href={browseContentHref(defaultBrowseContentType)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse

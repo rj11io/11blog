@@ -120,17 +120,22 @@ An element that is already complete has finished, one way or the other, and a na
 
 A related trick sits in the same component: the photograph is given a key set to its source. Changing the key makes React treat it as a new element, so the pending state restarts on its own and no reset logic is needed.
 
-## Browse needs a boundary
+## The browse page reads its state from the route
 
-The browse page keeps its selected content type in the address, so the choice can be linked and shared. Reading the address requires a hook that suspends, so the component is wrapped:
+The browse page shows one of three content types, and which one is a path segment: /browse/posts, /browse/publications, /browse/authors. The route resolves the segment on the server and passes it down as an ordinary prop:
 
 ~~~tsx
-<Suspense>
-  <Browse authors={authorPreviews} posts={postPreviews} publications={publicationPreviews} />
-</Suspense>
+<Browse
+  contentType={content}
+  authors={authorPreviews}
+  posts={postPreviews}
+  publications={publicationPreviews}
+/>
 ~~~
 
-Without the boundary the build refuses to prerender the page. The rest of the browse state, meaning search text, sort, and layout, is ordinary component state and is not in the address.
+This is worth knowing because it used to work the other way. The content type was a query parameter, and the browser component read it with a hook that suspends, which meant the page needed a Suspense boundary around it or the build refused to prerender. Moving the choice into the path removed the hook, and the boundary went with it. A value the server already knows should be resolved on the server and handed down.
+
+The rest of the browse state, meaning search text, selected tags, sort, and layout, is ordinary component state and is not in the address.
 
 Note what is passed in: previews, not full posts. Everything handed to a browser component is serialised and sent over the network, so the preview types keep every post body out of that payload.
 

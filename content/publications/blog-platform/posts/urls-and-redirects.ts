@@ -5,10 +5,16 @@ Every address on this blog is built by one small file, and every address that ha
 
 ## One file owns every URL shape
 
-content/routes.ts is fifteen lines and it is the only place that knows what the site's addresses look like:
+content/routes.ts is the only place that knows what the site's addresses look like:
 
 ~~~ts
+export const browseContentTypes = ["posts", "publications", "authors"] as const
+export const defaultBrowseContentType: BrowseContentType = "posts"
 export const browseHref = "/browse"
+
+export function browseContentHref(contentType: BrowseContentType) {
+  return browseHref + "/" + contentType
+}
 
 export function publicationHref(pubId: string) {
   return "/" + encodeURIComponent(pubId)
@@ -27,17 +33,23 @@ Nothing else in the codebase writes a path by hand. Pages, cards, breadcrumbs, a
 
 Two things worth noticing. Each piece is escaped, so an identifier that somehow contained an unusual character could not break the address. And a post falls back to its numeric ID when it has no slug, which is what makes slugs optional.
 
-The five addresses on the site:
+The addresses on the site:
 
 | Address | What it shows |
 | --- | --- |
 | / | The landing page |
-| /browse | The searchable index of posts, publications, and authors |
+| /browse/posts | The searchable index of posts |
+| /browse/publications | The searchable index of publications |
+| /browse/authors | The searchable index of authors |
 | /{pubId} | One publication and its posts |
 | /{pubId}/{slug} | One post |
 | /authors/{authorId} | One author and everything they have written |
 
 Publications sit at the top level, with no prefix. That is a deliberate choice and the reason for the reserved-word rule below.
+
+The browse page has three addresses rather than one, and the content type is a path segment rather than a query parameter. Two consequences follow. Each of the three is built ahead of time and carries its own title and description, and an unrecognised type such as /browse/drafts is a 404 rather than a page quietly showing something else.
+
+A request for /browse on its own redirects to /browse/posts. Note that no link inside the site points there: every one calls browseContentHref, so navigating the site never passes through that redirect. It exists for links from elsewhere and for addresses typed by hand.
 
 ## How a post URL is resolved
 
@@ -145,6 +157,28 @@ Two more rules handle the dropped prefix for every other publication:
 Note the ordering. The specific blog-tech rules come before the general prefix rules, because the first matching rule wins and the general rule would otherwise send /publications/blog-tech to a publication ID that no longer exists.
 
 permanent set to true sends a 308, which tells browsers and search engines the move is final and lets them update their records.
+
+### Moving a query parameter into the path
+
+The browse page is the second worked example, and it shows a case the publication rename does not: an old address that differed only by its query string.
+
+The content type used to be a query parameter. /browse?content=publications is now /browse/publications, and four rules cover the move:
+
+~~~ts
+{ source: "/browse", has: [{ type: "query", key: "content", value: "publications" }],
+  destination: "/browse/publications", permanent: true },
+{ source: "/browse", has: [{ type: "query", key: "content", value: "authors" }],
+  destination: "/browse/authors", permanent: true },
+{ source: "/browse", has: [{ type: "query", key: "content", value: "posts" }],
+  destination: "/browse/posts", permanent: true },
+{ source: "/browse", destination: "/browse/posts", permanent: true },
+~~~
+
+Two things to take from that.
+
+**A source matches the path only.** All four rules have the same source, and the query is matched separately through has. This is why the bare rule has to come last: listed first, it would match every request to /browse regardless of query, and someone following an old link to the authors tab would land on posts.
+
+**The query string survives the redirect.** An old link to /browse?content=authors arrives at /browse/authors?content=authors. The parameter is now meaningless, and the page ignores it, but it stays in the address. Stripping it would need middleware, which is not worth writing for something a reader will not notice.
 
 ### Renaming a publication
 

@@ -7,17 +7,21 @@ The headline fact, stated first because everything follows from it: **post bodie
 
 ## The browse page
 
-/browse shows one of three kinds of thing at a time: posts, publications, or authors. The choice lives in the address:
+The browse page shows one of three kinds of thing at a time: posts, publications, or authors. Each is its own address:
 
 ~~~text
-/browse?content=posts
-/browse?content=publications
-/browse?content=authors
+/browse/posts
+/browse/publications
+/browse/authors
 ~~~
 
-An address with no content value, or an unrecognised one, falls back to posts. Because the choice is in the address, it can be linked to and shared.
+These are the only three. The content type is a path segment, so an unrecognised one such as /browse/drafts is a 404 rather than a page showing something unexpected. A request for /browse on its own redirects to /browse/posts.
+
+Each of the three is built ahead of time, like every other page on the blog, and each has its own page title and description.
 
 Nothing else about the view is in the address. The search text, the selected tags, the sort order, and the card-or-list layout are all held in the page while you use it. A reader who has filtered down to something interesting cannot send that view to anyone; they can only send the content type. Worth knowing before you tell someone to "search for X on the browse page".
+
+This used to be a query parameter, written /browse?content=posts. Those addresses still work, and still land on the right tab. See [URLs, slugs, and redirects](/blog-platform/urls-and-redirects).
 
 ## What each search looks at
 

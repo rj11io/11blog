@@ -9,7 +9,7 @@ import {
   postPreviews,
   publicationPreviews,
 } from "@content/registry"
-import { browseHref } from "@content/routes"
+import { browseContentHref, defaultBrowseContentType } from "@content/routes"
 import type {
   AuthorListItem,
   PostPreview,
@@ -473,13 +473,13 @@ export default function HomePage() {
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
-                href={browseHref}
+                href={browseContentHref(defaultBrowseContentType)}
                 className="inline-flex h-11 items-center bg-primary px-5 text-sm font-semibold text-primary-foreground transition outline-none hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Browse the blog
               </Link>
               <Link
-                href={`${browseHref}?content=publications`}
+                href={browseContentHref("publications")}
                 className="inline-flex h-11 items-center border border-border px-5 text-sm font-semibold transition outline-none hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Explore publications
@@ -506,7 +506,7 @@ export default function HomePage() {
               eyebrow="Editor's picks"
               title="Featured posts"
               description="The pieces worth starting with."
-              actionHref={`${browseHref}?content=posts`}
+              actionHref={browseContentHref("posts")}
               actionLabel="All posts"
             />
             {featuredPosts.length === 1 ? (
@@ -539,7 +539,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Recently published"
             title="Latest posts"
-            actionHref={`${browseHref}?content=posts`}
+            actionHref={browseContentHref("posts")}
             actionLabel="All posts"
           />
           <div className="mt-2 divide-y divide-border">
@@ -561,7 +561,7 @@ export default function HomePage() {
               eyebrow="In focus"
               title="Featured publications"
               description="Longer running series, each with its own subject and rhythm."
-              actionHref={`${browseHref}?content=publications`}
+              actionHref={browseContentHref("publications")}
               actionLabel="All publications"
             />
             <div
@@ -587,7 +587,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="The shelf"
             title="Latest publications"
-            actionHref={`${browseHref}?content=publications`}
+            actionHref={browseContentHref("publications")}
             actionLabel="All publications"
           />
           <div className="mt-2 divide-y divide-border">
@@ -605,7 +605,7 @@ export default function HomePage() {
             eyebrow="Who writes here"
             title="Authors"
             description="A short list of contributors, and everything each of them has written."
-            actionHref={`${browseHref}?content=authors`}
+            actionHref={browseContentHref("authors")}
             actionLabel="All authors"
           />
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

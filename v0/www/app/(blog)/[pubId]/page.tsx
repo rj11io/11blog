@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 import { PublicationBrowser } from "../components/publication-browser"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
-import { browseHref } from "@content/routes"
+import { browseContentHref, defaultBrowseContentType } from "@content/routes"
 import { getPostPreview, getPublication, publications } from "@content/registry"
 
 type PublicationPageProps = {
@@ -62,7 +62,7 @@ export default async function PublicationPage({
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link
-                href={browseHref}
+                href={browseContentHref(defaultBrowseContentType)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse

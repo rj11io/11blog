@@ -6,7 +6,7 @@ import { notFound } from "next/navigation"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
 import { blogAuthors, getAuthor, getPostsByAuthor } from "@content/registry"
-import { browseHref } from "@content/routes"
+import { browseContentHref, defaultBrowseContentType } from "@content/routes"
 
 type AuthorPageProps = {
   params: Promise<{ authorId: string }>
@@ -54,7 +54,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link
-                href={browseHref}
+                href={browseContentHref(defaultBrowseContentType)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse

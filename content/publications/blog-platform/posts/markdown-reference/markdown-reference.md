@@ -2,7 +2,7 @@
 
 ## Prose and inline formatting
 
-This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, `inline code`, an [internal blog link](/browse?content=posts), and an [external reference](https://example.com).
+This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, `inline code`, an [internal blog link](/browse/posts), and an [external reference](https://example.com).
 
 ### Lists and tasks
 
@@ -113,7 +113,7 @@ Masonry lists preserve each image's natural aspect ratio in balanced columns.
 ## Links and line breaks
 
 Use [this hash link](#heading-depth) to jump within the post. Internal paths
-such as [the browse page](/browse?content=posts) stay in the app router, while external
+such as [the browse page](/browse/posts) stay in the app router, while external
 links such as [the project reference](https://example.com) open in a new tab.
 
 This line ends with two spaces  

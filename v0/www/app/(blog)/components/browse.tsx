@@ -2,23 +2,29 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
 import { Grid2X2, List, Search, SlidersHorizontal } from "lucide-react"
 import * as React from "react"
 
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import {
+  browseContentHref,
+  browseContentTypes,
+  type BrowseContentType,
+} from "@content/routes"
 import type {
   AuthorListItem,
   PostPreview,
   PublicationPreview,
 } from "@content/types"
 
-type ContentType = "posts" | "publications" | "authors"
+type ContentType = BrowseContentType
 type ViewMode = "list" | "cards"
 type SortOrder = "relevance" | "newest" | "oldest"
 
 type BrowseProps = {
+  /** Comes from the URL segment, resolved by the route rather than read here. */
+  contentType: ContentType
   authors: AuthorListItem[]
   posts: PostPreview[]
   publications: PublicationPreview[]
@@ -30,30 +36,6 @@ const dateFormatter = new Intl.DateTimeFormat("en", {
   year: "numeric",
   timeZone: "UTC",
 })
-
-const contentTypes = ["posts", "publications", "authors"] as const
-const contentParam = "content"
-
-function isContentType(value: string | null): value is ContentType {
-  return contentTypes.some((type) => type === value)
-}
-
-function getContentTypeFromParams(searchParams: URLSearchParams) {
-  const value = searchParams.get(contentParam)
-  return isContentType(value) ? value : "posts"
-}
-
-function createContentHref(
-  contentType: ContentType,
-  searchParams: URLSearchParams
-) {
-  const nextParams = new URLSearchParams(searchParams.toString())
-  nextParams.set(contentParam, contentType)
-
-  const query = nextParams.toString()
-
-  return `?${query}`
-}
 
 function formatDate(value: string) {
   return dateFormatter.format(new Date(`${value}T00:00:00Z`))
@@ -493,13 +475,12 @@ function PublicationResult({
   )
 }
 
-export function Browse({ authors, posts, publications }: BrowseProps) {
-  const searchParams = useSearchParams()
-  const contentType = React.useMemo(
-    () =>
-      getContentTypeFromParams(new URLSearchParams(searchParams.toString())),
-    [searchParams]
-  )
+export function Browse({
+  contentType,
+  authors,
+  posts,
+  publications,
+}: BrowseProps) {
   const [viewMode, setViewMode] = React.useState<ViewMode>("cards")
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
   const [query, setQuery] = React.useState("")
@@ -637,16 +618,13 @@ export function Browse({ authors, posts, publications }: BrowseProps) {
             className="inline-flex divide-x divide-border border border-border"
             aria-label="Content type"
           >
-            {contentTypes.map((type) => {
+            {browseContentTypes.map((type) => {
               const isSelected = contentType === type
 
               return (
                 <Link
                   key={type}
-                  href={createContentHref(
-                    type,
-                    new URLSearchParams(searchParams.toString())
-                  )}
+                  href={browseContentHref(type)}
                   aria-current={isSelected ? "page" : undefined}
                   onClick={() => pruneSelectedTags(type)}
                   className={`px-4 py-2 text-sm font-medium capitalize transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring ${

@@ -1,5 +1,10 @@
 import Link from "next/link"
 
+import {
+  browseContentHref,
+  defaultBrowseContentType,
+} from "@content/routes"
+
 import { ThemeToggle } from "./theme-toggle"
 
 const githubHref = "https://github.com/rj11io/11blog"
@@ -28,7 +33,7 @@ export function SiteHeader() {
             ~/11blog
           </Link>
           <Link
-            href="/browse"
+            href={browseContentHref(defaultBrowseContentType)}
             className="text-sm text-muted-foreground transition hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
             Browse
