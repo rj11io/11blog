@@ -249,12 +249,29 @@ Use root-relative paths for internal links:
 
 Internal root-relative links stay inside the Next.js router. Hash links use native anchor navigation. Absolute HTTP and HTTPS links are treated as external and open in a new tab.
 
-Standard Markdown images can use files in public or external HTTPS URLs:
+Standard Markdown images can use files served by the site itself or external HTTPS URLs:
 
 ~~~md
 ![Descriptive alt text](/static/blog-authors/rj-pic.png)
 ![Remote image](https://images.example.com/photo.webp)
 ~~~
+
+### Site-served files
+
+Files served by the site live in the web application's public directory and are addressed root-relative, with the public part of the path dropped. Everything sits under a static directory, grouped one directory per purpose:
+
+~~~text
+v0/www/public/
+└── static/
+    └── blog-authors/
+        └── rj-pic.png     addressed as /static/blog-authors/rj-pic.png
+~~~
+
+Use this location for files that belong to the site rather than to one post: author photographs, and anything referenced from content/authors.ts. Create a new directory under static for each new purpose, named in lowercase kebab-case.
+
+Do not put post images here. A post's own images belong in that post's assets directory, where they sit beside the writing that uses them, get hashed filenames at build time, and are removed along with the post. See the modular post format above.
+
+Two things to keep in mind. Every file in the public directory is published whether anything references it or not, so remove files once they are no longer used. And nothing validates these paths: the content validator checks that an image source is root-relative or HTTPS, but it cannot check that the file exists. A typo produces a broken image on the published page, so open the page after adding one.
 
 Modular posts should prefer post-owned assets and the @[image](image-key) shortcode when an image needs optimized thumbnail and lightbox sources. Always provide useful alt text unless the image is genuinely decorative.
 
@@ -262,16 +279,31 @@ Modular posts should prefer post-owned assets and the @[image](image-key) shortc
 
 Do not add YAML frontmatter, MDX, or raw HTML to posts. The application does not enable frontmatter parsing, MDX, or raw HTML rendering. Do not rely on single newlines becoming visible line breaks; use two trailing spaces or a new paragraph when a hard break is intended.
 
-## Publishing checklist
+## Publishing checklists
+
+Adding a post and adding a publication are different jobs. Use the checklist that matches what you are doing. Adding a post never requires editing content/registry.ts; adding a publication always does.
+
+### Adding a post
 
 1. Choose the legacy single-file format or create a modular post directory with index.ts and a raw .md file.
-2. Use unique positive IDs, URL-safe slugs, valid ISO dates, and existing author IDs.
-3. Start each post body with its matching H1.
+2. Use a postId that is unique within the publication, a URL-safe slug, valid ISO dates, and existing author IDs.
+3. Start the post body with its matching H1.
 4. Use H2-H5 for navigable sections.
 5. Put post-owned files and their source record in the modular post's assets directory.
 6. Put named single-image and image-list configurations in the post's .images.ts file when needed.
 7. Give configured images dimensions, useful alt text, and separate thumbnail and lightbox sources where practical.
 8. Check component syntax against the [Markdown Components](/blog-platform/markdown-components) reference.
-9. Add the new publication to content/registry.ts.
-10. Run typecheck, lint, and build so the content validator and static route generation can verify the new entry.
+9. Add the post to its publication's posts array, in the position it should read.
+10. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
+
+### Adding a publication
+
+1. Create content/publications/publication-id/index.ts, using a lowercase kebab-case directory name and matching pubId.
+2. Use an unused positive relId, a pubId that is not authors, browse, or publications, and valid ISO dates.
+3. Write the title, description, and tags. Add the optional synopsis and editorNotes if the publication needs them.
+4. Add at least one post, following the post checklist above.
+5. Import the publication in content/registry.ts and add it to the publications array.
+6. Run typecheck, lint, and build.
+
+For the rules behind each of these steps, and the exact message thrown when one fails, see [Content validation rules](/blog-platform/content-validation).
 `

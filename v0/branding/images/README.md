@@ -11,6 +11,16 @@ focus. Existing placeholder imagery and editorial voice were not used.
 |---|---:|---|
 | `logos/11blog-logo-primary.png` | 2172 × 724 | Primary horizontal dark-mode lockup |
 | `logos/11blog-mark.png` | 1254 × 1254 | Avatar, favicon source, and compact placements |
+| `logos/11blog-mark-large-dot.png` | 1254 × 1254 | Enlarged-signal compact mark exploration |
+| `favicons/11blog-favicon-512.png` | 512 × 512 | Tightly cropped favicon master |
+| `favicons/11blog-favicon-32.png` | 32 × 32 | Small-size favicon preview |
+| `favicons/11blog-favicon-16.png` | 16 × 16 | Minimum-size favicon preview |
+| `favicons/11blog-favicon.ico` | 16–256 px | Multi-resolution browser favicon |
+| `logos/11blog-mark-xl-dot-centered.png` | 1254 × 1254 | Centered mark with extra-large signal square |
+| `favicons/11blog-favicon-v2-512.png` | 512 × 512 | Centered extra-large-dot favicon master |
+| `favicons/11blog-favicon-v2-32.png` | 32 × 32 | Centered v2 small-size preview |
+| `favicons/11blog-favicon-v2-16.png` | 16 × 16 | Centered v2 minimum-size preview |
+| `favicons/11blog-favicon-v2.ico` | 16–256 px | Centered v2 multi-resolution favicon |
 | `og/11blog-default-og.png` | 1200 × 630 | Default site Open Graph image |
 | `og/blog-platform-og.png` | 1200 × 630 | Blog Platform publication Open Graph image |
 | `covers/blog-platform-publication-cover.png` | 1600 × 900 | Blog Platform publication cover |
@@ -38,17 +48,22 @@ The assets were generated as a coordinated family with these core concepts:
    `11blog`; only `blog` follows it, with one green square signal.
 2. **Compact mark:** a bold geometric `11` with one green square, designed to
    remain legible at small sizes.
-3. **Default OG:** a modular editorial technology grid with the exact strings
+3. **Favicon exploration:** the original mark is preserved while the green
+   square is enlarged and the canvas is cropped more tightly for recognition
+   at 16 and 32 pixels. The v2 direction enlarges it further and centers the
+   complete `11` plus square silhouette as a single unit.
+4. **Default OG:** a modular editorial technology grid with the exact strings
    `11blog` and `by rj11io`.
-4. **Blog Platform OG:** an abstract publishing-system layout with the exact
+5. **Blog Platform OG:** an abstract publishing-system layout with the exact
    strings `Blog Platform` and `11blog`.
-5. **Publication cover:** interlocking page frames, content rails, margins, and
+6. **Publication cover:** interlocking page frames, content rails, margins, and
    columns organized around a double-one rhythm.
-6. **Markdown components cover:** a strict kit of abstract heading, paragraph,
+7. **Markdown components cover:** a strict kit of abstract heading, paragraph,
    code, table, media, and callout modules without rendered copy.
-7. **Markdown Blog Format cover:** a left-to-right transformation from plain
+8. **Markdown Blog Format cover:** a left-to-right transformation from plain
    line units, through a double-one parsing gate, into a structured page.
 
-All images were created with the built-in image generation model and then
-copied into this directory. OG and cover outputs were normalized to their final
-production dimensions without changing their compositions.
+The original image set was created with the built-in image generation model.
+The favicon exploration is a deterministic raster refinement of that mark so
+the numeral geometry remains unchanged. OG and cover outputs were normalized
+to their final production dimensions without changing their compositions.
