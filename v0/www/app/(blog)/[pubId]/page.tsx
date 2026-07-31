@@ -121,33 +121,38 @@ export default async function PublicationPage({
             <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">
               Publication
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {publication.isFeatured && (
-                <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-                  Featured
-                </span>
-              )}
-              {publication.isNew && (
-                <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-                  New post
-                </span>
-              )}
-              {publication.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="border border-border px-2.5 py-1 text-xs text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {/*
+              Only the two standing badges. Tags moved down to the row of facts
+              below the description, where the post page keeps them. Rendered
+              conditionally because a publication that is neither featured nor
+              new would otherwise leave an empty row and its margin behind.
+            */}
+            {(publication.isFeatured || publication.isNew) && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {publication.isFeatured && (
+                  <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                    Featured
+                  </span>
+                )}
+                {publication.isNew && (
+                  <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                    New post
+                  </span>
+                )}
+              </div>
+            )}
             <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
               {publication.title}
             </h1>
             <p className="mt-5 text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
               {publication.description}
             </p>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            {/*
+              The same row of facts the post page carries, with the same spacing
+              and the tags on the end. items-center is what keeps the bordered
+              tags aligned with the plain text beside them.
+            */}
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted-foreground">
               <time dateTime={publication.created}>
                 Created{" "}
                 {dateFormatter.format(
@@ -164,6 +169,16 @@ export default async function PublicationPage({
                 </time>
               ) : null}
               <span>{publication.posts.length} posts</span>
+              <div className="flex flex-wrap gap-2">
+                {publication.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="border border-border px-2.5 py-1 text-xs"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
             <AuthorByline authors={getPublicationAuthors(publication)} />
           </div>

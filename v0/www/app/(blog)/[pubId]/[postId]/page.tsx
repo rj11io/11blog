@@ -179,10 +179,26 @@ export default async function PostPage({ params }: PostPageProps) {
                     {publication.title}
                   </span>
                 </Link>
-                {post.isFeatured && (
-                  <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-                    Featured
-                  </span>
+                {/*
+                  Their own group, so the badges sit close to each other at the
+                  same spacing the publication page and the cards use, while
+                  keeping the wider gap from the publication name beside them.
+                  The label is "New" rather than the publication page's "New
+                  post": there, it means the publication has one.
+                */}
+                {(post.isFeatured || post.isNew) && (
+                  <div className="flex flex-wrap items-center gap-2">
+                    {post.isFeatured && (
+                      <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                        Featured
+                      </span>
+                    )}
+                    {post.isNew && (
+                      <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                        New
+                      </span>
+                    )}
+                  </div>
                 )}
               </div>
               <h1
