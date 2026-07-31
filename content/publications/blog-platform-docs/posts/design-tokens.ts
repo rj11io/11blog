@@ -142,6 +142,6 @@ The variables setting is the important one. It is what makes generated component
 - Do not write a corner radius. The system is square, from one lever.
 - Structure comes from thin borders, using border-border. Not from shadows.
 - Check the component in both modes before committing. The theme hotkey makes this a single keystroke.
-- If you introduce a colour used as text, check it measures at least 4.5 to 1 against every surface it will sit on. Both surfaces, both modes. That rule, and the rest of what a new component owes its readers, is in the [Accessibility contract](/blog-platform/accessibility-contract).
+- If you introduce a colour used as text, check it measures at least 4.5 to 1 against every surface it will sit on. Both surfaces, both modes. That rule, and the rest of what a new component owes its readers, is in the [Accessibility contract](/blog-platform-docs/accessibility-contract).
 - Record the reasoning in a comment when a value exists for a measurable reason. The two comments in this stylesheet are the reason its unusual choices have survived.
 `

@@ -17,24 +17,25 @@ There is a second, unrelated `AGENTS.md` at `v0/www/AGENTS.md`. It warns that th
 
 ## The documentation lives in the blog itself
 
-The Blog Platform publication documents this platform. It is the source of truth for how everything works, and it is written for whoever maintains the repo. Read the relevant post before changing the thing it describes.
+The Blog Platform Docs publication documents this platform. It is the source of truth for how everything works, and it is written for whoever maintains the repo. Read the relevant post before changing the thing it describes.
 
-All twelve live in `content/publications/blog-platform/posts/`.
+All thirteen live in `content/publications/blog-platform-docs/posts/`. Start with the tour if you are new.
 
 | If you are… | Read | Published at |
 | --- | --- | --- |
-| Writing or editing a post | `adding-content.ts` | `/blog-platform/adding-content` |
-| Looking up Markdown syntax | `markdown-reference/` | `/blog-platform/markdown-reference` |
-| Hitting a content error message | `content-validation.ts` | `/blog-platform/content-validation` |
-| Choosing tags, titles, or excerpts | `search-and-discovery.ts` | `/blog-platform/search-and-discovery` |
-| Adding or changing an author | `authors-and-bylines.ts` | `/blog-platform/authors-and-bylines` |
-| Changing types, the registry, or the boundary | `content-contract.ts` | `/blog-platform/content-contract` |
-| Adding a component, or wondering what runs where | `rendering-model.ts` | `/blog-platform/rendering-model` |
-| Adding Markdown syntax | `extending-the-renderer.ts` | `/blog-platform/extending-the-renderer` |
-| Touching colours, spacing, or theming | `design-tokens.ts` | `/blog-platform/design-tokens` |
-| Building any interactive element | `accessibility-contract.ts` | `/blog-platform/accessibility-contract` |
-| Renaming anything with a URL | `urls-and-redirects.ts` | `/blog-platform/urls-and-redirects` |
-| Running, checking, or releasing | `running-the-blog.ts` | `/blog-platform/running-the-blog` |
+| New to the platform | `start-here.ts` | `/blog-platform-docs/start-here` |
+| Writing or editing a post | `adding-content.ts` | `/blog-platform-docs/adding-content` |
+| Looking up Markdown syntax | `markdown-reference/` | `/blog-platform-docs/markdown-reference` |
+| Hitting a content error message | `content-validation.ts` | `/blog-platform-docs/content-validation` |
+| Choosing tags, titles, or excerpts | `search-and-discovery.ts` | `/blog-platform-docs/search-and-discovery` |
+| Adding or changing an author | `authors-and-bylines.ts` | `/blog-platform-docs/authors-and-bylines` |
+| Changing types, the registry, or the boundary | `content-contract.ts` | `/blog-platform-docs/content-contract` |
+| Adding a component, or wondering what runs where | `rendering-model.ts` | `/blog-platform-docs/rendering-model` |
+| Adding Markdown syntax | `extending-the-renderer.ts` | `/blog-platform-docs/extending-the-renderer` |
+| Touching colours, spacing, or theming | `design-tokens.ts` | `/blog-platform-docs/design-tokens` |
+| Building any interactive element | `accessibility-contract.ts` | `/blog-platform-docs/accessibility-contract` |
+| Renaming anything with a URL | `urls-and-redirects.ts` | `/blog-platform-docs/urls-and-redirects` |
+| Running, checking, or releasing | `running-the-blog.ts` | `/blog-platform-docs/running-the-blog` |
 
 ## Commands
 
@@ -84,7 +85,7 @@ Check these by hand, because no command will tell you:
 
 ## When you change something, update the documentation
 
-**Any meaningful change to the platform must update the Blog Platform documentation in the same commit.** These posts are published; a stale one is a public false statement, not a private note.
+**Any meaningful change to the platform must update the Blog Platform Docs publication in the same commit.** These posts are published; a stale one is a public false statement, not a private note.
 
 A change is meaningful if it alters what someone else would need to know. Specifically:
 

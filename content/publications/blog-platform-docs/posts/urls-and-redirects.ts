@@ -73,7 +73,7 @@ A post with a slug contributes only its slug. Since nothing outside that list ex
 
 The numeric branch of the lookup matters only for a post with no slug, and then it is that post's single address. So the rule is simply: a post has exactly one address, its slug if it has one and its number if it does not.
 
-The lookup also returns the post's position in the array, which is how the previous and next links at the foot of a post are found. Editorial order is array order. See [The content contract](/blog-platform/content-contract).
+The lookup also returns the post's position in the array, which is how the previous and next links at the foot of a post are found. Editorial order is array order. See [The content contract](/blog-platform-docs/content-contract).
 
 ## Reserved publication IDs
 
@@ -110,7 +110,7 @@ Two consequences follow.
 
 **New content requires a build.** There is no way to add a post to a running site. This is the intended trade: the site is a set of files, and nothing is generated at request time.
 
-**A typo in a link is caught as a 404, not as a broken page.** But note what is *not* checked: nothing verifies that a link written inside a post's prose points at a real address. A link to /blog-platform/does-not-exist will build happily and 404 for the reader. When you write internal links in a post, click them.
+**A typo in a link is caught as a 404, not as a broken page.** But note what is *not* checked: nothing verifies that a link written inside a post's prose points at a real address. A link to /blog-platform-docs/does-not-exist will build happily and 404 for the reader. When you write internal links in a post, click them.
 
 ## Internal and external links in prose
 
@@ -138,7 +138,9 @@ For authors, the rule is simple: write internal links as root-relative paths, st
 
 Changing a publication ID or a post slug changes its public address. The old address must keep working, which means a redirect.
 
-Redirects live in v0/www/next.config.ts. There is a worked example already in place: the publication now called blog-platform was once called blog-tech, and it also used to sit under a /publications prefix. Four rules cover that history:
+Redirects live in v0/www/next.config.ts. This publication is the worked example, because it has been renamed twice. It began as blog-tech under a /publications prefix, became blog-platform, and is now blog-platform-docs. Every one of those addresses still resolves.
+
+Four rules cover the first rename:
 
 ~~~ts
 { source: "/blog-tech/:postId", destination: "/blog-platform/:postId", permanent: true },
@@ -146,6 +148,26 @@ Redirects live in v0/www/next.config.ts. There is a worked example already in pl
 { source: "/publications/blog-tech/:postId", destination: "/blog-platform/:postId", permanent: true },
 { source: "/publications/blog-tech", destination: "/blog-platform", permanent: true },
 ~~~
+
+Two more cover the second:
+
+~~~ts
+{ source: "/blog-platform/:postId", destination: "/blog-platform-docs/:postId", permanent: true },
+{ source: "/blog-platform", destination: "/blog-platform-docs", permanent: true },
+~~~
+
+Notice that the first set still points at blog-platform, which is no longer a real publication. That is deliberate, and it is the useful lesson in this example: **redirects chain.** A request for /blog-tech/design-tokens is forwarded to /blog-platform/design-tokens, the browser follows it, and the second set forwards it again to /blog-platform-docs/design-tokens. Two hops, one working page.
+
+Rewriting the old rules to point straight at the current name would save a hop, but every rename would then mean editing every rule that had ever pointed at the old one. Letting them chain means each rename adds rules and never edits them, which is far harder to get wrong.
+
+There is one exception in the file. Three rules handle posts that were renamed *and* whose publication then moved, and those do point straight at the final address:
+
+~~~ts
+{ source: "/blog-platform/markdown-components",
+  destination: "/blog-platform-docs/markdown-reference", permanent: true },
+~~~
+
+They have to sit above the general /blog-platform/:postId rule. A source matches on path alone and the first matching rule wins, so listed after it, an old slug would be forwarded to a publication that has no post by that name.
 
 Two more rules handle the dropped prefix for every other publication:
 

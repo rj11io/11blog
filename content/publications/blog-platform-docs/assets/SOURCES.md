@@ -1,4 +1,4 @@
-# Blog Platform cover and Open Graph images
+# Blog Platform Docs cover and Open Graph images
 
 Generated brand assets, not photographs. Copied into the content directory on
 2026-07-31 from the versioned set of record at
@@ -7,7 +7,7 @@ generator that produced them:
 
 - Source set: `v0/branding/images/blog-platform/`
 - Generator: `v0/branding/generators/blog-platform-og-covers-v1.py`
-- Version: v1
+- Version: v1, plus the entry-point cover from og-covers-v2.py
 
 Each file is 1200 × 630 and serves two jobs at once. It is the post's cover on
 the site, and it is the Open Graph image used in link previews, because
@@ -25,7 +25,8 @@ traced back to the generator that made it.
 
 | File | Used by |
 | --- | --- |
-| `blog-platform-og-cover-v1.png` | The Blog Platform publication |
+| `blog-platform-og-cover-v1.png` | The Blog Platform Docs publication |
+| `start-here-og-cover-v1.png` | A tour of the platform |
 | `adding-content-og-cover-v1.png` | Adding a publication or post |
 | `content-validation-og-cover-v1.png` | Content validation rules |
 | `search-and-discovery-og-cover-v1.png` | Search, tags, and discovery |

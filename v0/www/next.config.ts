@@ -46,17 +46,39 @@ const nextConfig: NextConfig = {
       // it is forwarded to /blog-platform/markdown-components and then here.
       {
         source: "/blog-platform/markdown-components",
-        destination: "/blog-platform/markdown-reference",
+        destination: "/blog-platform-docs/markdown-reference",
         permanent: true,
       },
       {
         source: "/blog-platform/markdown-blog-format",
-        destination: "/blog-platform/adding-content",
+        destination: "/blog-platform-docs/adding-content",
         permanent: true,
       },
       {
         source: "/blog-platform/custom-components",
-        destination: "/blog-platform/extending-the-renderer",
+        destination: "/blog-platform-docs/extending-the-renderer",
+        permanent: true,
+      },
+      // The publication was renamed from blog-platform to blog-platform-docs on
+      // 2026-07-31, once it clearly was documentation and a second publication
+      // existed alongside it.
+      //
+      // These two must stay below the three post-rename rules above: a source
+      // matches greedily on the first rule that fits, and the general rule here
+      // would otherwise send an old slug to a page that no longer exists.
+      //
+      // The /blog-tech rules further down still point at /blog-platform on
+      // purpose. Their old slugs land on the post rules above, which forward
+      // straight to the new publication, so every historical address resolves in
+      // at most three hops.
+      {
+        source: "/blog-platform/:postId",
+        destination: "/blog-platform-docs/:postId",
+        permanent: true,
+      },
+      {
+        source: "/blog-platform",
+        destination: "/blog-platform-docs",
         permanent: true,
       },
       {

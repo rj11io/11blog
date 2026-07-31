@@ -3,7 +3,7 @@ export const extendingTheRenderer = `
 
 The blog understands three pieces of syntax that ordinary Markdown does not: a named image, an image list, and a YouTube embed. All three are written the same way, and all three are built the same way. This post explains that shape so you can add a fourth.
 
-If you only want to use the existing three, read [Markdown reference](/blog-platform/markdown-reference) instead. This post is for changing the renderer.
+If you only want to use the existing three, read [Markdown reference](/blog-platform-docs/markdown-reference) instead. This post is for changing the renderer.
 
 ## The shape of a shortcode
 
@@ -171,7 +171,7 @@ if (!image) {
 }
 ~~~
 
-The reasoning: an author needs to see the mistake immediately, and a reader should never see a broken component. If the mistake is one a validation rule could catch instead, prefer that. See [Content validation rules](/blog-platform/content-validation) for how to add one.
+The reasoning: an author needs to see the mistake immediately, and a reader should never see a broken component. If the mistake is one a validation rule could catch instead, prefer that. See [Content validation rules](/blog-platform-docs/content-validation) for how to add one.
 
 ## Components that need post data
 
@@ -189,11 +189,11 @@ If your component needs post-level configuration, add a field to the Post type i
 
 **Do not add raw HTML support.** The renderer does not enable it, and turning it on would let content inject arbitrary markup. A new component is the supported way to add a new shape.
 
-**Do not reach for MDX.** MDX lets a post import and run components directly. It would collapse the boundary the content layer depends on, and content would no longer be plain data. See [The content contract](/blog-platform/content-contract).
+**Do not reach for MDX.** MDX lets a post import and run components directly. It would collapse the boundary the content layer depends on, and content would no longer be plain data. See [The content contract](/blog-platform-docs/content-contract).
 
 **Do not skip the argument check.** Every existing plugin validates its argument before putting it in an attribute. A YouTube ID goes straight into a URL; an unvalidated one is a hole.
 
-**Do not make the component a client component unless it needs to be.** The renderer runs on the server. A callout, a table, an embed frame: all fine as server components. Only reach for "use client" when you need state or an event handler, and then read [How pages are rendered](/blog-platform/rendering-model) first.
+**Do not make the component a client component unless it needs to be.** The renderer runs on the server. A callout, a table, an embed frame: all fine as server components. Only reach for "use client" when you need state or an event handler, and then read [How pages are rendered](/blog-platform-docs/rendering-model) first.
 
 ## Checklist
 
@@ -203,6 +203,6 @@ If your component needs post-level configuration, add a field to the Post type i
 4. Add the property to MarkdownElementProps.
 5. Add the component to the components object and to the type after satisfies.
 6. Decide how a missing or malformed argument behaves, in development and in production.
-7. Document the new syntax in [Markdown reference](/blog-platform/markdown-reference), and add a live example to that post so the reference stays executable.
+7. Document the new syntax in [Markdown reference](/blog-platform-docs/markdown-reference), and add a live example to that post so the reference stays executable.
 8. Run typecheck, lint, and build.
 `

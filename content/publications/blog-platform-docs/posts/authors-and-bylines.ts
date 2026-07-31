@@ -46,7 +46,7 @@ Initials are the format that satisfies both jobs. The three current authors use 
 
 ## Photographs, and one gap
 
-An avatar is a path to a file served by the site, so /static/blog-authors/rj-pic.png. Author photographs are the main reason that directory exists; see [Adding a publication or post](/blog-platform/adding-content) for the layout.
+An avatar is a path to a file served by the site, so /static/blog-authors/rj-pic.png. Author photographs are the main reason that directory exists; see [Adding a publication or post](/blog-platform-docs/adding-content) for the layout.
 
 Unlike a post's images, they are rendered with the optimising image component, at fixed sizes, cropped to fill a square.
 
@@ -106,7 +106,7 @@ Three or more uses a comma before the final "and".
 - Tags follow the usual rules: no blanks, no surrounding spaces, no duplicates within one list.
 - Every link needs a non-empty label and a complete http or https address.
 
-The full set of messages is in [Content validation rules](/blog-platform/content-validation).
+The full set of messages is in [Content validation rules](/blog-platform-docs/content-validation).
 
 One rule is checked twice, in two different places, and the two messages look different. The validator names the post by its numeric ID:
 
@@ -144,7 +144,7 @@ Changing the name, displayName, bio, or avatar costs nothing, since none of thos
 2. Set displayName to two or three characters, so it works as both an avatar and a name in a sentence.
 3. Write a bio of two or three sentences, in plain text.
 4. Add a photograph if you have one, then open the author page to confirm the path is right. Nothing validates it.
-5. Give two or three subject tags, matching the capitalisation of tags already in use. See [Search, tags, and discovery](/blog-platform/search-and-discovery).
+5. Give two or three subject tags, matching the capitalisation of tags already in use. See [Search, tags, and discovery](/blog-platform-docs/search-and-discovery).
 6. Add external links with complete addresses.
 7. Add them alongside their first post, so they never appear with an empty page.
 8. Run typecheck, lint, and build.

@@ -16,7 +16,8 @@ export const publications: Publication[] = [
   signalPath,
   materialCulture,
   localWeather,
-  blogPlatform,
+  blogPlatformDocs,
+  onlinePresence,
 ]
 
 export const blogAuthors: Author[] = authors
@@ -57,7 +58,7 @@ local-weather/302.created must use YYYY-MM-DD format
 A problem inside a post's image configuration extends the same path:
 
 ~~~text
-blog-platform/401.images.workspace-overview.alt must not be empty
+blog-platform-docs/401.images.workspace-overview.alt must not be empty
 ~~~
 
 The checker throws on the first problem it finds and stops. If your content has three mistakes, you will see them one at a time, in order. Fix, re-run, repeat.
@@ -206,10 +207,10 @@ For each named image list:
 | local-weather/302 has duplicate author rj11io | The same author is listed twice | Remove the repeat |
 | local-weather/302 references unknown author sam | The author ID does not exist in authors.ts | Correct the ID, or add the author |
 | local-weather/302 has no content | The body is missing or empty | Write the body, or remove the post |
-| blog-platform/401.images.hero must use a shortcode-safe image key | An image key has capitals or unsupported characters | Use lowercase, with hyphens, underscores, or colons |
-| blog-platform/401.images.hero.width must be a positive integer | A dimension is missing, zero, or fractional | Read the real pixel dimensions and use them |
-| blog-platform/401.images.hero.alt must not be empty | An image has no description | Describe the image |
-| blog-platform/401.imageLists.gallery must contain at least one image | A configured list is empty | Add images, or remove the list |
+| blog-platform-docs/401.images.hero must use a shortcode-safe image key | An image key has capitals or unsupported characters | Use lowercase, with hyphens, underscores, or colons |
+| blog-platform-docs/401.images.hero.width must be a positive integer | A dimension is missing, zero, or fractional | Read the real pixel dimensions and use them |
+| blog-platform-docs/401.images.hero.alt must not be empty | An image has no description | Describe the image |
+| blog-platform-docs/401.imageLists.gallery must contain at least one image | A configured list is empty | Add images, or remove the list |
 
 ## Fixing a failing build
 

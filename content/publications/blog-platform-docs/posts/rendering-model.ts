@@ -18,7 +18,7 @@ export function generateStaticParams() {
 }
 ~~~
 
-The publication and author pages do the same with their own lists. dynamicParams set to false means an address that was not listed is a 404 rather than something rendered on demand. See [URLs, slugs, and redirects](/blog-platform/urls-and-redirects).
+The publication and author pages do the same with their own lists. dynamicParams set to false means an address that was not listed is a 404 rather than something rendered on demand. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
 
 This is possible because the content is imported code, not fetched data. The registry has already assembled and validated everything by the time any page function runs, so a page is a function from data that is already in memory to markup.
 
@@ -69,7 +69,7 @@ export async function CodeBlock({ code, language }) {
 
 Shiki, the highlighter, runs during the build. Its themes and language grammars are large, and none of it is sent to the browser: the reader receives already-coloured markup.
 
-The markup carries both a light and a dark colour on every token, and the stylesheet picks between them, so switching mode recolours code without re-highlighting anything. See [Design tokens and theming](/blog-platform/design-tokens).
+The markup carries both a light and a dark colour on every token, and the stylesheet picks between them, so switching mode recolours code without re-highlighting anything. See [Design tokens and theming](/blog-platform-docs/design-tokens).
 
 Unknown languages fall back to plain text rather than failing, so a fenced block labelled with something Shiki does not recognise still renders.
 
@@ -92,7 +92,7 @@ ssr set to false means it is not rendered on the server either, which is correct
 
 Next.js has an image component that optimises and resizes images. The blog does not use it for content images. Cover art, post images, and gallery items are all plain image elements, and the linting rule that objects is switched off at each of those lines.
 
-The reason is stated in a comment in cover-image.tsx: content can point at any host, and the optimising component requires every host to be listed in configuration up front. Content that needs a configuration change before it can reference an image would break the boundary between content and website. See [The content contract](/blog-platform/content-contract).
+The reason is stated in a comment in cover-image.tsx: content can point at any host, and the optimising component requires every host to be listed in configuration up front. Content that needs a configuration change before it can reference an image would break the boundary between content and website. See [The content contract](/blog-platform-docs/content-contract).
 
 Author photographs, which live in the site's own public directory and are known ahead of time, do use the optimising component.
 

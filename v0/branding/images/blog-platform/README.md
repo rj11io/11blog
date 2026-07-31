@@ -1,7 +1,8 @@
 # Blog Platform OG and cover set
 
 Version 1 contains one publication image and one image for each of the twelve
-posts registered in content/publications/blog-platform/index.ts.
+posts registered in content/publications/blog-platform-docs/index.ts. The
+entry-point cover added later by og-covers-v2.py is listed below too.
 
 Every asset is 1200 × 630. The central title area is safe when the same image
 is center-cropped to 16:9, so one file can serve as both its Open Graph image
@@ -19,10 +20,11 @@ The visual system follows the approved line-free OG direction:
 
 ## Publication
 
-- `publication-blog-platform-og-cover-v1.png` — Blog Platform
+- `publication-blog-platform-og-cover-v1.png` — Blog Platform Docs
 
 ## Posts
 
+- `posts/413-start-here-og-cover-v1.png` — A tour of the platform (og-covers-v2.py)
 - `posts/401-markdown-reference-og-cover-v1.png` — Markdown reference
 - `posts/402-adding-content-og-cover-v1.png` — Adding a publication or post
 - `posts/403-content-validation-og-cover-v1.png` — Content validation rules

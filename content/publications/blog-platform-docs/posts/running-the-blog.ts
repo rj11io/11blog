@@ -1,7 +1,7 @@
 export const runningTheBlog = `
 # Running and releasing the blog
 
-This post covers the mechanics: how to start the site locally, what to check before committing, and what happens when a change reaches the main branch. It is the operator's half of the documentation. For writing content, see [Adding a publication or post](/blog-platform/adding-content).
+This post covers the mechanics: how to start the site locally, what to check before committing, and what happens when a change reaches the main branch. It is the operator's half of the documentation. For writing content, see [Adding a publication or post](/blog-platform-docs/adding-content).
 
 ## Two package manifests, two jobs
 
@@ -55,7 +55,7 @@ There is also npm run format, which rewrites files with Prettier, including the 
 - lint catches the rules the Next.js configuration enforces.
 - build is the only command that executes the content and generates every page. It is therefore the only one that catches a content validation failure, a publication missing from the registry, or a post that cannot render.
 
-That last point is worth being clear about, because it is easy to get wrong. The content validator runs when the registry is executed, which happens during a build and when the dev server renders a page. It does not run during typecheck: a date written as 2026-02-30 is a valid string, so typecheck passes and the build then fails. Never take a passing typecheck as evidence that content is valid. See [Content validation rules](/blog-platform/content-validation).
+That last point is worth being clear about, because it is easy to get wrong. The content validator runs when the registry is executed, which happens during a build and when the dev server renders a page. It does not run during typecheck: a date written as 2026-02-30 is a valid string, so typecheck passes and the build then fails. Never take a passing typecheck as evidence that content is valid. See [Content validation rules](/blog-platform-docs/content-validation).
 
 ## Why the build reaches outside the app directory
 
@@ -88,7 +88,7 @@ turbopack: {
 
 The loader itself is five lines. It takes the file's text and exports it as a string, which is all a post body needs to be.
 
-If you move the app, or add a second one, both settings have to move with it. That is the price of keeping content framework-independent, and it is a price worth paying. See [The content contract](/blog-platform/content-contract).
+If you move the app, or add a second one, both settings have to move with it. That is the price of keeping content framework-independent, and it is a price worth paying. See [The content contract](/blog-platform-docs/content-contract).
 
 ## How a release happens
 

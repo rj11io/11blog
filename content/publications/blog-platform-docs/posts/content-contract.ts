@@ -28,9 +28,9 @@ Two settings in v0/www/tsconfig.json do the work:
 "include": ["**/*.ts", "**/*.tsx", "../../content/**/*.ts"]
 ~~~
 
-The alias means the website writes @content/registry rather than a chain of parent directories. The include means the content files are type-checked as part of the website's own typecheck, so a type mistake in a content file is caught by the same command that checks the components. Rule violations are a separate matter, caught by the build; see [Content validation rules](/blog-platform/content-validation).
+The alias means the website writes @content/registry rather than a chain of parent directories. The include means the content files are type-checked as part of the website's own typecheck, so a type mistake in a content file is caught by the same command that checks the components. Rule violations are a separate matter, caught by the build; see [Content validation rules](/blog-platform-docs/content-validation).
 
-The bundler needs matching configuration, described in [Running and releasing the blog](/blog-platform/running-the-blog).
+The bundler needs matching configuration, described in [Running and releasing the blog](/blog-platform-docs/running-the-blog).
 
 ## The registry is the only door
 
@@ -40,7 +40,7 @@ The registry does four things.
 
 **It assembles.** It imports each publication and the author list, and exports them as arrays.
 
-**It validates.** It calls the checker at the top level of the module, so importing the registry validates the content. A rule failure is a build failure. See [Content validation rules](/blog-platform/content-validation).
+**It validates.** It calls the checker at the top level of the module, so importing the registry validates the content. A rule failure is a build failure. See [Content validation rules](/blog-platform-docs/content-validation).
 
 **It derives.** It pre-computes the shapes the pages actually need, so no page has to join data together itself.
 
@@ -127,7 +127,7 @@ Because the dependency runs one way, a different front end is a realistic piece 
 - **A way to import a .md file as a string.** The type declaration in content/markdown.d.ts already describes the shape; the bundler needs a loader that produces it. The current one is five lines.
 - **A way to import an image file and read its source, width, and height.** Post image modules rely on this, and it is the only other build-time capability the content assumes.
 - **The five routes.** Landing, browse, publication, post, author. content/routes.ts already defines their shapes.
-- **A Markdown renderer** that handles standard Markdown, the GitHub extensions, and the three custom shortcodes. See [Extending the renderer](/blog-platform/extending-the-renderer).
+- **A Markdown renderer** that handles standard Markdown, the GitHub extensions, and the three custom shortcodes. See [Extending the renderer](/blog-platform-docs/extending-the-renderer).
 
 Everything else, including all validation, comes with the content.
 
@@ -135,7 +135,7 @@ Everything else, including all validation, comes with the content.
 
 **Adding an optional field is safe.** Existing content stays valid and existing pages ignore it. Add a validation rule for it at the same time.
 
-**Adding a required field is a change to every publication file.** Do it deliberately, and update [Adding a publication or post](/blog-platform/adding-content) in the same change.
+**Adding a required field is a change to every publication file.** Do it deliberately, and update [Adding a publication or post](/blog-platform-docs/adding-content) in the same change.
 
 **Never import from v0/www inside content.** It would reverse the dependency and make the content layer unusable anywhere else. There is nothing in the website worth this.
 

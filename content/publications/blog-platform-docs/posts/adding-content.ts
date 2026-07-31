@@ -1,7 +1,7 @@
 export const addingContent = `
 # Adding a publication or post
 
-This guide explains how to add a publication or post to the blog's internal content system. For examples of the Markdown syntax and custom renderer behavior, see the [Markdown reference](/blog-platform/markdown-reference) post.
+This guide explains how to add a publication or post to the blog's internal content system. For examples of the Markdown syntax and custom renderer behavior, see the [Markdown reference](/blog-platform-docs/markdown-reference) post.
 
 ## Content architecture
 
@@ -81,7 +81,8 @@ export const publications: Publication[] = [
   signalPath,
   materialCulture,
   localWeather,
-  blogPlatform,
+  blogPlatformDocs,
+  onlinePresence,
   publicationName,
 ]
 ~~~
@@ -232,7 +233,7 @@ Leave a blank line between paragraphs, headings, lists, quotes, tables, and code
 
 The renderer supports normal Markdown paragraphs, emphasis, strong text, strikethrough, inline code, headings, links, images, blockquotes, unordered and ordered lists, task-list checkboxes, horizontal rules, tables, fenced code blocks, and hard line breaks.
 
-The remark-gfm plugin additionally supports autolink literals, footnotes, strikethrough, tables, and task lists. Use the [Markdown reference](/blog-platform/markdown-reference) post as the executable reference for each of these forms.
+The remark-gfm plugin additionally supports autolink literals, footnotes, strikethrough, tables, and task lists. Use the [Markdown reference](/blog-platform-docs/markdown-reference) post as the executable reference for each of these forms.
 
 The blog also supports a custom YouTube embed. Use a standalone shortcode with an 11-character video ID:
 
@@ -331,7 +332,7 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 6. Put named single-image and image-list configurations in the post's .images.ts file when needed.
 7. Give configured images dimensions, useful alt text, and separate thumbnail and lightbox sources where practical.
 8. Add a coverImage, imported rather than written as a path, and remember it doubles as the post's link preview.
-9. Check component syntax against the [Markdown reference](/blog-platform/markdown-reference) reference.
+9. Check component syntax against the [Markdown reference](/blog-platform-docs/markdown-reference) reference.
 10. Add the post to its publication's posts array, in the position it should read.
 11. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
 
@@ -345,5 +346,5 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 6. Import the publication in content/registry.ts and add it to the publications array.
 7. Run typecheck, lint, and build.
 
-For the rules behind each of these steps, and the exact message thrown when one fails, see [Content validation rules](/blog-platform/content-validation).
+For the rules behind each of these steps, and the exact message thrown when one fails, see [Content validation rules](/blog-platform-docs/content-validation).
 `

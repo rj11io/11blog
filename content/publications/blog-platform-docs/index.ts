@@ -1,5 +1,6 @@
 import type { Publication } from "../../types"
 import { accessibilityContract } from "./posts/accessibility-contract"
+import { startHere } from "./posts/start-here"
 import { addingContent } from "./posts/adding-content"
 import { authorsAndBylines } from "./posts/authors-and-bylines"
 import { contentContract } from "./posts/content-contract"
@@ -13,6 +14,7 @@ import { searchAndDiscovery } from "./posts/search-and-discovery"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
 
 import publicationCover from "./assets/blog-platform-og-cover-v1.png"
+import startHereCover from "./assets/start-here-og-cover-v1.png"
 import addingContentCover from "./assets/adding-content-og-cover-v1.png"
 import contentValidationCover from "./assets/content-validation-og-cover-v1.png"
 import searchAndDiscoveryCover from "./assets/search-and-discovery-og-cover-v1.png"
@@ -25,26 +27,42 @@ import accessibilityContractCover from "./assets/accessibility-contract-og-cover
 import urlsAndRedirectsCover from "./assets/urls-and-redirects-og-cover-v1.png"
 import runningTheBlogCover from "./assets/running-the-blog-og-cover-v1.png"
 
-export const blogPlatform: Publication = {
+export const blogPlatformDocs: Publication = {
   relId: 4,
-  pubId: "blog-platform",
-  title: "Blog Platform",
+  pubId: "blog-platform-docs",
+  title: "Blog Platform Docs",
   description:
-    "Technical notes on the blog's content model, renderer, and publishing system.",
+    "The complete documentation for 11blog: writing posts, the content contract, extending the renderer, and running the site.",
   created: "2026-07-01",
-  updated: "2026-07-12",
+  updated: "2026-07-13",
   isNSFW: false,
   isNew: true,
   isFeatured: true,
-  tags: ["Blog", "Technology", "Publishing"],
+  tags: ["Blog", "Technology", "Publishing", "Documentation"],
   synopsis:
-    "Blog Platform documents the systems behind this publication: content contracts, Markdown rendering, and the tools that make a small editorial collection dependable.",
+    "Thirteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with A tour of the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
   editorNotes:
-    "Practical notes about the blog itself, written as part of the same publishing system described in the posts.",
-  // Editorial order, which is what the previous and next links follow: author,
-  // then understand, then extend, then operate. The created dates ascend by one
-  // day with that order, so a date sort and the reading path agree.
+    "Written inside the system it describes, which is the point: every post here is rendered by the platform it documents, so a broken claim shows up as a broken page. Read the post that covers a thing before changing that thing, and update it in the same commit.",
+  // Editorial order, which is what the previous and next links follow: the entry
+  // point, then author, understand, extend, operate. Posts two to thirteen carry
+  // ascending dates matching that order. The entry point is deliberately dated
+  // latest instead, so it also heads the newest-first listing.
   posts: [
+    {
+      postId: 413,
+      slug: "start-here",
+      title: "A tour of the platform",
+      excerpt:
+        "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
+      created: "2026-07-13",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: true,
+      isFeatured: true,
+      tags: ["Documentation", "Blog", "Publishing"],
+      content: startHere,
+      coverImage: startHereCover.src,
+    },
     {
       postId: 402,
       slug: "adding-content",

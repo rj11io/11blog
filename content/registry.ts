@@ -1,6 +1,7 @@
 import { authors } from "./authors"
-import { blogPlatform } from "./publications/blog-platform"
+import { blogPlatformDocs } from "./publications/blog-platform-docs"
 import { localWeather } from "./publications/local-weather"
+import { onlinePresence } from "./publications/online-presence"
 import { materialCulture } from "./publications/material-culture"
 import { signalPath } from "./publications/signal-path"
 import { authorHref, postHref, publicationHref } from "./routes"
@@ -20,7 +21,8 @@ export const publications: Publication[] = [
   signalPath,
   materialCulture,
   localWeather,
-  blogPlatform,
+  blogPlatformDocs,
+  onlinePresence,
 ]
 
 export const blogAuthors: Author[] = authors

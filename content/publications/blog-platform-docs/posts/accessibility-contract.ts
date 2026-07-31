@@ -9,7 +9,7 @@ It also lists what the blog does not yet do, at the end.
 
 One accessibility rule is enforced by the build rather than left to good intentions: every configured image must be described.
 
-The validator requires alt text on every named image and on every image in a gallery, and rejects an empty string. There is no way to add a configured image without describing it. See [Content validation rules](/blog-platform/content-validation).
+The validator requires alt text on every named image and on every image in a gallery, and rejects an empty string. There is no way to add a configured image without describing it. See [Content validation rules](/blog-platform-docs/content-validation).
 
 Two other author responsibilities are conventions rather than enforced rules:
 
@@ -120,7 +120,7 @@ The general rule: any animation must have a reduced-motion form, and that form s
 
 Text must measure at least 4.5 to 1 against every surface it sits on, in both colour modes.
 
-The dark-mode accent colour exists because of this rule. The original deep green measured 2.6 to 1 against the dark background, and was replaced with a light mint measuring 9.2 to 1, with a dark foreground token for text sitting on an accent fill. The numbers are recorded in comments in the stylesheet, and the full reasoning is in [Design tokens and theming](/blog-platform/design-tokens).
+The dark-mode accent colour exists because of this rule. The original deep green measured 2.6 to 1 against the dark background, and was replaced with a light mint measuring 9.2 to 1, with a dark foreground token for text sitting on an accent fill. The numbers are recorded in comments in the stylesheet, and the full reasoning is in [Design tokens and theming](/blog-platform-docs/design-tokens).
 
 One token exists specifically to protect contrast: the badge surface is an opaque mix rather than a translucent tint, so a badge sitting on top of cover art keeps a known background rather than inheriting whatever the photograph provides.
 
@@ -158,7 +158,7 @@ Stated plainly, because a contract with unstated gaps is misleading:
 
 **Heading order is not checked.** An author can skip from a second-level heading to a fourth and the build will pass, producing a table of contents that misrepresents the document. This is a rule the validator could enforce.
 
-**Prose links are not checked.** A link inside a post's body pointing at an address that does not exist builds without complaint. See [URLs, slugs, and redirects](/blog-platform/urls-and-redirects).
+**Prose links are not checked.** A link inside a post's body pointing at an address that does not exist builds without complaint. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
 
 ## When you add a component
 

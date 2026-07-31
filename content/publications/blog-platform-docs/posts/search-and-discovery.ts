@@ -23,9 +23,9 @@ Nothing else about the view is in the address. The search text, the selected tag
 
 The one exception is the card-or-list layout, which is remembered. It is stored in the browser under 11blog:view-mode and shared by every list on the site, so choosing list on the browse page also gives you list inside a publication, on this visit and the next. It is a reader's preference rather than part of a view worth sharing, which is why it lives in the browser and not the address.
 
-Because the pages are built ahead of time, the server cannot know that preference, so a stored choice of list is briefly drawn as cards before the page corrects itself. See [How pages are rendered](/blog-platform/rendering-model).
+Because the pages are built ahead of time, the server cannot know that preference, so a stored choice of list is briefly drawn as cards before the page corrects itself. See [How pages are rendered](/blog-platform-docs/rendering-model).
 
-This used to be a query parameter, written /browse?content=posts. Those addresses still work, and still land on the right tab. See [URLs, slugs, and redirects](/blog-platform/urls-and-redirects).
+This used to be a query parameter, written /browse?content=posts. Those addresses still work, and still land on the right tab. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
 
 ## What each search looks at
 
@@ -90,7 +90,7 @@ The landing page lists recent posts and recent publications by created date, so 
 
 An author page lists everything that author has written, newest first, and it is linked from every byline. In practice this is the most reliable way to find a body of related work, since it does not depend on tags being consistent.
 
-And the previous and next links at the foot of a post follow the publication's editorial order, which is the intended reading path through a series. See [The content contract](/blog-platform/content-contract).
+And the previous and next links at the foot of a post follow the publication's editorial order, which is the intended reading path through a series. See [The content contract](/blog-platform-docs/content-contract).
 
 ## What this means when you write
 
