@@ -1,8 +1,9 @@
 # Blog Platform OG and cover set
 
 Version 1 contains one publication image and one image for each of the twelve
-posts registered in content/publications/blog-platform-docs/index.ts. The
-entry-point cover added later by og-covers-v2.py is listed below too.
+posts registered in content/publications/blog-platform-docs/index.ts at the
+time. Two covers added later are listed below as well: the entry point from
+og-covers-v2.py, and the support post from og-covers-v3.py.
 
 Every asset is 1200 × 630. The central title area is safe when the same image
 is center-cropped to 16:9, so one file can serve as both its Open Graph image
@@ -37,10 +38,14 @@ The visual system follows the approved line-free OG direction:
 - `posts/408-accessibility-contract-og-cover-v1.png` — Accessibility contract
 - `posts/409-urls-and-redirects-og-cover-v1.png` — URLs, slugs, and redirects
 - `posts/410-running-the-blog-og-cover-v1.png` — Running and releasing the blog
+- `posts/414-supporting-the-platform-og-cover-v1.png` — Supporting the platform
+  (og-covers-v3.py)
 
 ## Process files
 
-- `contact-sheet-v1.png` previews the complete set.
+- `contact-sheet-v1.png` previews the v1 set. It has not been regenerated for
+  the two covers added since, so it is missing the entry point and the support
+  post.
 - `../../generators/blog-platform-og-covers-v1.py` regenerates this exact
   version. Create a new versioned generator and output names for future
   explorations; do not overwrite this set.

@@ -11,6 +11,7 @@ import { markdownReference } from "./posts/markdown-reference"
 import { renderingModel } from "./posts/rendering-model"
 import { runningTheBlog } from "./posts/running-the-blog"
 import { searchAndDiscovery } from "./posts/search-and-discovery"
+import { supportingThePlatform } from "./posts/supporting-the-platform"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
 
 import publicationCover from "./assets/blog-platform-og-cover-v1.png"
@@ -26,6 +27,7 @@ import designTokensCover from "./assets/design-tokens-og-cover-v1.png"
 import accessibilityContractCover from "./assets/accessibility-contract-og-cover-v1.png"
 import urlsAndRedirectsCover from "./assets/urls-and-redirects-og-cover-v1.png"
 import runningTheBlogCover from "./assets/running-the-blog-og-cover-v1.png"
+import supportingThePlatformCover from "./assets/supporting-the-platform-og-cover-v1.png"
 
 export const blogPlatformDocs: Publication = {
   relId: 4,
@@ -40,19 +42,22 @@ export const blogPlatformDocs: Publication = {
   isFeatured: true,
   tags: ["Blog", "Technology", "Publishing", "Documentation"],
   synopsis:
-    "Thirteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with A tour of the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
+    "Fourteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with A tour of the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
   editorNotes:
     "Written inside the system it describes, which is the point: every post here is rendered by the platform it documents, so a broken claim shows up as a broken page. Read the post that covers a thing before changing that thing, and update it in the same commit.",
   // Editorial order, which is what the previous and next links follow. It runs
   // oldest to newest, so "next" always moves forward in time and "previous"
-  // always moves back: author, understand, extend, operate, then the entry point
-  // last as the newest post.
+  // always moves back: author, understand, extend, operate, then the entry point,
+  // then the reader-facing support post as the newest.
   //
   // The listing sorts by date newest-first, so it reads as the exact reverse of
-  // this array. That is intended. It puts the tour at the top of the listing,
-  // where readers arrive, while the chain still walks the teaching sequence in
-  // order. The tour links to every post directly, so reaching it last in the
-  // chain costs nothing.
+  // this array, and whatever was written last lands at the top. That used to be
+  // the tour, which was the point; the support post now sits above it. The tour
+  // is still the second card and still links to every post directly, so nothing
+  // is unreachable, but if the tour needs to be first again the fix is to
+  // backdate the support post rather than to reorder this array. Keeping the
+  // array oldest-to-newest is what makes the previous and next links mean
+  // something.
   posts: [
     {
       postId: 402,
@@ -234,6 +239,21 @@ export const blogPlatformDocs: Publication = {
       tags: ["Documentation", "Blog", "Publishing"],
       content: startHere,
       coverImage: startHereCover.src,
+    },
+    {
+      postId: 414,
+      slug: "supporting-the-platform",
+      title: "Supporting the platform",
+      excerpt:
+        "Three ways to help this blog keep going: pass a post on, sponsor one, or support the work directly.",
+      created: "2026-07-31",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: true,
+      isFeatured: false,
+      tags: ["Support", "Community", "Documentation"],
+      content: supportingThePlatform,
+      coverImage: supportingThePlatformCover.src,
     },
   ],
   coverImage: publicationCover.src,

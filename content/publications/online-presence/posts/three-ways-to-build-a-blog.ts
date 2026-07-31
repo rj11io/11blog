@@ -55,7 +55,7 @@ What you do: fork it, replace the content directory with your own writing, chang
 
 What you keep: everything. The writing is a directory of plain files in your repository. The renderer is replaceable, by design, and nothing about the content depends on it. If you outgrow the platform or simply dislike it, you take the files and go.
 
-The documentation is this site's other publication, written for exactly this: [A tour of the platform](/blog-platform-docs/start-here) maps it, and thirteen posts cover writing, extending, theming, and operating it. It is the same documentation I use to run this blog, which is the only kind worth trusting.
+The documentation is this site's other publication, written for exactly this: [A tour of the platform](/blog-platform-docs/start-here) maps it, and fourteen posts cover writing, extending, theming, and operating it. It is the same documentation I use to run this blog, which is the only kind worth trusting.
 
 You need to be comfortable editing files in a repository and running a couple of commands. You do not need to know the framework, and you do not need to design anything.
 

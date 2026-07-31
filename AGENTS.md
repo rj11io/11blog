@@ -19,7 +19,7 @@ There is a second, unrelated `AGENTS.md` at `v0/www/AGENTS.md`. It warns that th
 
 The Blog Platform Docs publication documents this platform. It is the source of truth for how everything works, and it is written for whoever maintains the repo. Read the relevant post before changing the thing it describes.
 
-All thirteen live in `content/publications/blog-platform-docs/posts/`. Start with the tour if you are new.
+All fourteen live in `content/publications/blog-platform-docs/posts/`. Start with the tour if you are new.
 
 | If you are… | Read | Published at |
 | --- | --- | --- |
@@ -36,6 +36,7 @@ All thirteen live in `content/publications/blog-platform-docs/posts/`. Start wit
 | Building any interactive element | `accessibility-contract.ts` | `/blog-platform-docs/accessibility-contract` |
 | Renaming anything with a URL | `urls-and-redirects.ts` | `/blog-platform-docs/urls-and-redirects` |
 | Running, checking, or releasing | `running-the-blog.ts` | `/blog-platform-docs/running-the-blog` |
+| Changing how readers can support the blog | `supporting-the-platform.ts` | `/blog-platform-docs/supporting-the-platform` |
 
 ## Commands
 

@@ -7,7 +7,8 @@ generator that produced them:
 
 - Source set: `v0/branding/images/blog-platform/`
 - Generator: `v0/branding/generators/blog-platform-og-covers-v1.py`
-- Version: v1, plus the entry-point cover from og-covers-v2.py
+- Version: v1, plus the entry-point cover from og-covers-v2.py and the support
+  post's cover from og-covers-v3.py
 
 Each file is 1200 × 630 and serves two jobs at once. It is the post's cover on
 the site, and it is the Open Graph image used in link previews, because
@@ -38,6 +39,7 @@ traced back to the generator that made it.
 | `accessibility-contract-og-cover-v1.png` | Accessibility contract |
 | `urls-and-redirects-og-cover-v1.png` | URLs, slugs, and redirects |
 | `running-the-blog-og-cover-v1.png` | Running and releasing the blog |
+| `supporting-the-platform-og-cover-v1.png` | Supporting the platform |
 
 The Markdown reference post keeps its cover in its own directory, at
 `posts/markdown-reference/assets/markdown-reference-og-cover-v1.png`, because a

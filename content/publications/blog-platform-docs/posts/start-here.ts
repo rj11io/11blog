@@ -1,7 +1,7 @@
 export const startHere = `
 # A tour of the platform
 
-This publication documents 11blog, the platform this site runs on. Thirteen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
+This publication documents 11blog, the platform this site runs on. Fourteen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
 
 If you are here because you want your own blog rather than to work on this one, start with [Three ways to build your own blog](/online-presence/three-ways-to-build-a-blog) instead.
 
@@ -106,4 +106,8 @@ Verify before writing. Several claims in these posts were wrong in their first d
 Record the reasoning, not just the rule. The contrast measurements in the theming post and the plugin ordering in the release post are why those unusual choices have survived.
 
 Say what is missing. The accessibility post ends with its own gaps, and the validation post names the two things nothing checks. A contract with unstated holes is worse than no contract.
+
+## Supporting the blog
+
+The four groups above are the platform. One post in this publication is not about the platform at all: [Supporting the platform](/blog-platform-docs/supporting-the-platform) is for readers rather than maintainers, and it covers the three ways to help this blog keep going. Passing a post to someone who needs it is the one that matters most, and it is free.
 `
