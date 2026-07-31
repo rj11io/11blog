@@ -58,6 +58,10 @@ Interactive controls use the attribute that matches what they do, rather than be
 
 Every icon-only control has a text label. The layout buttons announce "List view" and "Card view"; the filter toggle announces "Show filters" or "Hide filters" depending on its state; the theme button announces "Switch to light mode" or "Switch to dark mode". Every decorative icon inside them is marked aria-hidden.
 
+The share row is a group with a label, so a reader is told what the controls that follow are for before entering them, and each target names its destination rather than its logo: "Share on Bluesky", "Submit to Hacker News", "Share by email". The brand marks themselves are drawn with no title and marked aria-hidden, because the link around each one already says where it goes.
+
+One control in that row is only sometimes there. The device share sheet button cannot be tested for until the page has loaded, so it is absent from the markup a reader first receives and appears afterwards, on the devices that have a share sheet. It is added next to the copy button, which is the honest cost of it: the six target links keep their position and their place in the focus order, and the copy button moves along the row to make room. Nothing above or below the row shifts, because the row does not change height.
+
 Card links carry a label describing the destination rather than leaving a screen reader to assemble it from the card's contents:
 
 ~~~tsx
@@ -75,6 +79,10 @@ Filtering happens as you type, with no submit button, so the result count is a l
 ~~~
 
 polite means the count is read after the current announcement finishes rather than interrupting. The image viewer uses the same technique for its position counter.
+
+Copying a link does the same thing, for a different reason. The button swaps its icon and its wording to confirm, and neither of those is announced on its own, so the outcome is written into a live region a reader cannot see. It reports failure as well as success: the clipboard needs a secure page and some privacy settings refuse it outright, and a button that silently does nothing is worse than one that says it could not.
+
+The copy button on a code block does not do this yet. It changes its icon and its label and announces nothing, so a reader using a screen reader gets no confirmation that anything was copied. It should use the same live region.
 
 The empty state is not just a message. It includes a button that clears the search text and the selected tags, so a reader who has filtered themselves into a corner has a way out that does not involve finding and emptying each control.
 

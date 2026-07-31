@@ -10,8 +10,10 @@ import {
 } from "../../components/markdown-headings"
 import { Markdown } from "../../components/markdown"
 import { extractMarkdownHeadings } from "../../components/markdown-headings"
+import { ShareActions } from "@/app/components/share-actions"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import { absoluteUrl } from "@/lib/site"
 import {
   allPosts,
   getPost,
@@ -195,7 +197,6 @@ export default async function PostPage({ params }: PostPageProps) {
                   {post.excerpt}
                 </p>
               )}
-              <AuthorByline authors={authors} />
               <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted-foreground">
                 <time dateTime={post.created}>
                   Created{" "}
@@ -227,6 +228,13 @@ export default async function PostPage({ params }: PostPageProps) {
                   ))}
                 </div>
               </div>
+              {/*
+                Last in the header, matching the publication page. The dates and
+                tags describe the post, so they sit with the title; the byline is
+                a person, and putting it after them keeps it from splitting the
+                title away from the facts about it.
+              */}
+              <AuthorByline authors={authors} />
             </header>
 
             <div className="mx-auto max-w-3xl pt-4 pb-8 sm:pt-6 sm:pb-10">
@@ -247,6 +255,19 @@ export default async function PostPage({ params }: PostPageProps) {
                 </div>
               )}
             </div>
+
+            {/*
+              Full article width rather than the narrower measure the prose uses,
+              so its rule lines up with the one above the adjacent posts below it.
+              The two together read as one footer rather than two stray rules.
+            */}
+            <ShareActions
+              url={absoluteUrl(postHref(publication.pubId, post))}
+              title={post.title}
+              text={post.excerpt}
+              label="Share this post"
+              className="pb-6 sm:pb-8"
+            />
 
             <nav
               aria-label="Adjacent posts"

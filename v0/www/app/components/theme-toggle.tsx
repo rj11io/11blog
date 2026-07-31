@@ -1,18 +1,9 @@
 "use client"
 
 import { Moon, Sun } from "lucide-react"
-import * as React from "react"
 import { useTheme } from "next-themes"
 
-const subscribe = () => () => {}
-
-function useMounted() {
-  return React.useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false
-  )
-}
+import { useMounted } from "@/hooks/use-mounted"
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme()

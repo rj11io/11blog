@@ -4,11 +4,14 @@ import { notFound } from "next/navigation"
 
 import { AuthorByline } from "../components/author-byline"
 import { PublicationBrowser } from "../components/publication-browser"
+import { ShareActions } from "@/app/components/share-actions"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import { absoluteUrl } from "@/lib/site"
 import {
   browseContentHref,
   defaultBrowseContentType,
+  publicationHref,
 } from "@content/routes"
 import {
   getPostPreview,
@@ -170,6 +173,19 @@ export default async function PublicationPage({
           posts={previews}
           synopsis={publication.synopsis}
           editorNotes={publication.editorNotes}
+        />
+
+        {/*
+          After the post list rather than in the header, so it closes the page
+          the way it closes a post. The gap above it matches the header's own
+          bottom padding, which keeps it clear of the last row of cards.
+        */}
+        <ShareActions
+          url={absoluteUrl(publicationHref(publication.pubId))}
+          title={publication.title}
+          text={publication.description}
+          label="Share this publication"
+          className="mt-10 lg:mt-14"
         />
       </div>
     </main>

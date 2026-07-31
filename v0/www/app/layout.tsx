@@ -6,13 +6,15 @@ import "./globals.css"
 import { SiteFooter } from "./components/footer"
 import { SiteHeader } from "./components/header"
 import { ThemeProvider } from "@/components/theme-provider"
+import { siteOrigin } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 // Every page builds its Open Graph image from a post or publication cover, and
 // those are root-relative once the bundler hashes them. Social networks need an
 // absolute address, so the production origin has to be declared here. Without
 // it, Next falls back to localhost and every link preview points at a machine
-// that is not on the internet.
+// that is not on the internet. The origin itself lives in lib/site.ts, because
+// share links need the same value and two copies would drift apart.
 //
 // The image below is the site-wide fallback, used by any page that does not set
 // an Open Graph image of its own: the landing page, the browse page, and author
@@ -23,7 +25,7 @@ import { cn } from "@/lib/utils"
 // matters for something social networks cache. Note that nothing verifies this
 // path, so open a page and read the tag after changing it.
 export const metadata: Metadata = {
-  metadataBase: new URL("https://blog.rj11.io"),
+  metadataBase: new URL(siteOrigin),
   openGraph: {
     images: [
       {

@@ -224,11 +224,25 @@ There is no safety net here. As explained above, the post's numeric ID is not a 
 
 Deleting content leaves its address returning 404. If the piece existed publicly for any length of time, redirect it somewhere sensible instead: the publication it belonged to, or /browse. A redirect to a real page is nearly always better for a reader than a dead end.
 
+## When a path is not enough
+
+Every helper in content/routes.ts returns a path beginning with a slash, which is what a link inside the site needs. Two things need the whole address, host and all: the link previews social networks read, and the share links at the foot of a post. Neither can do anything with a path on its own.
+
+The host lives in v0/www/lib/site.ts, once, as siteOrigin, with absoluteUrl beside it to join the two halves:
+
+~~~tsx
+absoluteUrl(postHref(publication.pubId, post))
+~~~
+
+Note the shape of that call. routes.ts still decides what the path looks like; site.ts only puts a host in front of it. Never assemble a path inside absoluteUrl, and never write the host anywhere else. It was written twice for a while, in the layout and in the share links, which is exactly how two copies of a hostname start to disagree.
+
+It is a constant rather than a setting read at run time because pages are built ahead of time, so the value has to be known during the build. That also gives the right answer on a preview deployment: a link shared from a preview points at the live post, not at an address that stops working next week.
+
 ## Rules of thumb
 
 - Choose the slug carefully at the start. It is the address, and changing it costs a redirect forever.
 - Never delete a redirect. The file only grows, and that is correct. Old links live in other people's bookmarks, feeds, and search results.
 - Keep specific rules above general ones.
-- Build paths by calling the helpers in content/routes.ts, never by writing a string.
+- Build paths by calling the helpers in content/routes.ts, never by writing a string. Where a full address is needed, wrap one of those calls in absoluteUrl.
 - After any rename, check the old address by hand. A redirect that does not fire looks exactly like a working site until someone follows an old link.
 `

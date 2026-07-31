@@ -28,7 +28,7 @@ The trade is simple and worth stating plainly: publishing requires a build. Ther
 
 Components run on the server unless they say otherwise. A component becomes a browser component only by starting its file with "use client", and that pulls it, and everything it imports, into the code sent to the browser.
 
-Thirteen entries opt in. Each has a reason:
+Nineteen entries opt in. Each has a reason:
 
 | File | Why it runs in the browser |
 | --- | --- |
@@ -36,19 +36,35 @@ Thirteen entries opt in. Each has a reason:
 | publication-browser.tsx | The same controls, plus tabs |
 | content-index.tsx | Tracks the reading position to highlight the active heading |
 | copy-code-button.tsx | Writes to the clipboard |
+| copy-link-button.tsx | Writes to the clipboard, in the share row |
+| native-share-button.tsx | Opens the device share sheet, where there is one |
 | markdown-image.tsx | Opens the fullscreen viewer |
 | cover-image.tsx | Tracks whether a photo loaded, and opens the viewer |
 | image-lightbox.tsx | Zoom, pan, swipe, and keyboard navigation |
 | multi-image-list.tsx | Selection state for a gallery, and focus return |
+| masonry-image-list.tsx | Opens the viewer from a masonry gallery |
+| quilted-image-list.tsx | Opens the viewer from a quilted gallery |
 | theme-provider.tsx | Reads and sets the colour mode |
+| theme-toggle.tsx | The button that switches mode |
 | media/index.ts | Re-exports the components above |
 | hooks/use-persisted-preference.ts | Builds the store behind each remembered preference |
 | hooks/use-view-mode.ts | The list-or-cards choice |
 | hooks/use-sort-order.ts | The content and author sort choices |
+| hooks/use-mounted.ts | Answers whether the first render is over |
 
 Everything else, including the whole Markdown renderer and every page, runs only on the server.
 
-The pattern to notice: the interactive parts are small and pushed to the leaves. A page is a server component that renders mostly server components, with a handful of interactive islands inside it. The post page sends no JavaScript of its own; it sends the sidebar, the copy button, and the image viewer.
+The pattern to notice: the interactive parts are small and pushed to the leaves. A page is a server component that renders mostly server components, with a handful of interactive islands inside it. The post page sends no JavaScript of its own; it sends the sidebar, the two copy buttons, the share button, and the image viewer.
+
+### The share row is a worked example
+
+The share actions at the foot of a post are the clearest case of pushing interaction to the leaves, because they are a mixture.
+
+Six of the seven controls are links to a page a social network owns. A link needs no JavaScript, so the component that renders them, v0/www/app/components/share-actions.tsx, is an ordinary server component. Two controls do need the browser: one writes the address to the clipboard, the other opens the device's share sheet. Each is a separate file, each marked "use client", and each is small.
+
+Written the obvious way, as one browser component wrapping everything, the whole row would have shipped as JavaScript and the six links would have stopped working for anyone whose scripts had not loaded yet. Split this way, the row renders and works from the prerendered markup, and the two buttons arrive later.
+
+The share sheet button is worth a second look, because it is the one control on the site whose existence depends on the device. Most desktop browsers have no share sheet, so it renders nothing there. That test cannot run during the build, which means it cannot run during the first render either: the server would guess one answer and the browser might have another, and the two sets of markup would disagree. So it renders nothing at first and appears after hydration, using v0/www/hooks/use-mounted.ts to know when that has happened. The colour theme toggle solves the same problem the same way.
 
 ### One consequence to watch for
 
