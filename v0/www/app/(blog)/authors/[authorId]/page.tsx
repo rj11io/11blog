@@ -61,6 +61,15 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               </Link>
             </li>
             <li aria-hidden="true">/</li>
+            <li>
+              <Link
+                href={browseContentHref("authors")}
+                className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              >
+                Authors
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
             <li aria-current="page" className="text-foreground">
               {author.name}
             </li>
