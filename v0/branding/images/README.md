@@ -21,12 +21,19 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `favicons/11blog-favicon-v2-32.png` | 32 × 32 | Centered v2 small-size preview |
 | `favicons/11blog-favicon-v2-16.png` | 16 × 16 | Centered v2 minimum-size preview |
 | `favicons/11blog-favicon-v2.ico` | 16–256 px | Centered v2 multi-resolution favicon |
+| `favicons/www-rj11io-v1/` | 16–512 px | Complete warm-black and orange favicon package for `www.rj11.io` |
+| `favicons/ai-rj11io-v1/` | 16–512 px | Complete inverted green favicon package for `ai.rj11.io` |
 | `og/11blog-default-og.png` | 1200 × 630 | Default site Open Graph image |
 | `og/11blog-favicon-style-og.png` | 1200 × 630 | Default OG direction based on the centered extra-large-dot favicon |
 | `og/11blog-favicon-style-og-v2.png` | 1200 × 630 | URL-led favicon-style OG without the repeated `11blog` label |
 | `og/11blog-favicon-style-og-v3.png` | 1200 × 630 | URL-led OG with the complete editorial keyword line |
 | `og/11blog-favicon-style-og-v4.png` | 1200 × 630 | Minimal v3 variant without borders or background grid lines |
+| `og/rj11io-favicon-style-orange-og-v1.png` | 1200 × 630 | Main-site exploration for `www.rj11.io` with an orange signal hue |
+| `og/rj11io-favicon-style-orange-og-v2.png` | 1200 × 630 | Optically aligned orange main-site OG with the keyword footer restored |
+| `og/ai-rj11io-favicon-style-monochrome-og-v1.png` | 1200 × 630 | Monochrome AI sub-brand OG using an outlined signal square |
+| `og/ai-rj11io-favicon-style-inverted-green-og-v2.png` | 1200 × 630 | Inverted AI OG with a light field, dark mark, and green signal |
 | `og/blog-platform-og.png` | 1200 × 630 | Blog Platform publication Open Graph image |
+| `blog-platform/` | 1200 × 630 each | Shared OG/cover system for the publication and all twelve registered posts |
 | `covers/blog-platform-publication-cover.png` | 1600 × 900 | Blog Platform publication cover |
 | `covers/markdown-components-cover.png` | 1600 × 900 | Markdown components post cover |
 | `covers/markdown-blog-format-cover.png` | 1600 × 900 | Markdown Blog Format post cover |
@@ -50,6 +57,9 @@ Image explorations are non-destructive. Keep every accepted or reviewed
 iteration and create new siblings with sequential suffixes such as `-v2` and
 `-v3`; do not overwrite an earlier image.
 
+Each versioned favicon package contains `favicon.ico`, 16px and 32px PNGs, a
+180px Apple touch icon, and 192px and 512px application icons.
+
 ## Prompt set
 
 The assets were generated as a coordinated family with these core concepts:
@@ -70,13 +80,22 @@ The assets were generated as a coordinated family with these core concepts:
    `blog.rj11.io` to the primary centered label. Its v3 adds the complete
    `AI / SOFTWARE / PRODUCT / ENGINEERING / TECHNOLOGY` metadata line. Its v4
    removes all background rules for a quieter, fully minimal composition.
-6. **Blog Platform OG:** an abstract publishing-system layout with the exact
+6. **rj11.io orange exploration:** reuses the centered `11` silhouette for the
+   main site, changing the signal color to orange `#F97316`, warming the black
+   field slightly, and removing blog-specific metadata. Its v2 optically
+   centers the URL row and restores the five-keyword footer.
+7. **ai.rj11.io monochrome exploration:** replaces the family’s solid accent
+   square with a thick white outline, retaining the URL-led composition and
+   five-keyword footer without assigning the AI sub-brand an arbitrary color.
+   Its v2 returns to the original green signal while inverting the field and
+   mark to light and dark respectively.
+8. **Blog Platform OG:** an abstract publishing-system layout with the exact
    strings `Blog Platform` and `11blog`.
-7. **Publication cover:** interlocking page frames, content rails, margins, and
+9. **Publication cover:** interlocking page frames, content rails, margins, and
    columns organized around a double-one rhythm.
-8. **Markdown components cover:** a strict kit of abstract heading, paragraph,
+10. **Markdown components cover:** a strict kit of abstract heading, paragraph,
    code, table, media, and callout modules without rendered copy.
-9. **Markdown Blog Format cover:** a left-to-right transformation from plain
+11. **Markdown Blog Format cover:** a left-to-right transformation from plain
    line units, through a double-one parsing gate, into a structured page.
 
 The original image set was created with the built-in image generation model.
