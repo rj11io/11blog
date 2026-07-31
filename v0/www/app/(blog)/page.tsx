@@ -4,6 +4,7 @@ import Link from "next/link"
 
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import { joinAuthorNames } from "@/lib/authors"
 import {
   authorPreviews,
   postPreviews,
@@ -121,7 +122,25 @@ function SectionHeading({
   )
 }
 
+/** A publication's authors, derived from the bylines of its posts. */
+function PublicationAuthors({
+  authors,
+}: {
+  authors: PublicationPreview["authors"]
+}) {
+  if (!authors.length) return null
+
+  return (
+    <p className="mt-3 text-xs text-muted-foreground">
+      By {joinAuthorNames(authors)}
+    </p>
+  )
+}
+
 function PostMeta({ post }: { post: PostPreview }) {
+  const updated =
+    post.updated && post.updated !== post.created ? post.updated : null
+
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
       <span className="font-semibold tracking-[0.14em] text-primary uppercase">
@@ -133,6 +152,17 @@ function PostMeta({ post }: { post: PostPreview }) {
       <time className="text-muted-foreground" dateTime={post.created}>
         {formatDate(post.created)}
       </time>
+      {updated && (
+        <time className="text-muted-foreground" dateTime={updated}>
+          Updated {formatDate(updated)}
+        </time>
+      )}
+      <span aria-hidden="true" className="text-muted-foreground">
+        ·
+      </span>
+      <span className="text-muted-foreground">
+        By {joinAuthorNames(post.authors)}
+      </span>
     </div>
   )
 }
@@ -302,26 +332,14 @@ function PublicationFeature({
             lead ? "lg:self-center lg:p-10" : ""
           }`}
         >
-          <div className="flex flex-wrap items-baseline gap-x-3 text-xs">
-            <span className="font-semibold tracking-[0.14em] text-primary uppercase">
-              {postCountLabel(publication)}
-            </span>
-            <span aria-hidden="true" className="text-muted-foreground">
-              ·
-            </span>
-            <time
-              className="text-muted-foreground"
-              dateTime={publication.created}
-            >
-              {formatDate(publication.created)}
-            </time>
-          </div>
+          <PublicationMeta publication={publication} />
           <h3 className="mt-3 text-2xl font-semibold tracking-tight">
             {publication.title}
           </h3>
           <p className="mt-2 leading-7 text-muted-foreground">
             {publication.description}
           </p>
+          <PublicationAuthors authors={publication.authors} />
           <div className="mt-5 flex flex-wrap items-center gap-1.5">
             {publication.tags.map((tag) => (
               <Tag key={tag}>{tag}</Tag>
@@ -358,6 +376,7 @@ function PublicationRow({ publication }: { publication: PublicationPreview }) {
           <p className="mt-1 line-clamp-2 leading-7 text-muted-foreground">
             {publication.description}
           </p>
+          <PublicationAuthors authors={publication.authors} />
         </div>
         <span
           aria-hidden="true"
@@ -604,7 +623,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Who writes here"
             title="Authors"
-            description="A short list of contributors, and everything each of them has written."
+            description="A short list of authors, and everything each of them has written."
             actionHref={browseContentHref("authors")}
             actionLabel="All authors"
           />

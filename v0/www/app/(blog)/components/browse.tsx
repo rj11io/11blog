@@ -7,6 +7,7 @@ import * as React from "react"
 
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import { joinAuthorNames } from "@/lib/authors"
 import {
   authorSortOptions,
   contentSortOptions,
@@ -146,16 +147,6 @@ function Badge({
       {children}
     </span>
   )
-}
-
-function formatAuthorNames(authors: PostPreview["authors"]) {
-  if (authors.length === 1) return authors[0].name
-  if (authors.length === 2) return `${authors[0].name} and ${authors[1].name}`
-
-  return `${authors
-    .slice(0, -1)
-    .map((author) => author.name)
-    .join(", ")}, and ${authors.at(-1)?.name}`
 }
 
 function UpdatedDate({ value }: { value?: string }) {
@@ -345,7 +336,7 @@ export function PostResult({
         {post.updated !== post.created && <UpdatedDate value={post.updated} />}
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
-        By {formatAuthorNames(post.authors)}
+        By {joinAuthorNames(post.authors)}
       </p>
     </>
   )
@@ -461,6 +452,11 @@ function PublicationResult({
           <UpdatedDate value={publication.updated} />
         )}
       </div>
+      {publication.authors.length > 0 && (
+        <p className="mt-2 text-xs text-muted-foreground">
+          By {joinAuthorNames(publication.authors)}
+        </p>
+      )}
     </>
   )
 

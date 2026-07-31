@@ -50,6 +50,38 @@ function resolveAuthors(post: Post) {
   })
 }
 
+/**
+ * A publication's authors: everyone with a byline on at least one of its posts,
+ * ordered by how many they wrote and then by name. That puts the main author
+ * first, which is the useful signal on a card, and keeps the order stable rather
+ * than depending on which post happens to come first.
+ *
+ * Derived rather than declared. A field on the publication would be a second
+ * place for the same fact to live, and the two would eventually disagree.
+ */
+function authorsFromPosts(posts: Post[]): AuthorPreview[] {
+  const tally = new Map<string, { author: AuthorPreview; posts: number }>()
+
+  for (const post of posts) {
+    for (const author of resolveAuthors(post)) {
+      const entry = tally.get(author.id)
+      if (entry) entry.posts += 1
+      else tally.set(author.id, { author, posts: 1 })
+    }
+  }
+
+  return [...tally.values()]
+    .sort(
+      (a, b) => b.posts - a.posts || a.author.name.localeCompare(b.author.name)
+    )
+    .map((entry) => entry.author)
+}
+
+/** For pages holding a whole publication rather than a preview of one. */
+export function getPublicationAuthors(publication: Publication) {
+  return authorsFromPosts(publication.posts)
+}
+
 export const allPosts: PostListItem[] = publications.flatMap((publication) =>
   publication.posts.map((post, editorialIndex) => ({
     ...post,
@@ -67,6 +99,7 @@ export const publicationPreviews: PublicationPreview[] = publications.map(
     ...publication,
     href: publicationHref(publication.pubId),
     postCount: posts.length,
+    authors: authorsFromPosts(posts),
   })
 )
 

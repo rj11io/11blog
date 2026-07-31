@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { AuthorByline } from "../../components/author-byline"
 import { ContentIndex } from "../../components/content-index"
 import {
   CONTENT_HEADING_OFFSET,
@@ -19,13 +19,12 @@ import {
   stripLeadingH1,
 } from "@content/registry"
 import {
-  authorHref,
   browseContentHref,
   defaultBrowseContentType,
   postHref,
   publicationHref,
 } from "@content/routes"
-import type { AuthorPreview, Post } from "@content/types"
+import type { Post } from "@content/types"
 
 type PostPageProps = {
   params: Promise<{ pubId: string; postId: string }>
@@ -37,60 +36,6 @@ const dateFormatter = new Intl.DateTimeFormat("en", {
   year: "numeric",
   timeZone: "UTC",
 })
-
-function AuthorAvatar({
-  author,
-  size = "sm",
-}: {
-  author: AuthorPreview
-  size?: "sm" | "md"
-}) {
-  const sizeClass = size === "md" ? "size-12" : "size-9"
-
-  if (author.avatar) {
-    return (
-      <Image
-        src={author.avatar}
-        alt=""
-        width={48}
-        height={48}
-        className={`${sizeClass} object-cover ring-1 ring-border`}
-      />
-    )
-  }
-
-  return (
-    <span
-      aria-hidden="true"
-      className={`${sizeClass} inline-flex items-center justify-center bg-primary/10 text-xs font-semibold text-primary ring-1 ring-primary/20`}
-    >
-      {author.displayName}
-    </span>
-  )
-}
-
-function AuthorByline({ authors }: { authors: AuthorPreview[] }) {
-  return (
-    <div className="mt-6" aria-label="Authors">
-      <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-        Written by
-      </p>
-      <ul className="mt-3 flex flex-wrap gap-3">
-        {authors.map((author) => (
-          <li key={author.id}>
-            <Link
-              href={authorHref(author.id)}
-              className="group inline-flex items-center gap-3 border border-transparent bg-background py-1.5 pr-4 pl-1.5 text-sm font-semibold transition outline-none hover:border-foreground/40 hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <AuthorAvatar author={author} />
-              <span>{author.name}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
 
 function AdjacentCover({
   post,

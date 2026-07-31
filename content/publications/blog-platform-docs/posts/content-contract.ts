@@ -53,11 +53,12 @@ Here is what the registry exports:
 | publications | Every publication, in editorial order, with posts attached |
 | blogAuthors | Every author, in full |
 | allPosts | Every post from every publication, flattened, with its publication and resolved authors attached |
-| publicationPreviews | Every publication without its posts, plus a link and a post count |
+| publicationPreviews | Every publication without its posts, plus a link, a post count, and its authors |
 | postPreviews | Every post without its body or images, for lists and cards |
 | authorPreviews | Every author plus a link and how many posts they have written |
 | getPublication, getPost, getAuthor | Single-item lookups |
 | getPostsByAuthor | Every post preview for one author |
+| getPublicationAuthors | The authors of a whole publication |
 | getPostPreview | A preview for one post, when you already hold the publication |
 | getPostContent, stripLeadingH1 | Small helpers for preparing a body to render |
 
@@ -86,6 +87,8 @@ Because they are built with Omit from the full types, they cannot drift. Add a f
 The practical payoff is on the browse page, which is a client component. Everything it receives is serialised and sent to the browser. Handing it postPreviews rather than allPosts keeps every post body out of that payload.
 
 authorIds is dropped from the preview for a different reason: it has already been replaced by resolved author details, so keeping the raw IDs would invite code that looks them up a second time.
+
+A publication preview gains something its full form does not have: an authors list. A publication never declares its authors, because that would be a second place for the same fact to live and the two would eventually disagree. Instead the registry collects everyone with a byline on at least one of its posts, ordered by how many they wrote and then by name, so the main author leads. Add a post and the publication's authors follow on the next build, with nothing to remember to update.
 
 ## Editorial order is array order
 

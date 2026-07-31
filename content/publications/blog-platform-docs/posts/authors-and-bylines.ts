@@ -96,6 +96,16 @@ In browse results the names are joined into a sentence:
 
 Three or more uses a comma before the final "and".
 
+## Publications have authors too
+
+A publication has no author field, and it does not need one. Its authors are the people with a byline on at least one of its posts, collected by the registry, and they are shown exactly the way a post's authors are: the same byline component, the same "Written by" label, the same avatar-and-name links to each author page.
+
+The order is by how many posts each person wrote, then by name when counts tie. So whoever wrote most of a publication appears first, and a publication written entirely by one person shows one name.
+
+They are derived rather than declared because a field on the publication would be a second place for the same fact to live, and the two would eventually disagree. The cost of deriving is nothing to maintain: add a post with a new author and that author joins the publication's byline on the next build, and if you remove their last post they leave it.
+
+Publication cards phrase it more briefly, matching post cards: "By" followed by the names.
+
 ## The rules the build enforces
 
 - Every post needs at least one author.

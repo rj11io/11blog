@@ -13,7 +13,7 @@ export const onlinePresence: Publication = {
   description:
     "How to build and own your online presence: why a site of your own beats a rented platform, and three ways to get one.",
   created: "2026-07-14",
-  updated: "2026-07-15",
+  updated: "2026-07-30",
   isNSFW: false,
   isNew: true,
   isFeatured: true,
@@ -22,14 +22,21 @@ export const onlinePresence: Publication = {
     "Two posts on putting your work on the internet under your own name. The first makes the case, without the usual overreach: owning a site does not make you invulnerable, because you still depend on a registrar, a host, and a CDN. What it buys you is portability, which is a smaller claim and a real one. The second is practical, comparing three routes by what they cost in time, money, and control.",
   editorNotes:
     "Written for anyone whose work lives somewhere they do not control. The technical documentation for the platform behind the middle route lives in Blog Platform Docs.",
-  // Editorial order, which is what the previous and next links follow. It runs
-  // oldest to newest, so "next" always moves forward in time, matching the docs
-  // publication.
+  // Editorial order, which is what the previous and next links follow. Both
+  // posts share a created date, so unlike the docs publication there is no
+  // oldest-to-newest sequence here to preserve: this array order is the only
+  // thing deciding the chain, and it reads options, then argument.
   //
-  // The listing sorts newest-first, so it reads as the reverse of this array and
-  // opens with the argument rather than the options, which is the better hook for
-  // a reader who has just arrived. Both posts link to each other in prose, so the
-  // chain direction carries little weight here.
+  // The tie also means the default newest-first listing cannot separate them, so
+  // it falls back to array order and reads the same way round rather than
+  // reversed. The listing therefore opens with the options. The "Last updated"
+  // sort is the one that leads with the argument, since Own your platform was
+  // revised a day later.
+  //
+  // If you want the argument to lead the listing, give it a later created date
+  // rather than reordering this array; the array is what the chain follows.
+  // Both posts link to each other in prose, so the chain direction carries
+  // little weight either way.
   posts: [
     {
       postId: 502,
@@ -37,7 +44,8 @@ export const onlinePresence: Publication = {
       title: "Three ways to build your own blog",
       excerpt:
         "Do it yourself, do it together with the 11blog boilerplate, or have it done. What each route costs in time, money, and control.",
-      created: "2026-07-14",
+      created: "2026-07-15",
+      updated: "2026-07-29",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: true,
@@ -53,6 +61,7 @@ export const onlinePresence: Publication = {
       excerpt:
         "What actually goes wrong when your work lives on someone else's platform, and the smaller, truer claim about what owning your own buys you.",
       created: "2026-07-15",
+      updated: "2026-07-30",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: true,

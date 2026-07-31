@@ -186,6 +186,17 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
                           new Date(`${post.created}T00:00:00Z`)
                         )}
                       </time>
+                      {post.updated && post.updated !== post.created && (
+                        <time
+                          className="text-muted-foreground"
+                          dateTime={post.updated}
+                        >
+                          Updated{" "}
+                          {dateFormatter.format(
+                            new Date(`${post.updated}T00:00:00Z`)
+                          )}
+                        </time>
+                      )}
                     </div>
                     <h3 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">
                       {post.title}

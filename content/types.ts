@@ -107,4 +107,6 @@ export type PostPreview = Omit<
 export type PublicationPreview = Omit<Publication, "posts"> & {
   href: string
   postCount: number
+  /** Everyone with a byline on at least one of its posts. Derived, never authored. */
+  authors: AuthorPreview[]
 }

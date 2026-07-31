@@ -34,7 +34,7 @@ export const blogPlatformDocs: Publication = {
   description:
     "The complete documentation for 11blog: writing posts, the content contract, extending the renderer, and running the site.",
   created: "2026-07-01",
-  updated: "2026-07-13",
+  updated: "2026-07-31",
   isNSFW: false,
   isNew: true,
   isFeatured: true,

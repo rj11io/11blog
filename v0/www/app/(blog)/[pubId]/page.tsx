@@ -2,11 +2,20 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { AuthorByline } from "../components/author-byline"
 import { PublicationBrowser } from "../components/publication-browser"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
-import { browseContentHref, defaultBrowseContentType } from "@content/routes"
-import { getPostPreview, getPublication, publications } from "@content/registry"
+import {
+  browseContentHref,
+  defaultBrowseContentType,
+} from "@content/routes"
+import {
+  getPostPreview,
+  getPublication,
+  getPublicationAuthors,
+  publications,
+} from "@content/registry"
 
 type PublicationPageProps = {
   params: Promise<{ pubId: string }>
@@ -90,8 +99,13 @@ export default async function PublicationPage({
           </figure>
         )}
 
+        {/*
+          Full width, so the header lines up with the cover above it rather than
+          stopping short of it. Nothing here carries its own measure: the title
+          and the description both run the width of the block.
+        */}
         <header className="mt-8 border-b border-border pb-10 lg:pb-14">
-          <div className="max-w-4xl">
+          <div>
             <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">
               Publication
             </p>
@@ -118,7 +132,7 @@ export default async function PublicationPage({
             <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
               {publication.title}
             </h1>
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
+            <p className="mt-5 text-lg leading-8 text-muted-foreground sm:text-xl sm:leading-9">
               {publication.description}
             </p>
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
@@ -139,6 +153,7 @@ export default async function PublicationPage({
               ) : null}
               <span>{publication.posts.length} posts</span>
             </div>
+            <AuthorByline authors={getPublicationAuthors(publication)} />
           </div>
         </header>
 
