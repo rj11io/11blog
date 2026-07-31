@@ -91,6 +91,7 @@ A change is meaningful if it alters what someone else would need to know. Specif
 | You changed | Update |
 | --- | --- |
 | A field on a content type | `adding-content.ts`, and `content-contract.ts` if the contract itself moved |
+| Where assets live, or how covers and link previews work | `adding-content.ts` |
 | A validation rule or its message | `content-validation.ts`, including its message table |
 | A route, slug, or redirect | `urls-and-redirects.ts` |
 | Markdown syntax or a renderer component | `markdown-reference/` **and** `extending-the-renderer.ts` |

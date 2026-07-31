@@ -12,6 +12,19 @@ import { runningTheBlog } from "./posts/running-the-blog"
 import { searchAndDiscovery } from "./posts/search-and-discovery"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
 
+import publicationCover from "./assets/blog-platform-og-cover-v1.png"
+import addingContentCover from "./assets/adding-content-og-cover-v1.png"
+import contentValidationCover from "./assets/content-validation-og-cover-v1.png"
+import searchAndDiscoveryCover from "./assets/search-and-discovery-og-cover-v1.png"
+import authorsAndBylinesCover from "./assets/authors-and-bylines-og-cover-v1.png"
+import contentContractCover from "./assets/content-contract-og-cover-v1.png"
+import renderingModelCover from "./assets/rendering-model-og-cover-v1.png"
+import extendingTheRendererCover from "./assets/extending-the-renderer-og-cover-v1.png"
+import designTokensCover from "./assets/design-tokens-og-cover-v1.png"
+import accessibilityContractCover from "./assets/accessibility-contract-og-cover-v1.png"
+import urlsAndRedirectsCover from "./assets/urls-and-redirects-og-cover-v1.png"
+import runningTheBlogCover from "./assets/running-the-blog-og-cover-v1.png"
+
 export const blogPlatform: Publication = {
   relId: 4,
   pubId: "blog-platform",
@@ -45,7 +58,7 @@ export const blogPlatform: Publication = {
       isFeatured: true,
       tags: ["Markdown", "Publishing", "Documentation"],
       content: addingContent,
-      coverImage: "https://picsum.photos/900"
+      coverImage: addingContentCover.src,
     },
     markdownReference,
     {
@@ -61,6 +74,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Validation", "Content", "Documentation"],
       content: contentValidation,
+      coverImage: contentValidationCover.src,
     },
     {
       postId: 411,
@@ -75,6 +89,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Discovery", "Content", "Documentation"],
       content: searchAndDiscovery,
+      coverImage: searchAndDiscoveryCover.src,
     },
     {
       postId: 412,
@@ -89,6 +104,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Authors", "Content", "Documentation"],
       content: authorsAndBylines,
+      coverImage: authorsAndBylinesCover.src,
     },
     {
       postId: 404,
@@ -103,6 +119,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Architecture", "Content", "Documentation"],
       content: contentContract,
+      coverImage: contentContractCover.src,
     },
     {
       postId: 405,
@@ -117,6 +134,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Rendering", "Performance", "Architecture"],
       content: renderingModel,
+      coverImage: renderingModelCover.src,
     },
     {
       postId: 406,
@@ -131,6 +149,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Rendering", "Markdown", "Extending"],
       content: extendingTheRenderer,
+      coverImage: extendingTheRendererCover.src,
     },
     {
       postId: 407,
@@ -145,6 +164,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Design", "Theming", "Interface"],
       content: designTokens,
+      coverImage: designTokensCover.src,
     },
     {
       postId: 408,
@@ -159,6 +179,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Accessibility", "Interface", "Documentation"],
       content: accessibilityContract,
+      coverImage: accessibilityContractCover.src,
     },
     {
       postId: 409,
@@ -173,6 +194,7 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Routing", "URLs", "Operations"],
       content: urlsAndRedirects,
+      coverImage: urlsAndRedirectsCover.src,
     },
     {
       postId: 410,
@@ -187,7 +209,8 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Operations", "Release", "Tooling"],
       content: runningTheBlog,
+      coverImage: runningTheBlogCover.src,
     },
   ],
-  coverImage: "https://picsum.photos/900"
+  coverImage: publicationCover.src,
 }

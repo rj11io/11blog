@@ -17,6 +17,10 @@ content/
 ├── validation.ts
 └── publications/
     └── publication-id/
+        ├── assets/
+        │   ├── publication-cover.png
+        │   ├── legacy-post-cover.png
+        │   └── SOURCES.md
         ├── index.ts
         └── posts/
             ├── legacy-post.ts
@@ -256,9 +260,31 @@ Standard Markdown images can use files served by the site itself or external HTT
 ![Remote image](https://images.example.com/photo.webp)
 ~~~
 
-### Site-served files
+### Where an image file belongs
 
-Files served by the site live in the web application's public directory and are addressed root-relative, with the public part of the path dropped. Everything sits under a static directory, grouped one directory per purpose:
+There are three places an image can live, and the difference matters.
+
+**A post's own directory**, at posts/post-slug/assets/. For images used inside one post's body. They sit beside the writing that uses them and are deleted along with it. Reference them from that post's .images.ts file, as shown in the modular post format above.
+
+**The publication's directory**, at publications/publication-id/assets/. For images belonging to the publication as a whole, and for the cover images of posts kept in the legacy single-file format, which have no directory of their own. Import them in the publication's index.ts:
+
+~~~ts
+import publicationCover from "./assets/publication-cover.png"
+import firstPostCover from "./assets/first-post-cover.png"
+
+export const publicationName: Publication = {
+  coverImage: publicationCover.src,
+  posts: [
+    {
+      postId: 501,
+      slug: "first-post",
+      coverImage: firstPostCover.src,
+    },
+  ],
+}
+~~~
+
+**The site's public directory**, at v0/www/public/static/. For files belonging to the site rather than to any publication: author photographs, and anything referenced from content/authors.ts. These are addressed root-relative, with the public part of the path dropped, and grouped one directory per purpose:
 
 ~~~text
 v0/www/public/
@@ -267,13 +293,21 @@ v0/www/public/
         └── rj-pic.png     addressed as /static/blog-authors/rj-pic.png
 ~~~
 
-Use this location for files that belong to the site rather than to one post: author photographs, and anything referenced from content/authors.ts. Create a new directory under static for each new purpose, named in lowercase kebab-case.
+Name each new directory under static in lowercase kebab-case.
 
-Do not put post images here. A post's own images belong in that post's assets directory, where they sit beside the writing that uses them, get hashed filenames at build time, and are removed along with the post. See the modular post format above.
+**Prefer the first two.** An imported file gets a hashed name at build time, and a wrong import is a build error rather than a broken image on a published page. A root-relative string is checked far less: the validator confirms an image source is root-relative or HTTPS, but nothing confirms the file exists. Everything in the public directory is also published whether or not anything references it, so unused files accumulate there unnoticed.
 
-Two things to keep in mind. Every file in the public directory is published whether anything references it or not, so remove files once they are no longer used. And nothing validates these paths: the content validator checks that an image source is root-relative or HTTPS, but it cannot check that the file exists. A typo produces a broken image on the published page, so open the page after adding one.
+Keep a SOURCES.md beside any assets directory recording where the files came from: the photographer and licence for a photograph, or the generator and version for a generated asset.
 
-Modular posts should prefer post-owned assets and the @[image](image-key) shortcode when an image needs optimized thumbnail and lightbox sources. Always provide useful alt text unless the image is genuinely decorative.
+### Cover images are also link previews
+
+A coverImage does two jobs. It is the cover shown on the site, and it is the Open Graph image used when the address is shared, because a page takes its Open Graph image straight from that field. There is no separate field for one or the other.
+
+So a cover has to survive three crops: the wide banner at the top of a page, the sixteen-by-nine card in a list, and the fixed 1200 by 630 frame most social networks show. Keeping the important part near the centre satisfies all three.
+
+A link preview needs an absolute address. The site supplies one through metadataBase in the root layout, set to the production domain. Without it the framework falls back to localhost and every preview points at a machine that is not on the internet.
+
+Always provide useful alt text unless the image is genuinely decorative. Modular posts should prefer post-owned assets and the @[image](image-key) shortcode when an image needs separate thumbnail and lightbox sources.
 
 ## Deliberately unsupported formats
 
@@ -289,21 +323,23 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 2. Use a postId that is unique within the publication, a URL-safe slug, valid ISO dates, and existing author IDs.
 3. Start the post body with its matching H1.
 4. Use H2-H5 for navigable sections.
-5. Put post-owned files and their source record in the modular post's assets directory.
+5. Put body images and their source record in the modular post's assets directory. A legacy post's cover goes in the publication's assets directory instead, since a legacy post has no directory of its own.
 6. Put named single-image and image-list configurations in the post's .images.ts file when needed.
 7. Give configured images dimensions, useful alt text, and separate thumbnail and lightbox sources where practical.
-8. Check component syntax against the [Markdown reference](/blog-platform/markdown-reference) reference.
-9. Add the post to its publication's posts array, in the position it should read.
-10. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
+8. Add a coverImage, imported rather than written as a path, and remember it doubles as the post's link preview.
+9. Check component syntax against the [Markdown reference](/blog-platform/markdown-reference) reference.
+10. Add the post to its publication's posts array, in the position it should read.
+11. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
 
 ### Adding a publication
 
 1. Create content/publications/publication-id/index.ts, using a lowercase kebab-case directory name and matching pubId.
 2. Use an unused positive relId, a pubId that is not authors, browse, or publications, and valid ISO dates.
 3. Write the title, description, and tags. Add the optional synopsis and editorNotes if the publication needs them.
-4. Add at least one post, following the post checklist above.
-5. Import the publication in content/registry.ts and add it to the publications array.
-6. Run typecheck, lint, and build.
+4. Add a coverImage, imported from the publication's assets directory, with a SOURCES.md recording where it came from.
+5. Add at least one post, following the post checklist above.
+6. Import the publication in content/registry.ts and add it to the publications array.
+7. Run typecheck, lint, and build.
 
 For the rules behind each of these steps, and the exact message thrown when one fails, see [Content validation rules](/blog-platform/content-validation).
 `

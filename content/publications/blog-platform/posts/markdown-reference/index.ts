@@ -5,6 +5,7 @@ import {
   markdownReferenceImageLists,
   markdownReferenceImages,
 } from "./markdown-reference.images"
+import cover from "./assets/markdown-reference-og-cover-v1.png"
 import quietLaptop from "./assets/quiet-laptop.webp"
 
 export const markdownReference: Post = {
@@ -22,5 +23,5 @@ export const markdownReference: Post = {
   content,
   images: markdownReferenceImages,
   imageLists: markdownReferenceImageLists,
-  coverImage: quietLaptop.src
+  coverImage: cover.src
 }
