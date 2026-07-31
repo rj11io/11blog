@@ -19,7 +19,11 @@ These are the only three. The content type is a path segment, so an unrecognised
 
 Each of the three is built ahead of time, like every other page on the blog, and each has its own page title and description.
 
-Nothing else about the view is in the address. The search text, the selected tags, the sort order, and the card-or-list layout are all held in the page while you use it. A reader who has filtered down to something interesting cannot send that view to anyone; they can only send the content type. Worth knowing before you tell someone to "search for X on the browse page".
+Nothing else about the view is in the address. The search text, the selected tags, and the sort order are all held in the page while you use it, and are forgotten as soon as you leave. A reader who has filtered down to something interesting cannot send that view to anyone; they can only send the content type. Worth knowing before you tell someone to "search for X on the browse page".
+
+The one exception is the card-or-list layout, which is remembered. It is stored in the browser under 11blog:view-mode and shared by every list on the site, so choosing list on the browse page also gives you list inside a publication, on this visit and the next. It is a reader's preference rather than part of a view worth sharing, which is why it lives in the browser and not the address.
+
+Because the pages are built ahead of time, the server cannot know that preference, so a stored choice of list is briefly drawn as cards before the page corrects itself. See [How pages are rendered](/blog-platform/rendering-model).
 
 This used to be a query parameter, written /browse?content=posts. Those addresses still work, and still land on the right tab. See [URLs, slugs, and redirects](/blog-platform/urls-and-redirects).
 

@@ -7,6 +7,7 @@ import * as React from "react"
 
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import { useViewMode, type ViewMode } from "@/hooks/use-view-mode"
 import {
   browseContentHref,
   browseContentTypes,
@@ -19,7 +20,6 @@ import type {
 } from "@content/types"
 
 type ContentType = BrowseContentType
-type ViewMode = "list" | "cards"
 type SortOrder = "relevance" | "newest" | "oldest"
 
 type BrowseProps = {
@@ -481,7 +481,7 @@ export function Browse({
   posts,
   publications,
 }: BrowseProps) {
-  const [viewMode, setViewMode] = React.useState<ViewMode>("cards")
+  const [viewMode, setViewMode] = useViewMode()
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])

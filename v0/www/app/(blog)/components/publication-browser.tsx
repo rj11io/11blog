@@ -3,11 +3,11 @@
 import { Grid2X2, List, Search } from "lucide-react"
 import * as React from "react"
 
+import { useViewMode } from "@/hooks/use-view-mode"
 import type { PostPreview } from "@content/types"
 import { FilterToggle, PostResult, segmentClass } from "./browse"
 
 type Tab = "posts" | "synopsis" | "notes"
-type ViewMode = "list" | "cards"
 type SortOrder = "relevance" | "newest" | "oldest"
 
 type PublicationBrowserProps = {
@@ -22,7 +22,7 @@ export function PublicationBrowser({
   editorNotes,
 }: PublicationBrowserProps) {
   const [tab, setTab] = React.useState<Tab>("posts")
-  const [viewMode, setViewMode] = React.useState<ViewMode>("cards")
+  const [viewMode, setViewMode] = useViewMode()
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
