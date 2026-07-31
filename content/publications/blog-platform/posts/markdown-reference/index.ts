@@ -1,0 +1,26 @@
+import type { Post } from "../../../../types"
+
+import content from "./markdown-reference.md"
+import {
+  markdownReferenceImageLists,
+  markdownReferenceImages,
+} from "./markdown-reference.images"
+import quietLaptop from "./assets/quiet-laptop.webp"
+
+export const markdownReference: Post = {
+  postId: 401,
+  slug: "markdown-reference",
+  title: "Markdown reference",
+  excerpt:
+    "Every form the blog renderer supports, written out and rendered live.",
+  created: "2026-07-22",
+  authorIds: ["rj11io"],
+  isNSFW: false,
+  isNew: true,
+  isFeatured: true,
+  tags: ["Markdown", "Rendering", "Documentation"],
+  content,
+  images: markdownReferenceImages,
+  imageLists: markdownReferenceImageLists,
+  coverImage: quietLaptop.src
+}

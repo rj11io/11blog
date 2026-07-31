@@ -127,7 +127,7 @@ Because the dependency runs one way, a different front end is a realistic piece 
 - **A way to import a .md file as a string.** The type declaration in content/markdown.d.ts already describes the shape; the bundler needs a loader that produces it. The current one is five lines.
 - **A way to import an image file and read its source, width, and height.** Post image modules rely on this, and it is the only other build-time capability the content assumes.
 - **The five routes.** Landing, browse, publication, post, author. content/routes.ts already defines their shapes.
-- **A Markdown renderer** that handles standard Markdown, the GitHub extensions, and the three custom shortcodes. See [Adding a custom Markdown component](/blog-platform/custom-components).
+- **A Markdown renderer** that handles standard Markdown, the GitHub extensions, and the three custom shortcodes. See [Extending the renderer](/blog-platform/extending-the-renderer).
 
 Everything else, including all validation, comes with the content.
 
@@ -135,7 +135,7 @@ Everything else, including all validation, comes with the content.
 
 **Adding an optional field is safe.** Existing content stays valid and existing pages ignore it. Add a validation rule for it at the same time.
 
-**Adding a required field is a change to every publication file.** Do it deliberately, and update [Markdown Blog Format](/blog-platform/markdown-blog-format) in the same change.
+**Adding a required field is a change to every publication file.** Do it deliberately, and update [Adding a publication or post](/blog-platform/adding-content) in the same change.
 
 **Never import from v0/www inside content.** It would reverse the dependency and make the content layer unusable anywhere else. There is nothing in the website worth this.
 

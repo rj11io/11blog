@@ -22,6 +22,10 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `favicons/11blog-favicon-v2-16.png` | 16 × 16 | Centered v2 minimum-size preview |
 | `favicons/11blog-favicon-v2.ico` | 16–256 px | Centered v2 multi-resolution favicon |
 | `og/11blog-default-og.png` | 1200 × 630 | Default site Open Graph image |
+| `og/11blog-favicon-style-og.png` | 1200 × 630 | Default OG direction based on the centered extra-large-dot favicon |
+| `og/11blog-favicon-style-og-v2.png` | 1200 × 630 | URL-led favicon-style OG without the repeated `11blog` label |
+| `og/11blog-favicon-style-og-v3.png` | 1200 × 630 | URL-led OG with the complete editorial keyword line |
+| `og/11blog-favicon-style-og-v4.png` | 1200 × 630 | Minimal v3 variant without borders or background grid lines |
 | `og/blog-platform-og.png` | 1200 × 630 | Blog Platform publication Open Graph image |
 | `covers/blog-platform-publication-cover.png` | 1600 × 900 | Blog Platform publication cover |
 | `covers/markdown-components-cover.png` | 1600 × 900 | Markdown components post cover |
@@ -40,6 +44,12 @@ focus. Existing placeholder imagery and editorial voice were not used.
 - Cover images contain no embedded text so titles remain accessible and
   responsive in the interface.
 
+## Versioning
+
+Image explorations are non-destructive. Keep every accepted or reviewed
+iteration and create new siblings with sequential suffixes such as `-v2` and
+`-v3`; do not overwrite an earlier image.
+
 ## Prompt set
 
 The assets were generated as a coordinated family with these core concepts:
@@ -54,13 +64,19 @@ The assets were generated as a coordinated family with these core concepts:
    complete `11` plus square silhouette as a single unit.
 4. **Default OG:** a modular editorial technology grid with the exact strings
    `11blog` and `by rj11io`.
-5. **Blog Platform OG:** an abstract publishing-system layout with the exact
+5. **Favicon-style OG:** a centered poster-like composition led by the
+   extra-large-dot `11` mark, with restrained grid lines and the approved
+   editorial focus. Its v2 removes the repeated brand name and promotes
+   `blog.rj11.io` to the primary centered label. Its v3 adds the complete
+   `AI / SOFTWARE / PRODUCT / ENGINEERING / TECHNOLOGY` metadata line. Its v4
+   removes all background rules for a quieter, fully minimal composition.
+6. **Blog Platform OG:** an abstract publishing-system layout with the exact
    strings `Blog Platform` and `11blog`.
-6. **Publication cover:** interlocking page frames, content rails, margins, and
+7. **Publication cover:** interlocking page frames, content rails, margins, and
    columns organized around a double-one rhythm.
-7. **Markdown components cover:** a strict kit of abstract heading, paragraph,
+8. **Markdown components cover:** a strict kit of abstract heading, paragraph,
    code, table, media, and callout modules without rendered copy.
-8. **Markdown Blog Format cover:** a left-to-right transformation from plain
+9. **Markdown Blog Format cover:** a left-to-right transformation from plain
    line units, through a double-one parsing gate, into a structured page.
 
 The original image set was created with the built-in image generation model.

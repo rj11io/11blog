@@ -1,4 +1,4 @@
-# Markdown components
+# Markdown reference
 
 ## Prose and inline formatting
 

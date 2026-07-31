@@ -1,9 +1,9 @@
-export const customComponents = `
-# Adding a custom Markdown component
+export const extendingTheRenderer = `
+# Extending the renderer
 
 The blog understands three pieces of syntax that ordinary Markdown does not: a named image, an image list, and a YouTube embed. All three are written the same way, and all three are built the same way. This post explains that shape so you can add a fourth.
 
-If you only want to use the existing three, read [Markdown Components](/blog-platform/markdown-components) instead. This post is for changing the renderer.
+If you only want to use the existing three, read [Markdown reference](/blog-platform/markdown-reference) instead. This post is for changing the renderer.
 
 ## The shape of a shortcode
 
@@ -203,6 +203,6 @@ If your component needs post-level configuration, add a field to the Post type i
 4. Add the property to MarkdownElementProps.
 5. Add the component to the components object and to the type after satisfies.
 6. Decide how a missing or malformed argument behaves, in development and in production.
-7. Document the new syntax in [Markdown Components](/blog-platform/markdown-components), and add a live example to that post so the reference stays executable.
+7. Document the new syntax in [Markdown reference](/blog-platform/markdown-reference), and add a live example to that post so the reference stays executable.
 8. Run typecheck, lint, and build.
 `

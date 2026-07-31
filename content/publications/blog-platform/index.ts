@@ -1,13 +1,15 @@
 import type { Publication } from "../../types"
 import { accessibilityContract } from "./posts/accessibility-contract"
+import { addingContent } from "./posts/adding-content"
+import { authorsAndBylines } from "./posts/authors-and-bylines"
 import { contentContract } from "./posts/content-contract"
 import { contentValidation } from "./posts/content-validation"
-import { customComponents } from "./posts/custom-components"
 import { designTokens } from "./posts/design-tokens"
-import { markdownBlogFormat } from "./posts/markdown-blog-format"
-import { markdownComponents } from "./posts/markdown-components"
+import { extendingTheRenderer } from "./posts/extending-the-renderer"
+import { markdownReference } from "./posts/markdown-reference"
 import { renderingModel } from "./posts/rendering-model"
 import { runningTheBlog } from "./posts/running-the-blog"
+import { searchAndDiscovery } from "./posts/search-and-discovery"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
 
 export const blogPlatform: Publication = {
@@ -27,20 +29,20 @@ export const blogPlatform: Publication = {
   editorNotes:
     "Practical notes about the blog itself, written as part of the same publishing system described in the posts.",
   posts: [
-    markdownComponents,
+    markdownReference,
     {
       postId: 402,
-      slug: "markdown-blog-format",
-      title: "Markdown Blog Format",
+      slug: "adding-content",
+      title: "Adding a publication or post",
       excerpt:
-        "How to add publications and posts using the blog's internal content and Markdown format.",
+        "How to add a publication or post using the blog's content format, with a checklist for each.",
       created: "2026-07-22",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: true,
       isFeatured: true,
       tags: ["Markdown", "Publishing", "Documentation"],
-      content: markdownBlogFormat,
+      content: addingContent,
       coverImage: "https://picsum.photos/900"
     },
     {
@@ -56,6 +58,34 @@ export const blogPlatform: Publication = {
       isFeatured: false,
       tags: ["Validation", "Content", "Documentation"],
       content: contentValidation,
+    },
+    {
+      postId: 411,
+      slug: "search-and-discovery",
+      title: "Search, tags, and discovery",
+      excerpt:
+        "What the blog's searches actually look at, why post bodies are not among them, and how tags behave.",
+      created: "2026-07-31",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: true,
+      isFeatured: false,
+      tags: ["Discovery", "Content", "Documentation"],
+      content: searchAndDiscovery,
+    },
+    {
+      postId: 412,
+      slug: "authors-and-bylines",
+      title: "Authors and bylines",
+      excerpt:
+        "The author record, the two jobs its display name does, and what happens when you rename or remove one.",
+      created: "2026-07-31",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: true,
+      isFeatured: false,
+      tags: ["Authors", "Content", "Documentation"],
+      content: authorsAndBylines,
     },
     {
       postId: 404,
@@ -87,8 +117,8 @@ export const blogPlatform: Publication = {
     },
     {
       postId: 406,
-      slug: "custom-components",
-      title: "Adding a custom Markdown component",
+      slug: "extending-the-renderer",
+      title: "Extending the renderer",
       excerpt:
         "The five-step recipe behind the blog's shortcodes, and how to add one of your own.",
       created: "2026-07-31",
@@ -97,7 +127,7 @@ export const blogPlatform: Publication = {
       isNew: true,
       isFeatured: false,
       tags: ["Rendering", "Markdown", "Extending"],
-      content: customComponents,
+      content: extendingTheRenderer,
     },
     {
       postId: 407,

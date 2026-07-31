@@ -1,7 +1,7 @@
 export const runningTheBlog = `
 # Running and releasing the blog
 
-This post covers the mechanics: how to start the site locally, what to check before committing, and what happens when a change reaches the main branch. It is the operator's half of the documentation. For writing content, see [Markdown Blog Format](/blog-platform/markdown-blog-format).
+This post covers the mechanics: how to start the site locally, what to check before committing, and what happens when a change reaches the main branch. It is the operator's half of the documentation. For writing content, see [Adding a publication or post](/blog-platform/adding-content).
 
 ## Two package manifests, two jobs
 

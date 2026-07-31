@@ -44,7 +44,7 @@ function localImage(
   }
 }
 
-export const markdownComponentsImages = {
+export const markdownReferenceImages = {
   "workspace-overview": localImage(
     workspaceOverview,
     workspaceOverviewThumbnail,
@@ -117,15 +117,15 @@ export const markdownComponentsImages = {
 } as const satisfies PostImages
 
 const mixedSourceGallery = [
-  markdownComponentsImages["workspace-overview"],
-  markdownComponentsImages["open-notebook"],
-  markdownComponentsImages["quiet-laptop"],
-  markdownComponentsImages["team-table"],
-  markdownComponentsImages["desk-overhead"],
-  markdownComponentsImages["planning-desk"],
-  markdownComponentsImages["cutlery-study"],
-  markdownComponentsImages["everyday-essentials"],
-  markdownComponentsImages["remote-open-book"],
+  markdownReferenceImages["workspace-overview"],
+  markdownReferenceImages["open-notebook"],
+  markdownReferenceImages["quiet-laptop"],
+  markdownReferenceImages["team-table"],
+  markdownReferenceImages["desk-overhead"],
+  markdownReferenceImages["planning-desk"],
+  markdownReferenceImages["cutlery-study"],
+  markdownReferenceImages["everyday-essentials"],
+  markdownReferenceImages["remote-open-book"],
 ] as const
 
 function imageList(
@@ -140,7 +140,7 @@ function imageList(
   } as const
 }
 
-export const markdownComponentsImageLists = {
+export const markdownReferenceImageLists = {
   "quilted:image-only": imageList("quilted", "image-only"),
   "quilted:title-inside": imageList("quilted", "title-inside"),
   "quilted:title-below": imageList("quilted", "title-below"),

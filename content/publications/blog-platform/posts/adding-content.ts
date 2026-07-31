@@ -1,7 +1,7 @@
-export const markdownBlogFormat = `
-# Markdown Blog Format
+export const addingContent = `
+# Adding a publication or post
 
-This guide explains how to add a publication or post to the blog's internal content system. For examples of the Markdown syntax and custom renderer behavior, see the [Markdown Components](/blog-platform/markdown-components) post.
+This guide explains how to add a publication or post to the blog's internal content system. For examples of the Markdown syntax and custom renderer behavior, see the [Markdown reference](/blog-platform/markdown-reference) post.
 
 ## Content architecture
 
@@ -228,7 +228,7 @@ Leave a blank line between paragraphs, headings, lists, quotes, tables, and code
 
 The renderer supports normal Markdown paragraphs, emphasis, strong text, strikethrough, inline code, headings, links, images, blockquotes, unordered and ordered lists, task-list checkboxes, horizontal rules, tables, fenced code blocks, and hard line breaks.
 
-The remark-gfm plugin additionally supports autolink literals, footnotes, strikethrough, tables, and task lists. Use the [Markdown Components](/blog-platform/markdown-components) post as the executable reference for each of these forms.
+The remark-gfm plugin additionally supports autolink literals, footnotes, strikethrough, tables, and task lists. Use the [Markdown reference](/blog-platform/markdown-reference) post as the executable reference for each of these forms.
 
 The blog also supports a custom YouTube embed. Use a standalone shortcode with an 11-character video ID:
 
@@ -292,7 +292,7 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 5. Put post-owned files and their source record in the modular post's assets directory.
 6. Put named single-image and image-list configurations in the post's .images.ts file when needed.
 7. Give configured images dimensions, useful alt text, and separate thumbnail and lightbox sources where practical.
-8. Check component syntax against the [Markdown Components](/blog-platform/markdown-components) reference.
+8. Check component syntax against the [Markdown reference](/blog-platform/markdown-reference) reference.
 9. Add the post to its publication's posts array, in the position it should read.
 10. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
 

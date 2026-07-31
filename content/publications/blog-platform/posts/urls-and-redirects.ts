@@ -49,7 +49,17 @@ const postIndex = publication.posts.findIndex(
 )
 ~~~
 
-So a post with slug "morning-route" and postId 302 answers at both /local-weather/morning-route and /local-weather/302. Only the slug is ever linked, because that is what postHref produces when a slug exists, but the numeric address keeps working. This is useful for a post whose slug you are about to change: the numeric address is a permanent handle.
+It is tempting to read that and conclude a post has two working addresses. It does not, and the reason is worth understanding.
+
+The lookup accepts either form, but only one of them is ever built as a page. The route lists its addresses like this:
+
+~~~ts
+postId: post.slug ?? String(post.postId),
+~~~
+
+A post with a slug contributes only its slug. Since nothing outside that list exists, /local-weather/302 returns 404 even though the lookup would have resolved it. Every post in the blog currently has a slug, so no numeric address exists anywhere on the site.
+
+The numeric branch of the lookup matters only for a post with no slug, and then it is that post's single address. So the rule is simply: a post has exactly one address, its slug if it has one and its number if it does not.
 
 The lookup also returns the post's position in the array, which is how the previous and next links at the foot of a post are found. Editorial order is array order. See [The content contract](/blog-platform/content-contract).
 
@@ -152,7 +162,7 @@ Same shape, one rule instead of two:
 { source: "/local-weather/old-slug", destination: "/local-weather/new-slug", permanent: true }
 ~~~
 
-The post's numeric address is unaffected by a slug change, which is a useful safety net.
+There is no safety net here. As explained above, the post's numeric ID is not a working address, so the redirect is the only thing keeping the old link alive. Write it in the same change as the rename, not afterwards.
 
 ### Removing a publication or post
 
