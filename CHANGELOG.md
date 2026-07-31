@@ -1,3 +1,22 @@
+# [1.2.0](https://github.com/rj11io/11blog/compare/v1.1.0...v1.2.0) (2026-07-31)
+
+
+### Bug Fixes
+
+* improve breadcrumbs ([25e0252](https://github.com/rj11io/11blog/commit/25e0252472537e46866ce88183b89149599672cc))
+* new badge on post page ([08825cc](https://github.com/rj11io/11blog/commit/08825cc341a74809595fed9fe1e67ba6fc2a9c14))
+* post order ([a6d6f4e](https://github.com/rj11io/11blog/commit/a6d6f4e004400505209ea0089a77d1e16ab278ff))
+* publications authors ([72f78fa](https://github.com/rj11io/11blog/commit/72f78fa3a4fb6edf6987c1b5c593d20346fcf959))
+* refactor platform docs ([7b084d0](https://github.com/rj11io/11blog/commit/7b084d0dffd19b4240b9041c278374b7599240cb))
+
+
+### Features
+
+* last updated sorting option ([545807f](https://github.com/rj11io/11blog/commit/545807faefca63e9768f1a25a08bf6ca575544dc))
+* new browser sorting options ([4d91b07](https://github.com/rj11io/11blog/commit/4d91b07457541c11b4f67b5cfec82ad50083435a))
+* share actions ([9874ac4](https://github.com/rj11io/11blog/commit/9874ac48e46a9c2b9fdef647a5701cb5acde07f9))
+* support the platform ([525a452](https://github.com/rj11io/11blog/commit/525a45281a977b3349441cee2cd22ca23852beca))
+
 # [1.1.0](https://github.com/rj11io/11blog/compare/v1.0.1...v1.1.0) (2026-07-31)
 
 
