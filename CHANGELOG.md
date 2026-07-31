@@ -1,3 +1,19 @@
+# [1.1.0](https://github.com/rj11io/11blog/compare/v1.0.1...v1.1.0) (2026-07-31)
+
+
+### Bug Fixes
+
+* persist view mode in local storage ([67c2047](https://github.com/rj11io/11blog/commit/67c20477bd724cc44788356b743dbfb895223c2a))
+
+
+### Features
+
+* blog platform docs ([558f0d8](https://github.com/rj11io/11blog/commit/558f0d8e1b74cdcff653303ee5d36b8a2477e13f))
+* blog platform media assets ([74faea2](https://github.com/rj11io/11blog/commit/74faea22c00764bbd5f0f86eb490a648f1844edd))
+* improve blog platform ([a265036](https://github.com/rj11io/11blog/commit/a265036226354b266aee59d039ca6ca45af7b5f2))
+* improve og matadata ([971d20f](https://github.com/rj11io/11blog/commit/971d20f2bc6efb6a3ca9c2f00ef023f00575005d))
+* media ([cf44876](https://github.com/rj11io/11blog/commit/cf448761eb6734600580331558ca615f22daf30e))
+
 ## [1.0.1](https://github.com/rj11io/11blog/compare/v1.0.0...v1.0.1) (2026-07-29)
 
 
