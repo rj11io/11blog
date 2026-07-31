@@ -132,9 +132,13 @@ export async function generateMetadata({
     title: result.post.title,
     description: result.post.excerpt,
     authors: result.authors.map((author) => ({ name: author.name })),
-    openGraph: result.post.coverImage
-      ? { images: [{ url: result.post.coverImage }] }
-      : undefined,
+    // Leave openGraph out entirely when the post has no cover, so the site
+    // default in the root layout is inherited. Setting the key to undefined
+    // replaces the inherited value rather than falling back to it, which used
+    // to leave coverless posts with no link preview image at all.
+    ...(result.post.coverImage
+      ? { openGraph: { images: [{ url: result.post.coverImage }] } }
+      : {}),
   }
 }
 

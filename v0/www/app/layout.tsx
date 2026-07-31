@@ -13,8 +13,27 @@ import { cn } from "@/lib/utils"
 // absolute address, so the production origin has to be declared here. Without
 // it, Next falls back to localhost and every link preview points at a machine
 // that is not on the internet.
+//
+// The image below is the site-wide fallback, used by any page that does not set
+// an Open Graph image of its own: the landing page, the browse page, and author
+// pages. A post or publication with a cover overrides it, because those pages
+// declare their own openGraph block. Copied from the versioned set of record at
+// v0/branding/images/og/11blog-favicon-style-og-v4.png. Kept as a plain file in
+// public rather than an import so the address stays stable and readable, which
+// matters for something social networks cache. Note that nothing verifies this
+// path, so open a page and read the tag after changing it.
 export const metadata: Metadata = {
   metadataBase: new URL("https://blog.rj11.io"),
+  openGraph: {
+    images: [
+      {
+        url: "/static/og/11blog-default-og-v4.png",
+        width: 1200,
+        height: 630,
+        alt: "11blog",
+      },
+    ],
+  },
 }
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })

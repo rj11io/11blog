@@ -307,6 +307,10 @@ So a cover has to survive three crops: the wide banner at the top of a page, the
 
 A link preview needs an absolute address. The site supplies one through metadataBase in the root layout, set to the production domain. Without it the framework falls back to localhost and every preview points at a machine that is not on the internet.
 
+A cover is optional, and a page without one is still shareable. The root layout declares a site-wide fallback image, kept at v0/www/public/static/og/, and any page that does not set an image of its own inherits it: the landing page, the browse page, author pages, and any publication or post with no cover. So the choice is between a specific preview and a generic one, never between a preview and nothing.
+
+One caution if you ever edit a page's metadata. The fallback works because a page with no cover leaves the Open Graph block out altogether. Setting it to undefined instead is not the same thing: it replaces the inherited value rather than deferring to it, and the page ends up with no preview image at all. Add the block conditionally, and check the tag afterwards by reading the page source.
+
 Always provide useful alt text unless the image is genuinely decorative. Modular posts should prefer post-owned assets and the @[image](image-key) shortcode when an image needs separate thumbnail and lightbox sources.
 
 ## Deliberately unsupported formats

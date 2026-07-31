@@ -35,9 +35,12 @@ export async function generateMetadata({
   return {
     title: publication.title,
     description: publication.description,
-    openGraph: publication.coverImage
-      ? { images: [{ url: publication.coverImage }] }
-      : undefined,
+    // Omitted rather than set to undefined when there is no cover, so the site
+    // default in the root layout is inherited. See the post page for the full
+    // reasoning.
+    ...(publication.coverImage
+      ? { openGraph: { images: [{ url: publication.coverImage }] } }
+      : {}),
   }
 }
 
