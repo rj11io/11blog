@@ -20,7 +20,24 @@ import type {
 } from "@content/types"
 
 type ContentType = BrowseContentType
-type SortOrder = "relevance" | "newest" | "oldest"
+
+export type SortOrder = "relevance" | "newest" | "oldest" | "updated"
+
+/**
+ * The sort options offered in the interface, rendered from here by both this
+ * component and the publication browser so the two lists cannot drift apart.
+ *
+ * "relevance" is deliberately not among them. It returns the registry's own
+ * order, which is the editorial order a publication chose, and the label
+ * promised a ranking the code never performed. The value stays in the type and
+ * in sortItems, so the behaviour is still reachable and could be offered again
+ * under a name that describes it.
+ */
+export const sortOptions: ReadonlyArray<{ value: SortOrder; label: string }> = [
+  { value: "newest", label: "Newest first" },
+  { value: "oldest", label: "Oldest first" },
+  { value: "updated", label: "Last updated" },
+]
 
 type BrowseProps = {
   /** Comes from the URL segment, resolved by the route rather than read here. */
@@ -41,11 +58,27 @@ function formatDate(value: string) {
   return dateFormatter.format(new Date(`${value}T00:00:00Z`))
 }
 
-function sortByDate<T extends { created: string }>(
+/**
+ * When something was last touched. Most posts have never been revised and carry
+ * no updated date, so they fall back to when they were created. That makes the
+ * "Last updated" option degrade into "Newest first" for unrevised content rather
+ * than dropping it to the bottom or hiding it.
+ */
+function lastTouched(item: { created: string; updated?: string }) {
+  return item.updated ?? item.created
+}
+
+export function sortItems<T extends { created: string; updated?: string }>(
   items: T[],
   sortOrder: SortOrder
 ) {
   if (sortOrder === "relevance") return items
+
+  if (sortOrder === "updated") {
+    return [...items].sort((a, b) =>
+      lastTouched(b).localeCompare(lastTouched(a))
+    )
+  }
 
   return [...items].sort((a, b) => {
     const comparison = a.created.localeCompare(b.created)
@@ -523,7 +556,7 @@ export function Browse({
         matchesTags(post.tags, activeSelectedTags)
       )
     })
-    return sortByDate(filtered, sortOrder)
+    return sortItems(filtered, sortOrder)
   }, [activeSelectedTags, contentType, posts, query, sortOrder])
 
   const filteredPublications = React.useMemo(() => {
@@ -544,7 +577,7 @@ export function Browse({
         matchesTags(publication.tags, activeSelectedTags)
       )
     })
-    return sortByDate(filtered, sortOrder)
+    return sortItems(filtered, sortOrder)
   }, [activeSelectedTags, contentType, publications, query, sortOrder])
 
   const filteredAuthors = React.useMemo(() => {
@@ -672,9 +705,11 @@ export function Browse({
                 }
                 className="h-11 min-w-40 border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <option value="relevance">Relevance</option>
-                <option value="newest">Newest first</option>
-                <option value="oldest">Oldest first</option>
+                {sortOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </label>
           )}

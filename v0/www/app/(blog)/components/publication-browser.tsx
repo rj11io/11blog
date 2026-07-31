@@ -5,10 +5,16 @@ import * as React from "react"
 
 import { useViewMode } from "@/hooks/use-view-mode"
 import type { PostPreview } from "@content/types"
-import { FilterToggle, PostResult, segmentClass } from "./browse"
+import {
+  FilterToggle,
+  PostResult,
+  segmentClass,
+  sortItems,
+  sortOptions,
+  type SortOrder,
+} from "./browse"
 
 type Tab = "posts" | "synopsis" | "notes"
-type SortOrder = "relevance" | "newest" | "oldest"
 
 type PublicationBrowserProps = {
   posts: PostPreview[]
@@ -49,11 +55,7 @@ export function PublicationBrowser({
       )
     })
 
-    if (sortOrder === "relevance") return filtered
-    return [...filtered].sort((a, b) => {
-      const comparison = a.created.localeCompare(b.created)
-      return sortOrder === "newest" ? -comparison : comparison
-    })
+    return sortItems(filtered, sortOrder)
   }, [posts, query, selectedTags, sortOrder])
 
   function toggleTag(tag: string) {
@@ -141,9 +143,11 @@ export function PublicationBrowser({
                   }
                   className="h-11 min-w-40 border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <option value="relevance">Relevance</option>
-                  <option value="newest">Newest first</option>
-                  <option value="oldest">Oldest first</option>
+                  {sortOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </label>
 

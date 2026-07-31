@@ -69,18 +69,28 @@ There is no tag page and no way to link to a tag. A tag is a filter inside the b
 
 ## Sorting
 
-Three options, on posts and publications:
+Three options, on posts and publications. Newest first is the default.
 
-- **Newest first** and **Oldest first** sort by the created date. The updated date is displayed but never sorted on.
-- **Relevance** does not rank anything. It returns items in the order the registry holds them, which is publication order, then the editorial order inside each publication. It is the first option in the list and the name promises more than it does.
+- **Newest first** and **Oldest first** sort by the created date.
+- **Last updated** sorts by the updated date, most recently revised first. Most posts have never been revised and carry no updated date, so those fall back to their created date. The practical effect: on content nobody has edited, this option produces the same order as Newest first, rather than pushing unrevised posts to the bottom or leaving them out.
+
+Both browsers offer the same three, rendered from one list in the code so they cannot drift apart.
 
 Authors have no sort control at all; they are always listed by name.
+
+### The option that used to be here
+
+There was a fourth, **Relevance**, and it is worth recording why it went.
+
+It ranked nothing. It returned items in the order the registry holds them, which is publication order and then the editorial order inside each publication. That is a real and useful ordering — it is the reading sequence a publication chose — but "Relevance" is not what it is called anywhere else on the web, and the label promised a ranking the code never performed. It also sat first in the list, so it was what a reader met before anything else.
+
+The value still exists in the sort function, so the behaviour is reachable and could be offered again under a name that describes it, such as series order. It is simply no longer in the dropdown.
 
 ## Searching inside one publication
 
 A publication page has its own search box, and it is deliberately narrower than the browse page. It matches only the **title, excerpt, and tags** of posts in that publication. It does not match the publication name, since every result shares it, and it does not match author names.
 
-Its tag list is drawn only from that publication's posts. It offers the same three sort options, with the same non-ranking relevance. Alongside the posts it shows tabs for the publication's synopsis and editor notes, and each tab appears only if that field is filled in.
+Its tag list is drawn only from that publication's posts. It offers the same three sort options, sharing both the option list and the sort function with the browse page. Alongside the posts it shows tabs for the publication's synopsis and editor notes, and each tab appears only if that field is filled in.
 
 ## The other ways in
 
