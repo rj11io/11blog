@@ -43,26 +43,17 @@ export const blogPlatformDocs: Publication = {
     "Thirteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with A tour of the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
   editorNotes:
     "Written inside the system it describes, which is the point: every post here is rendered by the platform it documents, so a broken claim shows up as a broken page. Read the post that covers a thing before changing that thing, and update it in the same commit.",
-  // Editorial order, which is what the previous and next links follow: the entry
-  // point, then author, understand, extend, operate. Posts two to thirteen carry
-  // ascending dates matching that order. The entry point is deliberately dated
-  // latest instead, so it also heads the newest-first listing.
+  // Editorial order, which is what the previous and next links follow. It runs
+  // oldest to newest, so "next" always moves forward in time and "previous"
+  // always moves back: author, understand, extend, operate, then the entry point
+  // last as the newest post.
+  //
+  // The listing sorts by date newest-first, so it reads as the exact reverse of
+  // this array. That is intended. It puts the tour at the top of the listing,
+  // where readers arrive, while the chain still walks the teaching sequence in
+  // order. The tour links to every post directly, so reaching it last in the
+  // chain costs nothing.
   posts: [
-    {
-      postId: 413,
-      slug: "start-here",
-      title: "A tour of the platform",
-      excerpt:
-        "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
-      created: "2026-07-13",
-      authorIds: ["rj11io"],
-      isNSFW: false,
-      isNew: true,
-      isFeatured: true,
-      tags: ["Documentation", "Blog", "Publishing"],
-      content: startHere,
-      coverImage: startHereCover.src,
-    },
     {
       postId: 402,
       slug: "adding-content",
@@ -228,6 +219,21 @@ export const blogPlatformDocs: Publication = {
       tags: ["Operations", "Release", "Tooling"],
       content: runningTheBlog,
       coverImage: runningTheBlogCover.src,
+    },
+    {
+      postId: 413,
+      slug: "start-here",
+      title: "A tour of the platform",
+      excerpt:
+        "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
+      created: "2026-07-13",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: true,
+      isFeatured: true,
+      tags: ["Documentation", "Blog", "Publishing"],
+      content: startHere,
+      coverImage: startHereCover.src,
     },
   ],
   coverImage: publicationCover.src,
