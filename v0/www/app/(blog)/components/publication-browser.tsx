@@ -6,13 +6,11 @@ import * as React from "react"
 import { useViewMode } from "@/hooks/use-view-mode"
 import type { PostPreview } from "@content/types"
 import {
-  FilterToggle,
-  PostResult,
-  segmentClass,
-  sortItems,
-  sortOptions,
-  type SortOrder,
-} from "./browse"
+  contentSortOptions,
+  useContentSortOrder,
+  type ContentSortOrder,
+} from "@/hooks/use-sort-order"
+import { FilterToggle, PostResult, segmentClass, sortContent } from "./browse"
 
 type Tab = "posts" | "synopsis" | "notes"
 
@@ -29,7 +27,8 @@ export function PublicationBrowser({
 }: PublicationBrowserProps) {
   const [tab, setTab] = React.useState<Tab>("posts")
   const [viewMode, setViewMode] = useViewMode()
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
+  // The same remembered order as the browse page, so the two never disagree.
+  const [sortOrder, setSortOrder] = useContentSortOrder()
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = React.useState(false)
@@ -55,7 +54,7 @@ export function PublicationBrowser({
       )
     })
 
-    return sortItems(filtered, sortOrder)
+    return sortContent(filtered, sortOrder)
   }, [posts, query, selectedTags, sortOrder])
 
   function toggleTag(tag: string) {
@@ -139,11 +138,11 @@ export function PublicationBrowser({
                 <select
                   value={sortOrder}
                   onChange={(event) =>
-                    setSortOrder(event.target.value as SortOrder)
+                    setSortOrder(event.target.value as ContentSortOrder)
                   }
                   className="h-11 min-w-40 border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  {sortOptions.map((option) => (
+                  {contentSortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>

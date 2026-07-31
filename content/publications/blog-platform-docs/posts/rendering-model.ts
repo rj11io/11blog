@@ -28,7 +28,7 @@ The trade is simple and worth stating plainly: publishing requires a build. Ther
 
 Components run on the server unless they say otherwise. A component becomes a browser component only by starting its file with "use client", and that pulls it, and everything it imports, into the code sent to the browser.
 
-Eleven entries opt in. Each has a reason:
+Thirteen entries opt in. Each has a reason:
 
 | File | Why it runs in the browser |
 | --- | --- |
@@ -42,7 +42,9 @@ Eleven entries opt in. Each has a reason:
 | multi-image-list.tsx | Selection state for a gallery, and focus return |
 | theme-provider.tsx | Reads and sets the colour mode |
 | media/index.ts | Re-exports the components above |
-| hooks/use-view-mode.ts | Holds the remembered list-or-cards preference |
+| hooks/use-persisted-preference.ts | Builds the store behind each remembered preference |
+| hooks/use-view-mode.ts | The list-or-cards choice |
+| hooks/use-sort-order.ts | The content and author sort choices |
 
 Everything else, including the whole Markdown renderer and every page, runs only on the server.
 
@@ -140,19 +142,21 @@ The rest of the browse state, meaning search text, selected tags, and sort, is o
 
 ## A reader preference the server cannot know
 
-The card-or-list layout is the one piece of view state that outlives the page. It lives in the browser's local storage and is read through a small store in v0/www/hooks/use-view-mode.ts, which both the browse page and the publication page share, so choosing a layout in one changes it in the other.
+Three pieces of view state outlive the page: the card-or-list layout, how posts and publications are sorted, and how authors are sorted. Each lives in the browser's local storage and is read through the same small store, built by v0/www/hooks/use-persisted-preference.ts and configured in use-view-mode.ts and use-sort-order.ts.
 
-It is worth walking through why it works this way, because the reasoning is the same for any preference added later.
+Each is shared by every list on the page, so choosing a layout or an order on the browse page also applies inside a publication. Authors keep their own sort because none of its options mean anything for a post.
 
-The obvious alternative is a cookie. A cookie arrives with the request, so the server could read it and render the right layout immediately, with no correction afterwards. That option is closed here: reading a cookie in a server component makes the page dynamic, and these pages are prerendered. One preference would cost the whole static-generation model.
+It is worth walking through why they work this way, because the same reasoning applies to any preference added next.
+
+The obvious alternative is a cookie. A cookie arrives with the request, so the server could read it and render the right layout and order immediately, with no correction afterwards. That option is closed here: reading a cookie in a server component makes the page dynamic, and these pages are prerendered. One preference would cost the whole static-generation model.
 
 So the value is read in the browser, which means the server renders the default. The store is read with useSyncExternalStore, and its third argument is what the server renders and what hydration compares against:
 
 ~~~tsx
-const viewMode = React.useSyncExternalStore(
+const value = React.useSyncExternalStore(
   subscribe,
   read,
-  () => DEFAULT_VIEW_MODE
+  () => defaultValue
 )
 ~~~
 
@@ -160,7 +164,7 @@ Passing the default there is what keeps the markup identical on both sides, so t
 
 The visible cost is a flash: a reader who prefers list sees cards for one frame. Cards and list produce genuinely different markup rather than the same markup styled differently, so no amount of CSS can fix that ahead of hydration. The alternative would be a blocking script in the document head, as the colour theme uses, and that is not worth it for a layout toggle.
 
-Two smaller details in the same file, both worth copying for any similar preference. The stored value is validated on the way in, so a hand-edited or stale entry falls back to the default instead of rendering nothing. And both the read and the write are wrapped in try blocks, because storage throws outright in some privacy modes; a blocked browser loses the memory but keeps a working page.
+Two smaller details in that store, and the reason it is worth having one rather than three copies. The stored value is validated against the list of allowed values on the way in, so a hand-edited or stale entry falls back to the default instead of rendering nothing. And both the read and the write are wrapped in try blocks, because storage throws outright in some privacy modes; a blocked browser loses the memory but keeps a working page. Getting those two right once is the whole argument for the factory.
 
 Note what is passed in: previews, not full posts. Everything handed to a browser component is serialised and sent over the network, so the preview types keep every post body out of that payload.
 

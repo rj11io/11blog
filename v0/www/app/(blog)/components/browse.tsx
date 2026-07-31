@@ -7,6 +7,14 @@ import * as React from "react"
 
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import {
+  authorSortOptions,
+  contentSortOptions,
+  useAuthorSortOrder,
+  useContentSortOrder,
+  type AuthorSortOrder,
+  type ContentSortOrder,
+} from "@/hooks/use-sort-order"
 import { useViewMode, type ViewMode } from "@/hooks/use-view-mode"
 import {
   browseContentHref,
@@ -20,24 +28,6 @@ import type {
 } from "@content/types"
 
 type ContentType = BrowseContentType
-
-export type SortOrder = "relevance" | "newest" | "oldest" | "updated"
-
-/**
- * The sort options offered in the interface, rendered from here by both this
- * component and the publication browser so the two lists cannot drift apart.
- *
- * "relevance" is deliberately not among them. It returns the registry's own
- * order, which is the editorial order a publication chose, and the label
- * promised a ranking the code never performed. The value stays in the type and
- * in sortItems, so the behaviour is still reachable and could be offered again
- * under a name that describes it.
- */
-export const sortOptions: ReadonlyArray<{ value: SortOrder; label: string }> = [
-  { value: "newest", label: "Newest first" },
-  { value: "oldest", label: "Oldest first" },
-  { value: "updated", label: "Last updated" },
-]
 
 type BrowseProps = {
   /** Comes from the URL segment, resolved by the route rather than read here. */
@@ -68,32 +58,61 @@ function lastTouched(item: { created: string; updated?: string }) {
   return item.updated ?? item.created
 }
 
-export function sortItems<T extends { created: string; updated?: string }>(
+type SortableContent = { created: string; updated?: string; title: string }
+
+export function sortContent<T extends SortableContent>(
   items: T[],
-  sortOrder: SortOrder
+  sortOrder: ContentSortOrder
 ) {
   if (sortOrder === "relevance") return items
 
-  if (sortOrder === "updated") {
-    return [...items].sort((a, b) =>
-      lastTouched(b).localeCompare(lastTouched(a))
-    )
-  }
+  const sorted = [...items]
 
-  return [...items].sort((a, b) => {
-    const comparison = a.created.localeCompare(b.created)
-    return sortOrder === "newest" ? -comparison : comparison
-  })
+  switch (sortOrder) {
+    case "updated":
+      return sorted.sort((a, b) =>
+        lastTouched(b).localeCompare(lastTouched(a))
+      )
+    case "az":
+      return sorted.sort((a, b) => a.title.localeCompare(b.title))
+    case "za":
+      return sorted.sort((a, b) => b.title.localeCompare(a.title))
+    default:
+      return sorted.sort((a, b) => {
+        const comparison = a.created.localeCompare(b.created)
+        return sortOrder === "newest" ? -comparison : comparison
+      })
+  }
+}
+
+/**
+ * Authors sort on their own terms. Both post-count orders fall back to the name
+ * when counts tie, which they do often with a short author list, so the order
+ * stays stable and predictable rather than depending on registry position.
+ */
+function sortAuthors(items: AuthorListItem[], sortOrder: AuthorSortOrder) {
+  const sorted = [...items]
+
+  switch (sortOrder) {
+    case "most-posts":
+      return sorted.sort(
+        (a, b) => b.postCount - a.postCount || a.name.localeCompare(b.name)
+      )
+    case "least-posts":
+      return sorted.sort(
+        (a, b) => a.postCount - b.postCount || a.name.localeCompare(b.name)
+      )
+    case "za":
+      return sorted.sort((a, b) => b.name.localeCompare(a.name))
+    default:
+      return sorted.sort((a, b) => a.name.localeCompare(b.name))
+  }
 }
 
 function getTags(items: Array<{ tags: string[] }>) {
   return [...new Set(items.flatMap((item) => item.tags))].sort((a, b) =>
     a.localeCompare(b)
   )
-}
-
-function sortAuthors(items: AuthorListItem[]) {
-  return [...items].sort((a, b) => a.name.localeCompare(b.name))
 }
 
 function matchesTags(itemTags: string[], selectedTags: string[]) {
@@ -515,7 +534,8 @@ export function Browse({
   publications,
 }: BrowseProps) {
   const [viewMode, setViewMode] = useViewMode()
-  const [sortOrder, setSortOrder] = React.useState<SortOrder>("newest")
+  const [contentSort, setContentSort] = useContentSortOrder()
+  const [authorSort, setAuthorSort] = useAuthorSortOrder()
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = React.useState(false)
@@ -556,8 +576,8 @@ export function Browse({
         matchesTags(post.tags, activeSelectedTags)
       )
     })
-    return sortItems(filtered, sortOrder)
-  }, [activeSelectedTags, contentType, posts, query, sortOrder])
+    return sortContent(filtered, contentSort)
+  }, [activeSelectedTags, contentSort, contentType, posts, query])
 
   const filteredPublications = React.useMemo(() => {
     if (contentType !== "publications") return []
@@ -577,8 +597,8 @@ export function Browse({
         matchesTags(publication.tags, activeSelectedTags)
       )
     })
-    return sortItems(filtered, sortOrder)
-  }, [activeSelectedTags, contentType, publications, query, sortOrder])
+    return sortContent(filtered, contentSort)
+  }, [activeSelectedTags, contentSort, contentType, publications, query])
 
   const filteredAuthors = React.useMemo(() => {
     if (contentType !== "authors") return []
@@ -599,8 +619,22 @@ export function Browse({
         matchesTags(author.tags, activeSelectedTags)
       )
     })
-    return sortAuthors(filtered)
-  }, [activeSelectedTags, authors, contentType, query])
+    return sortAuthors(filtered, authorSort)
+  }, [activeSelectedTags, authorSort, authors, contentType, query])
+
+  // Authors sort on their own axis and keep their own remembered choice, so the
+  // control below switches which preference it drives rather than which control
+  // is shown.
+  const isAuthors = contentType === "authors"
+  const sortValue: string = isAuthors ? authorSort : contentSort
+  const sortChoices: ReadonlyArray<{ value: string; label: string }> = isAuthors
+    ? authorSortOptions
+    : contentSortOptions
+
+  function handleSortChange(value: string) {
+    if (isAuthors) setAuthorSort(value as AuthorSortOrder)
+    else setContentSort(value as ContentSortOrder)
+  }
 
   const resultCount =
     contentType === "posts"
@@ -693,26 +727,22 @@ export function Browse({
         </label>
 
         <div className="flex flex-wrap items-end gap-4">
-          {contentType !== "authors" && (
-            <label>
-              <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-                Sort
-              </span>
-              <select
-                value={sortOrder}
-                onChange={(event) =>
-                  setSortOrder(event.target.value as SortOrder)
-                }
-                className="h-11 min-w-40 border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                {sortOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          )}
+          <label>
+            <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+              Sort
+            </span>
+            <select
+              value={sortValue}
+              onChange={(event) => handleSortChange(event.target.value)}
+              className="h-11 min-w-40 border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {sortChoices.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
 
           {availableTags.length > 0 && (
             <div className="flex items-end">

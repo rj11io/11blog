@@ -69,18 +69,36 @@ There is no tag page and no way to link to a tag. A tag is a filter inside the b
 
 ## Sorting
 
-Three options, on posts and publications. Newest first is the default.
+There are two sets of options, because the three content types do not sort on the same things. You cannot order a post by how many posts it has.
+
+### Posts and publications
+
+Five options. Newest first is the default.
 
 - **Newest first** and **Oldest first** sort by the created date.
 - **Last updated** sorts by the updated date, most recently revised first. Most posts have never been revised and carry no updated date, so those fall back to their created date. The practical effect: on content nobody has edited, this option produces the same order as Newest first, rather than pushing unrevised posts to the bottom or leaving them out.
+- **A-Z** and **Z-A** sort by title.
 
-Both browsers offer the same three, rendered from one list in the code so they cannot drift apart.
+These five are one remembered choice, shared between the browse page and a publication's own post list. Sort a publication's posts A-Z and the browse page is A-Z when you get there.
 
-Authors have no sort control at all; they are always listed by name.
+### Authors
+
+Four options. Most posts is the default.
+
+- **Most posts** and **Least posts** sort by how many posts the author has written. Counts tie easily with a short author list, so both fall back to the name when they do, and the order stays stable rather than depending on where the author sits in the file.
+- **A-Z** and **Z-A** sort by name.
+
+Authors keep their own remembered choice, separate from the one above. Changing the author order does not disturb how posts are sorted, and the reverse.
+
+### Where the choice lives
+
+Both are stored in the browser, under 11blog:content-sort and 11blog:author-sort, alongside the layout preference at 11blog:view-mode. All three run through the same small store, so each is shared by every list on the page, survives navigation, and follows along in other tabs.
+
+Because the pages are built ahead of time, the server cannot know any of them, so a stored choice shows for one frame as the default before the page corrects itself. See [How pages are rendered](/blog-platform-docs/rendering-model).
 
 ### The option that used to be here
 
-There was a fourth, **Relevance**, and it is worth recording why it went.
+Posts and publications once had another, **Relevance**, and it is worth recording why it went.
 
 It ranked nothing. It returned items in the order the registry holds them, which is publication order and then the editorial order inside each publication. That is a real and useful ordering — it is the reading sequence a publication chose — but "Relevance" is not what it is called anywhere else on the web, and the label promised a ranking the code never performed. It also sat first in the list, so it was what a reader met before anything else.
 
