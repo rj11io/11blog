@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/rj11io/11blog/compare/v1.2.0...v1.3.0) (2026-08-02)
+
+
+### Bug Fixes
+
+* improve og images ([bd5fca8](https://github.com/rj11io/11blog/commit/bd5fca87789b26b86dd0d9643fb0da86a72a040d))
+* typo ([9ff1a62](https://github.com/rj11io/11blog/commit/9ff1a628523ed0dc6df6a0415364473d3fce8d16))
+
+
+### Features
+
+* improvements ([940aa94](https://github.com/rj11io/11blog/commit/940aa9447e97235d4dd8c670420577c91dd90fe8))
+
 # [1.2.0](https://github.com/rj11io/11blog/compare/v1.1.0...v1.2.0) (2026-07-31)
 
 
