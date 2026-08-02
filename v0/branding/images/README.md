@@ -28,10 +28,13 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `og/11blog-favicon-style-og-v2.png` | 1200 × 630 | URL-led favicon-style OG without the repeated `11blog` label |
 | `og/11blog-favicon-style-og-v3.png` | 1200 × 630 | URL-led OG with the complete editorial keyword line |
 | `og/11blog-favicon-style-og-v4.png` | 1200 × 630 | Minimal v3 variant without borders or background grid lines |
+| `og/11blog-favicon-style-og-v5.png` | 1200 × 630 | **Live default OG.** v4 with a signal square each side of the domain |
 | `og/rj11io-favicon-style-orange-og-v1.png` | 1200 × 630 | Main-site exploration for `www.rj11.io` with an orange signal hue |
 | `og/rj11io-favicon-style-orange-og-v2.png` | 1200 × 630 | Optically aligned orange main-site OG with the keyword footer restored |
+| `og/rj11io-favicon-style-orange-og-v3.png` | 1200 × 630 | v2 with a signal square each side of the domain |
 | `og/ai-rj11io-favicon-style-monochrome-og-v1.png` | 1200 × 630 | Monochrome AI sub-brand OG using an outlined signal square |
 | `og/ai-rj11io-favicon-style-inverted-green-og-v2.png` | 1200 × 630 | Inverted AI OG with a light field, dark mark, and green signal |
+| `og/ai-rj11io-favicon-style-inverted-green-og-v3.png` | 1200 × 630 | v2 with a signal square each side of the domain |
 | `og/blog-platform-og.png` | 1200 × 630 | Blog Platform publication Open Graph image |
 | `blog-platform/` | 1200 × 630 each | Shared OG/cover system for the publication and all twelve registered posts |
 | `covers/blog-platform-publication-cover.png` | 1600 × 900 | Blog Platform publication cover |
@@ -41,7 +44,10 @@ focus. Existing placeholder imagery and editorial voice were not used.
 ## Shared art direction
 
 - Solid `#0A0A0A` ground with `#FAFAFA` structure.
-- `#2BC88F` appears as one restrained signal square.
+- `#2BC88F` appears as a restrained signal square. Since 2026-08-02 a title or
+  domain carries one on each side rather than only on the left, so the row is
+  framed rather than bulleted, and it centres against the mark and the footer.
+  Anything still showing a single square predates that and is superseded.
 - Secondary planes use `#27272A`, `#262626`, and `#121C17`; hairlines use
   `#A1A1A1` sparingly.
 - Sharp rectilinear geometry, square corners, fine rules, modular grids, and
@@ -56,6 +62,18 @@ focus. Existing placeholder imagery and editorial voice were not used.
 Image explorations are non-destructive. Keep every accepted or reviewed
 iteration and create new siblings with sequential suffixes such as `-v2` and
 `-v3`; do not overwrite an earlier image.
+
+That rule has a second reason where Open Graph images are concerned. A social
+network caches the image against the address it first saw, so an old file that
+nothing links to is still serving previews of everything already shared. This
+is why `v0/www/public/static/og/` keeps `11blog-default-og-v4.png` beside the
+v5 the site now points at.
+
+The three favicon-style OG images were given their second square by
+`../generators/favicon-style-og-symmetric-v1.py`, which edits the existing PNG
+rather than redrawing it. There is no generator for these three — they were
+drawn by hand, so the pixels are the only record of the font and spacing, and
+moving the row is the only way to change it without guessing.
 
 Each versioned favicon package contains `favicon.ico`, 16px and 32px PNGs, a
 180px Apple touch icon, and 192px and 512px application icons.
