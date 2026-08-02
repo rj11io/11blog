@@ -36,6 +36,17 @@ const nextConfig: NextConfig = {
         destination: "/browse/posts",
         permanent: true,
       },
+      // "Three ways to build your own blog" became "Build your own blog" on
+      // 2026-08-02. The post is unchanged; the title just said its own structure
+      // out loud, which the first line of the post already does better.
+      //
+      // Nothing else matches this address, so its position among the rules below
+      // does not matter. It sits here because it is the most recent.
+      {
+        source: "/online-presence/three-ways-to-build-a-blog",
+        destination: "/online-presence/build-your-own-blog",
+        permanent: true,
+      },
       // Blog Platform posts renamed on 2026-07-31, when the publication grew
       // from two posts to twelve and the two originals needed titles that said
       // which was the reference and which was the guide.

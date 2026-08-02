@@ -3,7 +3,7 @@ export const startHere = `
 
 This publication documents 11blog, the platform this site runs on. Fourteen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
 
-If you are here because you want your own blog rather than to work on this one, start with [Three ways to build your own blog](/online-presence/three-ways-to-build-a-blog) instead.
+If you are here because you want your own blog rather than to work on this one, start with [Build your own blog](/online-presence/build-your-own-blog) instead.
 
 ## What 11blog is
 

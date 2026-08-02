@@ -1,5 +1,5 @@
-export const threeWaysToBuildABlog = `
-# Three ways to build your own blog
+export const buildYourOwnBlog = `
+# Build your own blog
 
 There is no single right way to put your work on the internet under your own name. There are roughly three, they cost very different amounts of time and money, and the honest answer to which one you should pick depends on how much of it you want to do yourself.
 

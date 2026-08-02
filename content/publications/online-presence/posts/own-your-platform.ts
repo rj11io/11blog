@@ -61,5 +61,5 @@ For plenty of people that trade is wrong, and this post is not an argument that 
 
 ## Where to start
 
-If this landed, the practical question is what to do about it. There are three routes, depending on how much of it you want to do yourself: [Three ways to build your own blog](/online-presence/three-ways-to-build-a-blog).
+If this landed, the practical question is what to do about it. There are three routes, depending on how much of it you want to do yourself: [Build your own blog](/online-presence/build-your-own-blog).
 `

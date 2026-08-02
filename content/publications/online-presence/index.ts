@@ -1,10 +1,10 @@
 import type { Publication } from "../../types"
+import { buildYourOwnBlog } from "./posts/build-your-own-blog"
 import { ownYourPlatform } from "./posts/own-your-platform"
-import { threeWaysToBuildABlog } from "./posts/three-ways-to-build-a-blog"
 
 import publicationCover from "./assets/online-presence-og-cover-v1.png"
+import buildYourOwnBlogCover from "./assets/build-your-own-blog-og-cover-v1.png"
 import ownYourPlatformCover from "./assets/own-your-platform-og-cover-v1.png"
-import threeWaysCover from "./assets/three-ways-to-build-a-blog-og-cover-v1.png"
 
 export const onlinePresence: Publication = {
   relId: 5,
@@ -13,7 +13,7 @@ export const onlinePresence: Publication = {
   description:
     "How to build and own your online presence: why a site of your own beats a rented platform, and three ways to get one.",
   created: "2026-07-14",
-  updated: "2026-07-30",
+  updated: "2026-08-02",
   isNSFW: false,
   isNew: true,
   isFeatured: true,
@@ -29,9 +29,10 @@ export const onlinePresence: Publication = {
   //
   // The tie also means the default newest-first listing cannot separate them, so
   // it falls back to array order and reads the same way round rather than
-  // reversed. The listing therefore opens with the options. The "Last updated"
-  // sort is the one that leads with the argument, since Own your platform was
-  // revised a day later.
+  // reversed. The listing therefore opens with the options, and so does the
+  // "Last updated" sort, since Build your own blog was renamed on 2026-08-02
+  // and now carries the later revision. That sort used to lead with the
+  // argument; nothing depends on it doing so.
   //
   // If you want the argument to lead the listing, give it a later created date
   // rather than reordering this array; the array is what the chain follows.
@@ -40,19 +41,22 @@ export const onlinePresence: Publication = {
   posts: [
     {
       postId: 502,
-      slug: "three-ways-to-build-a-blog",
-      title: "Three ways to build your own blog",
+      slug: "build-your-own-blog",
+      title: "Build your own blog",
       excerpt:
         "Do it yourself, do it together with the 11blog boilerplate, or have it done. What each route costs in time, money, and control.",
       created: "2026-07-15",
-      updated: "2026-07-29",
+      // Renamed from "Three ways to build your own blog" on 2026-08-02, which
+      // moved the address as well as the title. See the redirect in
+      // v0/www/next.config.ts.
+      updated: "2026-08-02",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: true,
       isFeatured: false,
       tags: ["Online Presence", "Publishing", "Getting Started"],
-      content: threeWaysToBuildABlog,
-      coverImage: threeWaysCover.src,
+      content: buildYourOwnBlog,
+      coverImage: buildYourOwnBlogCover.src,
     },
     {
       postId: 501,

@@ -220,6 +220,12 @@ Same shape, one rule instead of two:
 
 There is no safety net here. As explained above, the post's numeric ID is not a working address, so the redirect is the only thing keeping the old link alive. Write it in the same change as the rename, not afterwards.
 
+The live example is Build your own blog, renamed from "Three ways to build your own blog" on 2026-08-02. Its old address still resolves.
+
+A rename is rarely one line, because a title turns up in more places than the slug does. That one touched seven things: the slug and title in the publication file, the first-level heading at the top of the post body, the post's own filename and the name it exports, two links in the prose of other posts, the cover image, and this rule. The cover matters most and is missed most easily, because the title is drawn into the picture — a renamed post keeping its old cover shows the old title to everyone who shares it. Covers are generated, so a rename means running the generator again for a new file, never editing the old one in place.
+
+Nothing checks any of this. Grep for the old slug and the old title separately before you finish, because a link written in prose and a title baked into an image will not fail a build.
+
 ### Removing a publication or post
 
 Deleting content leaves its address returning 404. If the piece existed publicly for any length of time, redirect it somewhere sensible instead: the publication it belonged to, or /browse. A redirect to a real page is nearly always better for a reader than a dead end.

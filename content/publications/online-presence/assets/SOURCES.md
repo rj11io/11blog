@@ -5,7 +5,8 @@ Generated brand assets, not photographs. Copied into the content directory on
 `v0/branding/images/online-presence/`.
 
 - Source set: `v0/branding/images/online-presence/`
-- Generator: `v0/branding/generators/og-covers-v2.py`
+- Generator: `v0/branding/generators/og-covers-v2.py`, plus
+  `og-covers-v4.py` for the Build your own blog cover
 - Version: v1
 
 Each file is 1200 × 630 and does two jobs. It is the cover shown on the site,
@@ -26,7 +27,7 @@ kept so a file in use can be traced back to the generator that made it.
 | --- | --- |
 | `online-presence-og-cover-v1.png` | The Build an online presence publication |
 | `own-your-platform-og-cover-v1.png` | Own your platform |
-| `three-ways-to-build-a-blog-og-cover-v1.png` | Three ways to build your own blog |
+| `build-your-own-blog-og-cover-v1.png` | Build your own blog |
 
 ## Replacing these
 
@@ -34,3 +35,14 @@ Every file is brought in with a static import, so renaming or removing one
 breaks the build rather than producing a missing image. Add the new version
 alongside, update the import, then delete the old file. Do not overwrite a
 versioned file in place.
+
+## Renaming a post
+
+The title is drawn into the picture, so a renamed post needs a new file or its
+cover keeps announcing the old title in every link preview. Generate it, copy it
+in under the new name, update the import, and delete the file the old title was
+drawn into.
+
+`build-your-own-blog-og-cover-v1.png` replaced
+`three-ways-to-build-a-blog-og-cover-v1.png` on 2026-08-02 for exactly this
+reason.
