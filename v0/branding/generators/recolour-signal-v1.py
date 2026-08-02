@@ -117,39 +117,33 @@ def recolour(image: Image.Image, old, new) -> tuple[Image.Image, int]:
     return result, touched
 
 
-def palettise(image: Image.Image) -> Image.Image:
-    return image.quantize(
-        colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE
-    )
+def rgba(image: Image.Image) -> Image.Image:
+    """Written RGBA, never as a palette image.
+
+    A palette icon is a smaller file and a broken build: Next.js decodes
+    app/favicon.ico itself and rejects frames that are not RGBA, with "The PNG
+    is not in RGBA format!". These outputs are not the app's icon today, but
+    they are the same kind of object, and one of them being unusable for that
+    reason is a trap worth not setting.
+    """
+    return image.convert("RGBA")
 
 
 def main() -> None:
-    og_source = OG_DIR / "ai-rj11io-favicon-style-inverted-green-og-v3.png"
-    og_destination = OG_DIR / "ai-rj11io-favicon-style-inverted-green-og-v4.png"
-    card, touched = recolour(Image.open(og_source), OLD_GREEN, NEW_GREEN)
-    card.save(og_destination, optimize=True)
-    print(f"{og_destination.name}: {touched} pixels changed")
+    """The card only. Favicons are not this script's job.
 
-    source_pack = FAVICON_DIR / "ai-rj11io-v1"
-    destination_pack = FAVICON_DIR / "ai-rj11io-v2"
-    destination_pack.mkdir(parents=True, exist_ok=True)
-
-    for name in [
-        "icon-512.png",
-        "icon-192.png",
-        "apple-touch-icon.png",
-        "favicon-32x32.png",
-        "favicon-16x16.png",
-    ]:
-        icon, touched = recolour(Image.open(source_pack / name), OLD_GREEN, NEW_GREEN)
-        palettise(icon).save(destination_pack / name, optimize=True)
-        print(f"{destination_pack.name}/{name}: {touched} pixels changed")
-
-    # The .ico is rebuilt from the recoloured 512 rather than recoloured itself,
-    # because its six sizes are separate images inside one container.
-    master, _ = recolour(Image.open(source_pack / "icon-512.png"), OLD_GREEN, NEW_GREEN)
-    palettise(master).save(destination_pack / "favicon.ico", format="ICO", sizes=ICO_SIZES)
-    print(f"{destination_pack.name}/favicon.ico: rebuilt from the recoloured 512")
+    They were, briefly. Recolouring the old icons carried their existing flaws
+    across: colours outside the brand's own three, from the resampling that made
+    them. brand-og-and-favicons-v1.py builds icons from coverage masks instead,
+    so it can draw the ai package clean rather than inheriting that, and it owns
+    them now. The card stays here, because a card cannot be redrawn faithfully
+    and an icon can.
+    """
+    source = OG_DIR / "ai-rj11io-favicon-style-inverted-green-og-v3.png"
+    destination = OG_DIR / "ai-rj11io-favicon-style-inverted-green-og-v4.png"
+    card, touched = recolour(Image.open(source), OLD_GREEN, NEW_GREEN)
+    card.save(destination, optimize=True)
+    print(f"{destination.name}: {touched} pixels changed")
 
 
 if __name__ == "__main__":

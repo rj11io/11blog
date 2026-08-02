@@ -85,10 +85,22 @@ v1 = load_v1()
 
 class Brand:
     def __init__(
-        self, key, domain, og_filename, background, foreground, accent, footer, note
+        self,
+        key,
+        domain,
+        og_filename,
+        background,
+        foreground,
+        accent,
+        footer,
+        note,
+        package="v1",
     ):
         self.key = key
         self.domain = domain
+        # Which favicon package directory to write. Brands whose earlier package
+        # is already published get the next number rather than an overwrite.
+        self.package = package
         # Spelled out rather than built from the key and the hue. The existing
         # names are not quite systematic enough to derive, and a filename is a
         # thing people search for.
@@ -104,6 +116,18 @@ class Brand:
 
 
 BRANDS = [
+    Brand(
+        key="blog-rj11io",
+        domain="blog.rj11.io",
+        # Favicons only. The card for this one is
+        # og/11blog-favicon-style-og-v5.png, which is live and correct.
+        og_filename=None,
+        background=(10, 10, 10),
+        foreground=(250, 250, 250),
+        accent=(43, 200, 143),
+        footer=(161, 161, 161),
+        note="The main blog. Its favicon is what v0/www/app/favicon.ico ships.",
+    ),
     Brand(
         key="intel-rj11io",
         domain="intel.rj11.io",
@@ -138,20 +162,52 @@ BRANDS = [
         footer=(103, 103, 103),  # 5.42:1 on this ground
         note="Light CV sub-brand OG with a blue signal",
     ),
+    # The two brands that predate this generator. Favicons only: both cards are
+    # live and correct, and redrawing a card from parameters does not reproduce
+    # it. Their earlier packages were drawn by another tool and carry colours
+    # outside their own three-colour triangle, which is what these replace.
+    Brand(
+        key="ai-rj11io",
+        domain="ai.rj11.io",
+        og_filename=None,
+        package="v2",
+        background=(250, 250, 250),
+        foreground=(10, 10, 10),
+        accent=(0, 122, 85),  # the darkened green, 5.14:1
+        footer=(103, 103, 103),
+        note="Light AI sub-brand, green signal",
+    ),
+    Brand(
+        key="www-rj11io",
+        domain="www.rj11.io",
+        og_filename=None,
+        package="v2",
+        # Warm black and warm white, which is what makes this brand its own
+        # rather than the blog's palette with a different accent.
+        background=(12, 9, 7),
+        foreground=(250, 248, 246),
+        accent=(249, 115, 22),
+        footer=(161, 161, 161),
+        note="Warm-black main site, orange signal",
+    ),
 ]
 
 
-def recolour_mark(foreground, accent):
-    """The mark master, repainted in a brand's colours, as RGBA.
+def build_masks():
+    """The mark master split into two coverage maps: the numeral, and the square.
 
-    Returns a transparent image so the same mark can sit on any ground. Pixels
-    are sorted by hue: green leading means the signal square, anything else
-    bright means the glyph.
+    Not a recoloured picture. Two greyscale masks saying how much of each part
+    covers each pixel, which is what makes resizing safe further down. Pixels are
+    sorted by hue, because green leading is the only thing that distinguishes the
+    signal square from the numeral, at any opacity. The two never overlap: the
+    square does not touch the numeral in the master, which was checked rather
+    than assumed.
     """
     source = Image.open(MARK_PATH).convert("RGB")
     pixels = source.load()
-    mark = Image.new("RGBA", source.size, (0, 0, 0, 0))
-    out = mark.load()
+    glyph = Image.new("L", source.size, 0)
+    accent = Image.new("L", source.size, 0)
+    glyph_out, accent_out = glyph.load(), accent.load()
 
     for y in range(source.height):
         for x in range(source.width):
@@ -160,22 +216,61 @@ def recolour_mark(foreground, accent):
             if brightest <= 12:
                 continue
 
-            is_square = green > red + 18 and green > blue + 8
-            if is_square:
+            if green > red + 18 and green > blue + 8:
                 # Full strength square reads 200 on the green channel.
-                alpha = min(255, round(green * 255 / 200))
-                out[x, y] = (*accent, alpha)
+                accent_out[x, y] = min(255, round(green * 255 / 200))
             else:
-                alpha = min(255, round(brightest * 255 / 250))
-                out[x, y] = (*foreground, alpha)
+                glyph_out[x, y] = min(255, round(brightest * 255 / 250))
 
-    return mark
+    return glyph, accent
 
 
-def og_mark(mark):
-    return mark.crop(MARK_CROP).resize(
-        (MARK_SIZE, MARK_SIZE), Image.Resampling.LANCZOS
-    )
+def compose(masks, box, size, brand, ground=None):
+    """Paint the mark at a given size, on a solid ground, without overshoot.
+
+    The masks are resized and the colours applied afterwards, never the other way
+    round. Resizing a picture of the mark rings: Lanczos overshoots at every hard
+    edge, so a downscale invents pixels darker than the ground, brighter than the
+    numeral, and more saturated than the signal. Small sizes suffer worst, which
+    is why the old 16 pixel icon carried a #2FE0A1 square the brand never had.
+
+    Resizing coverage instead cannot do that. Each output pixel is a blend of
+    three exact brand colours, so every value it can take lies between them.
+    Ringing in a mask is clamped back to nothing-or-everything before it is used,
+    which costs a shade of edge softness and buys a picture that stays in gamut.
+    """
+    glyph, accent = (mask.crop(box).resize(size, Image.Resampling.LANCZOS)
+                     for mask in masks)
+    glyph_px, accent_px = glyph.load(), accent.load()
+
+    ground = ground or brand.background
+    tile = Image.new("RGB", size, ground)
+    out = tile.load()
+
+    for y in range(size[1]):
+        for x in range(size[0]):
+            g = glyph_px[x, y] / 255
+            a = accent_px[x, y] / 255
+            if g == 0 and a == 0:
+                continue
+
+            # Clamp the pair back onto the simplex. Ringing can push the two a
+            # little past full coverage between them; without this the surplus
+            # would be paid for by the ground going negative.
+            total = g + a
+            if total > 1:
+                g, a = g / total, a / total
+
+            out[x, y] = tuple(
+                round(
+                    ground[channel] * (1 - g - a)
+                    + brand.foreground[channel] * g
+                    + brand.accent[channel] * a
+                )
+                for channel in range(3)
+            )
+
+    return tile
 
 
 def font(size):
@@ -187,10 +282,14 @@ def text_width(draw, value, size):
     return box[2] - box[0]
 
 
-def render_og(brand: Brand, mark, destination: Path) -> None:
+def render_og(brand: Brand, masks, destination: Path) -> None:
     image = Image.new("RGB", (v1.WIDTH, v1.HEIGHT), brand.background)
     draw = ImageDraw.Draw(image)
-    image.paste(og_mark(mark), MARK_ORIGIN, og_mark(mark))
+    # Composed on the card's own ground and pasted opaquely, which is exact
+    # because they are the same colour.
+    image.paste(
+        compose(masks, MARK_CROP, (MARK_SIZE, MARK_SIZE), brand), MARK_ORIGIN
+    )
 
     fixed = SQUARE + GAP + GAP + SQUARE
     for size in range(42, 27, -1):
@@ -229,28 +328,16 @@ def render_og(brand: Brand, mark, destination: Path) -> None:
     image.save(destination, optimize=True)
 
 
-def render_favicons(brand: Brand, mark, directory: Path) -> list[Path]:
-    """The icon at 512, then every smaller size resampled down from it.
+def render_favicons(brand: Brand, masks, directory: Path) -> list[Path]:
+    """Every size composed from the masks at that size, not resampled from 512.
 
-    Resampling from one master rather than redrawing per size is what keeps the
-    16 pixel icon recognisably the same shape as the 512.
+    A 16 pixel icon made by shrinking a finished 512 pixel picture inherits every
+    artefact of that shrink and adds its own. Composing each size from the
+    coverage masks means one resize instead of two, and the colours are applied
+    after it, so no size can drift out of gamut.
     """
-    artwork = mark.crop(mark.getbbox())
-    scale = min(ICON_BOX[0] / artwork.width, ICON_BOX[1] / artwork.height)
-    scaled = artwork.resize(
-        (round(artwork.width * scale), round(artwork.height * scale)),
-        Image.Resampling.LANCZOS,
-    )
-
-    master = Image.new("RGB", (ICON_MASTER, ICON_MASTER), brand.background)
-    master.paste(
-        scaled,
-        (
-            (ICON_MASTER - scaled.width) // 2,
-            (ICON_MASTER - scaled.height) // 2,
-        ),
-        scaled,
-    )
+    box = union_box(masks)
+    artwork_width, artwork_height = box[2] - box[0], box[3] - box[1]
 
     directory.mkdir(parents=True, exist_ok=True)
     names = {
@@ -263,43 +350,85 @@ def render_favicons(brand: Brand, mark, directory: Path) -> list[Path]:
 
     written = []
     for size in ICON_SIZES:
-        path = directory / names[size]
-        resized = (
-            master
-            if size == ICON_MASTER
-            else master.resize((size, size), Image.Resampling.LANCZOS)
-        )
-        palettise(resized).save(path, optimize=True)
-        written.append(path)
+        icon = icon_at(masks, box, artwork_width, artwork_height, size, brand)
+        icon.convert("RGBA").save(directory / names[size], optimize=True)
+        written.append(directory / names[size])
 
+    # Every frame inside the .ico is composed at its own size and handed over
+    # ready-made. Pillow only uses a supplied frame when it matches a requested
+    # size exactly; for anything it does not find it falls back to thumbnail(),
+    # which resamples the largest frame and puts the overshoot straight back. An
+    # earlier version of this let it do that, and the 32 pixel frame came out
+    # carrying pure black and pure white, neither of which is a brand colour.
     ico = directory / "favicon.ico"
-    palettise(master).save(ico, format="ICO", sizes=ICO_SIZES)
+    frames = [
+        icon_at(masks, box, artwork_width, artwork_height, w, brand).convert("RGBA")
+        for w, _ in sorted(ICO_SIZES, reverse=True)
+    ]
+    frames[0].save(ico, format="ICO", sizes=ICO_SIZES, append_images=frames[1:])
     written.append(ico)
     return written
 
 
-def palettise(image: Image.Image) -> Image.Image:
-    """Down to a 256 colour palette, which for this artwork loses nothing.
-
-    Three flat colours and their anti-aliased edges never reach 256 distinct
-    values, so the palette is lossless here and was checked to be: every channel
-    of every pixel is unchanged. It is worth doing because a favicon is fetched
-    on every visit, and it takes about a third off each file.
-    """
-    return image.quantize(
-        colors=256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE
+def union_box(masks):
+    """The artwork's bounds: whatever either mask covers."""
+    boxes = [mask.getbbox() for mask in masks]
+    return (
+        min(b[0] for b in boxes),
+        min(b[1] for b in boxes),
+        max(b[2] for b in boxes),
+        max(b[3] for b in boxes),
     )
 
 
+def icon_at(masks, box, artwork_width, artwork_height, size, brand):
+    """One square icon, artwork scaled to fit the shared margin and centred."""
+    scale = min(
+        ICON_BOX[0] / artwork_width, ICON_BOX[1] / artwork_height
+    ) * (size / ICON_MASTER)
+    target = (
+        max(1, round(artwork_width * scale)),
+        max(1, round(artwork_height * scale)),
+    )
+
+    icon = Image.new("RGB", (size, size), brand.background)
+    icon.paste(
+        compose(masks, box, target, brand),
+        ((size - target[0]) // 2, (size - target[1]) // 2),
+    )
+    return icon
+
+
+"""Everything is written RGBA, and that is not a style choice.
+
+An earlier version of this file saved these as 256 colour palette images, which
+is a valid PNG and about a third smaller. It also breaks the build. Next.js
+decodes app/favicon.ico itself and refuses anything whose embedded frames are
+not RGBA:
+
+    Format error decoding Ico: The PNG is not in RGBA format!
+
+The .ico has to be RGBA because a real consumer requires it. The PNGs are RGBA
+too, for consistency, and because any of them could be dropped into app/ later
+and meet the same decoder. The alpha channel is a constant 255 across an opaque
+icon, so it compresses to almost nothing and the size difference is small.
+"""
+
+
 def main() -> None:
+    masks = build_masks()
+
     for brand in BRANDS:
-        mark = recolour_mark(brand.foreground, brand.accent)
+        # A brand with no og_filename gets favicons only. The main blog's card
+        # already exists and is live, and redrawing it here would produce a
+        # near-identical file for no reason.
+        if brand.og_filename:
+            og = OG_DIR / brand.og_filename
+            render_og(brand, masks, og)
+            print(og)
 
-        og = OG_DIR / brand.og_filename
-        render_og(brand, mark, og)
-        print(og)
-
-        for path in render_favicons(brand, mark, FAVICON_DIR / f"{brand.key}-v1"):
+        directory = FAVICON_DIR / f"{brand.key}-{brand.package}"
+        for path in render_favicons(brand, masks, directory):
             print(path)
 
 

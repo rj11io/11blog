@@ -21,11 +21,13 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `favicons/11blog-favicon-v2-32.png` | 32 × 32 | Centered v2 small-size preview |
 | `favicons/11blog-favicon-v2-16.png` | 16 × 16 | Centered v2 minimum-size preview |
 | `favicons/11blog-favicon-v2.ico` | 16–256 px | Centered v2 multi-resolution favicon |
-| `favicons/www-rj11io-v1/` | 16–512 px | Complete warm-black and orange favicon package for `www.rj11.io` |
-| `favicons/ai-rj11io-v1/` | 16–512 px | Inverted green favicon package for `ai.rj11.io`, superseded |
-| `favicons/ai-rj11io-v2/` | 16–512 px | **Current AI package.** v1 with the green darkened to pass contrast |
-| `favicons/intel-rj11io-v1/` | 16–512 px | Complete dark and red favicon package for `intel.rj11.io` |
-| `favicons/cv-rj11io-v1/` | 16–512 px | Complete light and blue favicon package for `cv.rj11.io` |
+| `favicons/blog-rj11io-v1/` | 16–512 px | **Current blog package.** What `v0/www/app/favicon.ico` ships |
+| `favicons/www-rj11io-v1/` | 16–512 px | Warm-black and orange package for `www.rj11.io`, superseded |
+| `favicons/www-rj11io-v2/` | 16–512 px | **Current www package.** v1 redrawn in gamut, RGBA |
+| `favicons/ai-rj11io-v1/` | 16–512 px | Inverted green package for `ai.rj11.io`, superseded |
+| `favicons/ai-rj11io-v2/` | 16–512 px | **Current AI package.** Darkened green, redrawn in gamut, RGBA |
+| `favicons/intel-rj11io-v1/` | 16–512 px | **Current intel package.** Dark and red |
+| `favicons/cv-rj11io-v1/` | 16–512 px | **Current CV package.** Light and blue |
 | `og/11blog-default-og.png` | 1200 × 630 | Default site Open Graph image |
 | `og/11blog-favicon-style-og.png` | 1200 × 630 | Default OG direction based on the centered extra-large-dot favicon |
 | `og/11blog-favicon-style-og-v2.png` | 1200 × 630 | URL-led favicon-style OG without the repeated `11blog` label |
@@ -114,10 +116,13 @@ Three generators sit behind the sub-brand assets, and which one to reach for
 depends on what is changing:
 
 - `../generators/brand-og-and-favicons-v1.py` draws a card and a full favicon
-  package from a name, a domain, and three colours. **Use this for a new brand.**
+  package from a name, a domain, and three colours. **Use this for a new brand,
+  and for any favicon.** It owns every current package.
 - `../generators/recolour-signal-v1.py` swaps the signal colour in an existing
-  asset and touches nothing else. Use it when only the colour is wrong; it is
-  what produced the AI v4 card and v2 package.
+  card and touches nothing else. Use it when only the colour is wrong; it is
+  what produced the AI v4 card. Cards only — it used to do icons too, and that
+  was wrong, because recolouring an icon carries across the flaws of whatever
+  made it.
 - `../generators/favicon-style-og-symmetric-v1.py` added the second square to
   the three cards that predate that change, by moving pixels rather than
   redrawing.
@@ -130,6 +135,30 @@ one colour.
 
 Each versioned favicon package contains `favicon.ico`, 16px and 32px PNGs, a
 180px Apple touch icon, and 192px and 512px application icons.
+
+### Two rules for icons, both learned the hard way
+
+**Write them RGBA, never as a palette image.** A 256 colour palette is a valid
+PNG, is visually identical for this artwork, and is about a third smaller. It
+also breaks the build: Next.js decodes `app/favicon.ico` itself and rejects any
+frame that is not RGBA, with `The PNG is not in RGBA format!`. The saving is not
+worth the trap.
+
+**Compose each size, do not shrink a finished one.** Resizing a picture of the
+mark rings — Lanczos overshoots at every hard edge, so a downscale invents
+pixels darker than the ground, brighter than the numeral, and more saturated
+than the signal. That is why the old 16 pixel 11blog icon carried a `#2FE0A1`
+square the brand never had, and why the same file's ground was `#1E1D1D` rather
+than `#0A0A0A`. `brand-og-and-favicons-v1.py` resizes coverage masks and applies
+the colours afterwards, so every pixel it writes is a blend of the brand's three
+colours and nothing else.
+
+That applies inside the `.ico` too. Pillow only uses a frame you supply when it
+matches a requested size exactly, and quietly resamples the largest frame for
+any size you leave out — so every frame is composed and handed over.
+
+The superseded `-v1` packages fail both rules; that is what they were replaced
+for. The v1 files stay as the record.
 
 ## Prompt set
 
