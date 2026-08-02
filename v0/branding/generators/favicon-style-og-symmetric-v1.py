@@ -8,11 +8,19 @@ by that change. This brings them in line.
 Why this edits pixels instead of redrawing
 ------------------------------------------
 
-There is no generator for these three. They were made by hand during the
-branding exercise, so the PNG is the only record of how they were drawn, and
-nothing here knows their font, their tracking, or how the mark was placed.
-Redrawing them from scratch would mean guessing all three and getting a card
-that is almost but not quite the original.
+Correction, 2026-08-02, later the same day. This section used to say there was
+no generator for these three and that they had been drawn by hand. That was
+wrong, and it was never tested. Rendering "blog.rj11.io" through
+blog-platform-og-covers-v1.py reproduces 11blog-favicon-style-og-v4.png byte for
+byte: these cards are the ordinary post card with a domain in the title row, and
+the sub-brands were made by copying that generator and changing its colours.
+brand-og-and-favicons-v1.py now draws them from parameters instead, and is what
+a new sub-brand should use.
+
+The pixel edit below is kept because it is what produced the three files in use,
+and because it is verifiably lossless: nothing outside the row band changes, so
+every part of the card that was not meant to move is the original, bit for bit.
+Given the choice again, redrawing would be the better route.
 
 So the row is moved rather than remade. The block holding the existing square,
 the gap, and the domain is lifted out whole, the row band is repainted in the

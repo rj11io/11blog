@@ -23,6 +23,7 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `favicons/11blog-favicon-v2.ico` | 16–256 px | Centered v2 multi-resolution favicon |
 | `favicons/www-rj11io-v1/` | 16–512 px | Complete warm-black and orange favicon package for `www.rj11.io` |
 | `favicons/ai-rj11io-v1/` | 16–512 px | Complete inverted green favicon package for `ai.rj11.io` |
+| `favicons/intel-rj11io-v1/` | 16–512 px | Complete dark and red favicon package for `intel.rj11.io` |
 | `og/11blog-default-og.png` | 1200 × 630 | Default site Open Graph image |
 | `og/11blog-favicon-style-og.png` | 1200 × 630 | Default OG direction based on the centered extra-large-dot favicon |
 | `og/11blog-favicon-style-og-v2.png` | 1200 × 630 | URL-led favicon-style OG without the repeated `11blog` label |
@@ -35,6 +36,7 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `og/ai-rj11io-favicon-style-monochrome-og-v1.png` | 1200 × 630 | Monochrome AI sub-brand OG using an outlined signal square |
 | `og/ai-rj11io-favicon-style-inverted-green-og-v2.png` | 1200 × 630 | Inverted AI OG with a light field, dark mark, and green signal |
 | `og/ai-rj11io-favicon-style-inverted-green-og-v3.png` | 1200 × 630 | v2 with a signal square each side of the domain |
+| `og/intel-rj11io-favicon-style-red-og-v1.png` | 1200 × 630 | Dark `intel.rj11.io` sub-brand OG with a red signal |
 | `og/blog-platform-og.png` | 1200 × 630 | Blog Platform publication Open Graph image |
 | `blog-platform/` | 1200 × 630 each | Shared OG/cover system for the publication and all twelve registered posts |
 | `covers/blog-platform-publication-cover.png` | 1600 × 900 | Blog Platform publication cover |
@@ -48,6 +50,24 @@ focus. Existing placeholder imagery and editorial voice were not used.
   domain carries one on each side rather than only on the left, so the row is
   framed rather than bulleted, and it centres against the mark and the footer.
   Anything still showing a single square predates that and is superseded.
+
+### Sub-brand hues
+
+Each site under `rj11.io` keeps the mark and the layout and changes only the
+signal colour, so they read as one family. The hue is the whole distinction, so
+it has to survive a 16 pixel favicon.
+
+| Site | Ground | Signal | Contrast |
+| --- | --- | --- | --- |
+| `blog.rj11.io` | `#0A0A0A` | `#2BC88F` green | 9.20:1 |
+| `www.rj11.io` | `#0C0907` warm black | `#F97316` orange | 7.08:1 |
+| `ai.rj11.io` | `#FAFAFA` light | `#2BC88F` green | 2.06:1 |
+| `intel.rj11.io` | `#0A0A0A` | `#EF4444` red | 5.26:1 |
+
+Contrast is the signal against its own ground. A non-text graphic needs 3:1, so
+the inverted AI card is the one below the line: mid-green on near-white. It
+predates this table and is left as it is, but a darker green would fix it if
+that card is ever redrawn.
 - Secondary planes use `#27272A`, `#262626`, and `#121C17`; hairlines use
   `#A1A1A1` sparingly.
 - Sharp rectilinear geometry, square corners, fine rules, modular grids, and
