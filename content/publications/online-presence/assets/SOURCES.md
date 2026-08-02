@@ -10,8 +10,11 @@ Generated brand assets, not photographs. Copied into the content directory on
 
 Each file is 1200 × 630 and does two jobs. It is the cover shown on the site,
 and it is the Open Graph image used in link previews, because a page takes its
-Open Graph image from `coverImage`. The title sits in a central safe area so the
-same file survives the 16:9 card crop and the publication's wider banner crop.
+Open Graph image from `coverImage`.
+
+The banner at the top of a page uses this same 40:21 ratio, so a file is shown
+there whole. The 16:9 card crop and the square thumbnail crop both take a slice
+out of the middle, which is why the title sits in a central safe area.
 
 The numeric post ID prefix used in the source set is dropped here, so these
 filenames do not have to change if posts are renumbered. The `-v1` suffix is

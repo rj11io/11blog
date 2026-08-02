@@ -12,10 +12,14 @@ generator that produced them:
 
 Each file is 1200 × 630 and serves two jobs at once. It is the post's cover on
 the site, and it is the Open Graph image used in link previews, because
-`generateMetadata` takes the Open Graph image from `coverImage`. The title sits
-in a central safe area so the same file survives being cropped to 16:9 for a
-card and to the publication's wider banner. The keyword line along the bottom
-may be cropped away by the banner; nothing important lives there.
+`generateMetadata` takes the Open Graph image from `coverImage`.
+
+The banner at the top of a post or publication page uses this same 40:21 ratio,
+so a file is shown there whole. Smaller surfaces do crop it: the 16:9 card in a
+list takes a slice off the top and bottom, and the square thumbnail beside a row
+takes a much harder one off both sides. The title sits in a central safe area to
+survive those. The keyword line along the bottom does not, and is treated as
+decoration.
 
 The numeric post ID prefix used in the source set is dropped here. Post IDs are
 still provisional and may be renumbered, and these filenames should not have to

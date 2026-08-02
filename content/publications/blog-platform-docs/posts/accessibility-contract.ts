@@ -54,7 +54,11 @@ Interactive controls use the attribute that matches what they do, rather than be
 - The filter toggle uses aria-expanded, again with styling driven from the attribute.
 - Tag filters are buttons using aria-pressed.
 - The content-type switcher on the browse page is a set of links, not buttons, because it changes the address. The selected one carries aria-current set to page.
-- The tabs on a publication page use the tab role with aria-selected.
+- The section switcher on a publication page, which moves between Posts, Synopsis, and Editor notes, is a labelled group of buttons using aria-pressed.
+
+That last one used to carry the tab role, and dropping it was deliberate. The tab role is a promise as much as a description: a screen reader announces "tab, 1 of 3", and the reader then expects the arrow keys to move between them, the Tab key to step past the whole set in one press, and each tab to name the panel it controls. None of that was implemented. Claiming the role without delivering it replaces an accurate announcement with a misleading one, which is worse than the plainer description, so the control now says what it actually is.
+
+The general rule this follows: pick the role your control's behaviour already matches, rather than the role that best describes what it looks like. Reaching for a richer role means committing to the keyboard behaviour that comes with it.
 
 Every icon-only control has a text label. The layout buttons announce "List view" and "Card view"; the filter toggle announces "Show filters" or "Hide filters" depending on its state; the theme button announces "Switch to light mode" or "Switch to dark mode". Every decorative icon inside them is marked aria-hidden.
 
@@ -82,7 +86,7 @@ polite means the count is read after the current announcement finishes rather th
 
 Copying a link does the same thing, for a different reason. The button swaps its icon and its wording to confirm, and neither of those is announced on its own, so the outcome is written into a live region a reader cannot see. It reports failure as well as success: the clipboard needs a secure page and some privacy settings refuse it outright, and a button that silently does nothing is worse than one that says it could not.
 
-The copy button on a code block does not do this yet. It changes its icon and its label and announces nothing, so a reader using a screen reader gets no confirmation that anything was copied. It should use the same live region.
+The copy button on a code block behaves the same way, and for the same reasons. It used to change its icon and its label and announce nothing, so a reader using a screen reader got no confirmation that anything had been copied; it also let a refused clipboard reject unhandled, which left the button looking broken and said nothing about why. Both buttons now report success and failure the same way.
 
 The empty state is not just a message. It includes a button that clears the search text and the selected tags, so a reader who has filtered themselves into a corner has a way out that does not involve finding and emptying each control.
 

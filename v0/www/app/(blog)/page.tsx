@@ -81,12 +81,20 @@ function Tag({ children }: { children: React.ReactNode }) {
 }
 
 function SectionHeading({
+  id,
   eyebrow,
   title,
   description,
   actionHref,
   actionLabel,
 }: {
+  /**
+   * Names the section this heading opens. Required, because the section around
+   * it points here with aria-labelledby, and a pointer at an id nothing sets
+   * leaves the section unnamed. Nothing in the build checks id references, so
+   * making the prop required is what catches the next one that forgets.
+   */
+  id: string
   eyebrow: string
   title: string
   description?: string
@@ -97,7 +105,10 @@ function SectionHeading({
     <div className="flex flex-col justify-between gap-4 border-b border-border pb-5 sm:flex-row sm:items-end">
       <div className="max-w-2xl">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h2
+          id={id}
+          className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
+        >
           {title}
         </h2>
         {description && (
@@ -522,6 +533,7 @@ export default function HomePage() {
             className="mt-20 lg:mt-28"
           >
             <SectionHeading
+              id="featured-posts-heading"
               eyebrow="Editor's picks"
               title="Featured posts"
               description="The pieces worth starting with."
@@ -556,6 +568,7 @@ export default function HomePage() {
           className="mt-20 lg:mt-28"
         >
           <SectionHeading
+            id="latest-posts-heading"
             eyebrow="Recently published"
             title="Latest posts"
             actionHref={browseContentHref("posts")}
@@ -577,6 +590,7 @@ export default function HomePage() {
             className="mt-20 lg:mt-28"
           >
             <SectionHeading
+              id="featured-publications-heading"
               eyebrow="In focus"
               title="Featured publications"
               description="Longer running series, each with its own subject and rhythm."
@@ -604,6 +618,7 @@ export default function HomePage() {
           className="mt-20 lg:mt-28"
         >
           <SectionHeading
+            id="latest-publications-heading"
             eyebrow="The shelf"
             title="Latest publications"
             actionHref={browseContentHref("publications")}
@@ -621,6 +636,7 @@ export default function HomePage() {
 
         <section aria-labelledby="authors-heading" className="mt-20 lg:mt-28">
           <SectionHeading
+            id="authors-heading"
             eyebrow="Who writes here"
             title="Authors"
             description="A short list of authors, and everything each of them has written."

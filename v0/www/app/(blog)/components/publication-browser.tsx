@@ -67,9 +67,23 @@ export function PublicationBrowser({
 
   return (
     <section className="mt-10">
+      {/*
+        A group of toggle buttons rather than the tab role, on purpose. The tab
+        role is a promise: a screen reader announces "tab, 1 of 3" and the reader
+        then expects the arrow keys to move between them, the Tab key to jump
+        past the whole set in one press, and each tab to name the panel it
+        controls. Delivering none of that while claiming the role is worse than
+        not claiming it, because it swaps an accurate announcement for a
+        misleading one.
+
+        So these are buttons using aria-pressed, which is what they behave like,
+        and what the layout switcher and the tag filters already use. Styling is
+        driven from the attribute so the visible state and the announced state
+        cannot disagree.
+      */}
       <div
         className="flex gap-1 border-b border-border"
-        role="tablist"
+        role="group"
         aria-label="Publication sections"
       >
         {(
@@ -82,10 +96,9 @@ export function PublicationBrowser({
           <button
             key={value}
             type="button"
-            role="tab"
-            aria-selected={tab === value}
+            aria-pressed={tab === value}
             onClick={() => setTab(value)}
-            className="border-b-2 border-transparent px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:text-foreground aria-selected:border-primary aria-selected:text-foreground"
+            className="border-b-2 border-transparent px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:text-foreground aria-pressed:border-primary aria-pressed:text-foreground"
           >
             {label}
           </button>
@@ -93,25 +106,19 @@ export function PublicationBrowser({
       </div>
 
       {tab === "synopsis" && synopsis && (
-        <div
-          role="tabpanel"
-          className="max-w-3xl py-10 text-lg leading-8 text-muted-foreground"
-        >
+        <div className="max-w-3xl py-10 text-lg leading-8 text-muted-foreground">
           {synopsis}
         </div>
       )}
 
       {tab === "notes" && editorNotes && (
-        <div
-          role="tabpanel"
-          className="max-w-3xl py-10 text-lg leading-8 text-muted-foreground"
-        >
+        <div className="max-w-3xl py-10 text-lg leading-8 text-muted-foreground">
           {editorNotes}
         </div>
       )}
 
       {tab === "posts" && (
-        <div role="tabpanel" className="py-8">
+        <div className="py-8">
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
             <label className="relative block">
               <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">

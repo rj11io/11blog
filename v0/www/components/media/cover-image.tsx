@@ -43,8 +43,22 @@ const aspectClass: Record<CoverAspect, string> = {
   thumb: "aspect-square sm:aspect-4/3",
   square: "aspect-square",
   card: "aspect-16/9",
-  // Capped so a wide page keeps a cinematic strip instead of a full-height wall.
-  banner: "aspect-16/9 sm:aspect-21/9 sm:max-h-96",
+  /*
+    The ratio the cover art is drawn at: every generated title card is 1200 by
+    630, which is 40/21. Matching it exactly is what keeps a cover's own title
+    inside the frame. The previous 21:9 strip was narrower than the artwork and
+    sliced lengthways through the keyword line along the bottom edge, which read
+    as a broken image rather than a deliberate crop.
+
+    No height cap here for the same reason. A cap makes the box wider than the
+    artwork once the page is wide enough to hit it, and the crop comes straight
+    back. A full-width banner on a large screen is about 630 pixels tall, which
+    is the artwork at its own size.
+
+    A photograph still gets cropped to fit, and that is fine: cropping a
+    photograph loses edges, cropping a title loses words.
+  */
+  banner: "aspect-40/21",
 }
 
 /**

@@ -304,7 +304,9 @@ Keep a SOURCES.md beside any assets directory recording where the files came fro
 
 A coverImage does two jobs. It is the cover shown on the site, and it is the Open Graph image used when the address is shared, because a page takes its Open Graph image straight from that field. There is no separate field for one or the other.
 
-So a cover has to survive three crops: the wide banner at the top of a page, the sixteen-by-nine card in a list, and the fixed 1200 by 630 frame most social networks show. Keeping the important part near the centre satisfies all three.
+Draw a cover at 1200 by 630 if you can. That is the frame most social networks show, and it is the ratio the banner at the top of a page now uses, so a cover at that size is shown whole rather than cropped.
+
+Other shapes still appear, and a cover has to survive them: the sixteen-by-nine card in a list, and the square thumbnail beside a row or a previous and next link. Both take a slice out of the middle. So keep anything that has to be readable — a title above all — near the centre, and treat the outer edges as decoration you can afford to lose.
 
 A link preview needs an absolute address. The site supplies one through metadataBase in the root layout, set to the production domain. Without it the framework falls back to localhost and every preview points at a machine that is not on the internet.
 
