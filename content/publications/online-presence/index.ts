@@ -2,9 +2,9 @@ import type { Publication } from "../../types"
 import { buildYourOwnBlog } from "./posts/build-your-own-blog"
 import { ownYourPlatform } from "./posts/own-your-platform"
 
-import publicationCover from "./assets/online-presence-og-cover-v1.png"
-import buildYourOwnBlogCover from "./assets/build-your-own-blog-og-cover-v1.png"
-import ownYourPlatformCover from "./assets/own-your-platform-og-cover-v1.png"
+import publicationCover from "./assets/online-presence-og-cover-v2.png"
+import buildYourOwnBlogCover from "./assets/build-your-own-blog-og-cover-v2.png"
+import ownYourPlatformCover from "./assets/own-your-platform-og-cover-v2.png"
 
 export const onlinePresence: Publication = {
   relId: 5,
