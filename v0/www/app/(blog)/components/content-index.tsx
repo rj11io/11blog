@@ -159,8 +159,15 @@ export function ContentIndex({
   return (
     <aside className="min-w-0 lg:pt-1">
       <details className="border border-border bg-muted/30 px-4 py-3 lg:hidden">
+        {/*
+          Names what opening this gives you, rather than repeating the post
+          title. Closed, the title said nothing the page had not already said
+          twice over, with the article's own heading directly below it. Open, it
+          sat immediately above a second copy of itself, because the first entry
+          inside is a link back to the top of the post.
+        */}
         <summary className="cursor-pointer text-sm font-semibold text-foreground">
-          {title}
+          On this page
         </summary>
         <nav aria-label="Table of contents">
           <a
