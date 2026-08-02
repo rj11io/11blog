@@ -22,7 +22,8 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `favicons/11blog-favicon-v2-16.png` | 16 × 16 | Centered v2 minimum-size preview |
 | `favicons/11blog-favicon-v2.ico` | 16–256 px | Centered v2 multi-resolution favicon |
 | `favicons/www-rj11io-v1/` | 16–512 px | Complete warm-black and orange favicon package for `www.rj11.io` |
-| `favicons/ai-rj11io-v1/` | 16–512 px | Complete inverted green favicon package for `ai.rj11.io` |
+| `favicons/ai-rj11io-v1/` | 16–512 px | Inverted green favicon package for `ai.rj11.io`, superseded |
+| `favicons/ai-rj11io-v2/` | 16–512 px | **Current AI package.** v1 with the green darkened to pass contrast |
 | `favicons/intel-rj11io-v1/` | 16–512 px | Complete dark and red favicon package for `intel.rj11.io` |
 | `favicons/cv-rj11io-v1/` | 16–512 px | Complete light and blue favicon package for `cv.rj11.io` |
 | `og/11blog-default-og.png` | 1200 × 630 | Default site Open Graph image |
@@ -37,6 +38,7 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `og/ai-rj11io-favicon-style-monochrome-og-v1.png` | 1200 × 630 | Monochrome AI sub-brand OG using an outlined signal square |
 | `og/ai-rj11io-favicon-style-inverted-green-og-v2.png` | 1200 × 630 | Inverted AI OG with a light field, dark mark, and green signal |
 | `og/ai-rj11io-favicon-style-inverted-green-og-v3.png` | 1200 × 630 | v2 with a signal square each side of the domain |
+| `og/ai-rj11io-favicon-style-inverted-green-og-v4.png` | 1200 × 630 | **Current AI card.** v3 with the green darkened to pass contrast |
 | `og/intel-rj11io-favicon-style-red-og-v1.png` | 1200 × 630 | Dark `intel.rj11.io` sub-brand OG with a red signal |
 | `og/cv-rj11io-favicon-style-inverted-blue-og-v1.png` | 1200 × 630 | Light `cv.rj11.io` sub-brand OG with a blue signal |
 | `og/blog-platform-og.png` | 1200 × 630 | Blog Platform publication Open Graph image |
@@ -52,6 +54,14 @@ focus. Existing placeholder imagery and editorial voice were not used.
   domain carries one on each side rather than only on the left, so the row is
   framed rather than bulleted, and it centres against the mark and the footer.
   Anything still showing a single square predates that and is superseded.
+- Secondary planes use `#27272A`, `#262626`, and `#121C17`; hairlines use
+  `#A1A1A1` sparingly.
+- Sharp rectilinear geometry, square corners, fine rules, modular grids, and
+  generous negative space.
+- No gradients, rounded UI, generic AI symbols, neon cyberpunk styling, or
+  literal product screenshots.
+- Cover images contain no embedded text so titles remain accessible and
+  responsive in the interface.
 
 ### Sub-brand hues
 
@@ -63,14 +73,14 @@ it has to survive a 16 pixel favicon.
 | --- | --- | --- | --- |
 | `blog.rj11.io` | `#0A0A0A` | `#2BC88F` green | 9.20:1 |
 | `www.rj11.io` | `#0C0907` warm black | `#F97316` orange | 7.08:1 |
-| `ai.rj11.io` | `#FAFAFA` light | `#2BC88F` green | 2.06:1 |
+| `ai.rj11.io` | `#FAFAFA` light | `#007A55` green | 5.14:1 |
 | `intel.rj11.io` | `#0A0A0A` | `#EF4444` red | 5.26:1 |
 | `cv.rj11.io` | `#FAFAFA` light | `#2563EB` blue | 4.95:1 |
 
-Contrast is the signal against its own ground. A non-text graphic needs 3:1, so
-the inverted AI card is the one below the line: mid-green on near-white. It
-predates this table and is left as it is, but a darker green would fix it if
-that card is ever redrawn.
+Contrast is the signal against its own ground; a non-text graphic needs 3:1.
+Every card now clears it. The AI card did not until 2026-08-02: it carried
+`#2BC88F` at 2.06:1, which is the dark-ground green used unchanged on a light
+ground.
 
 **A light ground cannot reuse a dark brand's hue.** The signal colours on the
 dark cards sit around the 500 step of a standard scale, which is tuned to be
@@ -78,17 +88,15 @@ bright against black and is therefore weak against white. Blue 500 measures only
 3.52:1 on `#FAFAFA`; the CV card uses blue 600 at 4.95:1 instead. Step one darker
 on a light ground, and check the number rather than trusting the eye.
 
+The AI fix did not need a new colour at all. `globals.css` already defines two
+greens, because the interface solved this problem first: `--primary` is
+`#2BC88F` in dark mode and `#007A55` in light mode. The dark cards use the dark
+one, so the light cards should use the light one. Reach for the token before
+inventing a shade.
+
 The keyword footer moves with the ground for the same reason. The dark cards set
 it in `#A1A1A1`, which is 7.66:1 on black but 2.48:1 on white — and that line is
 text, so it needs 4.5:1. Both light cards use `#676767`, at 5.42:1.
-- Secondary planes use `#27272A`, `#262626`, and `#121C17`; hairlines use
-  `#A1A1A1` sparingly.
-- Sharp rectilinear geometry, square corners, fine rules, modular grids, and
-  generous negative space.
-- No gradients, rounded UI, generic AI symbols, neon cyberpunk styling, or
-  literal product screenshots.
-- Cover images contain no embedded text so titles remain accessible and
-  responsive in the interface.
 
 ## Versioning
 
@@ -102,11 +110,23 @@ nothing links to is still serving previews of everything already shared. This
 is why `v0/www/public/static/og/` keeps `11blog-default-og-v4.png` beside the
 v5 the site now points at.
 
-The three favicon-style OG images were given their second square by
-`../generators/favicon-style-og-symmetric-v1.py`, which edits the existing PNG
-rather than redrawing it. There is no generator for these three — they were
-drawn by hand, so the pixels are the only record of the font and spacing, and
-moving the row is the only way to change it without guessing.
+Three generators sit behind the sub-brand assets, and which one to reach for
+depends on what is changing:
+
+- `../generators/brand-og-and-favicons-v1.py` draws a card and a full favicon
+  package from a name, a domain, and three colours. **Use this for a new brand.**
+- `../generators/recolour-signal-v1.py` swaps the signal colour in an existing
+  asset and touches nothing else. Use it when only the colour is wrong; it is
+  what produced the AI v4 card and v2 package.
+- `../generators/favicon-style-og-symmetric-v1.py` added the second square to
+  the three cards that predate that change, by moving pixels rather than
+  redrawing.
+
+The last two edit existing images on purpose. Redrawing an existing card from
+parameters does not reproduce it — for the AI card the difference is over 15,000
+pixels, in the mark's anti-aliased edges and a seven-pixel shift of the domain
+row. That is fine in a new card and wrong in a change that is meant to be about
+one colour.
 
 Each versioned favicon package contains `favicon.ico`, 16px and 32px PNGs, a
 180px Apple touch icon, and 192px and 512px application icons.
