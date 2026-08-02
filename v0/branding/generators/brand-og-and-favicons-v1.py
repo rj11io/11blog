@@ -84,12 +84,22 @@ v1 = load_v1()
 
 
 class Brand:
-    def __init__(self, key, domain, background, foreground, accent, note):
+    def __init__(
+        self, key, domain, og_filename, background, foreground, accent, footer, note
+    ):
         self.key = key
         self.domain = domain
+        # Spelled out rather than built from the key and the hue. The existing
+        # names are not quite systematic enough to derive, and a filename is a
+        # thing people search for.
+        self.og_filename = og_filename
         self.background = background
         self.foreground = foreground
         self.accent = accent
+        # The keyword line. Its own field because it cannot simply be the muted
+        # grey the dark cards use: #A1A1A1 on a light ground is 2.48:1, and this
+        # is text, which needs 4.5:1.
+        self.footer = footer
         self.note = note
 
 
@@ -97,6 +107,7 @@ BRANDS = [
     Brand(
         key="intel-rj11io",
         domain="intel.rj11.io",
+        og_filename="intel-rj11io-favicon-style-red-og-v1.png",
         background=(10, 10, 10),
         foreground=(250, 250, 250),
         # A clear red rather than a deep one. The sibling sub-brand is orange at
@@ -104,7 +115,28 @@ BRANDS = [
         # it; this stays separable at favicon size. Measures 5.26:1 against the
         # ground, comfortably past the 3:1 a non-text graphic needs.
         accent=(239, 68, 68),
+        footer=(161, 161, 161),  # 7.66:1 on this ground
         note="Dark intel sub-brand OG with a red signal",
+    ),
+    Brand(
+        key="cv-rj11io",
+        domain="cv.rj11.io",
+        og_filename="cv-rj11io-favicon-style-inverted-blue-og-v1.png",
+        # Light, like ai.rj11.io: the same ground, glyph, and footer grey, so
+        # the two inverted cards are one pair rather than two one-offs.
+        background=(250, 250, 250),
+        foreground=(10, 10, 10),
+        # Blue 600, not the 500 that would match the orange and red on the dark
+        # cards. On a light ground 500 measures 3.52:1, which clears the 3:1
+        # minimum by so little that any later tweak to the ground breaks it.
+        # 600 measures 4.95:1, which also happens to clear the stricter 4.5:1
+        # text threshold, so the colour stays usable if it is ever set in type.
+        #
+        # This is the mistake the inverted green card already makes, at 2.06:1,
+        # and the reason a light brand cannot simply reuse a dark brand's hue.
+        accent=(37, 99, 235),
+        footer=(103, 103, 103),  # 5.42:1 on this ground
+        note="Light CV sub-brand OG with a blue signal",
     ),
 ]
 
@@ -189,7 +221,7 @@ def render_og(brand: Brand, mark, destination: Path) -> None:
         (v1.WIDTH / 2, KEYWORD_MIDDLE),
         v1.KEYWORDS,
         font=font(15),
-        fill=v1.MUTED,
+        fill=brand.footer,
         anchor="mm",
     )
 
@@ -263,7 +295,7 @@ def main() -> None:
     for brand in BRANDS:
         mark = recolour_mark(brand.foreground, brand.accent)
 
-        og = OG_DIR / f"{brand.key}-favicon-style-red-og-v1.png"
+        og = OG_DIR / brand.og_filename
         render_og(brand, mark, og)
         print(og)
 

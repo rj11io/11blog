@@ -24,6 +24,7 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `favicons/www-rj11io-v1/` | 16–512 px | Complete warm-black and orange favicon package for `www.rj11.io` |
 | `favicons/ai-rj11io-v1/` | 16–512 px | Complete inverted green favicon package for `ai.rj11.io` |
 | `favicons/intel-rj11io-v1/` | 16–512 px | Complete dark and red favicon package for `intel.rj11.io` |
+| `favicons/cv-rj11io-v1/` | 16–512 px | Complete light and blue favicon package for `cv.rj11.io` |
 | `og/11blog-default-og.png` | 1200 × 630 | Default site Open Graph image |
 | `og/11blog-favicon-style-og.png` | 1200 × 630 | Default OG direction based on the centered extra-large-dot favicon |
 | `og/11blog-favicon-style-og-v2.png` | 1200 × 630 | URL-led favicon-style OG without the repeated `11blog` label |
@@ -37,6 +38,7 @@ focus. Existing placeholder imagery and editorial voice were not used.
 | `og/ai-rj11io-favicon-style-inverted-green-og-v2.png` | 1200 × 630 | Inverted AI OG with a light field, dark mark, and green signal |
 | `og/ai-rj11io-favicon-style-inverted-green-og-v3.png` | 1200 × 630 | v2 with a signal square each side of the domain |
 | `og/intel-rj11io-favicon-style-red-og-v1.png` | 1200 × 630 | Dark `intel.rj11.io` sub-brand OG with a red signal |
+| `og/cv-rj11io-favicon-style-inverted-blue-og-v1.png` | 1200 × 630 | Light `cv.rj11.io` sub-brand OG with a blue signal |
 | `og/blog-platform-og.png` | 1200 × 630 | Blog Platform publication Open Graph image |
 | `blog-platform/` | 1200 × 630 each | Shared OG/cover system for the publication and all twelve registered posts |
 | `covers/blog-platform-publication-cover.png` | 1600 × 900 | Blog Platform publication cover |
@@ -63,11 +65,22 @@ it has to survive a 16 pixel favicon.
 | `www.rj11.io` | `#0C0907` warm black | `#F97316` orange | 7.08:1 |
 | `ai.rj11.io` | `#FAFAFA` light | `#2BC88F` green | 2.06:1 |
 | `intel.rj11.io` | `#0A0A0A` | `#EF4444` red | 5.26:1 |
+| `cv.rj11.io` | `#FAFAFA` light | `#2563EB` blue | 4.95:1 |
 
 Contrast is the signal against its own ground. A non-text graphic needs 3:1, so
 the inverted AI card is the one below the line: mid-green on near-white. It
 predates this table and is left as it is, but a darker green would fix it if
 that card is ever redrawn.
+
+**A light ground cannot reuse a dark brand's hue.** The signal colours on the
+dark cards sit around the 500 step of a standard scale, which is tuned to be
+bright against black and is therefore weak against white. Blue 500 measures only
+3.52:1 on `#FAFAFA`; the CV card uses blue 600 at 4.95:1 instead. Step one darker
+on a light ground, and check the number rather than trusting the eye.
+
+The keyword footer moves with the ground for the same reason. The dark cards set
+it in `#A1A1A1`, which is 7.66:1 on black but 2.48:1 on white — and that line is
+text, so it needs 4.5:1. Both light cards use `#676767`, at 5.42:1.
 - Secondary planes use `#27272A`, `#262626`, and `#121C17`; hairlines use
   `#A1A1A1` sparingly.
 - Sharp rectilinear geometry, square corners, fine rules, modular grids, and
