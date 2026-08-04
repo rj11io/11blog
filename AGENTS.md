@@ -19,11 +19,11 @@ There is a second, unrelated `AGENTS.md` at `v0/www/AGENTS.md`. It warns that th
 
 The Blog platform docs publication documents this platform. It is the source of truth for how everything works, and it is written for whoever maintains the repo. Read the relevant post before changing the thing it describes.
 
-All fourteen live in `content/publications/blog-platform-docs/posts/`. Start with the tour if you are new.
+All fourteen live in `content/publications/blog-platform-docs/posts/`. Start with Working with the platform if you are new.
 
 | If you are… | Read | Published at |
 | --- | --- | --- |
-| New to the platform | `start-here.ts` | `/blog-platform-docs/start-here` |
+| New to the platform | `working-with-the-platform.ts` | `/blog-platform-docs/working-with-the-platform` |
 | Writing or editing a post | `adding-content.ts` | `/blog-platform-docs/adding-content` |
 | Looking up Markdown syntax | `markdown-reference/` | `/blog-platform-docs/markdown-reference` |
 | Hitting a content error message | `content-validation.ts` | `/blog-platform-docs/content-validation` |

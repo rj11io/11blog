@@ -309,6 +309,8 @@ A coverImage does two jobs. It is the cover shown on the site, and it is the Ope
 
 Draw a cover at 1200 by 630 if you can. That is the frame most social networks show, and it is the ratio the banner at the top of a page now uses, so a cover at that size is shown whole rather than cropped.
 
+For a branded post cover, use the 11blog-generate-post-covers skill under v0/skills/. It generates the source in the separate 11brands checkout configured by the gitignored .env.brand-assets.local file, detects whether the post uses the single-file or directory-module layout, and copies a new versioned image into the right assets directory. Run the 11blog-verify-post-covers skill afterwards; it checks that the consumer is byte-identical to its source, is 1200 by 630, and contains only the selected brand palette. Record the exact source generation in the nearest SOURCES.md and keep older versioned covers because shared previews cache image URLs.
+
 Other shapes still appear, and a cover has to survive them: the sixteen-by-nine card in a list, and the square thumbnail beside a row or a previous and next link. Both take a slice out of the middle. So keep anything that has to be readable — a title above all — near the centre, and treat the outer edges as decoration you can afford to lose.
 
 A link preview needs an absolute address. The site supplies one through metadataBase in the root layout, set to the production domain. Without it the framework falls back to localhost and every preview points at a machine that is not on the internet.

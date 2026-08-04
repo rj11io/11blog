@@ -43,11 +43,14 @@ python3 v0/skills/11blog-generate-publication-covers/scripts/generate_publicatio
   --version v1
 ~~~
 
-Use --filename only when retaining an established filename stem. The script:
+Use --filename only when retaining an established filename stem. The
+--target-assets option is an implementation hook used by the dedicated
+11blog-generate-post-covers skill; invoke that skill for individual posts. The
+script:
 
 1. creates a new timestamped content-og generation inside 11brands;
 2. refuses to reuse a source folder or overwrite a consumer file;
-3. copies the generated PNG into content/publications/<id>/assets/;
+3. copies the generated PNG into the selected publication-relative asset directory;
 4. prints both source and destination paths.
 
 After generation:

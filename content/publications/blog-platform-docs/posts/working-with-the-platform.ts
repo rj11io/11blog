@@ -1,5 +1,5 @@
-export const startHere = `
-# A tour of the platform
+export const workingWithThePlatform = `
+# Working with the platform
 
 This publication documents 11blog, the platform this site runs on. Fourteen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
 

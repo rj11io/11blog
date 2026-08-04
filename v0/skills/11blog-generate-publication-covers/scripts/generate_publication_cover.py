@@ -44,6 +44,11 @@ def main() -> None:
     parser.add_argument("--style", choices=sorted(STYLE_BRANDS), default="11blog")
     parser.add_argument("--version", required=True, help="version such as v1 or v3")
     parser.add_argument("--filename", help="destination filename override")
+    parser.add_argument(
+        "--target-assets",
+        default="assets",
+        help="publication-relative asset directory; defaults to assets",
+    )
     parser.add_argument("--stamp", help="generation stamp; defaults to current time")
     args = parser.parse_args()
 
@@ -66,7 +71,12 @@ def main() -> None:
     brand_key = STYLE_BRANDS[args.style]
     brand_file = brands_root / f"v0/brands/{brand_key}/brand.md"
     publication_dir = BLOG_ROOT / f"content/publications/{args.publication}"
-    assets_dir = publication_dir / "assets"
+    target_assets = Path(args.target_assets)
+    if target_assets.is_absolute() or ".." in target_assets.parts:
+        parser.error("--target-assets must stay inside the publication directory")
+    assets_dir = (publication_dir / target_assets).resolve()
+    if assets_dir != publication_dir and publication_dir not in assets_dir.parents:
+        parser.error("--target-assets must stay inside the publication directory")
 
     for path, label in (
         (brands_root, "11brands checkout"),

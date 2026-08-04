@@ -1,6 +1,6 @@
 import type { Publication } from "../../types"
 import { accessibilityContract } from "./posts/accessibility-contract"
-import { startHere } from "./posts/start-here"
+import { workingWithThePlatform } from "./posts/working-with-the-platform"
 import { addingContent } from "./posts/adding-content"
 import { authorsAndBylines } from "./posts/authors-and-bylines"
 import { contentContract } from "./posts/content-contract"
@@ -15,19 +15,19 @@ import { supportingThePlatform } from "./posts/supporting-the-platform"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
 
 import publicationCover from "./assets/blog-platform-og-cover-v3.png"
-import startHereCover from "./assets/start-here-og-cover-v2.png"
-import addingContentCover from "./assets/adding-content-og-cover-v2.png"
-import contentValidationCover from "./assets/content-validation-og-cover-v2.png"
-import searchAndDiscoveryCover from "./assets/search-and-discovery-og-cover-v2.png"
-import authorsAndBylinesCover from "./assets/authors-and-bylines-og-cover-v2.png"
-import contentContractCover from "./assets/content-contract-og-cover-v2.png"
-import renderingModelCover from "./assets/rendering-model-og-cover-v2.png"
-import extendingTheRendererCover from "./assets/extending-the-renderer-og-cover-v2.png"
-import designTokensCover from "./assets/design-tokens-og-cover-v2.png"
-import accessibilityContractCover from "./assets/accessibility-contract-og-cover-v2.png"
-import urlsAndRedirectsCover from "./assets/urls-and-redirects-og-cover-v2.png"
-import runningTheBlogCover from "./assets/running-the-blog-og-cover-v2.png"
-import supportingThePlatformCover from "./assets/supporting-the-platform-og-cover-v2.png"
+import workingWithThePlatformCover from "./assets/working-with-the-platform-og-cover-v3.png"
+import addingContentCover from "./assets/adding-content-og-cover-v3.png"
+import contentValidationCover from "./assets/content-validation-og-cover-v3.png"
+import searchAndDiscoveryCover from "./assets/search-and-discovery-og-cover-v3.png"
+import authorsAndBylinesCover from "./assets/authors-and-bylines-og-cover-v3.png"
+import contentContractCover from "./assets/content-contract-og-cover-v3.png"
+import renderingModelCover from "./assets/rendering-model-og-cover-v3.png"
+import extendingTheRendererCover from "./assets/extending-the-renderer-og-cover-v3.png"
+import designTokensCover from "./assets/design-tokens-og-cover-v3.png"
+import accessibilityContractCover from "./assets/accessibility-contract-og-cover-v3.png"
+import urlsAndRedirectsCover from "./assets/urls-and-redirects-og-cover-v3.png"
+import runningTheBlogCover from "./assets/running-the-blog-og-cover-v3.png"
+import supportingThePlatformCover from "./assets/supporting-the-platform-og-cover-v3.png"
 
 export const blogPlatformDocs: Publication = {
   relId: 4,
@@ -42,7 +42,7 @@ export const blogPlatformDocs: Publication = {
   isFeatured: true,
   tags: ["Blog", "Technology", "Publishing", "Documentation"],
   synopsis:
-    "Fourteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with A tour of the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
+    "Fourteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with Working with the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
   editorNotes:
     "Written inside the system it describes, which is the point: every post here is rendered by the platform it documents, so a broken claim shows up as a broken page. Read the post that covers a thing before changing that thing, and update it in the same commit.",
   // Editorial order, which is what the previous and next links follow. It runs
@@ -66,6 +66,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "How to add a publication or post using the blog's content format, with a checklist for each.",
       created: "2026-07-01",
+      updated: "2026-08-04",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: true,
@@ -202,6 +203,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "How addresses are built and resolved, and the runbook for renaming a publication or post without breaking old links.",
       created: "2026-07-11",
+      updated: "2026-08-04",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: true,
@@ -227,18 +229,19 @@ export const blogPlatformDocs: Publication = {
     },
     {
       postId: 413,
-      slug: "start-here",
-      title: "A tour of the platform",
+      slug: "working-with-the-platform",
+      title: "Working with the platform",
       excerpt:
         "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
       created: "2026-07-13",
+      updated: "2026-08-04",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: true,
       isFeatured: true,
       tags: ["Documentation", "Blog", "Publishing"],
-      content: startHere,
-      coverImage: startHereCover.src,
+      content: workingWithThePlatform,
+      coverImage: workingWithThePlatformCover.src,
     },
     {
       postId: 414,

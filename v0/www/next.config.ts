@@ -47,6 +47,14 @@ const nextConfig: NextConfig = {
         destination: "/online-presence/build-your-own-blog",
         permanent: true,
       },
+      // "A tour of the platform" became "Working with the platform" on
+      // 2026-08-04. The broader title better describes a maintained handbook,
+      // while this rule keeps bookmarks and shared links working.
+      {
+        source: "/blog-platform-docs/start-here",
+        destination: "/blog-platform-docs/working-with-the-platform",
+        permanent: true,
+      },
       // Blog Platform posts renamed on 2026-07-31, when the publication grew
       // from two posts to twelve and the two originals needed titles that said
       // which was the reference and which was the guide.
