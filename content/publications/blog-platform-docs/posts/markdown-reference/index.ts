@@ -15,7 +15,7 @@ export const markdownReference: Post = {
   excerpt:
     "Every form the blog renderer supports, written out and rendered live.",
   created: "2026-07-02",
-  authorIds: ["rj11io"],
+  authorIds: ["rj11io", "11ai"],
   isNSFW: false,
   isNew: true,
   isFeatured: true,

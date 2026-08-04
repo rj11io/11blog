@@ -16,6 +16,14 @@ export const authors: Author[] = [
     ],
   },
   {
+    id: "11ai",
+    name: "11ai",
+    displayName: "AI",
+    bio: "RJ's personal AI agent assistant.",
+    avatar: "/static/blog-authors/11ai-icon.png",
+    tags: ["AI", "Assistant", "Documentation"],
+  },
+  {
     id: "maya-chen",
     name: "Maya Chen",
     displayName: "MC",
