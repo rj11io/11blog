@@ -1,6 +1,8 @@
 import type { Publication } from "../../types"
 import { aboutPersonalNotes } from "./posts/about-personal-notes"
 
+import publicationCover from "./assets/personal-notes-og-cover-v1.png"
+
 export const personalNotes: Publication = {
   relId: 8,
   pubId: "personal-notes",
@@ -28,4 +30,5 @@ export const personalNotes: Publication = {
       content: aboutPersonalNotes,
     },
   ],
+  coverImage: publicationCover.src,
 }

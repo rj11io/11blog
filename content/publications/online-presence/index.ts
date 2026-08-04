@@ -21,7 +21,7 @@ export const onlinePresence: Publication = {
   synopsis:
     "Two posts on putting your work on the internet under your own name. The first makes the case, without the usual overreach: owning a site does not make you invulnerable, because you still depend on a registrar, a host, and a CDN. What it buys you is portability, which is a smaller claim and a real one. The second is practical, comparing three routes by what they cost in time, money, and control.",
   editorNotes:
-    "Written for anyone whose work lives somewhere they do not control. The technical documentation for the platform behind the middle route lives in Blog Platform Docs.",
+    "Written for anyone whose work lives somewhere they do not control. The technical documentation for the platform behind the middle route lives in Blog platform docs.",
   // Editorial order, which is what the previous and next links follow. Both
   // posts share a created date, so unlike the docs publication there is no
   // oldest-to-newest sequence here to preserve: this array order is the only

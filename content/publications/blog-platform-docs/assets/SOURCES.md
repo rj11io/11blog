@@ -1,13 +1,26 @@
-# Blog Platform Docs cover and Open Graph images
+# Blog platform docs cover and Open Graph images
 
-Generated brand assets, not photographs. Copied into the content directory on
-2026-08-02 from the versioned set of record at
+Generated brand assets, not photographs.
+
+The publication cover was rebranded in the 11ai light style on 2026-08-04. It
+was generated in the configured 11brands checkout and copied here without
+modification:
+
+- Brand: `blog-rj11io-11ai` (11ai style for blog.rj11.io)
+- Generator: `v0/asset-generation-scripts/generate-content-og.py`
+- Source generation: `v0/brands/blog-rj11io-11ai/content-og/gen-20260804-174233-864192/`
+- Source file: `blog-platform-docs-content-og.png`
+- Consumer file: `blog-platform-og-cover-v3.png`
+- Dimensions: 1200 × 630
+
+The post covers remain the v2 dark 11blog set copied into the content directory
+on 2026-08-02 from the versioned set of record at
 `v0/branding/images/blog-platform/`, which also holds the contact sheet and the
 generator that produced them:
 
 - Source set: `v0/branding/images/blog-platform/`
 - Generator: `v0/branding/generators/og-covers-v5.py`
-- Version: v2
+- Post cover version: v2
 
 Every card was redrawn on 2026-08-02. Two things changed: the title now has a
 green square on each side rather than only on the left, and the domain
@@ -36,7 +49,7 @@ traced back to the generator that made it: `-v2` means `og-covers-v5.py`.
 
 | File | Used by |
 | --- | --- |
-| `blog-platform-og-cover-v2.png` | The Blog Platform Docs publication |
+| `blog-platform-og-cover-v3.png` | The Blog platform docs publication |
 | `start-here-og-cover-v2.png` | A tour of the platform |
 | `adding-content-og-cover-v2.png` | Adding a publication or post |
 | `content-validation-og-cover-v2.png` | Content validation rules |

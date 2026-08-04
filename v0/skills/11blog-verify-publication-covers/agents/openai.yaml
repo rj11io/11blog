@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify publication covers"
+  short_description: "Verify imported covers against 11brands"
+  default_prompt: "Use $11blog-verify-publication-covers to verify publication cover assets and their 11brands sources."

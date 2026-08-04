@@ -37,7 +37,7 @@ Each content type searches a different set of fields:
 | Publications | Title, description, synopsis, tags |
 | Authors | Name, display name, bio, tags, post count |
 
-Two of those are easy to miss. Searching posts matches the **publication name**, so typing "blog platform docs" returns every post in Blog Platform Docs. And searching posts matches **author names**, so typing an author's name works from the posts view without switching to authors.
+Two of those are easy to miss. Searching posts matches the **publication name**, so typing "blog platform docs" returns every post in Blog platform docs. And searching posts matches **author names**, so typing an author's name works from the posts view without switching to authors.
 
 Searching authors matches the post count as text, which is an accident of how the search text is assembled rather than a feature. Typing 3 in the authors view will match an author who has written three posts.
 

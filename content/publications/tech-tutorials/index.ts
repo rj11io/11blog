@@ -1,6 +1,8 @@
 import type { Publication } from "../../types"
 import { aboutTechTutorials } from "./posts/about-tech-tutorials"
 
+import publicationCover from "./assets/tech-tutorials-og-cover-v1.png"
+
 export const techTutorials: Publication = {
   relId: 7,
   pubId: "tech-tutorials",
@@ -28,4 +30,5 @@ export const techTutorials: Publication = {
       content: aboutTechTutorials,
     },
   ],
+  coverImage: publicationCover.src,
 }

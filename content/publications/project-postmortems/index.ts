@@ -1,6 +1,8 @@
 import type { Publication } from "../../types"
 import { aboutProjectPostmortems } from "./posts/about-project-postmortems"
 
+import publicationCover from "./assets/project-postmortems-og-cover-v1.png"
+
 export const projectPostmortems: Publication = {
   relId: 6,
   pubId: "project-postmortems",
@@ -28,4 +30,5 @@ export const projectPostmortems: Publication = {
       content: aboutProjectPostmortems,
     },
   ],
+  coverImage: publicationCover.src,
 }

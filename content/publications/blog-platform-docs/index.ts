@@ -14,7 +14,7 @@ import { searchAndDiscovery } from "./posts/search-and-discovery"
 import { supportingThePlatform } from "./posts/supporting-the-platform"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
 
-import publicationCover from "./assets/blog-platform-og-cover-v2.png"
+import publicationCover from "./assets/blog-platform-og-cover-v3.png"
 import startHereCover from "./assets/start-here-og-cover-v2.png"
 import addingContentCover from "./assets/adding-content-og-cover-v2.png"
 import contentValidationCover from "./assets/content-validation-og-cover-v2.png"
@@ -32,11 +32,11 @@ import supportingThePlatformCover from "./assets/supporting-the-platform-og-cove
 export const blogPlatformDocs: Publication = {
   relId: 4,
   pubId: "blog-platform-docs",
-  title: "Blog Platform Docs",
+  title: "Blog platform docs",
   description:
     "The complete documentation for 11blog: writing posts, the content contract, extending the renderer, and running the site.",
   created: "2026-07-01",
-  updated: "2026-07-31",
+  updated: "2026-08-04",
   isNSFW: false,
   isNew: true,
   isFeatured: true,

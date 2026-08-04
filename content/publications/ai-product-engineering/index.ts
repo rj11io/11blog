@@ -1,6 +1,8 @@
 import type { Publication } from "../../types"
 import { aboutAiProductEngineering } from "./posts/about-ai-product-engineering"
 
+import publicationCover from "./assets/ai-product-engineering-og-cover-v1.png"
+
 export const aiProductEngineering: Publication = {
   relId: 10,
   pubId: "ai-product-engineering",
@@ -28,4 +30,5 @@ export const aiProductEngineering: Publication = {
       content: aboutAiProductEngineering,
     },
   ],
+  coverImage: publicationCover.src,
 }

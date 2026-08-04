@@ -17,7 +17,7 @@ There is a second, unrelated `AGENTS.md` at `v0/www/AGENTS.md`. It warns that th
 
 ## The documentation lives in the blog itself
 
-The Blog Platform Docs publication documents this platform. It is the source of truth for how everything works, and it is written for whoever maintains the repo. Read the relevant post before changing the thing it describes.
+The Blog platform docs publication documents this platform. It is the source of truth for how everything works, and it is written for whoever maintains the repo. Read the relevant post before changing the thing it describes.
 
 All fourteen live in `content/publications/blog-platform-docs/posts/`. Start with the tour if you are new.
 
@@ -86,7 +86,7 @@ Check these by hand, because no command will tell you:
 
 ## When you change something, update the documentation
 
-**Any meaningful change to the platform must update the Blog Platform Docs publication in the same commit.** These posts are published; a stale one is a public false statement, not a private note.
+**Any meaningful change to the platform must update the Blog platform docs publication in the same commit.** These posts are published; a stale one is a public false statement, not a private note.
 
 A change is meaningful if it alters what someone else would need to know. Specifically:
 
