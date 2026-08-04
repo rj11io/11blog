@@ -53,7 +53,7 @@ A request for /browse on its own redirects to /browse/posts. Note that no link i
 
 ## How a post URL is resolved
 
-When a request arrives for /local-weather/morning-route, the registry looks up the publication by its ID, then searches that publication's posts for a match on either the slug or the numeric ID written as text:
+When a request arrives for /blog-platform-docs/adding-content, the registry looks up the publication by its ID, then searches that publication's posts for a match on either the slug or the numeric ID written as text:
 
 ~~~ts
 const postIndex = publication.posts.findIndex(
@@ -69,7 +69,7 @@ The lookup accepts either form, but only one of them is ever built as a page. Th
 postId: post.slug ?? String(post.postId),
 ~~~
 
-A post with a slug contributes only its slug. Since nothing outside that list exists, /local-weather/302 returns 404 even though the lookup would have resolved it. Every post in the blog currently has a slug, so no numeric address exists anywhere on the site.
+A post with a slug contributes only its slug. Since nothing outside that list exists, /blog-platform-docs/402 returns 404 even though the lookup would have resolved it. Every post in the blog currently has a slug, so no numeric address exists anywhere on the site.
 
 The numeric branch of the lookup matters only for a post with no slug, and then it is that post's single address. So the rule is simply: a post has exactly one address, its slug if it has one and its number if it does not.
 
@@ -215,7 +215,7 @@ Two things to take from that.
 Same shape, one rule instead of two:
 
 ~~~ts
-{ source: "/local-weather/old-slug", destination: "/local-weather/new-slug", permanent: true }
+{ source: "/online-presence/old-slug", destination: "/online-presence/new-slug", permanent: true }
 ~~~
 
 There is no safety net here. As explained above, the post's numeric ID is not a working address, so the redirect is the only thing keeping the old link alive. Write it in the same change as the rename, not afterwards.

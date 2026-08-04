@@ -20,7 +20,7 @@ import type {
 export const metadata: Metadata = {
   title: "11blog",
   description:
-    "A small collection of independent publications about systems, objects, places, and the tools behind the writing.",
+    "A small collection of independent publications about publishing, online presence, and the tools behind the writing.",
 }
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
@@ -496,9 +496,9 @@ export default function HomePage() {
               Field notes, kept in public.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-pretty text-muted-foreground sm:text-xl sm:leading-9">
-              A small collection of publications about systems, objects, places,
-              and the tools behind the writing. Each one is a short series,
-              written slowly and left here to be read in any order.
+              A small collection of publications about publishing, online
+              presence, and the tools behind the writing. Each one is a short
+              series, written slowly and left here to be read in any order.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">

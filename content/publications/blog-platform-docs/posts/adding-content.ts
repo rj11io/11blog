@@ -78,9 +78,6 @@ Add the publication to the publications array in content/registry.ts:
 import { publicationName } from "./publications/publication-id"
 
 export const publications: Publication[] = [
-  signalPath,
-  materialCulture,
-  localWeather,
   blogPlatformDocs,
   onlinePresence,
   publicationName,

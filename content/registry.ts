@@ -1,9 +1,6 @@
 import { authors } from "./authors"
 import { blogPlatformDocs } from "./publications/blog-platform-docs"
-import { localWeather } from "./publications/local-weather"
 import { onlinePresence } from "./publications/online-presence"
-import { materialCulture } from "./publications/material-culture"
-import { signalPath } from "./publications/signal-path"
 import { authorHref, postHref, publicationHref } from "./routes"
 import type {
   Author,
@@ -18,9 +15,6 @@ import type {
 import { validatePublications } from "./validation"
 
 export const publications: Publication[] = [
-  signalPath,
-  materialCulture,
-  localWeather,
   blogPlatformDocs,
   onlinePresence,
 ]

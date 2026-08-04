@@ -91,8 +91,8 @@ In browse results the names are joined into a sentence:
 | Authors | Rendered as |
 | --- | --- |
 | One | Ricardo Jorge |
-| Two | Ricardo Jorge and Maya Chen |
-| Three or more | Ricardo Jorge, Maya Chen, and Samir Patel |
+| Two | Ricardo Jorge and 11ai |
+| Three or more | A, B, and C |
 
 Three or more uses a comma before the final "and".
 
@@ -121,13 +121,13 @@ The full set of messages is in [Content validation rules](/blog-platform-docs/co
 One rule is checked twice, in two different places, and the two messages look different. The validator names the post by its numeric ID:
 
 ~~~text
-local-weather/302 references unknown author sam
+blog-platform-docs/402 references unknown author assistant-id
 ~~~
 
 The registry checks again while resolving authors for display, and names the post by title:
 
 ~~~text
-Notes from the morning route references unknown author sam
+Adding a publication or post references unknown author assistant-id
 ~~~
 
 Seeing the second form means the first check passed, which in practice means an author was removed from the file while a post still referenced them.

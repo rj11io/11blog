@@ -4,7 +4,7 @@
  * server, only rendered or passed as a prop.
  */
 
-/** First letters of the first two words, for example "Signal Path" to "SP". */
+/** First letters of the first two words, for example "Blog Platform" to "BP". */
 export function coverMonogram(value: string) {
   const initials = value
     .split(/\s+/)

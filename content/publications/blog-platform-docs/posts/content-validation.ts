@@ -34,7 +34,7 @@ One command does **not** catch these: npm run typecheck. It only checks types, a
 
 ~~~text
 Error: Failed to collect configuration for /[pubId]
-  [cause]: Error: local-weather/315.created must be a real ISO date
+  [cause]: Error: example-publication/315.created must be a real ISO date
 ~~~
 
 The practical effect: after editing content, run build, or keep the dev server running and open the page. Typecheck alone will not tell you whether your content is valid.
@@ -46,13 +46,13 @@ Messages are built from a label that points at the thing being checked, followed
 A publication-level problem names the publication:
 
 ~~~text
-local-weather.description must not be empty
+example-publication.description must not be empty
 ~~~
 
 A post-level problem names the publication, a slash, and the post's numeric ID:
 
 ~~~text
-local-weather/302.created must use YYYY-MM-DD format
+example-publication/302.created must use YYYY-MM-DD format
 ~~~
 
 A problem inside a post's image configuration extends the same path:
@@ -77,7 +77,7 @@ Author IDs, publication IDs, and post slugs all use the same shape: lowercase le
 ^[a-z0-9]+(?:-[a-z0-9]+)*$
 ~~~
 
-So local-weather and rj11io pass. Local-Weather, local_weather, -local-weather, and local--weather all fail. There are no underscores, no capitals, and no hyphen at either end.
+So example-publication and rj11io pass. Example-Publication, example_publication, -example-publication, and example--publication all fail. There are no underscores, no capitals, and no hyphen at either end.
 
 This is the same string that appears in the URL, which is why the rule is strict.
 
@@ -121,7 +121,7 @@ Authors live in content/authors.ts. For each author:
 - Tags must pass the three tag checks.
 - Each link must have a label with text in it, and a complete http or https address.
 
-Link problems name the position in the list, counting from zero, so maya-chen.links[1].url points at the second link.
+Link problems name the position in the list, counting from zero, so rj11io.links[1].url points at the second link.
 
 ## Publication rules
 
@@ -189,24 +189,24 @@ For each named image list:
 | rj11io.tags must not contain surrounding whitespace | A tag has a leading or trailing space | Trim the tag |
 | rj11io.tags contains duplicate tags | Two tags match, ignoring capitals | Remove one |
 | rj11io.links[0].url must be an absolute HTTP URL | A link is missing its scheme, or uses one other than http or https | Write the full address |
-| local-weather: relId must be a positive integer | relId is missing, zero, negative, or not a whole number | Use the next unused whole number |
+| example-publication: relId must be a positive integer | relId is missing, zero, negative, or not a whole number | Use the next unused whole number |
 | Duplicate publication relId: 3 | Two publications share a relId | Give the new publication an unused number |
-| local-weather: pubId must be a URL-safe slug | Capitals or underscores in the publication ID | Use lowercase and hyphens |
+| example-publication: pubId must be a URL-safe slug | Capitals or underscores in the publication ID | Use lowercase and hyphens |
 | browse: pubId conflicts with a reserved route | The publication ID is authors, browse, or publications | Pick a different ID |
-| Duplicate publication pubId: local-weather | Two publications share an ID | Rename one, and add redirects for the old URL |
-| local-weather.description must not be empty | A required text field is blank | Write a short description |
-| local-weather.created must use YYYY-MM-DD format | The date is written some other way | Rewrite it year first |
-| local-weather.created must be a real ISO date | The date is correctly shaped but does not exist | Correct the day or month |
-| local-weather.updated must not be before local-weather.created | The updated date is earlier than the created date | Correct whichever is wrong |
-| local-weather.coverImage must be root-relative or use HTTPS | An image source uses http, or is a bare filename | Start it with a slash, or use https |
-| local-weather: postId must be a positive integer | postId is missing, zero, or not a whole number | Use an unused whole number |
-| local-weather: duplicate postId 302 | Two posts in one publication share a postId | Renumber one |
-| local-weather/rain-map: invalid post slug | Capitals or underscores in the slug | Use lowercase and hyphens |
-| local-weather: duplicate post slug rain-map | Two posts in one publication share a slug | Rename one, and add a redirect for the old URL |
-| local-weather/302 must have at least one author | authorIds is empty | Add an author ID |
-| local-weather/302 has duplicate author rj11io | The same author is listed twice | Remove the repeat |
-| local-weather/302 references unknown author sam | The author ID does not exist in authors.ts | Correct the ID, or add the author |
-| local-weather/302 has no content | The body is missing or empty | Write the body, or remove the post |
+| Duplicate publication pubId: example-publication | Two publications share an ID | Rename one, and add redirects for the old URL |
+| example-publication.description must not be empty | A required text field is blank | Write a short description |
+| example-publication.created must use YYYY-MM-DD format | The date is written some other way | Rewrite it year first |
+| example-publication.created must be a real ISO date | The date is correctly shaped but does not exist | Correct the day or month |
+| example-publication.updated must not be before example-publication.created | The updated date is earlier than the created date | Correct whichever is wrong |
+| example-publication.coverImage must be root-relative or use HTTPS | An image source uses http, or is a bare filename | Start it with a slash, or use https |
+| example-publication: postId must be a positive integer | postId is missing, zero, or not a whole number | Use an unused whole number |
+| example-publication: duplicate postId 302 | Two posts in one publication share a postId | Renumber one |
+| example-publication/example-post: invalid post slug | Capitals or underscores in the slug | Use lowercase and hyphens |
+| example-publication: duplicate post slug example-post | Two posts in one publication share a slug | Rename one, and add a redirect for the old URL |
+| example-publication/302 must have at least one author | authorIds is empty | Add an author ID |
+| example-publication/302 has duplicate author rj11io | The same author is listed twice | Remove the repeat |
+| example-publication/302 references unknown author assistant-id | The author ID does not exist in authors.ts | Correct the ID, or add the author |
+| example-publication/302 has no content | The body is missing or empty | Write the body, or remove the post |
 | blog-platform-docs/401.images.hero must use a shortcode-safe image key | An image key has capitals or unsupported characters | Use lowercase, with hyphens, underscores, or colons |
 | blog-platform-docs/401.images.hero.width must be a positive integer | A dimension is missing, zero, or fractional | Read the real pixel dimensions and use them |
 | blog-platform-docs/401.images.hero.alt must not be empty | An image has no description | Describe the image |

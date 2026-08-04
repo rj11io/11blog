@@ -23,26 +23,4 @@ export const authors: Author[] = [
     avatar: "/static/blog-authors/11ai-icon.png",
     tags: ["AI", "Assistant", "Documentation"],
   },
-  {
-    id: "maya-chen",
-    name: "Maya Chen",
-    displayName: "MC",
-    bio: "Placeholder author focused on material culture, repair practices, and how useful objects earn trust over time.",
-    tags: ["Design", "Objects", "Repair"],
-    links: [
-      { label: "Portfolio", url: "https://example.com/maya-chen" },
-      { label: "Notes", url: "https://example.com/maya-chen/notes" },
-    ],
-  },
-  {
-    id: "samir-patel",
-    name: "Samir Patel",
-    displayName: "SP",
-    bio: "Placeholder author writing about civic observation, team records, and the small rituals that make shared work legible.",
-    tags: ["Cities", "Teams", "Documentation"],
-    links: [
-      { label: "Website", url: "https://example.com/samir-patel" },
-      { label: "Archive", url: "https://example.com/samir-patel/archive" },
-    ],
-  },
 ]
