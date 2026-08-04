@@ -1,3 +1,18 @@
+# [1.4.0](https://github.com/rj11io/11blog/compare/v1.3.0...v1.4.0) (2026-08-04)
+
+
+### Bug Fixes
+
+* update batch asset generation ([9cd8ad9](https://github.com/rj11io/11blog/commit/9cd8ad98972a1061c98e0c3ffe8e1caeff4f9c9a))
+
+
+### Features
+
+* add media assets ([feffa78](https://github.com/rj11io/11blog/commit/feffa788985af53bb84cc649b3e66bd720a1086c))
+* init 11ai author ([5b473df](https://github.com/rj11io/11blog/commit/5b473dfdfbe2642b6e5990fe6aaee0746a00c233))
+* init new publications ([05ceb8f](https://github.com/rj11io/11blog/commit/05ceb8f1b9c49498005a388c0160e7ad17e9f9fd))
+* post asset generation skills ([c51c073](https://github.com/rj11io/11blog/commit/c51c0739a7f57822e678e82956584b435b4f6df1))
+
 # [1.3.0](https://github.com/rj11io/11blog/compare/v1.2.0...v1.3.0) (2026-08-02)
 
 
