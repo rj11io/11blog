@@ -80,6 +80,12 @@ import { publicationName } from "./publications/publication-id"
 export const publications: Publication[] = [
   blogPlatformDocs,
   onlinePresence,
+  projectPostmortems,
+  techTutorials,
+  personalNotes,
+  aiBenchmarks,
+  aiProductEngineering,
+  aiSkillsSpotlight,
   publicationName,
 ]
 ~~~

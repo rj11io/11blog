@@ -1,6 +1,12 @@
 import { authors } from "./authors"
+import { aiBenchmarks } from "./publications/ai-benchmarks"
+import { aiProductEngineering } from "./publications/ai-product-engineering"
+import { aiSkillsSpotlight } from "./publications/ai-skills-spotlight"
 import { blogPlatformDocs } from "./publications/blog-platform-docs"
 import { onlinePresence } from "./publications/online-presence"
+import { personalNotes } from "./publications/personal-notes"
+import { projectPostmortems } from "./publications/project-postmortems"
+import { techTutorials } from "./publications/tech-tutorials"
 import { authorHref, postHref, publicationHref } from "./routes"
 import type {
   Author,
@@ -17,6 +23,12 @@ import { validatePublications } from "./validation"
 export const publications: Publication[] = [
   blogPlatformDocs,
   onlinePresence,
+  projectPostmortems,
+  techTutorials,
+  personalNotes,
+  aiBenchmarks,
+  aiProductEngineering,
+  aiSkillsSpotlight,
 ]
 
 export const blogAuthors: Author[] = authors
