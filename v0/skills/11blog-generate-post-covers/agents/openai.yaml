@@ -1,4 +1,4 @@
 interface:
   display_name: "Generate 11blog post covers"
-  short_description: "Generate versioned post covers via 11brands"
-  default_prompt: "Use $11blog-generate-post-covers to generate and import a versioned cover for an 11blog post."
+  short_description: "Generate bundled post covers via 11brands"
+  default_prompt: "Use blog-generate-post-covers to generate one cohesive batch of versioned post covers."

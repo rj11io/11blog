@@ -1,4 +1,4 @@
 interface:
-  display_name: "Verify publication covers"
-  short_description: "Verify imported covers against 11brands"
-  default_prompt: "Use $11blog-verify-publication-covers to verify publication cover assets and their 11brands sources."
+  display_name: "Verify 11blog publication covers"
+  short_description: "Verify publication cover batches and provenance"
+  default_prompt: "Use blog-verify-publication-covers to verify a bundled publication-cover generation and its consumer copies."

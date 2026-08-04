@@ -1,4 +1,4 @@
 interface:
-  display_name: "Generate publication covers"
-  short_description: "Generate 11blog covers through 11brands"
-  default_prompt: "Use $11blog-generate-publication-covers to generate and import publication cover assets."
+  display_name: "Generate 11blog publication covers"
+  short_description: "Generate bundled publication covers via 11brands"
+  default_prompt: "Use blog-generate-publication-covers to generate one cohesive batch of versioned publication covers."

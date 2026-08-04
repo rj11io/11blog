@@ -1,4 +1,4 @@
 interface:
   display_name: "Verify 11blog post covers"
-  short_description: "Verify post cover copies, size, and palette"
-  default_prompt: "Use $11blog-verify-post-covers to verify an 11blog post cover against its 11brands source."
+  short_description: "Verify post cover batches and provenance"
+  default_prompt: "Use blog-verify-post-covers to verify a bundled post-cover generation and its consumer copies."

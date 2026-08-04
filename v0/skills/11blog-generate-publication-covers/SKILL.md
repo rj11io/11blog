@@ -1,39 +1,39 @@
 ---
 name: 11blog-generate-publication-covers
-description: Generate and import versioned 11blog publication cover and Open Graph images through the separate 11brands repository. Use when adding, refreshing, restyling, or rebranding a publication cover while preserving the source generation, manifest, consumer import, and asset history across both repositories.
+description: Generate and import one or a cohesive batch of versioned 11blog publication cover and Open Graph images through the separate 11brands repository. Use when adding, refreshing, restyling, or rebranding publication covers while preserving bundled source generations, manifests, consumer imports, and asset history across both repositories.
 ---
 
 # Generate 11blog publication covers
 
-Use the generator in the configured 11brands checkout first, then copy its exact
-output into the publication that consumes it. Never draw or overwrite a cover
-inside 11blog directly.
+Generate in the configured 11brands checkout, then copy exact outputs into the
+publications that consume them. Never draw or overwrite a cover in 11blog.
 
-## Configuration
+## Configure
 
-Read ELEVENBRANDS_DIR from the repository-root .env.brand-assets.local file.
-Stop if the file, checkout, brand definition, generator, or its virtual
-environment is missing. Never commit the env file or hardcode its value in the
-skill.
+Read ELEVENBRANDS_DIR from repository-root .env.brand-assets.local. Stop if the
+configuration, checkout, brand definition, generator, or virtual environment is
+missing. Never commit the env file or hardcode its value.
 
-Before generating, read these files from that checkout completely:
+Before generating, read these configured-checkout files completely:
 
 - v0/skills/11brands-generate-assets/SKILL.md
 - the selected v0/brands/<brand>/brand.md
 
-## Styles
+Styles:
 
-- 11blog: brand key blog-rj11io; dark blog palette.
-- 11ai: brand key blog-rj11io-11ai; light AI palette with the blog.rj11.io
-  masthead.
+- 11blog: blog-rj11io; default dark blog palette.
+- 11ai: blog-rj11io-11ai; light AI palette with blog.rj11.io masthead.
 
-Default to 11blog unless the request explicitly selects 11ai.
+Use 11blog unless the request explicitly selects 11ai.
 
-## Generate and import
+## Choose one run or a batch
 
-Check both repositories' git status first. Preserve unrelated changes.
+Treat one user request in one style as one intended generation. If it contains
+multiple covers, batch them. Do not invoke the single-cover command in a loop.
+One batch creates one gen- folder and one MANIFEST.md containing every title.
 
-Run one publication per invocation:
+Split generations only when the style differs or the work is a genuinely later,
+independent request. A single cover can use single mode:
 
 ~~~bash
 python3 v0/skills/11blog-generate-publication-covers/scripts/generate_publication_cover.py \
@@ -43,24 +43,48 @@ python3 v0/skills/11blog-generate-publication-covers/scripts/generate_publicatio
   --version v1
 ~~~
 
-Use --filename only when retaining an established filename stem. The
---target-assets option is an implementation hook used by the dedicated
-11blog-generate-post-covers skill; invoke that skill for individual posts. The
-script:
+For multiple covers, create a temporary JSON file:
 
-1. creates a new timestamped content-og generation inside 11brands;
-2. refuses to reuse a source folder or overwrite a consumer file;
-3. copies the generated PNG into the selected publication-relative asset directory;
-4. prints both source and destination paths.
+~~~json
+[
+  {
+    "publication": "tech-tutorials",
+    "title": "Tech tutorials",
+    "version": "v1"
+  },
+  {
+    "publication": "project-postmortems",
+    "title": "Project postmortems",
+    "version": "v1"
+  }
+]
+~~~
 
-After generation:
+Run it once:
 
-1. inspect every generated image;
-2. add or update SOURCES.md with the source generation, brand, date, and filename;
-3. statically import the new version from the publication index;
-4. keep the old versioned image unless the user explicitly requests deletion;
-5. invoke the 11blog-verify-publication-covers skill;
-6. run typecheck, lint, and build from v0/www.
+~~~bash
+python3 v0/skills/11blog-generate-publication-covers/scripts/generate_publication_cover.py \
+  --batch-file /tmp/11blog-publication-covers.json \
+  --style 11blog \
+  --stamp 20260804-new-publications
+~~~
 
-Do not update a cover by overwriting an existing version. Social previews cache
-image URLs; a visual change needs a new filename.
+Batch items accept publication, title, version, and optional filename and
+target_assets. The latter is an implementation hook for the post-cover skill;
+invoke 11blog-generate-post-covers for individual posts.
+
+The script validates every request and destination before generation, rejects
+duplicate source names or consumer targets, refuses overwrite, then prints the
+shared generation plus every source/destination pair.
+
+## Finish
+
+1. Inspect every image at original detail.
+2. Record brand, date, shared generation, source files, consumer files, and
+   dimensions in SOURCES.md.
+3. Statically import each new version.
+4. Keep old versioned covers for provenance and cached social previews.
+5. Invoke 11blog-verify-publication-covers, batching files from this generation.
+6. Run typecheck, lint, and build from v0/www.
+
+Never overwrite a versioned file. Social previews cache image URLs.

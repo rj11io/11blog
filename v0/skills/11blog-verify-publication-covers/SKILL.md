@@ -1,24 +1,22 @@
 ---
 name: 11blog-verify-publication-covers
-description: Verify 11blog publication cover and Open Graph images against their source generations in the separate 11brands repository. Use after generating, importing, refreshing, or rebranding covers, or when checking dimensions, byte identity, palette integrity, source records, and static imports across both repositories.
+description: Verify one or a cohesive batch of 11blog publication covers against exact 11brands source generations. Use after generating, importing, refreshing, or rebranding covers to check dimensions, byte identity, palette integrity, bundled provenance, source records, and static imports across both repositories.
 ---
 
 # Verify 11blog publication covers
 
-Treat the 11brands generation as the source artifact and the 11blog copy as its
-consumer. Verify measurements first, then inspect the rendered image.
+Treat the 11brands generation as source and 11blog copies as consumers. Measure
+first, then inspect rendered images.
 
-## Configuration
+## Configure
 
 Read ELEVENBRANDS_DIR from repository-root .env.brand-assets.local. Never
-hardcode or commit that local path.
-
-Before verification, read the configured checkout's
+hardcode or commit it. Read the configured checkout's
 v0/skills/11brands-verify-assets/SKILL.md completely.
 
-## Verify
+## Verify one or a bundle
 
-Use the exact source file recorded in the publication's SOURCES.md:
+Use single mode for one cover:
 
 ~~~bash
 python3 v0/skills/11blog-verify-publication-covers/scripts/verify_publication_cover.py \
@@ -26,21 +24,31 @@ python3 v0/skills/11blog-verify-publication-covers/scripts/verify_publication_co
   --target "content/publications/tech-tutorials/assets/tech-tutorials-og-cover-v1.png"
 ~~~
 
-The script loads the external path from the env file and, when needed, re-runs
-itself with 11brands' Pillow-enabled virtual environment.
+For a bundled generation, create one JSON file whose items contain source and
+target, then run --batch-file once. Every source in a multi-item batch must come
+from the same gen- folder; the script rejects mixed provenance.
 
-The script must report:
+~~~json
+[
+  {
+    "source": "v0/brands/blog-rj11io/content-og/gen-20260804-new-publications/tech-tutorials-content-og.png",
+    "target": "content/publications/tech-tutorials/assets/tech-tutorials-og-cover-v1.png"
+  },
+  {
+    "source": "v0/brands/blog-rj11io/content-og/gen-20260804-new-publications/project-postmortems-content-og.png",
+    "target": "content/publications/project-postmortems/assets/project-postmortems-og-cover-v1.png"
+  }
+]
+~~~
 
-- identical bytes between source and consumer;
-- 1200 by 630 pixels;
-- zero colours outside the source manifest's ground/ink/signal triangle.
+~~~bash
+python3 v0/skills/11blog-verify-publication-covers/scripts/verify_publication_cover.py \
+  --batch-file /tmp/11blog-publication-cover-checks.json
+~~~
 
-Any failure blocks handoff. Do not replace measurement with visual judgment.
+Every item must report identical bytes, 1200x630, and zero colours outside the
+source manifest's ground/ink/signal triangle. Any failure blocks handoff.
 
-Then:
-
-1. inspect the image at original detail;
-2. confirm title, style, signal squares, and blog.rj11.io masthead;
-3. confirm the publication index statically imports that exact target;
-4. confirm SOURCES.md names the exact generation and brand;
-5. run the 11blog production build.
+Then inspect every image at original detail, confirm requested style and title,
+confirm static imports and exact SOURCES.md provenance, and run the production
+build.
