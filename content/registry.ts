@@ -1,6 +1,7 @@
 import { authors } from "./authors"
 import { includeDrafts } from "./drafts"
 import { aiBenchmarks } from "./publications/ai-benchmarks"
+import { aiCoachingAdvisory } from "./publications/ai-coaching-advisory"
 import { aiProductEngineering } from "./publications/ai-product-engineering"
 import { aiSkillsSpotlight } from "./publications/ai-skills-spotlight"
 import { blogPlatformDocs } from "./publications/blog-platform-docs"
@@ -35,6 +36,7 @@ const authoredPublications: Publication[] = [
   aiBenchmarks,
   aiProductEngineering,
   aiSkillsSpotlight,
+  aiCoachingAdvisory,
 ]
 
 export const blogAuthors: Author[] = authors
@@ -57,12 +59,22 @@ validatePublications(authoredPublications, blogAuthors)
  * lists is what matters: the post page reads previous and next straight off
  * publication.posts, so a draft left in place would become a dead link out of a
  * live post. Removing it here renumbers the chain around the gap instead.
+ *
+ * A post inside a draft publication is then marked a draft itself, which is
+ * simply true: it is not published, whatever its own flag says. Doing it here
+ * rather than in the pages means every badge reads the honest value with no
+ * further plumbing, so nothing rendered while drafts are being served can look
+ * published when it is not.
  */
 export const publications: Publication[] = authoredPublications
   .filter((publication) => includeDrafts || !publication.isDraft)
   .map((publication) => ({
     ...publication,
-    posts: publication.posts.filter((post) => includeDrafts || !post.isDraft),
+    posts: publication.posts
+      .filter((post) => includeDrafts || !post.isDraft)
+      .map((post) =>
+        publication.isDraft && !post.isDraft ? { ...post, isDraft: true } : post
+      ),
   }))
 
 const authorsById = new Map(blogAuthors.map((author) => [author.id, author]))

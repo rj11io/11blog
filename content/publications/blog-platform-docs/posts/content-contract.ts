@@ -42,7 +42,7 @@ The registry does five things, in this order.
 
 **It validates.** It calls the checker at the top level of the module, so importing the registry validates the content. A rule failure is a build failure. Validation runs on the full authored list, before anything is hidden, so a draft is held to the same rules as a published post. See [Content validation rules](/blog-platform-docs/content-validation).
 
-**It filters.** It removes drafts, and exports the result as publications. Both levels are filtered: a draft publication takes its posts with it, and a draft post disappears from a published publication. This is the only place in the whole site where a draft is hidden. See [Adding a publication or post](/blog-platform-docs/adding-content) for how the flag behaves.
+**It filters.** It removes drafts, and exports the result as publications. Both levels are filtered: a draft publication takes its posts with it, and a draft post disappears from a published publication. It also marks the posts of a draft publication as drafts themselves, which is just the truth restated, and it saves every badge downstream from having to check two flags. This is the only place in the whole site where a draft is hidden. See [Adding a publication or post](/blog-platform-docs/adding-content) for how the flag behaves.
 
 **It derives.** It pre-computes the shapes the pages actually need, so no page has to join data together itself. Every derived export is built from the filtered list, which is why hiding a draft needs no other change anywhere: counts, lists, addresses, and the previous and next links all follow.
 

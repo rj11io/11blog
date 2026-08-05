@@ -239,6 +239,8 @@ Validation runs before the filter, so a draft is checked by the same rules as a 
 
 Drafts are served on the dev server and left out of a production build, so npm run dev shows your draft and npm run build never does. Anything rendered from a draft carries a Draft badge, on browse cards and on the publication and post pages, so a draft cannot be mistaken for a published post while you read it locally.
 
+A post inside a draft publication carries the badge too, even with its own isDraft set to false. The registry marks it, because it is not published either. That means a draft publication's posts can be left alone: one edit on the publication reveals the whole thing when it is ready.
+
 To share one, set SHOW_DRAFTS=1 on a Vercel preview environment. That publishes drafts at the preview address, which is enough for someone else to read the post without it appearing on the live site. Never set it on the production environment. The flag itself lives in content/drafts.ts.
 
 ### Two rules the validator enforces
