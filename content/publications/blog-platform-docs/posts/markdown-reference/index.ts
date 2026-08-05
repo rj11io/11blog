@@ -19,6 +19,7 @@ export const markdownReference: Post = {
   isNSFW: false,
   isNew: true,
   isFeatured: true,
+  isDraft: false,
   tags: ["Markdown", "Rendering", "Documentation"],
   content,
   images: markdownReferenceImages,

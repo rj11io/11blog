@@ -33,3 +33,5 @@ npm run start
 ## Add content
 
 Add or edit publication files under `content/publications/`, and update authors in `content/authors.ts`. The registry in `content/registry.ts` is the source of truth for which publications are exposed. Content is validated when the registry is loaded.
+
+Set `isDraft: true` on a post or publication that is not ready. The dev server shows drafts, with a Draft badge on anything rendered from one; `npm run build` leaves them out entirely, so a draft has no address on the live site.

@@ -13,6 +13,7 @@ export const aiBenchmarks: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["AI", "Benchmarks", "Analysis"],
   posts: [
     {
@@ -26,6 +27,7 @@ export const aiBenchmarks: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: false,
+      isDraft: false,
       tags: ["AI", "Benchmarks", "Introduction"],
       content: aboutAiBenchmarks,
     },

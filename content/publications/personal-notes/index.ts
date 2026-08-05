@@ -13,6 +13,7 @@ export const personalNotes: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["Personal", "Diary", "Reflections"],
   posts: [
     {
@@ -26,6 +27,7 @@ export const personalNotes: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: false,
+      isDraft: false,
       tags: ["Personal", "Diary", "Introduction"],
       content: aboutPersonalNotes,
     },

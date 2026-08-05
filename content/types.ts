@@ -67,6 +67,8 @@ export type Post = {
   isNSFW: boolean
   isNew: boolean
   isFeatured: boolean
+  /** Unfinished. Kept out of the served site; see content/drafts.ts. */
+  isDraft: boolean
   tags: string[]
   content?: string
   images?: PostImages
@@ -83,6 +85,11 @@ export type Publication = {
   isNSFW: boolean
   isNew: boolean
   isFeatured: boolean
+  /**
+   * Unfinished. Hides the publication and every post inside it, whatever those
+   * posts say for themselves. See content/drafts.ts.
+   */
+  isDraft: boolean
   tags: string[]
   synopsis?: string
   editorNotes?: string

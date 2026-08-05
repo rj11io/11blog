@@ -17,6 +17,7 @@ export const onlinePresence: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: true,
+  isDraft: false,
   tags: ["Online Presence", "Publishing", "Independence"],
   synopsis:
     "Two posts on putting your work on the internet under your own name. The first makes the case, without the usual overreach: owning a site does not make you invulnerable, because you still depend on a registrar, a host, and a CDN. What it buys you is portability, which is a smaller claim and a real one. The second is practical, comparing three routes by what they cost in time, money, and control.",
@@ -54,6 +55,7 @@ export const onlinePresence: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: false,
+      isDraft: false,
       tags: ["Online Presence", "Publishing", "Getting Started"],
       content: buildYourOwnBlog,
       coverImage: buildYourOwnBlogCover.src,
@@ -70,6 +72,7 @@ export const onlinePresence: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: true,
+      isDraft: false,
       tags: ["Online Presence", "Independence", "Publishing"],
       content: ownYourPlatform,
       coverImage: ownYourPlatformCover.src,

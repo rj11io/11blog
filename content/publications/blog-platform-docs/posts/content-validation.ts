@@ -12,7 +12,7 @@ The check is not a test you can choose to run. It happens while the content is b
 content/registry.ts imports every publication and the author list, then calls the checker immediately:
 
 ~~~ts
-export const publications: Publication[] = [
+const authoredPublications: Publication[] = [
   signalPath,
   materialCulture,
   localWeather,
@@ -22,8 +22,10 @@ export const publications: Publication[] = [
 
 export const blogAuthors: Author[] = authors
 
-validatePublications(publications, blogAuthors)
+validatePublications(authoredPublications, blogAuthors)
 ~~~
+
+Note which list is checked. authoredPublications is everything that has been written, drafts included, and the check runs on it before the draft filter removes anything. So an unfinished post is held to every rule here while it waits, and marking something a draft never postpones a failure to the day you publish it.
 
 Because that call sits at the top level of the module, it runs the first time anything actually executes the registry. Two things do that:
 
@@ -134,8 +136,12 @@ For each publication:
 - created must be a real date. updated, if present, must also be a real date and must not come before created.
 - Tags must pass the three tag checks.
 - coverImage, if present, must pass the image source rule.
+- isDraft and isFeatured must not both be true.
+- A publication that is not a draft must not consist entirely of draft posts.
 
 The reserved-word rule is worth remembering when naming a new publication. A publication called "Browse" would need a different ID, such as browse-guide.
+
+The two draft rules exist because neither failure announces itself. A featured draft is removed from the site by the draft filter, and the featured list is built after that, so a publication promoted to the home page is quietly missing from it. A published publication whose every post is a draft renders as a page with no posts and a card claiming 0 posts. Both are caught at the build instead. See [Adding a publication or post](/blog-platform-docs/adding-content) for how drafts work.
 
 ## Post rules
 
@@ -151,6 +157,7 @@ For each post inside a publication:
 - Tags must pass the three tag checks.
 - coverImage, if present, must pass the image source rule.
 - content must have text in it. A post with an empty body fails the build.
+- isDraft and isFeatured must not both be true, for the same reason as the publication rule above.
 
 There is a second, later check on authors. The registry resolves each post's authors into display details, and if it cannot find one it throws a message naming the post by title rather than by ID. Seeing that form means the post passed the first check but the author disappeared afterwards, which normally means an author was deleted from content/authors.ts while a post still referenced them.
 
@@ -199,6 +206,9 @@ For each named image list:
 | example-publication.created must be a real ISO date | The date is correctly shaped but does not exist | Correct the day or month |
 | example-publication.updated must not be before example-publication.created | The updated date is earlier than the created date | Correct whichever is wrong |
 | example-publication.coverImage must be root-relative or use HTTPS | An image source uses http, or is a bare filename | Start it with a slash, or use https |
+| example-publication is a draft and cannot be featured | isDraft and isFeatured are both true on a publication | Set isFeatured to false, or publish it |
+| example-publication is published but every post in it is a draft | Nothing in the publication is ready to read | Set isDraft to true on the publication until one post is ready |
+| example-publication/302 is a draft and cannot be featured | isDraft and isFeatured are both true on a post | Set isFeatured to false, or publish it |
 | example-publication: postId must be a positive integer | postId is missing, zero, or not a whole number | Use an unused whole number |
 | example-publication: duplicate postId 302 | Two posts in one publication share a postId | Renumber one |
 | example-publication/example-post: invalid post slug | Capitals or underscores in the slug | Use lowercase and hyphens |

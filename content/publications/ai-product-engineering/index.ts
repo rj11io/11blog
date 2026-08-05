@@ -13,6 +13,7 @@ export const aiProductEngineering: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["AI", "Product Engineering", "Systems"],
   posts: [
     {
@@ -26,6 +27,7 @@ export const aiProductEngineering: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: false,
+      isDraft: false,
       tags: ["AI", "Product Engineering", "Introduction"],
       content: aboutAiProductEngineering,
     },

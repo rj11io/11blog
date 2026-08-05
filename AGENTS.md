@@ -67,6 +67,7 @@ npm --prefix v0/www run dev
 ## Hard rules
 
 - **The registry is the only door.** Pages import from `content/registry.ts`. Never import a publication file directly. If a page needs something the registry does not expose, add a derived export there.
+- **Drafts are filtered once, in the registry.** `isDraft` on a post or publication hides it, and every derived export follows. Never add a second draft check in a page or a component. The dev server shows drafts; a production build never does.
 - **`content/routes.ts` owns every URL shape.** Call its helpers. Never write a path as a string.
 - **Renaming anything with a URL needs a redirect** in `v0/www/next.config.ts`, in the same change. A publication ID, a post slug, and an author ID are all public addresses.
 - **One post, one address.** A post is reachable at its slug, or at its numeric ID if it has no slug — never both. Numeric IDs are not a fallback address.
@@ -81,7 +82,7 @@ npm --prefix v0/www run dev
 
 Check these by hand, because no command will tell you:
 
-- **Internal links written in post prose.** A link to a page that does not exist builds happily and 404s for the reader. Open every internal link you write.
+- **Internal links written in post prose.** A link to a page that does not exist builds happily and 404s for the reader. Open every internal link you write. This also bites when you draft something already published: its address goes away, and any prose link to it becomes a 404. Search the content directory for the slug first.
 - **Author avatar paths.** Unlike cover images, the `avatar` field is not checked at all, and a broken path ships silently. Open one author page after changing an avatar. Note that an HTTPS avatar cannot work: avatars render through `next/image`, which has no remote hosts configured.
 
 ## When you change something, update the documentation

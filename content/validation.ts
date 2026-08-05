@@ -158,6 +158,30 @@ export function validatePublications(
     )
     assertTags(publication.tags, `${publication.pubId}.tags`)
 
+    // A draft cannot also be featured. Types cannot catch this, and the symptom
+    // is confusing: the home page reads its featured list from content the draft
+    // filter has already removed, so the publication is simply absent from a
+    // place it was explicitly promoted to.
+    if (publication.isDraft && publication.isFeatured) {
+      throw new Error(
+        `${publication.pubId} is a draft and cannot be featured. Set isFeatured to false, or publish it.`
+      )
+    }
+
+    // A published publication needs at least one published post. Otherwise the
+    // page renders with an empty post list and its browse card claims 0 posts,
+    // which is never what was meant. The fix is to draft the publication too
+    // until one of its posts is ready.
+    if (
+      !publication.isDraft &&
+      publication.posts.length > 0 &&
+      publication.posts.every((post) => post.isDraft)
+    ) {
+      throw new Error(
+        `${publication.pubId} is published but every post in it is a draft. Set isDraft to true on the publication until one is ready.`
+      )
+    }
+
     if (publication.coverImage !== undefined) {
       assertImageSource(
         publication.coverImage,
@@ -220,6 +244,13 @@ export function validatePublications(
         }
       }
       assertTags(post.tags, `${publication.pubId}/${post.postId}.tags`)
+
+      // Same contradiction as the publication rule above, and the same symptom.
+      if (post.isDraft && post.isFeatured) {
+        throw new Error(
+          `${publication.pubId}/${post.postId} is a draft and cannot be featured. Set isFeatured to false, or publish it.`
+        )
+      }
 
       if (post.coverImage !== undefined) {
         assertImageSource(

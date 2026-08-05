@@ -106,9 +106,11 @@ export function generateStaticParams() {
 
 generateStaticParams lists every address to build. dynamicParams set to false means anything not on that list is a 404 rather than something the server tries to render on demand.
 
-Two consequences follow.
+Three consequences follow.
 
 **New content requires a build.** There is no way to add a post to a running site. This is the intended trade: the site is a set of files, and nothing is generated at request time.
+
+**A draft has no address.** The list above comes from the registry, which has already removed drafts, so nothing is built for one and its path is a 404 like any other unknown address. No page has to check a flag, and there is no half-published state where the address exists but the page hides its contents. See [Adding a publication or post](/blog-platform-docs/adding-content).
 
 **A typo in a link is caught as a 404, not as a broken page.** But note what is *not* checked: nothing verifies that a link written inside a post's prose points at a real address. A link to /blog-platform-docs/does-not-exist will build happily and 404 for the reader. When you write internal links in a post, click them.
 
@@ -229,6 +231,8 @@ Nothing checks any of this. Grep for the old slug and the old title separately b
 ### Removing a publication or post
 
 Deleting content leaves its address returning 404. If the piece existed publicly for any length of time, redirect it somewhere sensible instead: the publication it belonged to, or /browse. A redirect to a real page is nearly always better for a reader than a dead end.
+
+Setting isDraft on something already published removes its address the same way, so it needs the same treatment. Add a redirect if the address was public for any length of time, and check whether another post links to it in prose, because nothing validates those links.
 
 ## When a path is not enough
 

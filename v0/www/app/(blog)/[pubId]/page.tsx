@@ -122,13 +122,25 @@ export default async function PublicationPage({
               Publication
             </p>
             {/*
-              Only the two standing badges. Tags moved down to the row of facts
-              below the description, where the post page keeps them. Rendered
-              conditionally because a publication that is neither featured nor
-              new would otherwise leave an empty row and its margin behind.
+              Only the standing badges. Tags moved down to the row of facts below
+              the description, where the post page keeps them. Rendered
+              conditionally because a publication carrying none of them would
+              otherwise leave an empty row and its margin behind.
+
+              Draft comes first and cannot appear beside Featured, which the
+              content validator rejects. It only shows on the dev server or a
+              preview deployment, since a production build has no drafts left in
+              it to render.
             */}
-            {(publication.isFeatured || publication.isNew) && (
+            {(publication.isDraft ||
+              publication.isFeatured ||
+              publication.isNew) && (
               <div className="mt-4 flex flex-wrap gap-2">
+                {publication.isDraft && (
+                  <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                    Draft
+                  </span>
+                )}
                 {publication.isFeatured && (
                   <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
                     Featured

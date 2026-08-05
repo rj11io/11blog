@@ -13,6 +13,7 @@ export const aiSkillsSpotlight: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["AI", "Skills", "Analysis"],
   posts: [
     {
@@ -26,6 +27,7 @@ export const aiSkillsSpotlight: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: false,
+      isDraft: false,
       tags: ["AI", "Skills", "Introduction"],
       content: aboutAiSkillsSpotlight,
     },

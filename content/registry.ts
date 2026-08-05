@@ -1,4 +1,5 @@
 import { authors } from "./authors"
+import { includeDrafts } from "./drafts"
 import { aiBenchmarks } from "./publications/ai-benchmarks"
 import { aiProductEngineering } from "./publications/ai-product-engineering"
 import { aiSkillsSpotlight } from "./publications/ai-skills-spotlight"
@@ -20,7 +21,12 @@ import type {
 } from "./types"
 import { validatePublications } from "./validation"
 
-export const publications: Publication[] = [
+/**
+ * Everything that has been written, drafts included. Private on purpose: this is
+ * the list the validator checks, and the only thing that reads it is the filter
+ * below.
+ */
+const authoredPublications: Publication[] = [
   blogPlatformDocs,
   onlinePresence,
   projectPostmortems,
@@ -33,7 +39,31 @@ export const publications: Publication[] = [
 
 export const blogAuthors: Author[] = authors
 
-validatePublications(publications, blogAuthors)
+/**
+ * Validation runs on everything, before anything is hidden. A draft is checked
+ * by the same rules as a published post, so it cannot quietly rot while it waits
+ * and cannot take an address that already belongs to something live. That is the
+ * whole gain over the older habit of commenting out an import.
+ */
+validatePublications(authoredPublications, blogAuthors)
+
+/**
+ * What the site serves. Every export below is derived from this, so hiding a
+ * draft happens exactly once, here.
+ *
+ * Both levels are filtered. A draft publication takes its posts with it whatever
+ * those posts say for themselves, and a draft post disappears from a published
+ * publication. Rebuilding the posts array rather than filtering only the derived
+ * lists is what matters: the post page reads previous and next straight off
+ * publication.posts, so a draft left in place would become a dead link out of a
+ * live post. Removing it here renumbers the chain around the gap instead.
+ */
+export const publications: Publication[] = authoredPublications
+  .filter((publication) => includeDrafts || !publication.isDraft)
+  .map((publication) => ({
+    ...publication,
+    posts: publication.posts.filter((post) => includeDrafts || !post.isDraft),
+  }))
 
 const authorsById = new Map(blogAuthors.map((author) => [author.id, author]))
 
@@ -122,6 +152,10 @@ function toPostPreview(post: PostListItem): PostPreview {
     isNSFW: post.isNSFW,
     isNew: post.isNew,
     isFeatured: post.isFeatured,
+    // Carried through rather than dropped. A preview only ever describes a post
+    // the site is showing, so this is false in a production build; it is here so
+    // the draft badge has something to read when drafts are being served.
+    isDraft: post.isDraft,
     tags: post.tags,
     publicationId: post.publicationId,
     publicationTitle: post.publicationTitle,

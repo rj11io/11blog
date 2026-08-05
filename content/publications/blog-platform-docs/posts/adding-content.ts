@@ -62,6 +62,7 @@ export const publicationName: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["Topic", "Practice"],
   synopsis: "A longer description shown on the publication page.",
   editorNotes: "Optional editorial context for this publication.",
@@ -70,14 +71,14 @@ export const publicationName: Publication = {
 }
 ~~~
 
-The required publication fields are relId, pubId, title, description, created, isNSFW, isNew, isFeatured, tags, and posts. The relId must be a unique positive integer. The pubId must be unique and URL-safe. Dates use YYYY-MM-DD format, and updated cannot be earlier than created.
+The required publication fields are relId, pubId, title, description, created, isNSFW, isNew, isFeatured, isDraft, tags, and posts. The relId must be a unique positive integer. The pubId must be unique and URL-safe. Dates use YYYY-MM-DD format, and updated cannot be earlier than created. Set isDraft to true while the publication is unfinished; see Drafts below.
 
-Add the publication to the publications array in content/registry.ts:
+Add the publication to the authoredPublications array in content/registry.ts:
 
 ~~~ts
 import { publicationName } from "./publications/publication-id"
 
-export const publications: Publication[] = [
+const authoredPublications: Publication[] = [
   blogPlatformDocs,
   onlinePresence,
   projectPostmortems,
@@ -115,6 +116,7 @@ export const firstPost = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["Topic", "Practice"],
   content,
   images: firstPostImages,
@@ -215,6 +217,7 @@ Define markdownBody as a TypeScript template string containing the Markdown body
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["Topic", "Practice"],
   content: firstPost,
 }
@@ -222,7 +225,31 @@ Define markdownBody as a TypeScript template string containing the Markdown body
 
 Legacy and modular posts can coexist in the same publication. A modular post is added directly to posts, while a legacy Markdown export is assigned to the content field of its publication-owned post object.
 
-The required post fields are postId, title, created, authorIds, isNSFW, isNew, isFeatured, tags, and content. Use a slug whenever possible; it becomes the public URL. The postId must be a unique positive integer within the publication. Every author ID must exist in content/authors.ts, and every post must have at least one author and non-empty content.
+The required post fields are postId, title, created, authorIds, isNSFW, isNew, isFeatured, isDraft, tags, and content. Use a slug whenever possible; it becomes the public URL. The postId must be a unique positive integer within the publication. Every author ID must exist in content/authors.ts, and every post must have at least one author and non-empty content.
+
+## Drafts
+
+Set isDraft to true on a post or a publication that is not ready to be read. The live site leaves it out entirely: it disappears from the home page, the browse indexes, every count, and the previous and next links, and its address returns 404 rather than an empty page.
+
+The filter runs once, in content/registry.ts, immediately after validation. Both levels are filtered, and a draft publication takes its posts with it whatever those posts say for themselves. Nothing else in the site knows drafts exist, which is why nothing else has to be changed to keep one hidden.
+
+Validation runs before the filter, so a draft is checked by the same rules as a published post. That is the point of the flag rather than the older habit of leaving a publication out of the registry: an unfinished post cannot quietly rot, and its postId and slug are still reserved against a collision with something live.
+
+### Reading a draft
+
+Drafts are served on the dev server and left out of a production build, so npm run dev shows your draft and npm run build never does. Anything rendered from a draft carries a Draft badge, on browse cards and on the publication and post pages, so a draft cannot be mistaken for a published post while you read it locally.
+
+To share one, set SHOW_DRAFTS=1 on a Vercel preview environment. That publishes drafts at the preview address, which is enough for someone else to read the post without it appearing on the live site. Never set it on the production environment. The flag itself lives in content/drafts.ts.
+
+### Two rules the validator enforces
+
+A draft cannot also be featured. The two contradict each other, and the symptom is confusing rather than obvious: the featured list is built from content the filter has already removed, so a post explicitly promoted to the home page is simply absent from it.
+
+A published publication cannot consist entirely of drafts. It would render as a page with no posts and a browse card claiming 0 posts. Set isDraft on the publication as well until one of its posts is ready.
+
+### One thing to check by hand
+
+Nothing validates links written in post prose, so drafting a post that another post links to leaves a link to a 404. Search the content directory for the slug before you draft an already-published post, and remove or reword any link you find. Drafting something that was public also deserves a redirect, which [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects) covers.
 
 ## Post body rules
 
@@ -341,7 +368,8 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 8. Add a coverImage, imported rather than written as a path, and remember it doubles as the post's link preview.
 9. Check component syntax against the [Markdown reference](/blog-platform-docs/markdown-reference) reference.
 10. Add the post to its publication's posts array, in the position it should read.
-11. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
+11. Set isDraft to true if the post is not ready to be read, and remember that build will then leave it out. Set isFeatured to false while it is a draft; the two together fail validation.
+12. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
 
 ### Adding a publication
 
@@ -350,8 +378,9 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 3. Write the title, description, and tags. Add the optional synopsis and editorNotes if the publication needs them.
 4. Add a coverImage, imported from the publication's assets directory, with a SOURCES.md recording where it came from.
 5. Add at least one post, following the post checklist above.
-6. Import the publication in content/registry.ts and add it to the publications array.
-7. Run typecheck, lint, and build.
+6. Import the publication in content/registry.ts and add it to the authoredPublications array.
+7. Set isDraft to true if the publication is not ready. Do the same if every post in it is still a draft, which validation requires rather than suggests.
+8. Run typecheck, lint, and build.
 
 For the rules behind each of these steps, and the exact message thrown when one fails, see [Content validation rules](/blog-platform-docs/content-validation).
 `

@@ -13,6 +13,7 @@ export const projectPostmortems: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["Projects", "Retrospectives", "Lessons Learned"],
   posts: [
     {
@@ -26,6 +27,7 @@ export const projectPostmortems: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: false,
+      isDraft: false,
       tags: ["Projects", "Retrospectives", "Introduction"],
       content: aboutProjectPostmortems,
     },

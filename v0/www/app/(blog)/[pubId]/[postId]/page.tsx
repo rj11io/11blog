@@ -185,9 +185,19 @@ export default async function PostPage({ params }: PostPageProps) {
                   keeping the wider gap from the publication name beside them.
                   The label is "New" rather than the publication page's "New
                   post": there, it means the publication has one.
+
+                  Draft leads, and never sits beside Featured; the content
+                  validator rejects that pair. Reaching this page at all means
+                  drafts are being served, so it is the dev server or a preview
+                  deployment.
                 */}
-                {(post.isFeatured || post.isNew) && (
+                {(post.isDraft || post.isFeatured || post.isNew) && (
                   <div className="flex flex-wrap items-center gap-2">
+                    {post.isDraft && (
+                      <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
+                        Draft
+                      </span>
+                    )}
                     {post.isFeatured && (
                       <span className="bg-accent-surface px-2.5 py-1 text-xs font-semibold tracking-[0.14em] text-primary uppercase">
                         Featured

@@ -13,6 +13,7 @@ export const techTutorials: Publication = {
   isNSFW: false,
   isNew: true,
   isFeatured: false,
+  isDraft: false,
   tags: ["Technology", "Tutorials", "Engineering"],
   posts: [
     {
@@ -26,6 +27,7 @@ export const techTutorials: Publication = {
       isNSFW: false,
       isNew: true,
       isFeatured: false,
+      isDraft: false,
       tags: ["Technology", "Tutorials", "Introduction"],
       content: aboutTechTutorials,
     },

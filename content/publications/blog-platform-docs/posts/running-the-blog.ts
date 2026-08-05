@@ -36,6 +36,23 @@ npm run dev
 
 Open the address the command prints. Content changes appear on save, because the content directory is part of the compiled project rather than data loaded at runtime.
 
+## Drafts and the one environment variable
+
+The dev server shows draft posts and publications. A production build never does. That difference is the only place the site's content depends on how it was started, and it is deliberate: a draft you cannot read is not much use, and a draft that reaches the live site defeats the flag.
+
+Two consequences worth holding on to:
+
+- npm run build on your own machine renders exactly what the live site will, drafts excluded. It is the last place a mistake here can be caught, which is another reason to run it before committing.
+- Anything rendered from a draft carries a Draft badge, so a draft cannot be mistaken for a published post while you read it locally.
+
+SHOW_DRAFTS=1 overrides the production behaviour:
+
+~~~bash
+SHOW_DRAFTS=1 npm run build
+~~~
+
+The case worth having is a Vercel preview environment. Setting the variable there publishes drafts at the preview address, so an unfinished post can be handed to someone for a read without going near blog.rj11.io. **Never set it on the production environment.** The flag is defined in content/drafts.ts, and how the filter behaves is covered in [Adding a publication or post](/blog-platform-docs/adding-content).
+
 ## The checks
 
 Four commands, all run from v0/www:
@@ -169,5 +186,6 @@ This forces one version of that package regardless of what any dependency asks f
 2. npm run lint.
 3. npm run build.
 4. Check the change in the running site, including one internal link if you added any.
-5. Write the commit message as fix: or feat: if it should produce a release, and as chore: or docs: if it should not.
+5. If you drafted something already published, check nothing links to it in prose. Nothing validates those links, and one pointing at a draft is a 404.
+6. Write the commit message as fix: or feat: if it should produce a release, and as chore: or docs: if it should not.
 `

@@ -36,21 +36,23 @@ The bundler needs matching configuration, described in [Running and releasing th
 
 content/registry.ts is the entry point. Pages import from it. Nothing in the website imports a publication file directly, and nothing should.
 
-The registry does four things.
+The registry does five things, in this order.
 
-**It assembles.** It imports each publication and the author list, and exports them as arrays.
+**It assembles.** It imports each publication and the author list into a private array called authoredPublications, which is everything that has been written, drafts included.
 
-**It validates.** It calls the checker at the top level of the module, so importing the registry validates the content. A rule failure is a build failure. See [Content validation rules](/blog-platform-docs/content-validation).
+**It validates.** It calls the checker at the top level of the module, so importing the registry validates the content. A rule failure is a build failure. Validation runs on the full authored list, before anything is hidden, so a draft is held to the same rules as a published post. See [Content validation rules](/blog-platform-docs/content-validation).
 
-**It derives.** It pre-computes the shapes the pages actually need, so no page has to join data together itself.
+**It filters.** It removes drafts, and exports the result as publications. Both levels are filtered: a draft publication takes its posts with it, and a draft post disappears from a published publication. This is the only place in the whole site where a draft is hidden. See [Adding a publication or post](/blog-platform-docs/adding-content) for how the flag behaves.
 
-**It looks things up.** It exports the small set of functions that find one publication, post, or author.
+**It derives.** It pre-computes the shapes the pages actually need, so no page has to join data together itself. Every derived export is built from the filtered list, which is why hiding a draft needs no other change anywhere: counts, lists, addresses, and the previous and next links all follow.
+
+**It looks things up.** It exports the small set of functions that find one publication, post, or author. These read the filtered list too, so a draft's address resolves to nothing and the page returns 404.
 
 Here is what the registry exports:
 
 | Export | What it is |
 | --- | --- |
-| publications | Every publication, in editorial order, with posts attached |
+| publications | Every published publication, in editorial order, with its published posts attached. Drafts are already gone |
 | blogAuthors | Every author, in full |
 | allPosts | Every post from every publication, flattened, with its publication and resolved authors attached |
 | publicationPreviews | Every publication without its posts, plus a link, a post count, and its authors |
@@ -88,6 +90,8 @@ The practical payoff is on the browse page, which is a client component. Everyth
 
 authorIds is dropped from the preview for a different reason: it has already been replaced by resolved author details, so keeping the raw IDs would invite code that looks them up a second time.
 
+isDraft is kept rather than dropped, which looks redundant given that a preview only ever describes something the site is showing. It is false in every production build. It is carried through so the Draft badge has something to read on the dev server, where drafts are served on purpose.
+
 A publication preview gains something its full form does not have: an authors list. A publication never declares its authors, because that would be a second place for the same fact to live and the two would eventually disagree. Instead the registry collects everyone with a byline on at least one of its posts, ordered by how many they wrote and then by name, so the main author leads. Add a post and the publication's authors follow on the next build, with nothing to remember to update.
 
 ## Editorial order is array order
@@ -102,6 +106,8 @@ const next = publication.posts[postIndex + 1]
 ~~~
 
 So the previous and next links at the foot of a post follow the array, not the dates. Reordering the array reorders the reading sequence. This is intentional: a publication is a series, and a series has an order its author chose.
+
+Those two lines are also the reason the draft filter rebuilds the posts array rather than only filtering the derived lists. They read positions straight off the publication, so a draft left in the array would become a dead link out of a live post. Removing it closes the gap instead, and the chain simply runs from the post before it to the post after.
 
 Where dates are used, they are used explicitly. The landing page sorts by created date to build its "latest" lists; the browse page offers newest and oldest as sort options. Those are presentation choices layered on top of the editorial order, not replacements for it.
 

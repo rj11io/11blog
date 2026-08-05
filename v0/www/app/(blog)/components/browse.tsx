@@ -268,11 +268,18 @@ function ResultFlags({
   onCover = false,
   newLabel = "New",
 }: {
-  item: { isFeatured: boolean; isNew: boolean; isNSFW: boolean }
+  item: {
+    isFeatured: boolean
+    isNew: boolean
+    isNSFW: boolean
+    isDraft: boolean
+  }
   onCover?: boolean
   newLabel?: string
 }) {
-  if (!item.isFeatured && !item.isNew && !item.isNSFW) return null
+  if (!item.isFeatured && !item.isNew && !item.isNSFW && !item.isDraft) {
+    return null
+  }
 
   return (
     <div
@@ -282,6 +289,17 @@ function ResultFlags({
           : "flex flex-wrap items-center gap-2"
       }
     >
+      {/*
+        First, and deliberately loud. A draft only ever reaches a reader on the
+        dev server or a preview deployment, and the whole risk of showing it at
+        all is mistaking one for a published post, so it outranks every other
+        badge here.
+      */}
+      {item.isDraft && (
+        <Badge strong onCover={onCover}>
+          Draft
+        </Badge>
+      )}
       {item.isFeatured && (
         <Badge strong onCover={onCover}>
           Featured
