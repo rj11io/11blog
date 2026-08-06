@@ -5,10 +5,13 @@ type MarkdownNode = {
   type?: string
   value?: string
   url?: string
+  name?: string
+  attributes?: Record<string, string | null | undefined>
   children?: MarkdownNode[]
   data?: {
     hName?: string
-    hProperties?: Record<string, string>
+    hProperties?: Record<string, string | boolean>
+    directiveLabel?: boolean
   }
 }
 
@@ -77,6 +80,99 @@ export const remarkYouTube: Plugin = () => (tree) => {
       }
       paragraph.children = []
     }
+  })
+}
+
+/**
+ * Turns an accordion container directive into a renderable node, and cleans up
+ * after the directive syntax everywhere else.
+ *
+ * The accordion is the blog's first container: a block whose children are
+ * ordinary Markdown, rendered back through the same component map, so the other
+ * shortcodes keep working inside it. Shortcodes stay the syntax for leaf
+ * embeds; directives are the syntax for containers.
+ *
+ * ~~~
+ * :::accordion[The visible summary line]
+ * Any Markdown, including other components.
+ * :::
+ * ~~~
+ *
+ * {title="..."} is accepted as well as the [label] form, and {open} starts the
+ * accordion expanded. Nesting works the directive way round: the OUTER block
+ * takes more colons (::::), the inner keeps three.
+ *
+ * The cleanup half matters just as much. Loading remark-directive makes ANY
+ * :name a directive, and an unhandled directive renders as nothing, so bare
+ * prose like ":root" in the design-tokens post would silently vanish from the
+ * page. Unhandled text and leaf directives are therefore turned back into the
+ * literal text the author wrote, and an unknown container becomes a
+ * development-only warning that still renders its children.
+ */
+export const remarkAccordion: Plugin = () => (tree) => {
+  visit(tree, (node, index, parent) => {
+    const directive = node as MarkdownNode
+    const parentNode = parent as MarkdownNode | undefined
+
+    if (
+      directive.type === "textDirective" ||
+      directive.type === "leafDirective"
+    ) {
+      if (!parentNode?.children || index === undefined) return
+
+      // Put back what the author wrote: the colons, the name, and any
+      // bracketed text, which the parser stored as children.
+      const marker = directive.type === "leafDirective" ? "::" : ":"
+      const restored: MarkdownNode[] = [
+        { type: "text", value: `${marker}${directive.name}` },
+        ...(directive.children ?? []),
+      ]
+      parentNode.children.splice(index, 1, ...restored)
+      return index + restored.length
+    }
+
+    if (directive.type !== "containerDirective") return
+
+    if (directive.name !== "accordion") {
+      directive.data = {
+        hName: "unknown-directive",
+        hProperties: { directivename: directive.name ?? "" },
+      }
+      return
+    }
+
+    // The [label] form arrives as a first child paragraph flagged as the
+    // directive label. It wins over the attribute form when both are present,
+    // and is removed so it cannot render twice.
+    let title = directive.attributes?.title ?? ""
+    const [first] = directive.children ?? []
+    if (first?.data?.directiveLabel) {
+      title = markdownText(first)
+      directive.children?.shift()
+    }
+
+    directive.data = {
+      hName: "post-accordion",
+      hProperties: {
+        title,
+        ...(directive.attributes?.open !== undefined ? { open: true } : {}),
+      },
+    }
+
+    // Headings inside an accordion render as headings but stay out of the
+    // table of contents and carry no anchor id: a copied link would point into
+    // collapsed content. Marking them here keeps the renderer's duplicate-id
+    // counter aligned with extractMarkdownHeadings, which skips these subtrees.
+    visit(directive as never, "heading", (heading) => {
+      const headingNode = heading as MarkdownNode
+      headingNode.data = {
+        ...headingNode.data,
+        hProperties: {
+          ...headingNode.data?.hProperties,
+          inaccordion: "true",
+        },
+      }
+    })
   })
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { isValidElement, type ComponentProps, type ReactNode } from "react"
 import ReactMarkdown, { type Components } from "react-markdown"
+import remarkDirective from "remark-directive"
 import remarkGfm from "remark-gfm"
 
 import { MasonryImageList } from "@/components/media/masonry-image-list"
@@ -14,6 +15,7 @@ import {
 import { CodeBlock } from "./code-block"
 import {
   isInternalHref,
+  remarkAccordion,
   remarkImageList,
   remarkPostImage,
   remarkYouTube,
@@ -30,6 +32,9 @@ type MarkdownElementProps = {
   title?: string
   imagekey?: string
   listkey?: string
+  open?: boolean
+  inaccordion?: string
+  directivename?: string
 }
 
 function reactNodeText(value: ReactNode): string {
@@ -125,6 +130,61 @@ function ConfiguredPostImage({
   )
 }
 
+/**
+ * The accordion is a server component on purpose. A native details element
+ * gives the open and close behaviour, keyboard support, and screen reader
+ * semantics with no JavaScript at all, and browsers reach into a closed one
+ * for find-in-page. Its children are ordinary Markdown rendered through this
+ * same component map, which is what lets the other components work inside it.
+ */
+function PostAccordion({ title, open, children }: MarkdownElementProps) {
+  if (!title) {
+    // Same policy as a missing image key: loud in development, and in
+    // production the content still renders rather than disappearing. Unwrapped
+    // beats hidden, because a summary line reading "undefined" helps nobody.
+    return process.env.NODE_ENV === "development" ? (
+      <div className="my-8 border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+        Accordion has no title. Write :::accordion[Title] or
+        :::accordion{"{"}title=&quot;Title&quot;{"}"}.
+      </div>
+    ) : (
+      <>{children}</>
+    )
+  }
+
+  return (
+    <details
+      open={open}
+      className="group my-8 border border-border bg-card open:pb-6"
+    >
+      <summary className="cursor-pointer list-none px-5 py-4 font-semibold text-foreground select-none hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
+        <span
+          aria-hidden="true"
+          className="mr-3 inline-block text-primary transition-transform duration-200 group-open:rotate-90 motion-reduce:transition-none"
+        >
+          ›
+        </span>
+        {title}
+      </summary>
+      <div className="border-t border-border px-5">{children}</div>
+    </details>
+  )
+}
+
+function UnknownDirective({ directivename, children }: MarkdownElementProps) {
+  return process.env.NODE_ENV === "development" ? (
+    <div className="my-8 border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+      <p className="font-semibold">
+        Unknown directive &quot;:::{directivename}&quot;. Only :::accordion is
+        supported; its content is rendered below, unwrapped.
+      </p>
+      {children}
+    </div>
+  ) : (
+    <>{children}</>
+  )
+}
+
 function createHeadingComponent(
   level: 2 | 3 | 4 | 5,
   createHeadingId: (label: string) => string
@@ -137,7 +197,16 @@ function createHeadingComponent(
     5: "mt-7 text-base font-semibold tracking-tight text-foreground",
   }
 
-  function Heading({ children }: MarkdownElementProps) {
+  function Heading({ children, inaccordion }: MarkdownElementProps) {
+    // A heading inside an accordion renders as a heading but gets no anchor id
+    // and stays off the table of contents: a copied link would point into
+    // collapsed content. Skipping createHeadingId here also keeps the
+    // duplicate-id counter in step with extractMarkdownHeadings, which never
+    // sees these headings at all.
+    if (inaccordion) {
+      return <Tag className={classes[level]}>{children}</Tag>
+    }
+
     const id = createHeadingId(reactNodeText(children))
 
     return (
@@ -315,16 +384,27 @@ export function Markdown({
     "image-list": (props: MarkdownElementProps) => (
       <PostImageList {...props} imageLists={imageLists} />
     ),
+    "post-accordion": PostAccordion,
+    "unknown-directive": UnknownDirective,
   } satisfies Partial<Components> & {
     "youtube-embed": (props: MarkdownElementProps) => ReactNode
     "post-image": (props: MarkdownElementProps) => ReactNode
     "image-list": (props: MarkdownElementProps) => ReactNode
+    "post-accordion": (props: MarkdownElementProps) => ReactNode
+    "unknown-directive": (props: MarkdownElementProps) => ReactNode
   }
 
   return (
     <ReactMarkdown
       remarkPlugins={[
         remarkGfm,
+        // remarkDirective only parses; remarkAccordion directly after it maps
+        // the accordion, restores stray :name prose the directive syntax would
+        // otherwise swallow, and flags unknown containers. The shortcode
+        // plugins come last so a shortcode written inside an accordion body is
+        // still found: visit() walks into the container's children.
+        remarkDirective,
+        remarkAccordion,
         remarkYouTube,
         remarkPostImage,
         remarkImageList,

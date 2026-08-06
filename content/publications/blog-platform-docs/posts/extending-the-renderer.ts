@@ -173,6 +173,49 @@ if (!image) {
 
 The reasoning: an author needs to see the mistake immediately, and a reader should never see a broken component. If the mistake is one a validation rule could catch instead, prefer that. See [Content validation rules](/blog-platform-docs/content-validation) for how to add one.
 
+## Containers are directives, not shortcodes
+
+A shortcode is one line that becomes one element. It cannot express a component
+that wraps a body of Markdown, because the plugin would have to guess where the
+body ends by scanning siblings, and that guess breaks the first time someone
+nests something.
+
+For containers the renderer uses remark-directive, which parses a fenced block
+into a node whose children are ordinary Markdown:
+
+~~~text
+:::accordion[The summary line]
+A body. Other components keep working here.
+:::
+~~~
+
+The plugin, remarkAccordion in markdown-utils.ts, then only has to map that
+node to an hName, exactly like step 1 above. The children need no handling at
+all: react-markdown renders them back through the same components object, which
+is what makes nesting free. The accordion is the first container; a callout or
+a tabbed block would follow the same path.
+
+The rule this creates: **shortcodes are for leaf embeds, directives are for
+containers.** Do not add a paired open and close shortcode.
+
+Two costs of remark-directive are worth knowing, and both are already paid in
+remarkAccordion, so extend it rather than starting a second directive plugin:
+
+- Loading it makes ANY colon-prefixed word a directive, and an unhandled
+  directive renders as nothing. Prose like :root in the design tokens post
+  would silently vanish. remarkAccordion turns unhandled text and leaf
+  directives back into the literal text the author wrote.
+- An unknown container name, such as a typo like :::acordion, becomes a
+  development-only warning box that still renders its children in production,
+  the same policy as step 5.
+
+One more interaction: a heading inside a container that hides content, such as
+an accordion, is marked by the plugin and rendered without an anchor id, and
+extractMarkdownHeadings skips container subtrees so the table of contents and
+the renderer keep counting duplicate headings identically. If you add a new
+container that does NOT hide its children, decide the heading question
+deliberately.
+
 ## Components that need post data
 
 The image and image list components need something the Markdown itself does not contain: the post's configured images. They get it by closure. The components object is built inside the Markdown function, which receives images and imageLists as arguments, so a small wrapper can pass them through:
@@ -197,6 +240,7 @@ If your component needs post-level configuration, add a field to the Post type i
 
 ## Checklist
 
+0. Decide the shape first: a leaf embed is a shortcode and follows the five steps; a component with a Markdown body is a directive and extends remarkAccordion's pattern instead.
 1. Write the plugin in markdown-utils.ts, with a strict guard and a validated argument.
 2. Use a hyphenated hName and all-lowercase property names.
 3. Add the plugin to the remarkPlugins array in markdown.tsx.

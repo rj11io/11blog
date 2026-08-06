@@ -71,6 +71,57 @@ npm run lint
 
 @[youtube](dQw4w9WgXcQ)
 
+## Accordions
+
+An accordion collapses a block of content behind a summary line. It is the one
+container component: everything between its fences is ordinary Markdown,
+rendered by the same components as the rest of the post, so lists, code blocks,
+images, and embeds all work inside it.
+
+The syntax is a directive rather than a shortcode, because a shortcode is a
+single line and an accordion has a body:
+
+~~~text
+:::accordion[The summary line readers click]
+Any Markdown, including other components.
+:::
+~~~
+
+Rendered live, with a configured image inside:
+
+:::accordion[A configured image, inside an accordion]
+The body holds ordinary Markdown. **Bold**, `inline code`, and links render as
+they do anywhere else, and so do the component shortcodes:
+
+@[image](workspace-overview)
+:::
+
+Add `{open}` after the label to start it expanded:
+
+~~~text
+:::accordion[Starts expanded]{open}
+Useful when the collapse is an invitation to skim, not a wall.
+:::
+~~~
+
+:::accordion[Starts expanded]{open}
+Useful when the collapse is an invitation to skim, not a wall.
+:::
+
+Three rules to know:
+
+- A title is required. Use the `[label]` form, or `{title="..."}` if you
+  prefer an attribute; the label wins when both are present.
+- To nest one accordion inside another, the **outer** block takes four colons
+  and the inner keeps three.
+- Headings written inside an accordion render, but they get no anchor id and
+  stay out of the table of contents, because a copied link would point into
+  collapsed content. Keep section headings outside.
+
+The open and close behaviour is the browser's own details element: it needs no
+JavaScript, works with the keyboard, and find-in-page can reach into a closed
+accordion in most browsers.
+
 ## Multi-image lists
 
 Multi-image lists present a related collection as one browsable unit. These demos

@@ -163,8 +163,9 @@ export const blogPlatformDocs: Publication = {
       slug: "extending-the-renderer",
       title: "Extending the renderer",
       excerpt:
-        "The five-step recipe behind the blog's shortcodes, and how to add one of your own.",
+        "The five-step recipe behind the blog's shortcodes, the directive path for containers, and how to add one of your own.",
       created: "2026-07-08",
+      updated: "2026-08-06",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: true,
@@ -197,6 +198,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "What the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, and the gaps that remain.",
       created: "2026-07-10",
+      updated: "2026-08-06",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: true,
