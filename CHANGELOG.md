@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/rj11io/11blog/compare/v1.5.0...v1.6.0) (2026-08-06)
+
+
+### Features
+
+* add accordion markdown component ([73a7ada](https://github.com/rj11io/11blog/commit/73a7adae0eb676fc20b7683cc0b72243b50968a7))
+
 # [1.5.0](https://github.com/rj11io/11blog/compare/v1.4.0...v1.5.0) (2026-08-06)
 
 
