@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/rj11io/11blog/compare/v1.8.0...v1.9.0) (2026-08-09)
+
+
+### Features
+
+* **content:** add research and development publication ([8f6ee99](https://github.com/rj11io/11blog/commit/8f6ee99c8c774eaf532b67e4c65585a22452cc48))
+
 # [1.8.0](https://github.com/rj11io/11blog/compare/v1.7.0...v1.8.0) (2026-08-09)
 
 
