@@ -9,6 +9,7 @@ import { blogPlatformDocs } from "./publications/blog-platform-docs"
 import { onlinePresence } from "./publications/online-presence"
 import { personalNotes } from "./publications/personal-notes"
 import { projectPostmortems } from "./publications/project-postmortems"
+import { researchAndDevelopment } from "./publications/rnd"
 import { techTutorials } from "./publications/tech-tutorials"
 import { authorHref, postHref, publicationHref } from "./routes"
 import type {
@@ -39,6 +40,7 @@ const authoredPublications: Publication[] = [
   aiSkillsSpotlight,
   aiCoachingAdvisory,
   aiTechForecast,
+  researchAndDevelopment,
 ]
 
 export const blogAuthors: Author[] = authors
