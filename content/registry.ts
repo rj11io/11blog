@@ -4,6 +4,7 @@ import { aiBenchmarks } from "./publications/ai-benchmarks"
 import { aiCoachingAdvisory } from "./publications/ai-coaching-advisory"
 import { aiProductEngineering } from "./publications/ai-product-engineering"
 import { aiSkillsSpotlight } from "./publications/ai-skills-spotlight"
+import { aiTechForecast } from "./publications/ai-tech-forecast"
 import { blogPlatformDocs } from "./publications/blog-platform-docs"
 import { onlinePresence } from "./publications/online-presence"
 import { personalNotes } from "./publications/personal-notes"
@@ -37,6 +38,7 @@ const authoredPublications: Publication[] = [
   aiProductEngineering,
   aiSkillsSpotlight,
   aiCoachingAdvisory,
+  aiTechForecast,
 ]
 
 export const blogAuthors: Author[] = authors
