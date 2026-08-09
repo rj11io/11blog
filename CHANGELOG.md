@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/rj11io/11blog/compare/v1.6.0...v1.7.0) (2026-08-09)
+
+
+### Bug Fixes
+
+* trigger ci ([92d3480](https://github.com/rj11io/11blog/commit/92d3480bab07bbaf4b814f7403b464943034d3a8))
+
+
+### Features
+
+* init ai tech forecast publication ([1f7c409](https://github.com/rj11io/11blog/commit/1f7c409f4c3b3bbe8ba25f7bc8dac02c361d2d79))
+
 # [1.6.0](https://github.com/rj11io/11blog/compare/v1.5.0...v1.6.0) (2026-08-06)
 
 
