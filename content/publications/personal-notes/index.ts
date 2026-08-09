@@ -11,9 +11,9 @@ export const personalNotes: Publication = {
     "Personal thoughts, diary entries, and observations collected without forcing them into a tutorial or case study.",
   created: "2026-08-04",
   isNSFW: false,
-  isNew: true,
+  isNew: false,
   isFeatured: false,
-  isDraft: false,
+  isDraft: true,
   tags: ["Personal", "Diary", "Reflections"],
   posts: [
     {
@@ -25,9 +25,9 @@ export const personalNotes: Publication = {
       created: "2026-08-04",
       authorIds: ["rj11io"],
       isNSFW: false,
-      isNew: true,
+      isNew: false,
       isFeatured: false,
-      isDraft: false,
+      isDraft: true,
       tags: ["Personal", "Diary", "Introduction"],
       content: aboutPersonalNotes,
     },

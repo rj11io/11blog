@@ -11,9 +11,9 @@ export const techTutorials: Publication = {
     "Practical technical guides with reproducible steps and the reasoning behind them.",
   created: "2026-08-04",
   isNSFW: false,
-  isNew: true,
+  isNew: false,
   isFeatured: false,
-  isDraft: false,
+  isDraft: true,
   tags: ["Technology", "Tutorials", "Engineering"],
   posts: [
     {
@@ -25,9 +25,9 @@ export const techTutorials: Publication = {
       created: "2026-08-04",
       authorIds: ["rj11io"],
       isNSFW: false,
-      isNew: true,
+      isNew: false,
       isFeatured: false,
-      isDraft: false,
+      isDraft: true,
       tags: ["Technology", "Tutorials", "Introduction"],
       content: aboutTechTutorials,
     },

@@ -11,9 +11,9 @@ export const projectPostmortems: Publication = {
     "Honest reviews of completed projects: what worked, what failed, and what changed afterwards.",
   created: "2026-08-04",
   isNSFW: false,
-  isNew: true,
+  isNew: false,
   isFeatured: false,
-  isDraft: false,
+  isDraft: true,
   tags: ["Projects", "Retrospectives", "Lessons Learned"],
   posts: [
     {
@@ -25,9 +25,9 @@ export const projectPostmortems: Publication = {
       created: "2026-08-04",
       authorIds: ["rj11io"],
       isNSFW: false,
-      isNew: true,
+      isNew: false,
       isFeatured: false,
-      isDraft: false,
+      isDraft: true,
       tags: ["Projects", "Retrospectives", "Introduction"],
       content: aboutProjectPostmortems,
     },

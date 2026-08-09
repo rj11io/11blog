@@ -12,7 +12,7 @@ export const aiCoachingAdvisory: Publication = {
     "Helping people and organisations work with AI: coaching, consulting on specific problems, and advising on the decisions that are hard to reverse.",
   created: "2026-08-05",
   isNSFW: false,
-  isNew: true,
+  isNew: false,
   // Draft until there is a real post in it. This hides the publication and
   // everything inside it, which is why the post below can be left published: one
   // edit here reveals the whole thing when it is ready.
@@ -29,9 +29,9 @@ export const aiCoachingAdvisory: Publication = {
       created: "2026-08-05",
       authorIds: ["rj11io"],
       isNSFW: false,
-      isNew: true,
+      isNew: false,
       isFeatured: false,
-      isDraft: false,
+      isDraft: true,
       tags: ["AI", "Coaching", "Introduction"],
       content: aboutAiCoachingAdvisory,
     },

@@ -11,9 +11,9 @@ export const aiProductEngineering: Publication = {
     "Engineering dependable AI products across architecture, evaluation, interfaces, operations, and failure handling.",
   created: "2026-08-04",
   isNSFW: false,
-  isNew: true,
+  isNew: false,
   isFeatured: false,
-  isDraft: false,
+  isDraft: true,
   tags: ["AI", "Product Engineering", "Systems"],
   posts: [
     {
@@ -25,9 +25,9 @@ export const aiProductEngineering: Publication = {
       created: "2026-08-04",
       authorIds: ["rj11io"],
       isNSFW: false,
-      isNew: true,
+      isNew: false,
       isFeatured: false,
-      isDraft: false,
+      isDraft: true,
       tags: ["AI", "Product Engineering", "Introduction"],
       content: aboutAiProductEngineering,
     },

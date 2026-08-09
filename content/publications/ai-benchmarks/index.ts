@@ -11,9 +11,9 @@ export const aiBenchmarks: Publication = {
     "Repeatable evaluations of AI systems, with close analysis of results, limits, and product claims.",
   created: "2026-08-04",
   isNSFW: false,
-  isNew: true,
+  isNew: false,
   isFeatured: false,
-  isDraft: false,
+  isDraft: true,
   tags: ["AI", "Benchmarks", "Analysis"],
   posts: [
     {
@@ -25,9 +25,9 @@ export const aiBenchmarks: Publication = {
       created: "2026-08-04",
       authorIds: ["rj11io"],
       isNSFW: false,
-      isNew: true,
+      isNew: false,
       isFeatured: false,
-      isDraft: false,
+      isDraft: true,
       tags: ["AI", "Benchmarks", "Introduction"],
       content: aboutAiBenchmarks,
     },
