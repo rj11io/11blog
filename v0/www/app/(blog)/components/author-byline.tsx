@@ -42,7 +42,7 @@ export function AuthorByline({ authors }: { authors: AuthorPreview[] }) {
   if (!authors.length) return null
 
   return (
-    <div className="mt-6" aria-label="Authors">
+    <div className="mt-6" role="group" aria-label="Authors">
       <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
         Written by
       </p>

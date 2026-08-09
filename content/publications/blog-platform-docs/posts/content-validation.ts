@@ -13,11 +13,10 @@ content/registry.ts imports every publication and the author list, then calls th
 
 ~~~ts
 const authoredPublications: Publication[] = [
-  signalPath,
-  materialCulture,
-  localWeather,
   blogPlatformDocs,
   onlinePresence,
+  projectPostmortems,
+  // …every other publication, in editorial order…
 ]
 
 export const blogAuthors: Author[] = authors
@@ -29,8 +28,8 @@ Note which list is checked. authoredPublications is everything that has been wri
 
 Because that call sits at the top level of the module, it runs the first time anything actually executes the registry. Two things do that:
 
-- **npm run build**, while it collects page data. A rule failure stops the build.
-- **npm run dev**, when a page that reads the registry is first rendered. The failure appears in the terminal and in the browser.
+- **npm run build**, run from v0/www, while it collects page data. A rule failure stops the build.
+- **npm run dev**, also from v0/www, when a page that reads the registry is first rendered. The failure appears in the terminal and in the browser.
 
 One command does **not** catch these: npm run typecheck. It only checks types, and it never runs the code. A date written as 2026-02-30 is a perfectly valid string, so typecheck reports nothing and the build then fails with:
 
@@ -137,11 +136,11 @@ For each publication:
 - Tags must pass the three tag checks.
 - coverImage, if present, must pass the image source rule.
 - isDraft and isFeatured must not both be true.
-- A publication that is not a draft must not consist entirely of draft posts.
+- A publication that is not a draft must contain at least one post, and must not consist entirely of draft posts.
 
 The reserved-word rule is worth remembering when naming a new publication. A publication called "Browse" would need a different ID, such as browse-guide.
 
-The two draft rules exist because neither failure announces itself. A featured draft is removed from the site by the draft filter, and the featured list is built after that, so a publication promoted to the home page is quietly missing from it. A published publication whose every post is a draft renders as a page with no posts and a card claiming 0 posts. Both are caught at the build instead. See [Adding a publication or post](/blog-platform-docs/adding-content) for how drafts work.
+The draft rules exist because none of these failures announces itself. A featured draft is removed from the site by the draft filter, and the featured list is built after that, so a publication promoted to the home page is quietly missing from it. A published publication with no posts, or whose every post is a draft, renders as a page with no posts and a card claiming 0 posts. All are caught at the build instead. See [Adding a publication or post](/blog-platform-docs/adding-content) for how drafts work.
 
 ## Post rules
 
@@ -174,7 +173,6 @@ For each image:
 - width and height must both be whole numbers greater than zero. These reserve the right space on the page before the file arrives, so they are not optional.
 - alt must have text in it. There is no way to configure an image without describing it.
 - title and subtitle, if present, must have text in them. Leave them out rather than setting them to an empty string.
-- credit, if present, must have a label with text and a complete http or https address.
 
 ## Image list rules
 
@@ -186,6 +184,14 @@ For each named image list:
 - Every image in the list is checked with the full set of image rules above, and failures name their position, such as .images[2].alt.
 
 ## Message reference
+
+Three message families repeat across levels, so the table shows one representative of each rather than every label they can carry:
+
+- **must not be empty** fires for every required text field: an author's name, displayName, bio, and link labels; a publication's title and description; a post's title; an image's alt, title, and subtitle; and an image list's ariaLabel.
+- **must use YYYY-MM-DD format**, **must be a real ISO date**, and **must not be before …created** fire for updated exactly as they do for created.
+- **The three tag messages** fire with a post label, such as example-publication/302.tags, exactly as they do with an author label.
+
+Everything else appears verbatim:
 
 | Message | Cause | Fix |
 | --- | --- | --- |
@@ -205,10 +211,11 @@ For each named image list:
 | example-publication.created must use YYYY-MM-DD format | The date is written some other way | Rewrite it year first |
 | example-publication.created must be a real ISO date | The date is correctly shaped but does not exist | Correct the day or month |
 | example-publication.updated must not be before example-publication.created | The updated date is earlier than the created date | Correct whichever is wrong |
-| example-publication.coverImage must be root-relative or use HTTPS | An image source uses http, or is a bare filename | Start it with a slash, or use https |
-| example-publication is a draft and cannot be featured | isDraft and isFeatured are both true on a publication | Set isFeatured to false, or publish it |
-| example-publication is published but every post in it is a draft | Nothing in the publication is ready to read | Set isDraft to true on the publication until one post is ready |
-| example-publication/302 is a draft and cannot be featured | isDraft and isFeatured are both true on a post | Set isFeatured to false, or publish it |
+| example-publication.coverImage must be root-relative or use HTTPS | An image source uses http, or is a bare filename. The same message fires for a post's coverImage and for an image's src and thumbnailSrc | Start it with a slash, or use https |
+| example-publication is a draft and cannot be featured. Set isFeatured to false, or publish it. | isDraft and isFeatured are both true on a publication | Set isFeatured to false, or publish it |
+| example-publication is published but has no posts. Set isDraft to true on the publication until one is ready. | The publication's posts array is empty | Add a post, or draft the publication |
+| example-publication is published but every post in it is a draft. Set isDraft to true on the publication until one is ready. | Nothing in the publication is ready to read | Set isDraft to true on the publication until one post is ready |
+| example-publication/302 is a draft and cannot be featured. Set isFeatured to false, or publish it. | isDraft and isFeatured are both true on a post | Set isFeatured to false, or publish it |
 | example-publication: postId must be a positive integer | postId is missing, zero, or not a whole number | Use an unused whole number |
 | example-publication: duplicate postId 302 | Two posts in one publication share a postId | Renumber one |
 | example-publication/example-post: invalid post slug | Capitals or underscores in the slug | Use lowercase and hyphens |
@@ -218,9 +225,11 @@ For each named image list:
 | example-publication/302 references unknown author assistant-id | The author ID does not exist in authors.ts | Correct the ID, or add the author |
 | example-publication/302 has no content | The body is missing or empty | Write the body, or remove the post |
 | blog-platform-docs/401.images.hero must use a shortcode-safe image key | An image key has capitals or unsupported characters | Use lowercase, with hyphens, underscores, or colons |
-| blog-platform-docs/401.images.hero.width must be a positive integer | A dimension is missing, zero, or fractional | Read the real pixel dimensions and use them |
+| blog-platform-docs/401.imageLists.gallery must use a URL-safe image-list key | An image-list key has capitals or unsupported characters | Same rule, different wording: lowercase, with hyphens, underscores, or colons |
+| blog-platform-docs/401.images.hero.width must be a positive integer | A dimension is missing, zero, or fractional. height has an identical message | Read the real pixel dimensions and use them |
 | blog-platform-docs/401.images.hero.alt must not be empty | An image has no description | Describe the image |
 | blog-platform-docs/401.imageLists.gallery must contain at least one image | A configured list is empty | Add images, or remove the list |
+| Example post title references unknown author assistant-id | The registry's later author lookup failed; the author was removed while a post still referenced them | Restore the author, or update the post's authorIds |
 
 ## Fixing a failing build
 

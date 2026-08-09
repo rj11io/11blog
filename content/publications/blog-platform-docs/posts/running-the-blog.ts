@@ -22,7 +22,7 @@ The dev server is described in .claude/launch.json, which runs it from the repos
   "name": "blog-dev",
   "runtimeExecutable": "npm",
   "runtimeArgs": ["--prefix", "v0/www", "run", "dev"],
-  "port": 4100
+  "port": 3000
 }
 ~~~
 
@@ -34,7 +34,7 @@ npm install
 npm run dev
 ~~~
 
-Open the address the command prints. Content changes appear on save, because the content directory is part of the compiled project rather than data loaded at runtime.
+Open the address the command prints. The port entry in launch.json only tells the preview tooling where to look; the server itself binds to the Next.js default of 3000, or the next free port, because the dev script sets none. Content changes appear on save, because the content directory is part of the compiled project rather than data loaded at runtime.
 
 ## Drafts and the one environment variable
 
@@ -89,6 +89,8 @@ First, the compiler is told where to find it. v0/www/tsconfig.json maps an alias
 "include": ["**/*.ts", "**/*.tsx", "../../content/**/*.ts"]
 ~~~
 
+The include shown is trimmed to the entry that matters here; the real file also lists Next.js's own declaration files and generated types.
+
 Second, the bundler is told the same thing. v0/www/next.config.ts sets Turbopack's root to the repository root rather than the app directory, and registers a loader so a .md file can be imported as a string:
 
 ~~~ts
@@ -103,13 +105,13 @@ turbopack: {
 }
 ~~~
 
-The loader itself is five lines. It takes the file's text and exports it as a string, which is all a post body needs to be.
+The loader itself is three lines. It takes the file's text and exports it as a string, which is all a post body needs to be.
 
 If you move the app, or add a second one, both settings have to move with it. That is the price of keeping content framework-independent, and it is a price worth paying. See [The content contract](/blog-platform-docs/content-contract).
 
 ## How a release happens
 
-Pushing to main triggers .github/workflows/release.yml, which checks out the full history, installs dependencies at the root, and runs semantic-release.
+Pushing to main triggers .github/workflows/release.yml, which checks out the full history, installs dependencies at the root with npm install, and runs semantic-release. The tool's own configuration in .releaserc.js restricts releases to main as well, so the workflow and the tool agree on the branch.
 
 The tool reads the commit messages since the last release and decides everything from them. There is no version number to bump by hand and no release branch to manage.
 
@@ -119,12 +121,12 @@ The convention is Conventional Commits: a type, a colon, then a summary.
 
 | Commit type | Effect |
 | --- | --- |
-| fix: | Patch release. 1.0.1 becomes 1.0.2. |
+| fix:, perf:, revert: | Patch release. 1.0.1 becomes 1.0.2. |
 | feat: | Minor release. 1.0.1 becomes 1.1.0. |
 | A commit with BREAKING CHANGE in its body | Major release. 1.0.1 becomes 2.0.0. |
-| chore:, docs:, styles:, refactor:, test: | No release. |
+| chore:, docs:, style:, refactor:, test:, build:, ci: | No release. |
 
-Two things follow from that table. A change that should ship a new version must use fix: or feat:, or nothing happens. And a batch of chore: commits will sit on main without producing a release, which is normal and not a fault.
+The configuration sets no rules of its own, so these are the defaults of the tool's angular preset. Two things follow from the table. A change that should ship a new version must use one of the three releasing types — in this repository that means fix: or feat: in practice — or nothing happens. And a batch of chore: commits will sit on main without producing a release, which is normal and not a fault.
 
 The summary line becomes an entry in CHANGELOG.md, so write it as something a reader would understand. "fix: sorting options" is fine. "fix: bump" tells nobody anything.
 
@@ -140,7 +142,8 @@ plugins: [
   ["@semantic-release/npm", { npmPublish: false }],
   ["@semantic-release/git", {
     assets: ["package.json", "CHANGELOG.md"],
-    message: "chore(release): \${nextRelease.version} [skip ci]",
+    message:
+      "chore(release): \${nextRelease.version} [skip ci]\\n\\n\${nextRelease.notes}",
   }],
   "@semantic-release/github",
 ]
@@ -152,7 +155,7 @@ The npm plugin has to run before the git plugin, because the git plugin only com
 
 npmPublish is false. Nothing is published to a package registry. The release is a git tag, a changelog entry, and a GitHub release.
 
-The release commit ends with [skip ci], which stops the pipeline triggering itself in an endless loop.
+The release commit's subject line ends with [skip ci], which stops the pipeline triggering itself in an endless loop; the commit body carries the full release notes.
 
 ### The version the footer shows
 

@@ -23,12 +23,7 @@ type StaticImageAsset = {
   height: number
 }
 
-type ImageDetails = Pick<PostImage, "alt" | "title" | "subtitle" | "credit">
-
-const alejandroCredit = {
-  label: "Alejandro Escamilla on Unsplash",
-  href: "https://unsplash.com/@alejandroescamilla",
-} as const
+type ImageDetails = Pick<PostImage, "alt" | "title" | "subtitle">
 
 function localImage(
   source: StaticImageAsset,
@@ -52,45 +47,32 @@ export const markdownReferenceImages = {
       alt: "Laptop, phone, notebook, and coffee arranged on a wooden table",
       title: "Workspace overview",
       subtitle: "Local WebP · Photo by Alejandro Escamilla",
-      credit: alejandroCredit,
     }
   ),
   "open-notebook": localImage(openNotebook, openNotebookThumbnail, {
     alt: "Person writing notes beside a laptop",
     title: "Open notebook",
-    subtitle: "Local WebP · Photo by Alejandro Escamilla",
-    credit: alejandroCredit,
-  }),
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",  }),
   "quiet-laptop": localImage(quietLaptop, quietLaptopThumbnail, {
     alt: "Open laptop resting on a warm wooden table",
     title: "Quiet laptop",
-    subtitle: "Local WebP · Photo by Alejandro Escamilla",
-    credit: alejandroCredit,
-  }),
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",  }),
   "team-table": localImage(teamTable, teamTableThumbnail, {
     alt: "Two people collaborating with a notebook and tablet at a café table",
     title: "Around the table",
-    subtitle: "Local WebP · Photo by Alejandro Escamilla",
-    credit: alejandroCredit,
-  }),
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",  }),
   "desk-overhead": localImage(deskOverhead, deskOverheadThumbnail, {
     alt: "Laptop, notebook, phone, and coffee seen from above",
     title: "Desk overhead",
-    subtitle: "Local WebP · Photo by Alejandro Escamilla",
-    credit: alejandroCredit,
-  }),
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",  }),
   "planning-desk": localImage(planningDesk, planningDeskThumbnail, {
     alt: "Laptop and handwritten planning notes on a wooden desk",
     title: "Planning desk",
-    subtitle: "Local WebP · Photo by Alejandro Escamilla",
-    credit: alejandroCredit,
-  }),
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",  }),
   "cutlery-study": localImage(cutleryStudy, cutleryStudyThumbnail, {
     alt: "Monochrome arrangement of overlapping forks",
     title: "Cutlery study",
-    subtitle: "Local WebP · Photo by Alejandro Escamilla",
-    credit: alejandroCredit,
-  }),
+    subtitle: "Local WebP · Photo by Alejandro Escamilla",  }),
   "everyday-essentials": localImage(
     everydayEssentials,
     everydayEssentialsThumbnail,
@@ -98,10 +80,6 @@ export const markdownReferenceImages = {
       alt: "Everyday accessories arranged in a precise flat lay",
       title: "Everyday essentials",
       subtitle: "Local WebP · Photo by Vadim Sherbakov",
-      credit: {
-        label: "Vadim Sherbakov on Unsplash",
-        href: "https://unsplash.com/@madebyvadim",
-      },
     }
   ),
   "remote-open-book": {
@@ -111,9 +89,7 @@ export const markdownReferenceImages = {
     height: 743,
     alt: "An open book resting on a wooden surface",
     title: "Open book",
-    subtitle: "Remote URL · Photo by Alejandro Escamilla",
-    credit: alejandroCredit,
-  },
+    subtitle: "Remote URL · Photo by Alejandro Escamilla",  },
 } as const satisfies PostImages
 
 const mixedSourceGallery = [

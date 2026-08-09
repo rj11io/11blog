@@ -98,7 +98,7 @@ export function PublicationBrowser({
             type="button"
             aria-pressed={tab === value}
             onClick={() => setTab(value)}
-            className="border-b-2 border-transparent px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:text-foreground aria-pressed:border-primary aria-pressed:text-foreground"
+            className="border-b-2 border-transparent px-4 py-3 text-sm font-semibold text-muted-foreground transition outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-pressed:border-primary aria-pressed:text-foreground"
           >
             {label}
           </button>
@@ -172,6 +172,7 @@ export function PublicationBrowser({
                 </span>
                 <div
                   className="inline-flex h-11 divide-x divide-border border border-border"
+                  role="group"
                   aria-label="Post layout"
                 >
                   <button
@@ -200,6 +201,7 @@ export function PublicationBrowser({
           {filtersOpen && availableTags.length > 0 && (
             <div
               className="mt-5 flex flex-wrap gap-2"
+              role="group"
               aria-label="Filter posts by tag"
             >
               {availableTags.map((tag) => (
@@ -208,7 +210,7 @@ export function PublicationBrowser({
                   type="button"
                   aria-pressed={selectedTags.includes(tag)}
                   onClick={() => toggleTag(tag)}
-                  className="border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
+                  className="border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition outline-none focus-visible:ring-2 focus-visible:ring-ring aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
                 >
                   {tag}
                 </button>
@@ -246,7 +248,7 @@ export function PublicationBrowser({
                   setQuery("")
                   setSelectedTags([])
                 }}
-                className="mt-3 text-sm font-semibold text-primary hover:underline"
+                className="mt-3 text-sm font-semibold text-primary outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Clear search and tags
               </button>

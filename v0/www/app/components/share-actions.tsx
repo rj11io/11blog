@@ -120,7 +120,7 @@ type ShareActionsProps = ShareLink & {
 /**
  * Quick share actions for any page.
  *
- * A server component on purpose. Five of the seven controls are plain links, so
+ * A server component on purpose. Six of the eight controls are plain links, so
  * they cost nothing and work with no JavaScript at all; only the copy button and
  * the device share sheet need the browser, and each is its own small client
  * component. That keeps a reading page close to sending no script of its own.

@@ -414,7 +414,7 @@ export function ImageLightbox({
             <button
               type="button"
               onClick={resetView}
-              aria-label="Reset zoom"
+              aria-label="Reset zoom and position"
               className="ml-1 p-2 text-white/80 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
               <RotateCcw className="size-4" aria-hidden="true" />

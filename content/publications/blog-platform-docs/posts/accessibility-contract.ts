@@ -62,7 +62,9 @@ That last one used to carry the tab role, and dropping it was deliberate. The ta
 
 The general rule this follows: pick the role your control's behaviour already matches, rather than the role that best describes what it looks like. Reaching for a richer role means committing to the keyboard behaviour that comes with it.
 
-Every icon-only control has a text label. The layout buttons announce "List view" and "Card view"; the filter toggle announces "Show filters" or "Hide filters" depending on its state; the theme button announces "Switch to light mode" or "Switch to dark mode". Every decorative icon inside them is marked aria-hidden.
+Every icon-only control has a text label. The layout buttons announce "List view" and "Card view"; the filter toggle announces "Show filters" or "Hide filters" depending on its state; the theme button announces "Switch to light mode" or "Switch to dark mode". Every decorative icon inside them is marked aria-hidden. One honest detail: until the page has hydrated, the theme button carries a generic "Toggle color theme", because the right wording depends on a mode the server cannot know.
+
+The mobile table of contents follows the accordion's pattern: a native details disclosure labelled "On this page", with the browser providing the toggle and the announcement.
 
 The share row is a group with a label, so a reader is told what the controls that follow are for before entering them, and each target names its destination rather than its logo: "Share on Bluesky", "Submit to Hacker News", "Share by email". The brand marks themselves are drawn with no title and marked aria-hidden, because the link around each one already says where it goes.
 
@@ -96,7 +98,7 @@ The empty state is not just a message. It includes a button that clears the sear
 
 Every interactive element in the codebase has a visible focus ring, using focus-visible so it appears for keyboard use without appearing on every mouse click. This is applied per element rather than globally, which means a new component needs it added; the base layer also sets a default outline colour as a safety net.
 
-The image viewer returns focus where it came from. Opening it from a gallery records which thumbnail was used, and closing it puts focus back on that thumbnail:
+The image viewer returns focus where it came from. Closing it from a gallery puts focus on the thumbnail of the image the reader ended on:
 
 ~~~tsx
 function handleLightboxOpenChange(open: boolean) {
@@ -110,7 +112,7 @@ function handleLightboxOpenChange(open: boolean) {
 }
 ~~~
 
-The frame delay matters: the dialog has to finish closing before the element behind it can take focus. Note that focus returns to the image the reader ended on, not the one they started with, which is the right behaviour after browsing a gallery.
+The frame delay matters: the dialog has to finish closing before the element behind it can take focus. Focus returns to the image the reader ended on, not the one they started with, which is the right behaviour after browsing a gallery. The single-image viewers — an inline post image, a zoomable cover — have no handler of their own and rely on the dialog's built-in focus return, which is enough when there is only one place to go back to.
 
 ## Motion
 
@@ -147,6 +149,7 @@ Configured images have required descriptions, as above. Beyond that:
 - Generated cover art is marked aria-hidden. It carries no information.
 - Galleries use list and listitem roles with an optional label from the content, so a reader is told how many images there are before entering.
 - Each gallery thumbnail announces its position: "Open image 3 of 8", followed by the image's title or description.
+- A zoomable cover image is a button with its own label, "Open cover image full screen", and a focus ring. It is the third way into the viewer, beside inline images and galleries.
 - Video embeds carry a title on the frame.
 - Task list checkboxes in Markdown are rendered read-only, so they can be read but not toggled into a state the content does not reflect.
 
@@ -156,9 +159,9 @@ The viewer is the most interactive part of the blog, so it is worth listing what
 
 - It is a dialog, with a title and a description that are visually hidden but read on opening. The description explains the available gestures, and mentions arrow-key browsing only when there is more than one image.
 - Left and right arrow keys move between images.
-- Every control has a text label: previous, next, zoom in, zoom out, reset zoom.
+- Every control has a text label: previous, next, zoom in, zoom out, the two reset controls below, and the dialog's close button.
 - Zoom buttons are properly disabled at the limits, rather than remaining active and doing nothing.
-- The current zoom level is shown as a percentage, and that display is itself a button that resets the zoom.
+- The current zoom level is shown as a percentage, and that display is itself a button labelled "Reset zoom". A second button beside it, "Reset zoom and position", does the same with a rotate icon; the labels differ so a reader is not offered the same name twice.
 - The position counter is a polite live region.
 - Focus returns to the thumbnail on close.
 
@@ -173,6 +176,8 @@ Stated plainly, because a contract with unstated gaps is misleading:
 **Heading order is not checked.** An author can skip from a second-level heading to a fourth and the build will pass, producing a table of contents that misrepresents the document. This is a rule the validator could enforce.
 
 **Prose links are not checked.** A link inside a post's body pointing at an address that does not exist builds without complaint. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
+
+**Not every animation has a reduced-motion form yet.** The viewer's zoom and pan transition, the hover arrow slides on cards, and the card hover colour transitions all run regardless of the setting. The rule in the Motion section is the contract; these are its known violations.
 
 ## When you add a component
 

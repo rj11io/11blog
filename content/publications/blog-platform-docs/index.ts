@@ -7,6 +7,7 @@ import { contentContract } from "./posts/content-contract"
 import { contentValidation } from "./posts/content-validation"
 import { designTokens } from "./posts/design-tokens"
 import { extendingTheRenderer } from "./posts/extending-the-renderer"
+import { feedsAndCrawlers } from "./posts/feeds-and-crawlers"
 import { markdownReference } from "./posts/markdown-reference"
 import { renderingModel } from "./posts/rendering-model"
 import { runningTheBlog } from "./posts/running-the-blog"
@@ -36,14 +37,14 @@ export const blogPlatformDocs: Publication = {
   description:
     "The complete documentation for 11blog: writing posts, the content contract, extending the renderer, and running the site.",
   created: "2026-07-01",
-  updated: "2026-08-04",
+  updated: "2026-08-09",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["Blog", "Technology", "Publishing", "Documentation"],
   synopsis:
-    "Fourteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with Working with the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
+    "Fifteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with Working with the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
   editorNotes:
     "Written inside the system it describes, which is the point: every post here is rendered by the platform it documents, so a broken claim shows up as a broken page. Read the post that covers a thing before changing that thing, and update it in the same commit.",
   // Editorial order, which is what the previous and next links follow. It runs
@@ -67,7 +68,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "How to add a publication or post using the blog's content format, with a checklist for each.",
       created: "2026-07-01",
-      updated: "2026-08-04",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -85,6 +86,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Every rule the content checker enforces, the message it throws, and what to change when it fails.",
       created: "2026-07-03",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -101,6 +103,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "What the blog's searches actually look at, why post bodies are not among them, and how tags behave.",
       created: "2026-07-04",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -117,6 +120,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "The author record, the two jobs its display name does, and what happens when you rename or remove one.",
       created: "2026-07-05",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -133,6 +137,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Why the writing lives outside the web application, what the boundary guarantees, and how to put a different front end in front of it.",
       created: "2026-07-06",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -149,12 +154,13 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Static pages, server components, the few interactive islands, and why content images use plain image elements.",
       created: "2026-07-07",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
       isDraft: true,
-      tags: ["Rendering", "Performance", "Architecture"],
+      tags: ["Rendering", "Performance", "Architecture", "Documentation"],
       content: renderingModel,
       coverImage: renderingModelCover.src,
     },
@@ -165,13 +171,13 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "The five-step recipe behind the blog's shortcodes, the directive path for containers, and how to add one of your own.",
       created: "2026-07-08",
-      updated: "2026-08-06",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
       isDraft: true,
-      tags: ["Rendering", "Markdown", "Extending"],
+      tags: ["Rendering", "Markdown", "Documentation"],
       content: extendingTheRenderer,
       coverImage: extendingTheRendererCover.src,
     },
@@ -182,12 +188,13 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "The named values behind the interface, the two that carry measured reasoning, and what to do when you add a component.",
       created: "2026-07-09",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
       isDraft: true,
-      tags: ["Design", "Theming", "Interface"],
+      tags: ["Design", "Theming", "Interface", "Documentation"],
       content: designTokens,
       coverImage: designTokensCover.src,
     },
@@ -198,7 +205,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "What the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, and the gaps that remain.",
       created: "2026-07-10",
-      updated: "2026-08-06",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -215,13 +222,13 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "How addresses are built and resolved, and the runbook for renaming a publication or post without breaking old links.",
       created: "2026-07-11",
-      updated: "2026-08-04",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
       isDraft: true,
-      tags: ["Routing", "URLs", "Operations"],
+      tags: ["Routing", "Operations", "Documentation"],
       content: urlsAndRedirects,
       coverImage: urlsAndRedirectsCover.src,
     },
@@ -232,14 +239,30 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Starting the site, the checks to run before committing, and how a commit message becomes a release.",
       created: "2026-07-12",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
       isDraft: true,
-      tags: ["Operations", "Release", "Tooling"],
+      tags: ["Operations", "Release", "Documentation"],
       content: runningTheBlog,
       coverImage: runningTheBlogCover.src,
+    },
+    {
+      postId: 415,
+      slug: "feeds-and-crawlers",
+      title: "Feeds, crawlers, and the 404 page",
+      excerpt:
+        "The RSS feed, the sitemap, the robots file, and the 404 page: what serves the site's machine readers, and why none of it needs maintaining.",
+      created: "2026-08-09",
+      authorIds: ["rj11io", "11ai"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: true,
+      tags: ["Operations", "Discovery", "Documentation"],
+      content: feedsAndCrawlers,
     },
     {
       postId: 413,
@@ -248,7 +271,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
       created: "2026-07-13",
-      updated: "2026-08-04",
+      updated: "2026-08-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,

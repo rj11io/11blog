@@ -20,7 +20,7 @@ Every other radius in the system is derived from it:
 --radius-xl: calc(var(--radius) * 1.4);
 ~~~
 
-Multiplying zero gives zero, so all six steps collapse to square. Setting --radius to 0.5rem would round the entire interface in proportion, including the shadcn components, which use these steps internally.
+The stylesheet derives seven steps this way, sm through 4xl; the four shown are the pattern. Multiplying zero gives zero, so every step collapses to square. Setting --radius to 0.5rem would round the entire interface in proportion, including the shadcn components, which use these steps internally.
 
 This is the pattern to copy: one value that means something, and derived values that follow it. It is also why you should not write a corner radius directly on a component. Doing so takes that component out of the system and it will not follow the lever.
 
@@ -56,6 +56,8 @@ Light mode values sit in :root. Dark mode values sit in a .dark block, and the c
 Most tokens simply flip: the background goes from near-white to near-black, the foreground the other way. Two of them carry an explanation, and both explanations are worth reading before you change anything.
 
 ### The accent colour is not the same green in both modes
+
+One naming trap before the numbers: the token that carries the green is --primary. A separate pair named --accent and --accent-foreground also exists — a near-white grey in light mode, a dark grey in dark mode — used by the generated components for hover surfaces. Reaching for bg-accent expecting the green gives you grey; the green is bg-primary. This section says "accent" in the design sense and --primary is the token it means.
 
 In light mode the accent is a deep green. In dark mode it is a light mint. These are not two shades of one colour picked by eye; the dark one exists to meet a contrast requirement.
 

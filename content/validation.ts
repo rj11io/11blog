@@ -45,7 +45,8 @@ function assertTags(tags: string[], label: string) {
     throw new Error(`${label} contains an empty tag`)
   }
   if (normalized.some((tag, index) => tag !== tags[index])) {
-    throw new Error(`${label} tags must not contain surrounding whitespace`)
+    // label already names the tags field, e.g. "rj11io.tags".
+    throw new Error(`${label} must not contain surrounding whitespace`)
   }
 
   const unique = new Set(normalized.map((tag) => tag.toLocaleLowerCase()))
@@ -91,10 +92,6 @@ function assertPostImage(image: PostImage, label: string) {
   if (image.title !== undefined) assertNonEmpty(image.title, `${label}.title`)
   if (image.subtitle !== undefined) {
     assertNonEmpty(image.subtitle, `${label}.subtitle`)
-  }
-  if (image.credit) {
-    assertNonEmpty(image.credit.label, `${label}.credit.label`)
-    assertUrl(image.credit.href, `${label}.credit.href`)
   }
 }
 
@@ -171,7 +168,13 @@ export function validatePublications(
     // A published publication needs at least one published post. Otherwise the
     // page renders with an empty post list and its browse card claims 0 posts,
     // which is never what was meant. The fix is to draft the publication too
-    // until one of its posts is ready.
+    // until one of its posts is ready. An empty posts array fails for the same
+    // reason: it would publish the same empty page.
+    if (!publication.isDraft && publication.posts.length === 0) {
+      throw new Error(
+        `${publication.pubId} is published but has no posts. Set isDraft to true on the publication until one is ready.`
+      )
+    }
     if (
       !publication.isDraft &&
       publication.posts.length > 0 &&

@@ -19,9 +19,9 @@ These are the only three. The content type is a path segment, so an unrecognised
 
 Each of the three is built ahead of time, like every other page on the blog, and each has its own page title and description.
 
-Nothing else about the view is in the address. The search text, the selected tags, and the sort order are all held in the page while you use it, and are forgotten as soon as you leave. A reader who has filtered down to something interesting cannot send that view to anyone; they can only send the content type. Worth knowing before you tell someone to "search for X on the browse page".
+Nothing else about the view is in the address. The search text and the selected tags are held in the page while you use it, and are forgotten as soon as you leave. A reader who has filtered down to something interesting cannot send that view to anyone; they can only send the content type. Worth knowing before you tell someone to "search for X on the browse page".
 
-The one exception is the card-or-list layout, which is remembered. It is stored in the browser under 11blog:view-mode and shared by every list on the site, so choosing list on the browse page also gives you list inside a publication, on this visit and the next. It is a reader's preference rather than part of a view worth sharing, which is why it lives in the browser and not the address.
+Two things are remembered rather than forgotten: the card-or-list layout and the sort order. The layout is stored in the browser under 11blog:view-mode and shared by every list on the site, so choosing list on the browse page also gives you list inside a publication, on this visit and the next. The sort choices are stored the same way; the Sorting section below covers them. These are a reader's preferences rather than part of a view worth sharing, which is why they live in the browser and not the address.
 
 Because the pages are built ahead of time, the server cannot know that preference, so a stored choice of list is briefly drawn as cards before the page corrects itself. See [How pages are rendered](/blog-platform-docs/rendering-model).
 
@@ -43,7 +43,7 @@ Searching authors matches the post count as text, which is an accident of how th
 
 ## How matching works
 
-The search is a plain substring test. All the fields above are joined together with spaces into one string, both that string and your query are lowercased, and the query has to appear somewhere inside it.
+The search is a plain substring test. All the fields above are joined together with spaces into one string — empty fields are dropped first — both that string and your query are lowercased, and the trimmed query has to appear somewhere inside it. A query of only spaces therefore matches everything.
 
 Three consequences follow.
 
@@ -108,7 +108,7 @@ The value still exists in the sort function, so the behaviour is reachable and c
 
 A publication page has its own search box, and it is deliberately narrower than the browse page. It matches only the **title, excerpt, and tags** of posts in that publication. It does not match the publication name, since every result shares it, and it does not match author names.
 
-Its tag list is drawn only from that publication's posts. It offers the same three sort options, sharing both the option list and the sort function with the browse page. Alongside the posts it shows tabs for the publication's synopsis and editor notes, and each tab appears only if that field is filled in.
+Its tag list is drawn only from that publication's posts. It offers the same five sort options, sharing both the option list and the sort function with the browse page. Alongside the posts, a row of section buttons switches to the publication's synopsis and editor notes, and each section is offered only if that field is filled in.
 
 ## The other ways in
 

@@ -1,7 +1,7 @@
 export const workingWithThePlatform = `
 # Working with the platform
 
-This publication documents 11blog, the platform this site runs on. Fourteen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
+This publication documents 11blog, the platform this site runs on. Fifteen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
 
 If you are here because you want your own blog rather than to work on this one, start with [Build your own blog](/online-presence/build-your-own-blog) instead.
 
@@ -31,13 +31,13 @@ Worth stating early so you can stop reading if it is the wrong tool.
 
 **It cannot publish without a build.** Adding a post to a running site is not possible by design. If you need to publish from a phone at short notice, this is the wrong shape.
 
-**It has no comments, no newsletter, and no analytics beyond page views.** Those are deliberate omissions rather than a roadmap.
+**It has no comments and no newsletter.** Those are deliberate omissions rather than a roadmap. Page views are counted, and that is the whole of the measurement: the site ships Vercel Analytics, a small script rendered from the root layout, and nothing else watches a reader.
 
 What you get in exchange: pages that are files, content that outlives the renderer, a build that refuses to ship invalid data, and almost no JavaScript on a reading page.
 
 ## Where to start
 
-Four groups, in the order they build on each other. Every post links onward to whatever it depends on, so you can also just follow the previous and next links from here.
+Four groups, in the order they build on each other. Every post links onward to whatever it depends on. The previous and next links follow this same order through the publication — though not from this post, which sits near the end of the sequence as the newest-but-one; start from Adding a publication or post to walk the groups in order.
 
 ### Writing
 
@@ -70,6 +70,7 @@ Start here if you are running the thing.
 
 - [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects) covers how addresses are built and the runbook for renaming anything without breaking old links.
 - [Running and releasing the blog](/blog-platform-docs/running-the-blog) covers the dev server, the checks to run before committing, and how a commit message becomes a release.
+- [Feeds, crawlers, and the 404 page](/blog-platform-docs/feeds-and-crawlers) covers the RSS feed, the sitemap, the robots file, and the page a dead link lands on.
 
 ## Three things that catch everyone
 

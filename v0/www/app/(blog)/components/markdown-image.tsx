@@ -1,9 +1,18 @@
 "use client"
 
 import { Maximize2 } from "lucide-react"
+import dynamic from "next/dynamic"
 import { useState } from "react"
 
-import { ImageLightbox } from "@/components/media/image-lightbox"
+// Loaded on first click, same as the cover image: a reader who never enlarges
+// an image never downloads the dialog.
+const ImageLightbox = dynamic(
+  () =>
+    import("@/components/media/image-lightbox").then(
+      (module) => module.ImageLightbox
+    ),
+  { ssr: false }
+)
 
 export function MarkdownImage({
   src,
@@ -56,13 +65,15 @@ export function MarkdownImage({
         </span>
       </button>
 
-      <ImageLightbox
-        images={[image]}
-        activeIndex={0}
-        open={open}
-        onActiveIndexChange={() => undefined}
-        onOpenChange={setOpen}
-      />
+      {open && (
+        <ImageLightbox
+          images={[image]}
+          activeIndex={0}
+          open={open}
+          onActiveIndexChange={() => undefined}
+          onOpenChange={setOpen}
+        />
+      )}
     </>
   )
 }

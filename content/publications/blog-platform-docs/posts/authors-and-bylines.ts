@@ -17,7 +17,9 @@ They all live in a single file: content/authors.ts.
   tags: ["Systems", "Interfaces", "Product"],
   links: [
     { label: "Website", url: "https://rj11.io" },
+    { label: "CV", url: "https://cv.rj11.io" },
     { label: "GitHub", url: "https://github.com/rj11io" },
+    { label: "AI Skills", url: "https://ai.rj11.io" },
   ],
 }
 ~~~
@@ -38,11 +40,11 @@ Posts refer to an author by id, in their authorIds list. Nothing else connects t
 
 This is the field most likely to catch you out, because it is used in two very different ways.
 
-First, it is the **avatar fallback**. When an author has no photograph, their displayName is drawn inside a small square: nine or twelve pixels of type on a byline, fourteen on a card, and much larger on the author page. It is sized as initials, so two or three characters is the working limit. Put a full name in there and it will overflow its square on every card on the site.
+First, it is the **avatar fallback**. When an author has no photograph, their displayName is drawn inside a small square: twelve pixels of type on a byline, fourteen on a card, and much larger on the author page. It is sized as initials, so two or three characters is the working limit. Put a full name in there and it will overflow its square on every card on the site.
 
 Second, it appears **in a sentence**. The author page heads its list of work with "Latest posts by" followed by the displayName, and the browse page shows it as a small badge. So the value also has to read acceptably in prose. "Latest posts by RJ" is fine. "Latest posts by R" is not.
 
-Initials are the format that satisfies both jobs. The three current authors use RJ, MC, and SP.
+Initials are the format that satisfies both jobs. The two current authors use RJ and AI.
 
 ## Photographs, and one gap
 
@@ -78,7 +80,7 @@ postCount: postPreviews.filter((post) =>
 
 So the count follows the posts and cannot disagree with them. It is shown on the author card, on the author page, and as a badge in browse, and it is one of the fields the authors search matches.
 
-Ordering differs by surface: the landing page lists authors by post count, most first, with names breaking a tie; browse always lists them by name.
+Ordering differs by surface: the landing page lists authors by post count, most first, with names breaking a tie. Browse defaults to the same most-posts order and offers least posts, A-Z, and Z-A as alternatives — see [Search, tags, and discovery](/blog-platform-docs/search-and-discovery).
 
 ## Bylines
 

@@ -1,11 +1,17 @@
 "use client"
 
+import dynamic from "next/dynamic"
 import { useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
 import type { ImageListVariant, PostImage } from "@content/types"
 
-import { ImageLightbox } from "./image-lightbox"
+// Loaded on first click, same as the cover image: a reader who never enlarges
+// an image never downloads the dialog.
+const ImageLightbox = dynamic(
+  () => import("./image-lightbox").then((module) => module.ImageLightbox),
+  { ssr: false }
+)
 
 export type { ImageListVariant } from "@content/types"
 
@@ -173,13 +179,15 @@ export function MultiImageListBase({
         })}
       </div>
 
-      <ImageLightbox
-        images={images}
-        activeIndex={activeIndex}
-        open={lightboxOpen}
-        onActiveIndexChange={setActiveIndex}
-        onOpenChange={handleLightboxOpenChange}
-      />
+      {lightboxOpen && (
+        <ImageLightbox
+          images={images}
+          activeIndex={activeIndex}
+          open={lightboxOpen}
+          onActiveIndexChange={setActiveIndex}
+          onOpenChange={handleLightboxOpenChange}
+        />
+      )}
     </>
   )
 }

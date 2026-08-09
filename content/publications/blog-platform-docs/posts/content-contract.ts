@@ -1,7 +1,7 @@
 export const contentContract = `
 # The content contract
 
-The writing on this blog does not live inside the website. It lives in a directory next to it, in plain TypeScript, and the website imports it. This post explains why, what the boundary guarantees, and what you would have to do to put a different website in front of the same content.
+The writing on this blog does not live inside the website. It lives in a directory next to it, in plain TypeScript, and the website imports it. This post explains why, what the boundary guarantees, and what you would have to do to put a different website in front of the same content. For the map of the whole documentation set, see [Working with the platform](/blog-platform-docs/working-with-the-platform).
 
 ## Two directories, one boundary
 
@@ -11,6 +11,8 @@ The writing on this blog does not live inside the website. It lives in a directo
 └── v0/www/           the website that renders it
 ~~~
 
+The v0 directory also holds branding assets, planning notes, and the cover-image skills; www is the part that renders.
+
 The content directory has no dependency on Next.js, on React, or on anything in v0/www. It is types, data, a small amount of derivation, and a validator. You could import it from a script, a different framework, or a test with nothing else installed.
 
 The dependency runs one way only: v0/www imports from content, and content imports nothing from v0/www. That single rule is the contract. Everything else in this post follows from it.
@@ -19,7 +21,7 @@ The v0 in the path is a statement of intent. The website is version zero of a pr
 
 ## How the boundary is wired
 
-Two settings in v0/www/tsconfig.json do the work:
+Two settings in v0/www/tsconfig.json do the work — shown here trimmed to the entries that wire the boundary; the real file has more aliases and include globs of Next.js's own:
 
 ~~~json
 "paths": {
@@ -38,7 +40,7 @@ content/registry.ts is the entry point. Pages import from it. Nothing in the web
 
 The registry does five things, in this order.
 
-**It assembles.** It imports each publication and the author list into a private array called authoredPublications, which is everything that has been written, drafts included.
+**It assembles.** It imports each publication into a private array called authoredPublications, which is everything that has been written, drafts included, and re-exports the author list as blogAuthors.
 
 **It validates.** It calls the checker at the top level of the module, so importing the registry validates the content. A rule failure is a build failure. Validation runs on the full authored list, before anything is hidden, so a draft is held to the same rules as a published post. See [Content validation rules](/blog-platform-docs/content-validation).
 
@@ -81,10 +83,11 @@ export type PostPreview = Omit<
 export type PublicationPreview = Omit<Publication, "posts"> & {
   href: string
   postCount: number
+  authors: AuthorPreview[]
 }
 ~~~
 
-Because they are built with Omit from the full types, they cannot drift. Add a field to Post and the preview gains it automatically unless you exclude it. There is no second list of field names to keep in step.
+Because they are built with Omit from the full types, the types cannot drift: add a field to Post and the preview type gains it automatically unless you exclude it. The values are only half-covered by the same guarantee. publicationPreviews is built with a rest spread, so it follows the type on its own; toPostPreview in the registry writes each field out by hand, so adding a field to Post breaks the typecheck there until you add the line. The compiler catches the omission either way — nothing drifts silently — but there is one function to update, not none.
 
 The practical payoff is on the browse page, which is a client component. Everything it receives is serialised and sent to the browser. Handing it postPreviews rather than allPosts keeps every post body out of that payload.
 
@@ -133,10 +136,10 @@ These two live in the content layer rather than the website because they are fac
 
 Because the dependency runs one way, a different front end is a realistic piece of work rather than a rewrite. It would need to provide:
 
-- **A way to import a .md file as a string.** The type declaration in content/markdown.d.ts already describes the shape; the bundler needs a loader that produces it. The current one is five lines.
-- **A way to import an image file and read its source, width, and height.** Post image modules rely on this, and it is the only other build-time capability the content assumes.
-- **The five routes.** Landing, browse, publication, post, author. content/routes.ts already defines their shapes.
-- **A Markdown renderer** that handles standard Markdown, the GitHub extensions, and the three custom shortcodes. See [Extending the renderer](/blog-platform-docs/extending-the-renderer).
+- **A way to import a .md file as a string.** The type declaration in content/markdown.d.ts already describes the shape; the bundler needs a loader that produces it. The current one is three lines.
+- **A way to import an image file and read its source, width, and height.** Post image modules rely on this, and it is the only other build-time capability the content assumes. One honest caveat: the type declaration that makes those image imports check today comes from Next.js, through the global reference in v0/www/next-env.d.ts, not from the content directory. A replacement front end must supply its own equivalent declaration.
+- **The five routes.** Landing, browse, publication, post, author. content/routes.ts already owns their addresses through its link builders; the shape of each page is the front end's to design.
+- **A Markdown renderer** that handles standard Markdown, the GitHub extensions, the three custom shortcodes, the accordion container, and the bare YouTube URL form. See [Extending the renderer](/blog-platform-docs/extending-the-renderer).
 
 Everything else, including all validation, comes with the content.
 

@@ -1,7 +1,7 @@
 export const addingContent = `
 # Adding a publication or post
 
-This guide explains how to add a publication or post to the blog's internal content system. For examples of the Markdown syntax and custom renderer behavior, see the [Markdown reference](/blog-platform-docs/markdown-reference) post.
+This guide explains how to add a publication or post to the blog's internal content system. For examples of the Markdown syntax and custom renderer behavior, see the [Markdown reference](/blog-platform-docs/markdown-reference) post. New to the platform entirely? [Working with the platform](/blog-platform-docs/working-with-the-platform) maps all the documentation first.
 
 ## Content architecture
 
@@ -10,6 +10,7 @@ Content lives in the repository-level content directory, outside the Next.js app
 ~~~text
 content/
 ├── authors.ts
+├── drafts.ts
 ├── markdown.d.ts
 ├── registry.ts
 ├── routes.ts
@@ -19,7 +20,7 @@ content/
     └── publication-id/
         ├── assets/
         │   ├── publication-cover.png
-        │   ├── legacy-post-cover.png
+        │   ├── first-post-cover.png
         │   └── SOURCES.md
         ├── index.ts
         └── posts/
@@ -34,7 +35,7 @@ content/
                 └── modular-post.images.ts
 ~~~
 
-The registry imports every publication, and each publication imports its posts. The application imports the registry through the content boundary and generates the browse, publication, author, and post pages from it.
+The registry imports every publication, and each publication imports its posts. The application imports the registry through the content boundary and generates the landing, browse, publication, author, and post pages from it.
 
 Posts support two layouts. Existing posts can remain single TypeScript files, while posts that need dedicated Markdown or related resources can use a directory module. Both layouts use the same extensionless import path:
 
@@ -73,20 +74,14 @@ export const publicationName: Publication = {
 
 The required publication fields are relId, pubId, title, description, created, isNSFW, isNew, isFeatured, isDraft, tags, and posts. The relId must be a unique positive integer. The pubId must be unique and URL-safe. Dates use YYYY-MM-DD format, and updated cannot be earlier than created. Set isDraft to true while the publication is unfinished; see Drafts below.
 
-Add the publication to the authoredPublications array in content/registry.ts:
+Add the publication to the authoredPublications array in content/registry.ts, in the position it should appear when publications are listed in editorial order:
 
 ~~~ts
 import { publicationName } from "./publications/publication-id"
 
 const authoredPublications: Publication[] = [
   blogPlatformDocs,
-  onlinePresence,
-  projectPostmortems,
-  techTutorials,
-  personalNotes,
-  aiBenchmarks,
-  aiProductEngineering,
-  aiSkillsSpotlight,
+  // …the existing publications, in their editorial order…
   publicationName,
 ]
 ~~~
@@ -104,6 +99,7 @@ import type { Post } from "../../../../types"
 
 import content from "./first-post.md"
 import { firstPostImageLists, firstPostImages } from "./first-post.images"
+import postCover from "./assets/first-post-og-cover.png"
 
 export const firstPost = {
   postId: 501,
@@ -118,13 +114,14 @@ export const firstPost = {
   isFeatured: false,
   isDraft: false,
   tags: ["Topic", "Practice"],
+  coverImage: postCover.src,
   content,
   images: firstPostImages,
   imageLists: firstPostImageLists,
 } satisfies Post
 ~~~
 
-The .md file contains only the raw Markdown body, including its leading H1. Raw Markdown imports are typed by content/markdown.d.ts and converted to strings by the application's Markdown loader.
+Both satisfies Post and a plain Post annotation type-check; the Markdown reference post uses the annotation. The .md file contains only the raw Markdown body, including its leading H1. Raw Markdown imports are typed by content/markdown.d.ts and converted to strings by the application's Markdown loader.
 
 The optional first-post.images.ts file contains the post's named single images and multi-image list configurations. Local files are statically imported from the sibling assets directory. The build gives them hashed URLs, while the content contract remains independent of the rendering application.
 
@@ -152,10 +149,6 @@ export const firstPostImages = {
     alt: "Descriptive alternative text",
     title: "Remote image",
     subtitle: "External HTTPS URL",
-    credit: {
-      label: "Photographer name",
-      href: "https://example.com/original-photo",
-    },
   },
 } satisfies PostImages
 
@@ -179,7 +172,7 @@ Reference configured single images and lists from the post's Markdown using thei
 @[image-list](highlights)
 ~~~
 
-The renderer resolves each key only against the current post. A PostImage uses src for the larger lightbox source and thumbnailSrc for its inline or gallery preview. Width and height reserve the correct aspect ratio before the file loads. Local and remote sources then share the same native img rendering, fullscreen lightbox, zoom, and pan behavior; the blog intentionally does not use next/image.
+The renderer resolves each key only against the current post. A PostImage uses src for the larger lightbox source and thumbnailSrc for its inline or gallery preview. Width and height reserve the correct aspect ratio before the file loads. Local and remote sources then share the same native img rendering, fullscreen lightbox, zoom, and pan behavior. Content images are plain img elements rather than next/image, which would need every remote host allow-listed up front; author photographs, which always come from the public directory, are the one place the site uses next/image. Put the photographer, original page, and licence for a downloaded image in the SOURCES.md beside it — that file is the attribution record.
 
 Remote image sources must use HTTPS. Prefer explicit thumbnail and full-size CDN URLs over loading an original multi-megabyte file. Because native img elements are used, remote hosts do not need a Next.js image allowlist. Keep a SOURCES.md file beside downloaded assets with the photographer, original page, license, and download date.
 
@@ -189,7 +182,7 @@ Standard Markdown can also reference a remote image URL directly:
 ![Remote image description](https://images.example.com/photo.webp "Optional title")
 ~~~
 
-Direct Markdown URLs are useful for simple external-image behavior. The named image registry is preferred when dimensions, separate thumbnail and lightbox sources, credits, or reuse inside an image list are important.
+Direct Markdown URLs are useful for simple external-image behavior. The named image registry is preferred when dimensions, separate thumbnail and lightbox sources, or reuse inside an image list are important.
 
 The list configuration selects the quilted or masonry layout and one of the image-only, title-inside, or title-below variants. A list can mix local and remote entries, and opening any image uses the shared carousel.
 
@@ -197,13 +190,17 @@ If the post has no configured images or multi-image lists, omit images, imageLis
 
 ### Legacy single-file format
 
-Existing posts can continue storing their body at content/publications/publication-id/posts/post-slug.ts:
+Existing posts can continue storing their body at content/publications/publication-id/posts/post-slug.ts, exporting the Markdown body directly as a TypeScript template string, including its leading H1:
 
 ~~~ts
-export const firstPost = markdownBody
+export const firstPost = \`
+# Post title
+
+The Markdown body.
+\`
 ~~~
 
-Define markdownBody as a TypeScript template string containing the Markdown body, including its leading H1. Add its metadata and imported content to the publication's posts array:
+Add its metadata and imported content to the publication's posts array:
 
 ~~~ts
 {
@@ -225,7 +222,9 @@ Define markdownBody as a TypeScript template string containing the Markdown body
 
 Legacy and modular posts can coexist in the same publication. A modular post is added directly to posts, while a legacy Markdown export is assigned to the content field of its publication-owned post object.
 
-The required post fields are postId, title, created, authorIds, isNSFW, isNew, isFeatured, isDraft, tags, and content. Use a slug whenever possible; it becomes the public URL. The postId must be a unique positive integer within the publication. Every author ID must exist in content/authors.ts, and every post must have at least one author and non-empty content.
+The required post fields are postId, title, created, authorIds, isNSFW, isNew, isFeatured, isDraft, and tags. The type marks content optional, but the validator rejects a post without a non-empty body, so in practice content is required as well — the build catches it rather than the compiler. Use a slug whenever possible; it becomes the public URL. The postId must be a unique positive integer within the publication. Every author ID must exist in content/authors.ts, and every post must have at least one author.
+
+Two of the required flags are easy to set and forget. isNew puts a New badge on cards and the post page, and nothing ages it out: clear it by hand when the post stops being new. isNSFW puts an Adult badge on the same surfaces and does nothing else — it hides nothing.
 
 ## Drafts
 
@@ -247,7 +246,7 @@ To share one, set SHOW_DRAFTS=1 on a Vercel preview environment. That publishes 
 
 A draft cannot also be featured. The two contradict each other, and the symptom is confusing rather than obvious: the featured list is built from content the filter has already removed, so a post explicitly promoted to the home page is simply absent from it.
 
-A published publication cannot consist entirely of drafts. It would render as a page with no posts and a browse card claiming 0 posts. Set isDraft on the publication as well until one of its posts is ready.
+A published publication needs at least one published post. An empty posts array and a posts array made entirely of drafts both fail, because either would render as a page with no posts and a browse card claiming 0 posts. Set isDraft on the publication as well until one of its posts is ready.
 
 ### One thing to check by hand
 
@@ -257,7 +256,7 @@ Nothing validates links written in post prose, so drafting a post that another p
 
 Start the body with one H1 matching the post title. The standard post page uses the post title for the page header and removes this leading H1 from the rendered body, so it should not be repeated in the article content.
 
-Use H2 through H5 for article sections. These headings receive stable IDs and appear in the table of contents. Duplicate headings receive numbered IDs. H6 is parsed and rendered by Markdown but is not included in the table of contents.
+Use H2 through H5 for article sections. These headings receive stable IDs and appear in the table of contents. Duplicate headings receive numbered IDs. H6 is parsed and rendered by Markdown but is not included in the table of contents. A heading inside an accordion renders as a heading but gets no anchor ID and stays out of the table of contents, because a copied link would point into collapsed content.
 
 Leave a blank line between paragraphs, headings, lists, quotes, tables, and code blocks. Raw .md files can use backticks normally. In a legacy TypeScript template string, escape any literal backticks used inside the post body.
 
@@ -273,7 +272,17 @@ The blog also supports a custom YouTube embed. Use a standalone shortcode with a
 @[youtube](dQw4w9WgXcQ)
 ~~~
 
-YouTube watch, embed, and youtu.be URLs are also recognized when they form a standalone paragraph.
+YouTube watch, embed, and youtu.be URLs are also recognized when they form a standalone paragraph, so pasting a video link on its own line embeds the player whether or not you meant it to. Put the link inside a sentence, or write it as a Markdown link, to keep it a plain link.
+
+The blog also supports an accordion, a collapsible section whose body is ordinary Markdown:
+
+~~~text
+:::accordion[The visible summary line]
+Any Markdown, including the other components.
+:::
+~~~
+
+The [Markdown reference](/blog-platform-docs/markdown-reference) shows both forms and what belongs inside one.
 
 ## Links and images
 
@@ -317,7 +326,7 @@ export const publicationName: Publication = {
 }
 ~~~
 
-**The site's public directory**, at v0/www/public/static/. For files belonging to the site rather than to any publication: author photographs, and anything referenced from content/authors.ts. These are addressed root-relative, with the public part of the path dropped, and grouped one directory per purpose:
+**The site's public directory**, at v0/www/public/static/. For files belonging to the site rather than to any publication: author photographs and anything else referenced from content/authors.ts, plus the site-wide link-preview fallback under static/og/. These are addressed root-relative, with the public part of the path dropped, and grouped one directory per purpose:
 
 ~~~text
 v0/www/public/
@@ -338,7 +347,7 @@ A coverImage does two jobs. It is the cover shown on the site, and it is the Ope
 
 Draw a cover at 1200 by 630 if you can. That is the frame most social networks show, and it is the ratio the banner at the top of a page now uses, so a cover at that size is shown whole rather than cropped.
 
-For a branded post cover, use the 11blog-generate-post-covers skill under v0/skills/. It generates the source in the separate 11brands checkout configured by the gitignored .env.brand-assets.local file, detects whether the post uses the single-file or directory-module layout, and copies a new versioned image into the right assets directory. When one change needs several covers in the same style, pass them as one batch: that creates one generation folder and one manifest for the intended set instead of one folder per file. Run the 11blog-verify-post-covers skill afterwards, batching the same set; it checks that every consumer is byte-identical to its source, is 1200 by 630, and contains only the selected brand palette. Record the shared source generation in the nearest SOURCES.md files and keep older versioned covers because shared previews cache image URLs.
+For a branded post cover, use the 11blog-generate-post-covers skill under v0/skills/. It generates the source in the separate 11brands checkout configured by the gitignored .env.brand-assets.local file, detects whether the post uses the single-file or directory-module layout, and copies a new versioned image into the right assets directory. When one change needs several covers in the same style, pass them as one batch: that creates one generation folder and one manifest for the intended set instead of one folder per file. Run the 11blog-verify-post-covers skill afterwards, batching the same set; it checks that every consumer is byte-identical to its source, is 1200 by 630, and contains only the selected brand palette. Record the shared source generation in the nearest SOURCES.md files and keep older versioned covers because shared previews cache image URLs. Publication covers have the same pair of skills: 11blog-generate-publication-covers and 11blog-verify-publication-covers.
 
 Other shapes still appear, and a cover has to survive them: the sixteen-by-nine card in a list, and the square thumbnail beside a row or a previous and next link. Both take a slice out of the middle. So keep anything that has to be readable — a title above all — near the centre, and treat the outer edges as decoration you can afford to lose.
 
@@ -371,18 +380,18 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 9. Check component syntax against the [Markdown reference](/blog-platform-docs/markdown-reference) reference.
 10. Add the post to its publication's posts array, in the position it should read.
 11. Set isDraft to true if the post is not ready to be read, and remember that build will then leave it out. Set isFeatured to false while it is a draft; the two together fail validation.
-12. Run typecheck, lint, and build. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
+12. Run typecheck, lint, and build, all from v0/www — the root package.json has none of these scripts. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
 
 ### Adding a publication
 
 1. Create content/publications/publication-id/index.ts, using a lowercase kebab-case directory name and matching pubId.
 2. Use an unused positive relId, a pubId that is not authors, browse, or publications, and valid ISO dates.
 3. Write the title, description, and tags. Add the optional synopsis and editorNotes if the publication needs them.
-4. Add a coverImage, imported from the publication's assets directory, with a SOURCES.md recording where it came from.
-5. Add at least one post, following the post checklist above.
+4. Add a coverImage, imported from the publication's assets directory, with a SOURCES.md recording where it came from. The 11blog-generate-publication-covers and 11blog-verify-publication-covers skills under v0/skills/ produce and check one.
+5. Add at least one post, following the post checklist above. Validation rejects a published publication with no posts.
 6. Import the publication in content/registry.ts and add it to the authoredPublications array.
 7. Set isDraft to true if the publication is not ready. Do the same if every post in it is still a draft, which validation requires rather than suggests.
-8. Run typecheck, lint, and build.
+8. Run typecheck, lint, and build from v0/www.
 
 For the rules behind each of these steps, and the exact message thrown when one fails, see [Content validation rules](/blog-platform-docs/content-validation).
 `

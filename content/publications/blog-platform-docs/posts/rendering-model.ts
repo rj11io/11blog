@@ -5,7 +5,7 @@ Every page on this blog is built before anyone visits it. Nothing is assembled p
 
 ## Everything is built ahead of time
 
-The three routes that vary by content each declare their addresses at build time and refuse anything else:
+The four routes that vary by content each declare their addresses at build time and refuse anything else:
 
 ~~~tsx
 export const dynamicParams = false
@@ -18,7 +18,7 @@ export function generateStaticParams() {
 }
 ~~~
 
-The publication and author pages do the same with their own lists. dynamicParams set to false means an address that was not listed is a 404 rather than something rendered on demand. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
+The publication, author, and browse routes do the same with their own lists. dynamicParams set to false means an address that was not listed is a 404 rather than something rendered on demand. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects). Each of these routes also exports generateMetadata, which builds the page title, description, and link-preview tags from the same registry data at the same time.
 
 This is possible because the content is imported code, not fetched data. The registry has already assembled and validated everything by the time any page function runs, so a page is a function from data that is already in memory to markup.
 
@@ -28,7 +28,7 @@ The trade is simple and worth stating plainly: publishing requires a build. Ther
 
 Components run on the server unless they say otherwise. A component becomes a browser component only by starting its file with "use client", and that pulls it, and everything it imports, into the code sent to the browser.
 
-Nineteen entries opt in. Each has a reason:
+Eighteen hand-written entries opt in. Each has a reason:
 
 | File | Why it runs in the browser |
 | --- | --- |
@@ -46,21 +46,22 @@ Nineteen entries opt in. Each has a reason:
 | quilted-image-list.tsx | Opens the viewer from a quilted gallery |
 | theme-provider.tsx | Reads and sets the colour mode |
 | theme-toggle.tsx | The button that switches mode |
-| media/index.ts | Re-exports the components above |
 | hooks/use-persisted-preference.ts | Builds the store behind each remembered preference |
 | hooks/use-view-mode.ts | The list-or-cards choice |
 | hooks/use-sort-order.ts | The content and author sort choices |
 | hooks/use-mounted.ts | Answers whether the first render is over |
 
-Everything else, including the whole Markdown renderer and every page, runs only on the server.
+The vendored components under components/ui carry the same directive, because that is how they arrive from their generator. Most are never imported and so never ship; one genuinely does — the dialog, which the image viewer is built on, reaches the browser with it. See [Design tokens and theming](/blog-platform-docs/design-tokens) for what that directory is.
 
-The pattern to notice: the interactive parts are small and pushed to the leaves. A page is a server component that renders mostly server components, with a handful of interactive islands inside it. The post page sends no JavaScript of its own; it sends the sidebar, the two copy buttons, the share button, and the image viewer.
+Everything else, including the Markdown renderer itself and every page, runs only on the server. The renderer still emits interactive islands — an inline image, a gallery — but those are the client components in the table, imported at the leaves; the parsing and the component map never ship.
+
+The pattern to notice: the interactive parts are small and pushed to the leaves. A page is a server component that renders mostly server components, with a handful of interactive islands inside it. The post page sends no JavaScript of its own; what ships is the sidebar, the cover image, a copy button per fenced code block, the copy-link and share-sheet buttons in the share row, and the image components for any post that has images.
 
 ### The share row is a worked example
 
 The share actions at the foot of a post are the clearest case of pushing interaction to the leaves, because they are a mixture.
 
-Six of the seven controls are links to a page a social network owns. A link needs no JavaScript, so the component that renders them, v0/www/app/components/share-actions.tsx, is an ordinary server component. Two controls do need the browser: one writes the address to the clipboard, the other opens the device's share sheet. Each is a separate file, each marked "use client", and each is small.
+Six of the eight controls are links to a page a social network owns. A link needs no JavaScript, so the component that renders them, v0/www/app/components/share-actions.tsx, is an ordinary server component. Two controls do need the browser: one writes the address to the clipboard, the other opens the device's share sheet. Each is a separate file, each marked "use client", and each is small.
 
 Written the obvious way, as one browser component wrapping everything, the whole row would have shipped as JavaScript and the six links would have stopped working for anyone whose scripts had not loaded yet. Split this way, the row renders and works from the prerendered markup, and the two buttons arrive later.
 
@@ -85,7 +86,7 @@ export async function CodeBlock({ code, language }) {
 }
 ~~~
 
-Shiki, the highlighter, runs during the build. Its themes and language grammars are large, and none of it is sent to the browser: the reader receives already-coloured markup.
+Shiki, the highlighter, runs during the build. Its themes and language grammars are large, and none of it is sent to the browser: the reader receives already-coloured markup. The block does ship two small things of its own — the header bar's language label and the copy button, which is a client component — but the highlighting itself never does.
 
 The markup carries both a light and a dark colour on every token, and the stylesheet picks between them, so switching mode recolours code without re-highlighting anything. See [Design tokens and theming](/blog-platform-docs/design-tokens).
 
@@ -93,7 +94,7 @@ Unknown languages fall back to plain text rather than failing, so a fenced block
 
 ## The image viewer loads on first click
 
-The fullscreen viewer is the largest interactive component in the codebase, and most pages that could open it never do. So it is not part of the initial download:
+The fullscreen viewer is the largest interactive component in the codebase, and most pages that could open it never do. So it is not part of the initial download. The same wrapper appears in every component that can open it — the cover image, the inline post image, and the galleries — and each renders the viewer only once it has been opened:
 
 ~~~tsx
 const ImageLightbox = dynamic(
@@ -102,7 +103,7 @@ const ImageLightbox = dynamic(
 )
 ~~~
 
-It is fetched when a reader first clicks a zoomable image. The comment in the file notes the reason: list and card surfaces are never zoomable, so they should not carry the dialog at all.
+It is fetched when a reader first clicks a zoomable image. The comment in each file notes the reason: a reader who never enlarges an image should never download the dialog.
 
 ssr set to false means it is not rendered on the server either, which is correct for something that only exists in response to a click.
 
@@ -116,7 +117,7 @@ Author photographs, which live in the site's own public directory and are known 
 
 The cost of that choice is that three things become manual.
 
-**Dimensions.** Post images carry width and height in their configuration, which is why those fields are required and validated. Without them the page would jump as each image arrives.
+**Dimensions.** Post images carry width and height in their configuration, which is why those fields are required and validated. Without them the page would jump as each image arrives. That protection covers configured images only: a plain Markdown image written as ![alt](url) passes no dimensions through, so it can still shift the page as it loads — one more reason the named-image form is preferred.
 
 **Thumbnails.** An image can carry a separate smaller source for its inline or gallery appearance, with the full-size file loaded only in the viewer. There is no automatic resizing, so both files are prepared by hand.
 
@@ -180,7 +181,7 @@ Passing the default there is what keeps the markup identical on both sides, so t
 
 The visible cost is a flash: a reader who prefers list sees cards for one frame. Cards and list produce genuinely different markup rather than the same markup styled differently, so no amount of CSS can fix that ahead of hydration. The alternative would be a blocking script in the document head, as the colour theme uses, and that is not worth it for a layout toggle.
 
-Two smaller details in that store, and the reason it is worth having one rather than three copies. The stored value is validated against the list of allowed values on the way in, so a hand-edited or stale entry falls back to the default instead of rendering nothing. And both the read and the write are wrapped in try blocks, because storage throws outright in some privacy modes; a blocked browser loses the memory but keeps a working page. Getting those two right once is the whole argument for the factory.
+Three smaller details in that store, and the reason it is worth having one rather than three copies. The stored value is validated against the list of allowed values on the way in, so a hand-edited or stale entry falls back to the default instead of rendering nothing. Both the read and the write are wrapped in try blocks, because storage throws outright in some privacy modes; a blocked browser loses the memory but keeps a working page. And the store listens for the browser's storage event, so changing a preference in one tab updates every other open tab. Getting those right once is the whole argument for the factory.
 
 Note what is passed in: previews, not full posts. Everything handed to a browser component is serialised and sent over the network, so the preview types keep every post body out of that payload.
 
@@ -204,7 +205,7 @@ export function createHeadingIdFactory() {
 }
 ~~~
 
-It strips accents, lowercases, replaces anything that is not a letter or digit with a hyphen, and appends a number to repeats so two identical headings get distinct identifiers. Because the sidebar and the renderer both use it, and both walk the document in the same order, the links and the targets always agree.
+It strips accents, lowercases, replaces anything that is not a letter or digit with a hyphen, trims stray hyphens from the ends, falls back to the word section when nothing survives, and appends a number to repeats so two identical headings get distinct identifiers. Because the sidebar and the renderer both use it, and both walk the document in the same order, the links and the targets always agree. Keeping the two walks in step has one subtlety: both passes skip the inside of container directives, so a heading inside an accordion neither gets an anchor nor advances the duplicate counter. [Extending the renderer](/blog-platform-docs/extending-the-renderer) explains the machinery.
 
 If you ever change how identifiers are made, both callers change together, and old links to old anchors break. It is the same problem as renaming a slug, one level down.
 

@@ -1,9 +1,9 @@
 export const extendingTheRenderer = `
 # Extending the renderer
 
-The blog understands three pieces of syntax that ordinary Markdown does not: a named image, an image list, and a YouTube embed. All three are written the same way, and all three are built the same way. This post explains that shape so you can add a fourth.
+The blog understands four pieces of syntax that ordinary Markdown does not: a named image, an image list, a YouTube embed, and an accordion container. The first three are shortcodes, written and built the same way; the accordion is a directive, and gets its own section further down. This post explains both shapes so you can add another.
 
-If you only want to use the existing three, read [Markdown reference](/blog-platform-docs/markdown-reference) instead. This post is for changing the renderer.
+If you only want to use the existing syntax, read [Markdown reference](/blog-platform-docs/markdown-reference) instead. This post is for changing the renderer. The map of the whole documentation set is [Working with the platform](/blog-platform-docs/working-with-the-platform).
 
 ## The shape of a shortcode
 
@@ -64,11 +64,11 @@ Four things in there matter.
 
 **The guard is deliberately fussy.** It checks that the first child is the exact text "@", that the second is a link, that the link's label is the shortcode name, and that the address is present and valid. Anything else is left alone. Being strict means a paragraph that merely mentions an email address or a bracketed word is never mistaken for a shortcode.
 
-**The argument is validated before use.** The three existing plugins each test the link address against a pattern before accepting it: an eleven-character video ID for YouTube, a lowercase key for images and lists. Do the same. It stops a typo from turning into a broken element, and for anything embedded from elsewhere it stops arbitrary text reaching an attribute.
+**The argument is validated before use.** The three existing plugins each test the link address against a pattern before accepting it: an eleven-character video ID for YouTube, and for images and lists a key of letters and digits joined by hyphens, underscores, or colons. The renderer's key pattern accepts capitals, but the content validator rejects them, so keys are lowercase in practice. Do the same. It stops a typo from turning into a broken element, and for anything embedded from elsewhere it stops arbitrary text reaching an attribute.
 
 **hName replaces the element.** Setting data.hName tells remark to render this paragraph as an element with that name instead of as a paragraph. The name is yours to choose, but keep it hyphenated so it cannot collide with a real HTML tag.
 
-**Children decide whether text survives.** The image and YouTube plugins set children to an empty array, because the shortcode is the whole content. Our callout keeps the rest of the paragraph, because the note's text follows the shortcode. Choose whichever suits the component.
+**Children decide whether text survives.** The image, image list, and YouTube plugins set children to an empty array, because the shortcode is the whole content. Our callout keeps the rest of the paragraph, because the note's text follows the shortcode. Choose whichever suits the component. Note one guard the image and image-list plugins add that the example does not: they reject a paragraph with anything after the shortcode, by checking that rest is empty. A component that discards its children should do the same, or trailing text silently disappears.
 
 ### Step 2: keep property names lowercase
 
@@ -84,6 +84,8 @@ Add the plugin to the list inside the Markdown component in markdown.tsx:
 <ReactMarkdown
   remarkPlugins={[
     remarkGfm,
+    remarkDirective,
+    remarkAccordion,
     remarkYouTube,
     remarkPostImage,
     remarkImageList,
@@ -95,7 +97,7 @@ Add the plugin to the list inside the Markdown component in markdown.tsx:
 </ReactMarkdown>
 ~~~
 
-Order matters only if two plugins could match the same paragraph. The existing four cannot, because each requires a different link label.
+Order in that array is load-bearing, and the comment beside it in markdown.tsx records why. remarkDirective parses directive syntax, and remarkAccordion must run straight after it, before the shortcode plugins, so a shortcode written inside an accordion body is still found. Among the shortcode plugins themselves the order is free, because each requires a different link label — with one caveat: remarkYouTube also matches a paragraph that is nothing but a YouTube URL, no label involved. Put a new shortcode plugin at the end, with the others.
 
 ### Step 4: write the component
 
@@ -129,11 +131,15 @@ const components = {
   "image-list": (props: MarkdownElementProps) => (
     <PostImageList {...props} imageLists={imageLists} />
   ),
+  "post-accordion": PostAccordion,
+  "unknown-directive": UnknownDirective,
   "callout-block": CalloutBlock,
 } satisfies Partial<Components> & {
   "youtube-embed": (props: MarkdownElementProps) => ReactNode
   "post-image": (props: MarkdownElementProps) => ReactNode
   "image-list": (props: MarkdownElementProps) => ReactNode
+  "post-accordion": (props: MarkdownElementProps) => ReactNode
+  "unknown-directive": (props: MarkdownElementProps) => ReactNode
   "callout-block": (props: MarkdownElementProps) => ReactNode
 }
 ~~~
@@ -153,9 +159,14 @@ type MarkdownElementProps = {
   title?: string
   imagekey?: string
   listkey?: string
+  open?: boolean
+  inaccordion?: string
+  directivename?: string
   tone?: string
 }
 ~~~
+
+The open field is a reminder that hProperties values are not always strings: the accordion plugin sets open as a real boolean, and the node type in markdown-utils.ts allows string or boolean. The lowercase rule from step 2 applies either way.
 
 ### Step 5: decide what a mistake looks like
 
@@ -204,17 +215,19 @@ remarkAccordion, so extend it rather than starting a second directive plugin:
 - Loading it makes ANY colon-prefixed word a directive, and an unhandled
   directive renders as nothing. Prose like :root in the design tokens post
   would silently vanish. remarkAccordion turns unhandled text and leaf
-  directives back into the literal text the author wrote.
+  directives back into the colons and name the author wrote. Close, not
+  perfect: a bracketed label survives as its text, but an attribute block in
+  curly braces is not reconstructed.
 - An unknown container name, such as a typo like :::acordion, becomes a
   development-only warning box that still renders its children in production,
   the same policy as step 5.
 
-One more interaction: a heading inside a container that hides content, such as
-an accordion, is marked by the plugin and rendered without an anchor id, and
-extractMarkdownHeadings skips container subtrees so the table of contents and
-the renderer keep counting duplicate headings identically. If you add a new
-container that does NOT hide its children, decide the heading question
-deliberately.
+One more interaction: extractMarkdownHeadings skips every container subtree,
+and remarkAccordion marks every heading inside any container — recognised or
+misspelled — so it renders without an anchor id and the duplicate-id counters
+in the two passes stay aligned. If you add a new container whose headings
+SHOULD appear in the table of contents, both sides have to change together:
+the skip in markdown-headings.ts and the marking in markdown-utils.ts.
 
 ## Components that need post data
 

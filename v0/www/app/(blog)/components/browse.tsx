@@ -697,6 +697,7 @@ export function Browse({
           </span>
           <div
             className="inline-flex divide-x divide-border border border-border"
+            role="group"
             aria-label="Content type"
           >
             {browseContentTypes.map((type) => {
@@ -773,6 +774,7 @@ export function Browse({
             </span>
             <div
               className="inline-flex h-11 divide-x divide-border border border-border"
+              role="group"
               aria-label="Result layout"
             >
               <button
@@ -801,6 +803,7 @@ export function Browse({
       {filtersOpen && availableTags.length > 0 && (
         <div
           className="mt-5 flex flex-wrap gap-2"
+          role="group"
           aria-label={`Filter ${contentType} by tag`}
         >
           {availableTags.map((tag) => (
@@ -809,7 +812,7 @@ export function Browse({
               type="button"
               aria-pressed={activeSelectedTags.includes(tag)}
               onClick={() => toggleTag(tag)}
-              className="border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-foreground/40 hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
+              className="border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition outline-none hover:border-foreground/40 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
             >
               {tag}
             </button>
@@ -864,7 +867,7 @@ export function Browse({
               setQuery("")
               setSelectedTags([])
             }}
-            className="mt-3 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+            className="mt-3 text-sm font-semibold text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
           >
             Clear search and tags
           </button>

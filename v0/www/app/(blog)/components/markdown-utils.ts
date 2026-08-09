@@ -133,6 +133,24 @@ export const remarkAccordion: Plugin = () => (tree) => {
 
     if (directive.type !== "containerDirective") return
 
+    // Headings inside any container render as headings but stay out of the
+    // table of contents and carry no anchor id: a copied link would point into
+    // collapsed content. This must cover unknown containers too, because
+    // extractMarkdownHeadings skips every containerDirective subtree; marking
+    // only accordions would let a heading inside a misspelled container advance
+    // the renderer's duplicate-id counter while the table of contents never
+    // counts it, and every later repeated heading would anchor to nothing.
+    visit(directive as never, "heading", (heading) => {
+      const headingNode = heading as MarkdownNode
+      headingNode.data = {
+        ...headingNode.data,
+        hProperties: {
+          ...headingNode.data?.hProperties,
+          inaccordion: "true",
+        },
+      }
+    })
+
     if (directive.name !== "accordion") {
       directive.data = {
         hName: "unknown-directive",
@@ -158,21 +176,6 @@ export const remarkAccordion: Plugin = () => (tree) => {
         ...(directive.attributes?.open !== undefined ? { open: true } : {}),
       },
     }
-
-    // Headings inside an accordion render as headings but stay out of the
-    // table of contents and carry no anchor id: a copied link would point into
-    // collapsed content. Marking them here keeps the renderer's duplicate-id
-    // counter aligned with extractMarkdownHeadings, which skips these subtrees.
-    visit(directive as never, "heading", (heading) => {
-      const headingNode = heading as MarkdownNode
-      headingNode.data = {
-        ...headingNode.data,
-        hProperties: {
-          ...headingNode.data?.hProperties,
-          inaccordion: "true",
-        },
-      }
-    })
   })
 }
 

@@ -38,10 +38,6 @@ export type PostImage = {
   alt: string
   title?: string
   subtitle?: string
-  credit?: {
-    label: string
-    href: string
-  }
 }
 
 export type PostImages = Readonly<Record<string, PostImage>>

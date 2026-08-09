@@ -1,7 +1,7 @@
 export const urlsAndRedirects = `
 # URLs, slugs, and redirects
 
-Every address on this blog is built by one small file, and every address that has ever worked is expected to keep working. This post explains how URLs are made, how a post is found from one, and what to do when something has to be renamed.
+Every address on this blog is built by one small file, and every address that has ever worked is expected to keep working. This post explains how URLs are made, how a post is found from one, and what to do when something has to be renamed. For the map of the whole documentation set, see [Working with the platform](/blog-platform-docs/working-with-the-platform).
 
 ## One file owns every URL shape
 
@@ -13,23 +13,23 @@ export const defaultBrowseContentType: BrowseContentType = "posts"
 export const browseHref = "/browse"
 
 export function browseContentHref(contentType: BrowseContentType) {
-  return browseHref + "/" + contentType
+  return \`\${browseHref}/\${contentType}\`
 }
 
 export function publicationHref(pubId: string) {
-  return "/" + encodeURIComponent(pubId)
+  return \`/\${encodeURIComponent(pubId)}\`
 }
 
 export function authorHref(authorId: string) {
-  return "/authors/" + encodeURIComponent(authorId)
+  return \`/authors/\${encodeURIComponent(authorId)}\`
 }
 
 export function postHref(pubId: string, post: Pick<Post, "postId" | "slug">) {
-  return publicationHref(pubId) + "/" + encodeURIComponent(post.slug ?? String(post.postId))
+  return \`\${publicationHref(pubId)}/\${encodeURIComponent(post.slug ?? String(post.postId))}\`
 }
 ~~~
 
-Nothing else in the codebase writes a path by hand. Pages, cards, breadcrumbs, and next-and-previous links all call these functions. Changing the shape of an address is therefore a one-file change, and the compiler finds every caller.
+Almost nothing else in the codebase writes a path by hand. Pages, cards, breadcrumbs, and next-and-previous links all call these functions. The exceptions are honest ones: the header's link home is a literal slash, and the redirect rules in next.config.ts are plain strings, because a redirect's source is a historical address no helper should ever build again. Changing the shape of a live address is therefore a one-file change, and the compiler finds every caller.
 
 Two things worth noticing. Each piece is escaped, so an identifier that somehow contained an unusual character could not break the address. And a post falls back to its numeric ID when it has no slug, which is what makes slugs optional.
 
@@ -91,7 +91,7 @@ If you add a new top-level route, add its name to reservedPublicationIds in cont
 
 ## Only known addresses exist
 
-The three routes that vary by content each list their addresses ahead of time and refuse everything else. The post page is the clearest example:
+The four routes that vary by content — publication, post, author, and browse — each list their addresses ahead of time and refuse everything else. The post page is the clearest example:
 
 ~~~tsx
 export const dynamicParams = false
@@ -116,7 +116,7 @@ Three consequences follow.
 
 ## Internal and external links in prose
 
-The renderer sorts links into three kinds, in v0/www/app/(blog)/components/markdown.tsx:
+The renderer sorts links into three kinds in v0/www/app/(blog)/components/markdown.tsx, using a test defined in markdown-utils.ts:
 
 - An address starting with a hash is a plain anchor, handled by the browser, jumping within the page.
 - An address starting with a single forward slash is internal and uses the app's own navigation, so it does not reload the page.
@@ -178,7 +178,7 @@ Two more rules handle the dropped prefix for every other publication:
 { source: "/publications/:pubId", destination: "/:pubId", permanent: true },
 ~~~
 
-Note the ordering. The specific blog-tech rules come before the general prefix rules, because the first matching rule wins and the general rule would otherwise send /publications/blog-tech to a publication ID that no longer exists.
+Note the ordering. The specific blog-tech rules come before the general prefix rules, because the first matching rule wins. Listed the other way round nothing would break outright — /publications/blog-tech would be stripped to /blog-tech, which is itself a redirect source, and the chain above would still get there — but every request would pay an extra hop. Keeping specific rules first keeps every historical address within at most three hops.
 
 permanent set to true sends a 308, which tells browsers and search engines the move is final and lets them update their records.
 
@@ -214,15 +214,16 @@ Two things to take from that.
 
 ### Renaming a post slug
 
-Same shape, one rule instead of two:
+Same shape, one rule instead of two. This one is real, and sits in the file:
 
 ~~~ts
-{ source: "/online-presence/old-slug", destination: "/online-presence/new-slug", permanent: true }
+{ source: "/online-presence/three-ways-to-build-a-blog",
+  destination: "/online-presence/build-your-own-blog", permanent: true }
 ~~~
 
 There is no safety net here. As explained above, the post's numeric ID is not a working address, so the redirect is the only thing keeping the old link alive. Write it in the same change as the rename, not afterwards.
 
-Live examples: Build your own blog, renamed from "Three ways to build your own blog" on 2026-08-02; and Working with the platform, renamed from "A tour of the platform" on 2026-08-04. Both old addresses still resolve.
+The second live example is Working with the platform, renamed from "A tour of the platform" on 2026-08-04; its rule forwards /blog-platform-docs/start-here. Both old addresses still resolve.
 
 A rename is rarely one line, because a title turns up in more places than the slug does. That one touched seven things: the slug and title in the publication file, the first-level heading at the top of the post body, the post's own filename and the name it exports, two links in the prose of other posts, the cover image, and this rule. The cover matters most and is missed most easily, because the title is drawn into the picture — a renamed post keeping its old cover shows the old title to everyone who shares it. Covers are generated, so a rename means running the generator again for a new file, never editing the old one in place.
 
@@ -230,13 +231,13 @@ Nothing checks any of this. Grep for the old slug and the old title separately b
 
 ### Removing a publication or post
 
-Deleting content leaves its address returning 404. If the piece existed publicly for any length of time, redirect it somewhere sensible instead: the publication it belonged to, or /browse. A redirect to a real page is nearly always better for a reader than a dead end.
+Deleting content leaves its address returning 404 — the styled page covered in [Feeds, crawlers, and the 404 page](/blog-platform-docs/feeds-and-crawlers). If the piece existed publicly for any length of time, redirect it somewhere sensible instead: the publication it belonged to, or /browse/posts. A redirect to a real page is nearly always better for a reader than a dead end.
 
 Setting isDraft on something already published removes its address the same way, so it needs the same treatment. Add a redirect if the address was public for any length of time, and check whether another post links to it in prose, because nothing validates those links.
 
 ## When a path is not enough
 
-Every helper in content/routes.ts returns a path beginning with a slash, which is what a link inside the site needs. Two things need the whole address, host and all: the link previews social networks read, and the share links at the foot of a post. Neither can do anything with a path on its own.
+Every helper in content/routes.ts returns a path beginning with a slash, which is what a link inside the site needs. Two things need the whole address, host and all: the link previews social networks read, and the share links on the post and publication pages. Neither can do anything with a path on its own.
 
 The host lives in v0/www/lib/site.ts, once, as siteOrigin, with absoluteUrl beside it to join the two halves:
 
