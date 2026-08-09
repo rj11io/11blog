@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/rj11io/11blog/compare/v1.7.0...v1.8.0) (2026-08-09)
+
+
+### Features
+
+* **platform:** add feed, sitemap, robots, and 404; fix a11y and ([a762645](https://github.com/rj11io/11blog/commit/a762645c8aa400574bb2a7a6bd65bb4114098da1))
+
 # [1.7.0](https://github.com/rj11io/11blog/compare/v1.6.0...v1.7.0) (2026-08-09)
 
 
