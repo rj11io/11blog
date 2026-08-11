@@ -154,8 +154,12 @@ export function ContentIndex({
     }
   }, [headings])
 
-  if (headings.length === 0) return null
-
+  // No early return on an empty headings list. The title is an index entry in
+  // its own right: it links to the post's H1 and doubles as back-to-top, and
+  // the scroll tracking above already treats it as the first target whether or
+  // not any headings follow. Bailing out here used to drop that entry too, so a
+  // post with no H2 to H5 lost its index instead of showing the one entry it
+  // still had. IndexLinks renders an empty list in that case.
   return (
     <aside className="min-w-0 lg:pt-1">
       <details className="border border-border bg-muted/30 px-4 py-3 lg:hidden">

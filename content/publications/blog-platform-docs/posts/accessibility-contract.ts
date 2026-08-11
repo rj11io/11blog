@@ -26,7 +26,9 @@ The sidebar is a nav element with a label. Current position marked with aria-cur
 
 Sixth-level headings render but stay out of the table of contents. Treat the fifth level as the practical floor.
 
-A post with no qualifying headings renders no sidebar at all. The article still sits in the wider of the two columns, pinned there rather than left to land wherever the grid puts it, so a post without an index reads at the same measure as a post with one.
+The post title is the first entry in the index, above the headings. It links to the post's own H1 and doubles as back-to-top, and the scroll tracking treats it as the first target.
+
+A post with no qualifying headings still gets an index, holding that title entry alone. The index is not dropped: the entry is real, and losing it would also cost the post its back-to-top link. The article is pinned to the content column either way, so a post with one index entry reads at the same measure as a post with twenty.
 
 ## Landmarks and navigation
 

@@ -149,11 +149,13 @@ export default async function PostPage({ params }: PostPageProps) {
           <ContentIndex title={post.title} headings={headings} />
 
           {/*
-            col-start-2 is load-bearing, not decoration. ContentIndex renders
-            null when a post has no headings, which leaves this article as the
-            grid's only child, and auto-placement drops it into the 13rem index
-            track: the whole post renders about 240px wide. Pinning the column
-            keeps the measure identical whether or not an index is there.
+            col-start-2 is a guard, not decoration. ContentIndex always renders
+            now, so auto-placement would put this article in the second column
+            anyway. It did not always: when the index bailed out on a post with
+            no headings, this article became the grid's only child and landed in
+            the 13rem index track, rendering the whole post about 240px wide.
+            Pinning the column means a future change to what the index renders
+            cannot resurrect that.
           */}
           <article className="min-w-0 lg:col-start-2">
             {post.coverImage && (
