@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/rj11io/11blog/compare/v1.11.0...v1.12.0) (2026-08-11)
+
+
+### Features
+
+* **content:** replace 11ai author avatar with 11blog brand favicon ([078e525](https://github.com/rj11io/11blog/commit/078e525cb50090200f1f9cff5f0822a568fa9c90))
+
 # [1.11.0](https://github.com/rj11io/11blog/compare/v1.10.0...v1.11.0) (2026-08-11)
 
 
