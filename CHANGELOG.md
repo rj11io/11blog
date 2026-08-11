@@ -1,3 +1,11 @@
+# [1.10.0](https://github.com/rj11io/11blog/compare/v1.9.0...v1.10.0) (2026-08-11)
+
+
+### Features
+
+* **content:** rebrand blog platform docs covers to 11blog v4 and ([6cc3d82](https://github.com/rj11io/11blog/commit/6cc3d8251c88d9c57ed945d9ccf5f3cf288800b7))
+* **content:** reorder blog platform docs low-to-high level and add ([f26cf02](https://github.com/rj11io/11blog/commit/f26cf02d2cb2cc4eae256bdfd2f5e7f15dfe346b))
+
 # [1.9.0](https://github.com/rj11io/11blog/compare/v1.8.0...v1.9.0) (2026-08-09)
 
 
