@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/rj11io/11blog/compare/v1.10.0...v1.11.0) (2026-08-11)
+
+
+### Features
+
+* publish docs ([a7d312b](https://github.com/rj11io/11blog/commit/a7d312bbba6fe9db2d81c33be6a1f2bcf96f7259))
+
 # [1.10.0](https://github.com/rj11io/11blog/compare/v1.9.0...v1.10.0) (2026-08-11)
 
 
