@@ -2,16 +2,18 @@
 
 ## Cover image
 
-`markdown-reference-og-cover-v3.png` was generated in the 11ai light style on
-2026-08-04 and copied here without modification.
+`markdown-reference-og-cover-v4.png` was generated in the main 11blog dark
+style on 2026-08-11 through 11brands v1 and copied here without modification,
+as part of the run shared by the whole publication.
 
-- Brand: `blog-rj11io-11ai`
-- Generator: `v0/asset-generation-scripts/generate-content-og.py`
-- Source generation: `v0/brands/blog-rj11io-11ai/content-og/gen-20260804-docs-posts-markdown-reference/`
-- Source file: `markdown-reference-content-og.png`
+- Brand: `11blog` (`v1/brands/11blog/config.json`)
+- Generator: `v1/scripts/generate_integration.py`, source `11blog`
+- Run: `v1/integrations/20260811-122848/11blog/og-content/`
+- Source file: `markdown-reference-og-content.png`
 - Dimensions: 1200 × 630
 
-The previous v2 cover remains for provenance and cached social previews.
+The previous v3 (11ai light) and v2 covers remain for provenance and cached
+social previews. The v3 details are in this file's history.
 
 ## Demo images
 

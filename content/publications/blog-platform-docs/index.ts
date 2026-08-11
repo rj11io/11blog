@@ -17,20 +17,23 @@ import { searchAndDiscovery } from "./posts/search-and-discovery"
 import { supportingThePlatform } from "./posts/supporting-the-platform"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
 
-import publicationCover from "./assets/blog-platform-og-cover-v3.png"
-import workingWithThePlatformCover from "./assets/working-with-the-platform-og-cover-v3.png"
-import addingContentCover from "./assets/adding-content-og-cover-v3.png"
-import contentValidationCover from "./assets/content-validation-og-cover-v3.png"
-import searchAndDiscoveryCover from "./assets/search-and-discovery-og-cover-v3.png"
-import authorsAndBylinesCover from "./assets/authors-and-bylines-og-cover-v3.png"
-import contentContractCover from "./assets/content-contract-og-cover-v3.png"
-import renderingModelCover from "./assets/rendering-model-og-cover-v3.png"
-import extendingTheRendererCover from "./assets/extending-the-renderer-og-cover-v3.png"
-import designTokensCover from "./assets/design-tokens-og-cover-v3.png"
-import accessibilityContractCover from "./assets/accessibility-contract-og-cover-v3.png"
-import urlsAndRedirectsCover from "./assets/urls-and-redirects-og-cover-v3.png"
-import runningTheBlogCover from "./assets/running-the-blog-og-cover-v3.png"
-import supportingThePlatformCover from "./assets/supporting-the-platform-og-cover-v3.png"
+import publicationCover from "./assets/blog-platform-og-cover-v4.png"
+import workingWithThePlatformCover from "./assets/working-with-the-platform-og-cover-v4.png"
+import addingContentCover from "./assets/adding-content-og-cover-v4.png"
+import contentValidationCover from "./assets/content-validation-og-cover-v4.png"
+import searchAndDiscoveryCover from "./assets/search-and-discovery-og-cover-v4.png"
+import authorsAndBylinesCover from "./assets/authors-and-bylines-og-cover-v4.png"
+import contentContractCover from "./assets/content-contract-og-cover-v4.png"
+import renderingModelCover from "./assets/rendering-model-og-cover-v4.png"
+import extendingTheRendererCover from "./assets/extending-the-renderer-og-cover-v4.png"
+import designTokensCover from "./assets/design-tokens-og-cover-v4.png"
+import accessibilityContractCover from "./assets/accessibility-contract-og-cover-v4.png"
+import urlsAndRedirectsCover from "./assets/urls-and-redirects-og-cover-v4.png"
+import runningTheBlogCover from "./assets/running-the-blog-og-cover-v4.png"
+import feedsAndCrawlersCover from "./assets/feeds-and-crawlers-og-cover-v4.png"
+import runYourOwnCopyCover from "./assets/run-your-own-copy-og-cover-v4.png"
+import contributeToThePlatformCover from "./assets/contribute-to-the-platform-og-cover-v4.png"
+import supportingThePlatformCover from "./assets/supporting-the-platform-og-cover-v4.png"
 
 export const blogPlatformDocs: Publication = {
   relId: 4,
@@ -185,6 +188,7 @@ export const blogPlatformDocs: Publication = {
       isDraft: true,
       tags: ["Operations", "Discovery", "Documentation"],
       content: feedsAndCrawlers,
+      coverImage: feedsAndCrawlersCover.src,
     },
     {
       postId: 403,
@@ -265,6 +269,7 @@ export const blogPlatformDocs: Publication = {
       isDraft: true,
       tags: ["Operations", "Blog", "Documentation"],
       content: runYourOwnCopy,
+      coverImage: runYourOwnCopyCover.src,
     },
     {
       postId: 417,
@@ -280,6 +285,7 @@ export const blogPlatformDocs: Publication = {
       isDraft: true,
       tags: ["Community", "Publishing", "Documentation"],
       content: contributeToThePlatform,
+      coverImage: contributeToThePlatformCover.src,
     },
     {
       postId: 414,

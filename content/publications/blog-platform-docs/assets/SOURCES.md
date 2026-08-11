@@ -2,6 +2,43 @@
 
 Generated brand assets, not photographs.
 
+The active v4 set was generated on 2026-08-11 in the main 11blog dark style,
+through 11brands v1, and copied here without modification. One run covers the
+publication cover and every post cover, the Markdown reference cover included.
+
+- Brand: `11blog` (main dark style for blog.rj11.io, `v1/brands/11blog/config.json`)
+- Generator: `v1/scripts/generate_integration.py`, source `11blog`
+- Run: `v1/integrations/20260811-122848/11blog/og-content/`
+- Dimensions: every file 1200 × 630
+
+| Consumer file | Source file |
+| --- | --- |
+| `blog-platform-og-cover-v4.png` | `blog-platform-docs-og-content.png` |
+| `content-contract-og-cover-v4.png` | `the-content-contract-og-content.png` |
+| `rendering-model-og-cover-v4.png` | `how-pages-are-rendered-og-content.png` |
+| `extending-the-renderer-og-cover-v4.png` | `extending-the-renderer-og-content.png` |
+| `design-tokens-og-cover-v4.png` | `design-tokens-and-theming-og-content.png` |
+| `accessibility-contract-og-cover-v4.png` | `accessibility-contract-og-content.png` |
+| `urls-and-redirects-og-cover-v4.png` | `urls-slugs-and-redirects-og-content.png` |
+| `running-the-blog-og-cover-v4.png` | `running-and-releasing-the-blog-og-content.png` |
+| `feeds-and-crawlers-og-cover-v4.png` | `feeds-crawlers-and-the-404-page-og-content.png` |
+| `content-validation-og-cover-v4.png` | `content-validation-rules-og-content.png` |
+| `adding-content-og-cover-v4.png` | `adding-a-publication-or-post-og-content.png` |
+| `authors-and-bylines-og-cover-v4.png` | `authors-and-bylines-og-content.png` |
+| `search-and-discovery-og-cover-v4.png` | `search-tags-and-discovery-og-content.png` |
+| `run-your-own-copy-og-cover-v4.png` | `run-your-own-copy-og-content.png` |
+| `contribute-to-the-platform-og-cover-v4.png` | `contribute-to-the-platform-og-content.png` |
+| `supporting-the-platform-og-cover-v4.png` | `supporting-the-platform-og-content.png` |
+| `working-with-the-platform-og-cover-v4.png` | `working-with-the-platform-og-content.png` |
+
+The Markdown reference cover from the same run lives with its post, at
+`posts/markdown-reference/assets/markdown-reference-og-cover-v4.png`, recorded
+in that directory's SOURCES.md. Three posts got their first cover in this run:
+Feeds, crawlers, and the 404 page; Run your own copy; and Contribute to the
+platform. They use v4 rather than v1 so the whole set shares one version.
+
+The previous v3 set below remains for asset history and cached previews.
+
 The publication cover was rebranded in the 11ai light style on 2026-08-04. It
 was generated in the configured 11brands checkout and copied here without
 modification:
