@@ -148,7 +148,14 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className="mt-6 grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[15rem_minmax(0,1fr)] xl:gap-16">
           <ContentIndex title={post.title} headings={headings} />
 
-          <article className="min-w-0">
+          {/*
+            col-start-2 is load-bearing, not decoration. ContentIndex renders
+            null when a post has no headings, which leaves this article as the
+            grid's only child, and auto-placement drops it into the 13rem index
+            track: the whole post renders about 240px wide. Pinning the column
+            keeps the measure identical whether or not an index is there.
+          */}
+          <article className="min-w-0 lg:col-start-2">
             {post.coverImage && (
               <figure className="mb-8 overflow-hidden">
                 <CoverImage

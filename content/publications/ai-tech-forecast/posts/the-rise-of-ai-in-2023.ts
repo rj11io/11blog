@@ -1,6 +1,25 @@
 export const theRiseOfAiIn2023 = `
 # The rise of AI in 2023
 
+I’m sure that by now everyone and their grandma has heard about the new emerging AI tools like ChatGPT and MidJourney.
+
+And you’re probably in one of three camps:
+- You’re intrigued but haven’t used it
+- You’ve used it and you love it
+- You hate it and you’re against it
+
+Even though I understand most of the reasoning behind why some people are taking a harsh stance against it. Mainly when it comes to ethics in diffusing other people’s content.
+
+There’s just no way of stopping this juggernaut.
+
+This is disruption-level technology that is becoming more powerful and more accessible every day. Check this out:
+
+- ChatGPT launched on November 30 2022
+- Reached ONE MILLION users within a WEEK of its launch
+- Expects revenue of ONE BILLION by the end of the year 2024
+
+This is “Code Red” for a platform like Google, which is something that shaped the way EVERYONE uses the internet, and I have some thoughts on how things are going to go from here on out.
+
 ## Adoption
 
 We've had the first wave of releases and adoption of consumer-level AI products.

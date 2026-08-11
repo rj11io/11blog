@@ -26,6 +26,8 @@ The sidebar is a nav element with a label. Current position marked with aria-cur
 
 Sixth-level headings render but stay out of the table of contents. Treat the fifth level as the practical floor.
 
+A post with no qualifying headings renders no sidebar at all. The article still sits in the wider of the two columns, pinned there rather than left to land wherever the grid puts it, so a post without an index reads at the same measure as a post with one.
+
 ## Landmarks and navigation
 
 Every page is a main element. The header holds a nav labelled "Primary navigation". The footer is a footer element.
