@@ -5,12 +5,14 @@ import { addingContent } from "./posts/adding-content"
 import { authorsAndBylines } from "./posts/authors-and-bylines"
 import { contentContract } from "./posts/content-contract"
 import { contentValidation } from "./posts/content-validation"
+import { contributeToThePlatform } from "./posts/contribute-to-the-platform"
 import { designTokens } from "./posts/design-tokens"
 import { extendingTheRenderer } from "./posts/extending-the-renderer"
 import { feedsAndCrawlers } from "./posts/feeds-and-crawlers"
 import { markdownReference } from "./posts/markdown-reference"
 import { renderingModel } from "./posts/rendering-model"
 import { runningTheBlog } from "./posts/running-the-blog"
+import { runYourOwnCopy } from "./posts/run-your-own-copy"
 import { searchAndDiscovery } from "./posts/search-and-discovery"
 import { supportingThePlatform } from "./posts/supporting-the-platform"
 import { urlsAndRedirects } from "./posts/urls-and-redirects"
@@ -37,107 +39,33 @@ export const blogPlatformDocs: Publication = {
   description:
     "The complete documentation for 11blog: writing posts, the content contract, extending the renderer, and running the site.",
   created: "2026-07-01",
-  updated: "2026-08-09",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["Blog", "Technology", "Publishing", "Documentation"],
   synopsis:
-    "Fifteen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, and operate the whole thing. Start with Working with the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
+    "Seventeen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, operate, copy, and contribute to the whole thing. Start with Working with the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
   editorNotes:
     "Written inside the system it describes, which is the point: every post here is rendered by the platform it documents, so a broken claim shows up as a broken page. Read the post that covers a thing before changing that thing, and update it in the same commit.",
   // Editorial order, which is what the previous and next links follow. It runs
-  // oldest to newest, so "next" always moves forward in time and "previous"
-  // always moves back: author, understand, extend, operate, then the entry point,
-  // then the reader-facing support post as the newest.
+  // oldest to newest and low level to high level: the platform's shape first,
+  // then extending, operating, writing, and community, with the map post dated
+  // last, alone at the end of the month. The listing sorts by created date
+  // newest-first, so it reads as the exact reverse of this array, and the map
+  // post is the top card, which is the point: it is the entry point.
   //
-  // The listing sorts by date newest-first, so it reads as the exact reverse of
-  // this array, and whatever was written last lands at the top. That used to be
-  // the tour, which was the point; the support post now sits above it. The tour
-  // is still the second card and still links to every post directly, so nothing
-  // is unreachable, but if the tour needs to be first again the fix is to
-  // backdate the support post rather than to reorder this array. Keeping the
-  // array oldest-to-newest is what makes the previous and next links mean
-  // something.
+  // Keep created dates ascending with array position, or the two orders drift
+  // apart. To add a post, place it in its group and renumber the dates around
+  // it rather than appending it at the end.
   posts: [
-    {
-      postId: 402,
-      slug: "adding-content",
-      title: "Adding a publication or post",
-      excerpt:
-        "How to add a publication or post using the blog's content format, with a checklist for each.",
-      created: "2026-07-01",
-      updated: "2026-08-09",
-      authorIds: ["rj11io", "11ai"],
-      isNSFW: false,
-      isNew: false,
-      isFeatured: false,
-      isDraft: true,
-      tags: ["Markdown", "Publishing", "Documentation"],
-      content: addingContent,
-      coverImage: addingContentCover.src,
-    },
-    markdownReference,
-    {
-      postId: 403,
-      slug: "content-validation",
-      title: "Content validation rules",
-      excerpt:
-        "Every rule the content checker enforces, the message it throws, and what to change when it fails.",
-      created: "2026-07-03",
-      updated: "2026-08-09",
-      authorIds: ["rj11io", "11ai"],
-      isNSFW: false,
-      isNew: false,
-      isFeatured: false,
-      isDraft: true,
-      tags: ["Validation", "Content", "Documentation"],
-      content: contentValidation,
-      coverImage: contentValidationCover.src,
-    },
-    {
-      postId: 411,
-      slug: "search-and-discovery",
-      title: "Search, tags, and discovery",
-      excerpt:
-        "What the blog's searches actually look at, why post bodies are not among them, and how tags behave.",
-      created: "2026-07-04",
-      updated: "2026-08-09",
-      authorIds: ["rj11io", "11ai"],
-      isNSFW: false,
-      isNew: false,
-      isFeatured: false,
-      isDraft: true,
-      tags: ["Discovery", "Content", "Documentation"],
-      content: searchAndDiscovery,
-      coverImage: searchAndDiscoveryCover.src,
-    },
-    {
-      postId: 412,
-      slug: "authors-and-bylines",
-      title: "Authors and bylines",
-      excerpt:
-        "The author record, the two jobs its display name does, and what happens when you rename or remove one.",
-      created: "2026-07-05",
-      updated: "2026-08-09",
-      authorIds: ["rj11io", "11ai"],
-      isNSFW: false,
-      isNew: false,
-      isFeatured: false,
-      isDraft: true,
-      tags: ["Authors", "Content", "Documentation"],
-      content: authorsAndBylines,
-      coverImage: authorsAndBylinesCover.src,
-    },
     {
       postId: 404,
       slug: "content-contract",
       title: "The content contract",
       excerpt:
         "Why the writing lives outside the web application, what the boundary guarantees, and how to put a different front end in front of it.",
-      created: "2026-07-06",
-      updated: "2026-08-09",
+      created: "2026-07-01",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -153,8 +81,7 @@ export const blogPlatformDocs: Publication = {
       title: "How pages are rendered",
       excerpt:
         "Static pages, server components, the few interactive islands, and why content images use plain image elements.",
-      created: "2026-07-07",
-      updated: "2026-08-09",
+      created: "2026-07-02",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -170,8 +97,7 @@ export const blogPlatformDocs: Publication = {
       title: "Extending the renderer",
       excerpt:
         "The five-step recipe behind the blog's shortcodes, the directive path for containers, and how to add one of your own.",
-      created: "2026-07-08",
-      updated: "2026-08-09",
+      created: "2026-07-03",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -187,8 +113,7 @@ export const blogPlatformDocs: Publication = {
       title: "Design tokens and theming",
       excerpt:
         "The named values behind the interface, the two that carry measured reasoning, and what to do when you add a component.",
-      created: "2026-07-09",
-      updated: "2026-08-09",
+      created: "2026-07-04",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -204,8 +129,7 @@ export const blogPlatformDocs: Publication = {
       title: "Accessibility contract",
       excerpt:
         "What the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, and the gaps that remain.",
-      created: "2026-07-10",
-      updated: "2026-08-09",
+      created: "2026-07-05",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -221,8 +145,7 @@ export const blogPlatformDocs: Publication = {
       title: "URLs, slugs, and redirects",
       excerpt:
         "How addresses are built and resolved, and the runbook for renaming a publication or post without breaking old links.",
-      created: "2026-07-11",
-      updated: "2026-08-09",
+      created: "2026-07-06",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -238,8 +161,7 @@ export const blogPlatformDocs: Publication = {
       title: "Running and releasing the blog",
       excerpt:
         "Starting the site, the checks to run before committing, and how a commit message becomes a release.",
-      created: "2026-07-12",
-      updated: "2026-08-09",
+      created: "2026-07-07",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -255,7 +177,7 @@ export const blogPlatformDocs: Publication = {
       title: "Feeds, crawlers, and the 404 page",
       excerpt:
         "The RSS feed, the sitemap, the robots file, and the 404 page: what serves the site's machine readers, and why none of it needs maintaining.",
-      created: "2026-08-09",
+      created: "2026-07-08",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -265,21 +187,99 @@ export const blogPlatformDocs: Publication = {
       content: feedsAndCrawlers,
     },
     {
-      postId: 413,
-      slug: "working-with-the-platform",
-      title: "Working with the platform",
+      postId: 403,
+      slug: "content-validation",
+      title: "Content validation rules",
       excerpt:
-        "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
-      created: "2026-07-13",
-      updated: "2026-08-09",
+        "Every rule the content checker enforces, the message it throws, and what to change when it fails.",
+      created: "2026-07-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
       isDraft: true,
-      tags: ["Documentation", "Blog", "Publishing"],
-      content: workingWithThePlatform,
-      coverImage: workingWithThePlatformCover.src,
+      tags: ["Validation", "Content", "Documentation"],
+      content: contentValidation,
+      coverImage: contentValidationCover.src,
+    },
+    markdownReference,
+    {
+      postId: 402,
+      slug: "adding-content",
+      title: "Adding a publication or post",
+      excerpt:
+        "How to add a publication or post using the blog's content format, with a checklist for each.",
+      created: "2026-07-11",
+      authorIds: ["rj11io", "11ai"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: true,
+      tags: ["Markdown", "Publishing", "Documentation"],
+      content: addingContent,
+      coverImage: addingContentCover.src,
+    },
+    {
+      postId: 412,
+      slug: "authors-and-bylines",
+      title: "Authors and bylines",
+      excerpt:
+        "The author record, the two jobs its display name does, and what happens when you rename or remove one.",
+      created: "2026-07-12",
+      authorIds: ["rj11io", "11ai"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: true,
+      tags: ["Authors", "Content", "Documentation"],
+      content: authorsAndBylines,
+      coverImage: authorsAndBylinesCover.src,
+    },
+    {
+      postId: 411,
+      slug: "search-and-discovery",
+      title: "Search, tags, and discovery",
+      excerpt:
+        "What the blog's searches actually look at, why post bodies are not among them, and how tags behave.",
+      created: "2026-07-13",
+      authorIds: ["rj11io", "11ai"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: true,
+      tags: ["Discovery", "Content", "Documentation"],
+      content: searchAndDiscovery,
+      coverImage: searchAndDiscoveryCover.src,
+    },
+    {
+      postId: 416,
+      slug: "run-your-own-copy",
+      title: "Run your own copy",
+      excerpt:
+        "How to take the boilerplate and make it yours: what to replace, what to configure, and what to leave alone.",
+      created: "2026-07-14",
+      authorIds: ["rj11io", "11ai"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: true,
+      tags: ["Operations", "Blog", "Documentation"],
+      content: runYourOwnCopy,
+    },
+    {
+      postId: 417,
+      slug: "contribute-to-the-platform",
+      title: "Contribute to the platform",
+      excerpt:
+        "How to contribute a post or a platform change: fork, add yourself as an author, run the checks, and open a pull request.",
+      created: "2026-07-15",
+      authorIds: ["rj11io", "11ai"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: true,
+      tags: ["Community", "Publishing", "Documentation"],
+      content: contributeToThePlatform,
     },
     {
       postId: 414,
@@ -287,7 +287,7 @@ export const blogPlatformDocs: Publication = {
       title: "Supporting the platform",
       excerpt:
         "Three ways to help this blog keep going: pass a post on, sponsor one, or support the work directly.",
-      created: "2026-07-31",
+      created: "2026-07-30",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
       isNew: false,
@@ -296,6 +296,22 @@ export const blogPlatformDocs: Publication = {
       tags: ["Support", "Community", "Documentation"],
       content: supportingThePlatform,
       coverImage: supportingThePlatformCover.src,
+    },
+    {
+      postId: 413,
+      slug: "working-with-the-platform",
+      title: "Working with the platform",
+      excerpt:
+        "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
+      created: "2026-07-31",
+      authorIds: ["rj11io", "11ai"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: true,
+      tags: ["Documentation", "Blog", "Publishing"],
+      content: workingWithThePlatform,
+      coverImage: workingWithThePlatformCover.src,
     },
   ],
   coverImage: publicationCover.src,

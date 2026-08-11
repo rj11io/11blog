@@ -1,7 +1,7 @@
 export const workingWithThePlatform = `
 # Working with the platform
 
-This publication documents 11blog, the platform this site runs on. Fifteen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
+This publication documents 11blog, the platform this site runs on. Seventeen posts is a lot to walk into, so this one is the map: what the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.
 
 If you are here because you want your own blog rather than to work on this one, start with [Build your own blog](/online-presence/build-your-own-blog) instead.
 
@@ -37,17 +37,7 @@ What you get in exchange: pages that are files, content that outlives the render
 
 ## Where to start
 
-Four groups, in the order they build on each other. Every post links onward to whatever it depends on. The previous and next links follow this same order through the publication — though not from this post, which sits near the end of the sequence as the newest-but-one; start from Adding a publication or post to walk the groups in order.
-
-### Writing
-
-Start here if you want to add or edit content.
-
-- [Adding a publication or post](/blog-platform-docs/adding-content) is the entry point. Both post formats, every required field, and a checklist for each job.
-- [Markdown reference](/blog-platform-docs/markdown-reference) is the executable reference: every form the renderer supports, written out and rendered live on the page.
-- [Content validation rules](/blog-platform-docs/content-validation) lists every rule the build enforces, the exact message each one throws, and what to change. Read it when a build fails.
-- [Search, tags, and discovery](/blog-platform-docs/search-and-discovery) explains what readers can actually search, which changes how you should write a title, an excerpt, and a tag.
-- [Authors and bylines](/blog-platform-docs/authors-and-bylines) covers the author record and what happens when you rename or remove one.
+Five groups, in the order they build on each other: the platform's shape first, then extending it, operating it, writing on it, and joining in. Every post links onward to whatever it depends on. The previous and next links follow this same order through the publication; this post is the last stop, so to walk the groups in order start from [The content contract](/blog-platform-docs/content-contract).
 
 ### Understanding
 
@@ -72,6 +62,24 @@ Start here if you are running the thing.
 - [Running and releasing the blog](/blog-platform-docs/running-the-blog) covers the dev server, the checks to run before committing, and how a commit message becomes a release.
 - [Feeds, crawlers, and the 404 page](/blog-platform-docs/feeds-and-crawlers) covers the RSS feed, the sitemap, the robots file, and the page a dead link lands on.
 
+### Writing
+
+Start here if you want to add or edit content.
+
+- [Content validation rules](/blog-platform-docs/content-validation) lists every rule the build enforces, the exact message each one throws, and what to change. Read it when a build fails.
+- [Markdown reference](/blog-platform-docs/markdown-reference) is the executable reference: every form the renderer supports, written out and rendered live on the page.
+- [Adding a publication or post](/blog-platform-docs/adding-content) is the entry point for writers. Both post formats, every required field, and a checklist for each job.
+- [Authors and bylines](/blog-platform-docs/authors-and-bylines) covers the author record and what happens when you rename or remove one.
+- [Search, tags, and discovery](/blog-platform-docs/search-and-discovery) explains what readers can actually search, which changes how you should write a title, an excerpt, and a tag.
+
+### Community
+
+Start here if you want this platform for yourself, or want to help this blog.
+
+- [Run your own copy](/blog-platform-docs/run-your-own-copy) is the checklist for taking the boilerplate and making it yours: what to replace, what to configure, and what to leave alone.
+- [Contribute to the platform](/blog-platform-docs/contribute-to-the-platform) is the path from fork to merged, for a post or for code.
+- [Supporting the platform](/blog-platform-docs/supporting-the-platform) is for readers rather than maintainers: the three ways to help this blog keep going, and passing a post to someone who needs it is the one that matters most.
+
 ## Three things that catch everyone
 
 Pulled forward from the posts above, because they are the mistakes that cost the most time.
@@ -90,9 +98,7 @@ For what changed and when, read the changelog in the repository rather than any 
 
 ## Running your own copy
 
-The platform is available as a boilerplate at [github.com/rj11io/blog-boilerplate](https://github.com/rj11io/blog-boilerplate), under the Apache License 2.0. Fork it, replace the content directory with your own writing, and deploy it.
-
-Everything in this publication applies to that copy, because it is the same platform. Where a post refers to this site's specific publications or authors, read it as an example rather than as a requirement.
+The platform is available as a boilerplate at [github.com/rj11io/blog-boilerplate](https://github.com/rj11io/blog-boilerplate), under the Apache License 2.0, and everything in this publication applies to a copy, because it is the same platform. [Run your own copy](/blog-platform-docs/run-your-own-copy) is the checklist: what to replace, what to configure, and what to leave alone.
 
 If you want the argument for why running your own is worth the trouble, that is a different publication: [Own your platform](/online-presence/own-your-platform).
 
@@ -108,7 +114,4 @@ Record the reasoning, not just the rule. The contrast measurements in the themin
 
 Say what is missing. The accessibility post ends with its own gaps, and the validation post names the two things nothing checks. A contract with unstated holes is worse than no contract.
 
-## Supporting the blog
-
-The four groups above are the platform. One post in this publication is not about the platform at all: [Supporting the platform](/blog-platform-docs/supporting-the-platform) is for readers rather than maintainers, and it covers the three ways to help this blog keep going. Passing a post to someone who needs it is the one that matters most, and it is free.
 `

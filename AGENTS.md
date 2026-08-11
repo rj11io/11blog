@@ -37,16 +37,11 @@ There is a second, unrelated `AGENTS.md` at `v0/www/AGENTS.md`. It warns that th
 
 The Blog platform docs publication documents this platform. It is the source of truth for how everything works, and it is written for whoever maintains the repo. Read the relevant post before changing the thing it describes.
 
-All fifteen live in `content/publications/blog-platform-docs/posts/`. Start with Working with the platform if you are new. The table below puts that entry post first and then follows the publication's editorial order.
+All seventeen live in `content/publications/blog-platform-docs/posts/`. Start with Working with the platform if you are new. The table below puts that entry post first and then follows the publication's editorial order.
 
 | If you are… | Read | Published at |
 | --- | --- | --- |
 | New to the platform | `working-with-the-platform.ts` | `/blog-platform-docs/working-with-the-platform` |
-| Writing or editing a post | `adding-content.ts` | `/blog-platform-docs/adding-content` |
-| Looking up Markdown syntax | `markdown-reference/` | `/blog-platform-docs/markdown-reference` |
-| Hitting a content error message | `content-validation.ts` | `/blog-platform-docs/content-validation` |
-| Choosing tags, titles, or excerpts | `search-and-discovery.ts` | `/blog-platform-docs/search-and-discovery` |
-| Adding or changing an author | `authors-and-bylines.ts` | `/blog-platform-docs/authors-and-bylines` |
 | Changing types, the registry, or the boundary | `content-contract.ts` | `/blog-platform-docs/content-contract` |
 | Adding a component, or wondering what runs where | `rendering-model.ts` | `/blog-platform-docs/rendering-model` |
 | Adding Markdown syntax | `extending-the-renderer.ts` | `/blog-platform-docs/extending-the-renderer` |
@@ -55,6 +50,13 @@ All fifteen live in `content/publications/blog-platform-docs/posts/`. Start with
 | Renaming anything with a URL | `urls-and-redirects.ts` | `/blog-platform-docs/urls-and-redirects` |
 | Running, checking, or releasing | `running-the-blog.ts` | `/blog-platform-docs/running-the-blog` |
 | Touching the feed, sitemap, robots, or 404 page | `feeds-and-crawlers.ts` | `/blog-platform-docs/feeds-and-crawlers` |
+| Hitting a content error message | `content-validation.ts` | `/blog-platform-docs/content-validation` |
+| Looking up Markdown syntax | `markdown-reference/` | `/blog-platform-docs/markdown-reference` |
+| Writing or editing a post | `adding-content.ts` | `/blog-platform-docs/adding-content` |
+| Adding or changing an author | `authors-and-bylines.ts` | `/blog-platform-docs/authors-and-bylines` |
+| Choosing tags, titles, or excerpts | `search-and-discovery.ts` | `/blog-platform-docs/search-and-discovery` |
+| Setting up your own copy of the platform | `run-your-own-copy.ts` | `/blog-platform-docs/run-your-own-copy` |
+| Contributing a post or a code change | `contribute-to-the-platform.ts` | `/blog-platform-docs/contribute-to-the-platform` |
 | Changing how readers can support the blog | `supporting-the-platform.ts` | `/blog-platform-docs/supporting-the-platform` |
 
 ## Commands
@@ -124,7 +126,9 @@ A change is meaningful if it alters what someone else would need to know. Specif
 | A command, script, or the release pipeline | `running-the-blog.ts` |
 | What runs on the server or in the browser | `rendering-model.ts` |
 | The feed, sitemap, robots file, or 404 page | `feeds-and-crawlers.ts` |
-| What the platform deliberately omits, or the boilerplate story | `working-with-the-platform.ts` |
+| What the platform deliberately omits | `working-with-the-platform.ts` |
+| The boilerplate, or what a copy must configure | `run-your-own-copy.ts` |
+| The contribution workflow, or what a review checks | `contribute-to-the-platform.ts` |
 | How readers can support the blog | `supporting-the-platform.ts` |
 
 **If no existing post covers what you changed, write one.** Follow `adding-content.ts`, give it the next unused `postId` in the 4xx range, place it in the `posts` array where it belongs in the reading order, and link it from the posts it relates to. Add it to the routing table above, to the group lists in `working-with-the-platform.ts` (the reader-facing map), and bump the post-count sentences there, in the publication synopsis, and in `online-presence/posts/build-your-own-blog.ts`.
