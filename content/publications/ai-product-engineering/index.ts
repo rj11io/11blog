@@ -16,7 +16,7 @@ export const aiProductEngineering: Publication = {
   isNSFW: false,
   isNew: false,
   isFeatured: false,
-  isDraft: true,
+  isDraft: false,
   tags: ["AI", "Product Engineering", "Systems"],
   posts: [
     // Ported from Medium, written 2025-05-15, kept in its original voice. The
@@ -45,7 +45,7 @@ export const aiProductEngineering: Publication = {
       isNSFW: false,
       isNew: false,
       isFeatured: false,
-      isDraft: true,
+      isDraft: false,
       tags: ["Startup", "Tech Stack", "Next.js", "Product Engineering"],
       content: bestTechStackForYourStartup,
       coverImage: techStackCover.src,

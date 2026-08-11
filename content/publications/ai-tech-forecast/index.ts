@@ -14,7 +14,7 @@ export const aiTechForecast: Publication = {
   isNSFW: false,
   isNew: false,
   isFeatured: false,
-  isDraft: true,
+  isDraft: false,
   tags: ["AI", "Forecasting", "Technology"],
   posts: [
     // Ported from Medium, written 2023-01-03. Kept in its original voice: it is
@@ -37,7 +37,7 @@ export const aiTechForecast: Publication = {
       isNSFW: false,
       isNew: false,
       isFeatured: false,
-      isDraft: true,
+      isDraft: false,
       tags: ["AI", "Forecasting", "Adoption", "Work"],
       content: theRiseOfAiIn2023,
       coverImage: riseOfAiCover.src,

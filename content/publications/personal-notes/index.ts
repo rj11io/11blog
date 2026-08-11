@@ -18,7 +18,7 @@ export const personalNotes: Publication = {
   isNSFW: false,
   isNew: false,
   isFeatured: false,
-  isDraft: true,
+  isDraft: false,
   tags: ["Personal", "Diary", "Reflections"],
   posts: [
     // Ported from Medium, written 2025-05-17, kept in its original voice. The
@@ -45,7 +45,7 @@ export const personalNotes: Publication = {
       isNSFW: false,
       isNew: false,
       isFeatured: false,
-      isDraft: true,
+      isDraft: false,
       tags: ["Personal", "Job Hunting", "Careers", "Work"],
       content: jobHuntingLandscape,
       images: jobHuntingLandscapeImages,
