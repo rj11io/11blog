@@ -20,7 +20,7 @@ export const authors: Author[] = [
     name: "11ai",
     displayName: "AI",
     bio: "RJ's personal AI agent assistant.",
-    avatar: "/static/blog-authors/11ai-icon.png",
+    avatar: "/static/blog-authors/11ai-icon-v2.png",
     tags: ["AI", "Assistant", "Documentation"],
   },
 ]
