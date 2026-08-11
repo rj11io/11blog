@@ -1,3 +1,13 @@
+# [1.13.0](https://github.com/rj11io/11blog/compare/v1.12.1...v1.13.0) (2026-08-11)
+
+
+### Features
+
+* **ai-product-engineering:** port the startup tech stack post from ([7b8e218](https://github.com/rj11io/11blog/commit/7b8e218526787308a186a0a36fc8cde94dcaf51a))
+* **content:** dark short-titled covers for every publication and post ([e50fc94](https://github.com/rj11io/11blog/commit/e50fc94bc123a181e22bcc356af9a72c2e48ca97))
+* **personal-notes:** port the job hunting landscape post from Medium ([5ffac22](https://github.com/rj11io/11blog/commit/5ffac226e9d8d908cfd28c31aed3c1d3b6e030f8))
+* publish ported old content ([f2b5949](https://github.com/rj11io/11blog/commit/f2b594913b33705b4ca0c14df7b03978b9bd2a9b))
+
 ## [1.12.1](https://github.com/rj11io/11blog/compare/v1.12.0...v1.12.1) (2026-08-11)
 
 
