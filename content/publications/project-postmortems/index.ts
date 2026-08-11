@@ -1,7 +1,8 @@
 import type { Publication } from "../../types"
 import { aboutProjectPostmortems } from "./posts/about-project-postmortems"
 
-import publicationCover from "./assets/project-postmortems-og-cover-v1.png"
+import publicationCover from "./assets/project-postmortems-og-cover-v2.png"
+import aboutCover from "./assets/about-project-postmortems-og-cover-v2.png"
 
 export const projectPostmortems: Publication = {
   relId: 6,
@@ -30,6 +31,7 @@ export const projectPostmortems: Publication = {
       isDraft: true,
       tags: ["Projects", "Retrospectives", "Introduction"],
       content: aboutProjectPostmortems,
+      coverImage: aboutCover.src,
     },
   ],
   coverImage: publicationCover.src,

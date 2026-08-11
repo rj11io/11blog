@@ -1,8 +1,10 @@
 import type { Publication } from "../../types"
-import { aboutAiProductEngineering } from "./posts/about-ai-product-engineering"
-import { bestTechStackForYourStartup } from "./posts/best-tech-stack-for-your-startup"
+import { bestTechStackForYourStartup } from "./posts/2025-best-tech-stack-for-your-startup"
 
-import publicationCover from "./assets/ai-product-engineering-og-cover-v1.png"
+// The post's card reads "2025 SaaS stack". Its own title runs to 48 characters,
+// which would have drawn a size smaller than the rest of the set.
+import publicationCover from "./assets/ai-product-engineering-og-cover-v2.png"
+import techStackCover from "./assets/2025-best-tech-stack-for-your-startup-og-cover-v2.png"
 
 export const aiProductEngineering: Publication = {
   relId: 10,
@@ -17,21 +19,6 @@ export const aiProductEngineering: Publication = {
   isDraft: true,
   tags: ["AI", "Product Engineering", "Systems"],
   posts: [
-    {
-      postId: 1001,
-      slug: "about-ai-product-engineering",
-      title: "About AI product engineering",
-      excerpt:
-        "A placeholder for practical notes on engineering dependable AI products.",
-      created: "2026-08-04",
-      authorIds: ["rj11io"],
-      isNSFW: false,
-      isNew: false,
-      isFeatured: false,
-      isDraft: true,
-      tags: ["AI", "Product Engineering", "Introduction"],
-      content: aboutAiProductEngineering,
-    },
     // Ported from Medium, written 2025-05-15, kept in its original voice. The
     // created date carries the age; the body says nothing about being an
     // archive. Same treatment as the other two Medium ports.
@@ -43,9 +30,13 @@ export const aiProductEngineering: Publication = {
     //
     // No headings in the original, so none were invented. The index shows the
     // title entry alone.
+    //
+    // The slug carries the year for the same reason: it dates a stack that will
+    // not stay current. This address has never been published, so no redirect
+    // is owed for the rename.
     {
       postId: 1002,
-      slug: "best-tech-stack-for-your-startup",
+      slug: "2025-best-tech-stack-for-your-startup",
       title: "The objectively best tech stack for your startup",
       excerpt:
         "Next.js as the highest-leverage choice for a new SaaS product, and the full stack around it: TypeScript, React 19, Tailwind, Shadcn, Clerk, Stripe, Vercel.",
@@ -57,6 +48,7 @@ export const aiProductEngineering: Publication = {
       isDraft: true,
       tags: ["Startup", "Tech Stack", "Next.js", "Product Engineering"],
       content: bestTechStackForYourStartup,
+      coverImage: techStackCover.src,
     },
   ],
   coverImage: publicationCover.src,

@@ -1,7 +1,11 @@
 import type { Publication } from "../../types"
 import { aboutAiSkillsSpotlight } from "./posts/about-ai-skills-spotlight"
 
-import publicationCover from "./assets/ai-skills-spotlight-og-cover-v1.png"
+// v2 moves this publication onto the dark 11blog brand. Its v1 pair was the one
+// cover in the repo generated in the light 11blog-11ai style, which read as a
+// mistake next to every other card on a dark site.
+import publicationCover from "./assets/ai-skills-spotlight-og-cover-v2.png"
+import aboutCover from "./assets/about-ai-skills-spotlight-og-cover-v2.png"
 
 export const aiSkillsSpotlight: Publication = {
   relId: 11,
@@ -30,6 +34,7 @@ export const aiSkillsSpotlight: Publication = {
       isDraft: true,
       tags: ["AI", "Skills", "Introduction"],
       content: aboutAiSkillsSpotlight,
+      coverImage: aboutCover.src,
     },
   ],
   coverImage: publicationCover.src,

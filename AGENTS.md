@@ -99,6 +99,7 @@ npm --prefix v0/www run dev
 - **Server components by default.** Add `"use client"` only for state or event handlers, and keep it at the leaves.
 - **Name a design token; never write a colour or a corner radius.**
 - **Covers come from 11brands, never drawn here.** Use the `11blog-generate-covers` skill under `v0/skills/`, then `11blog-verify-covers`. Copy assets byte-for-byte, never resize or re-encode, and record the run stamp in the nearest `SOURCES.md`.
+- **A cover title is short, and 37 characters is the budget.** It is drawn as one line that never wraps and never truncates: at 57 characters it runs off the card, silently, and the build still passes. The card title is not the post title. Record the string you drew in `SOURCES.md`; nothing else remembers it.
 - **Commit messages decide releases.** `fix:`/`perf:`/`revert:` cut a patch, `feat:` a minor, `chore:`/`docs:`/`style:` release nothing.
 
 ## Two things nothing validates

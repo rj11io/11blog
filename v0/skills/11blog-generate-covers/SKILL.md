@@ -27,6 +27,37 @@ explicitly selects that style. Read the config for the palette and text; never
 edit anything in 11brands. A new brand or variant is the 11brands operator's
 job, not yours.
 
+## Pick the title
+
+The title is drawn as one line. It never wraps, and it is never truncated. The
+generator shrinks the font from 42pt down to 28pt trying to fit, and if the text
+still does not fit it draws it at 28pt anyway and lets it run off both edges of
+the card. Nothing fails, nothing warns, and verify cannot catch it afterwards,
+because an overflowing cover is still a faithful copy of its source.
+
+Measured against the card's font:
+
+- 37 characters or fewer: renders at the full 42pt.
+- 38 to 56: fits, but the font shrinks.
+- 57 or more: overflows the card. Never ship this.
+
+Treat 37 as the budget.
+
+Use the title the caller gives you. When the caller gives none, derive a short
+title from the record's own title and keep it inside the budget. Deriving is the
+normal case, not a rescue: a record title is used verbatim only when it already
+fits.
+
+Shorten by dropping leading articles, trailing qualifiers, and subtitle clauses,
+keeping the words a reader would search for. "Yes, the current job hunting
+landscape is a mess, here's how you can play around it" becomes "2025 job
+hunting landscape". Never invent a topic the post does not cover, and never let
+the short title contradict the record title.
+
+The drawn title is not recoverable from the repository afterwards, so record it
+(see Wire and record). A regeneration that guesses a different short title
+silently replaces the card's text.
+
 ## Generate
 
 One user request in one style is one generation run: pass every title in a
@@ -66,7 +97,14 @@ link previews cache image URLs.
 1. Statically import each new file where the post or publication record is
    defined and point coverImage at its .src.
 2. Record in the nearest SOURCES.md: brand key, date, run stamp, source file,
-   consumer file, and dimensions. One shared run gets one entry with a table
-   for its files.
+   consumer file, dimensions, and the title drawn on the card. One shared run
+   gets one entry with a table for its files, three columns wide:
+
+   ~~~markdown
+   | Consumer file | Source file | Title drawn |
+   ~~~
+
+   The title column is what makes a card reproducible. Without it the only
+   record of the drawn text is the image itself.
 3. Run the 11blog-verify-covers skill over the same set.
 4. Run typecheck, lint, and build from v0/www.

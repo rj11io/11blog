@@ -1,7 +1,8 @@
 import type { Publication } from "../../types"
 import { aboutTechTutorials } from "./posts/about-tech-tutorials"
 
-import publicationCover from "./assets/tech-tutorials-og-cover-v1.png"
+import publicationCover from "./assets/tech-tutorials-og-cover-v2.png"
+import aboutCover from "./assets/about-tech-tutorials-og-cover-v2.png"
 
 export const techTutorials: Publication = {
   relId: 7,
@@ -30,6 +31,7 @@ export const techTutorials: Publication = {
       isDraft: true,
       tags: ["Technology", "Tutorials", "Introduction"],
       content: aboutTechTutorials,
+      coverImage: aboutCover.src,
     },
   ],
   coverImage: publicationCover.src,

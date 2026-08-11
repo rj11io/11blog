@@ -2,9 +2,11 @@ import type { Publication } from "../../types"
 import { buildYourOwnBlog } from "./posts/build-your-own-blog"
 import { ownYourPlatform } from "./posts/own-your-platform"
 
-import publicationCover from "./assets/online-presence-og-cover-v2.png"
-import buildYourOwnBlogCover from "./assets/build-your-own-blog-og-cover-v2.png"
-import ownYourPlatformCover from "./assets/own-your-platform-og-cover-v2.png"
+// v3 redraws all three through 11brands v1. The v2 set was the last thing still
+// coming from the retired generator in v0/branding, which no longer runs.
+import publicationCover from "./assets/online-presence-og-cover-v3.png"
+import buildYourOwnBlogCover from "./assets/build-your-own-blog-og-cover-v3.png"
+import ownYourPlatformCover from "./assets/own-your-platform-og-cover-v3.png"
 
 export const onlinePresence: Publication = {
   relId: 5,

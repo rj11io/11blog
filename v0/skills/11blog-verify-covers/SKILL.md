@@ -46,10 +46,19 @@ EOF
    imports is dead weight; either wire it or remove it.
 
 4. **Recorded.** The nearest SOURCES.md names the brand key, run stamp, source
-   file, and consumer file. A cover whose origin is not written down cannot be
-   verified next time.
+   file, consumer file, and the title drawn. A cover whose origin is not written
+   down cannot be verified next time.
 
-5. **Palette and composition** are 11brands' responsibility, guaranteed by
+5. **Title is inside budget and matches the file.** The recorded title must be
+   37 characters or fewer, and slugifying it must give the source filename minus
+   its -og-content suffix. Checks 1 and 2 cannot catch an overflowing title: the
+   card is still byte-identical and still 1200 by 630, it just has text running
+   off both edges. This check is the only one that can.
+
+   A mismatch between the slug and the source filename means the record and the
+   image disagree about what was drawn. Trust the image, fix the record.
+
+6. **Palette and composition** are 11brands' responsibility, guaranteed by
    check 1: a byte-identical copy of a generated file cannot have drifted. Do
    not re-measure colours here; if a source image itself looks wrong, report it
    to the 11brands operator instead of touching it.

@@ -1,9 +1,12 @@
 import type { Publication } from "../../types"
-import { aboutPersonalNotes } from "./posts/about-personal-notes"
-import { jobHuntingLandscape } from "./posts/job-hunting-landscape"
-import { jobHuntingLandscapeImages } from "./posts/job-hunting-landscape.images"
+import { jobHuntingLandscape } from "./posts/2025-job-hunting-landscape"
+import { jobHuntingLandscapeImages } from "./posts/2025-job-hunting-landscape.images"
 
-import publicationCover from "./assets/personal-notes-og-cover-v1.png"
+// The post's card reads "2025 job hunting landscape". Its own title is 83
+// characters, which the generator would have drawn 1487px wide on a 1200px
+// card, clipped off both edges without any warning.
+import publicationCover from "./assets/personal-notes-og-cover-v2.png"
+import jobHuntingCover from "./assets/2025-job-hunting-landscape-og-cover-v2.png"
 
 export const personalNotes: Publication = {
   relId: 8,
@@ -18,34 +21,21 @@ export const personalNotes: Publication = {
   isDraft: true,
   tags: ["Personal", "Diary", "Reflections"],
   posts: [
-    {
-      postId: 801,
-      slug: "about-personal-notes",
-      title: "About Personal notes",
-      excerpt:
-        "A placeholder for personal thoughts, diary entries, and observations.",
-      created: "2026-08-04",
-      authorIds: ["rj11io"],
-      isNSFW: false,
-      isNew: false,
-      isFeatured: false,
-      isDraft: true,
-      tags: ["Personal", "Diary", "Introduction"],
-      content: aboutPersonalNotes,
-    },
     // Ported from Medium, written 2025-05-17, kept in its original voice. The
     // created date carries the age; the body says nothing about being an
     // archive. Same treatment as The rise of AI in 2023 in ai-tech-forecast.
     //
-    // No headings in the original, so none were invented. The table of contents
-    // is empty for this post by design.
+    // No headings in the original, so none were invented. The index therefore
+    // holds only its title entry, which is the whole point of that entry.
     //
-    // Slug shortened from the Medium one, which ran to 79 characters. Nothing
-    // links to the old address from inside this repo, and Medium keeps serving
-    // its own, so no redirect is owed.
+    // The slug carries the year because the post is a dated snapshot of a
+    // market, not standing advice, and the address is the one part a reader
+    // sees before the date. Shortened from the Medium slug, which ran to 79
+    // characters; Medium keeps serving its own, and this address has never
+    // been published from here, so no redirect is owed.
     {
       postId: 802,
-      slug: "job-hunting-landscape",
+      slug: "2025-job-hunting-landscape",
       title:
         "Yes, the current job hunting landscape is a mess, here's how you can play around it",
       excerpt:
@@ -59,6 +49,7 @@ export const personalNotes: Publication = {
       tags: ["Personal", "Job Hunting", "Careers", "Work"],
       content: jobHuntingLandscape,
       images: jobHuntingLandscapeImages,
+      coverImage: jobHuntingCover.src,
     },
   ],
   coverImage: publicationCover.src,

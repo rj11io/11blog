@@ -1,6 +1,11 @@
 import type { Publication } from "../../types"
 import { aboutResearchAndDevelopment } from "./posts/about-research-and-development"
 
+// Files are prefixed rnd, the pubId, as everywhere else. The cards themselves
+// read "Research and development": the abbreviation is an address, not a title.
+import publicationCover from "./assets/rnd-og-cover-v1.png"
+import aboutCover from "./assets/about-research-and-development-og-cover-v1.png"
+
 export const researchAndDevelopment: Publication = {
   relId: 14,
   pubId: "rnd",
@@ -28,6 +33,8 @@ export const researchAndDevelopment: Publication = {
       isDraft: true,
       tags: ["Research", "Development", "Introduction"],
       content: aboutResearchAndDevelopment,
+      coverImage: aboutCover.src,
     },
   ],
+  coverImage: publicationCover.src,
 }

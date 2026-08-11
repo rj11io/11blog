@@ -1,7 +1,8 @@
 import type { Publication } from "../../types"
 import { aboutAiBenchmarks } from "./posts/about-ai-benchmarks"
 
-import publicationCover from "./assets/ai-benchmarks-og-cover-v1.png"
+import publicationCover from "./assets/ai-benchmarks-og-cover-v2.png"
+import aboutCover from "./assets/about-ai-benchmarks-og-cover-v2.png"
 
 export const aiBenchmarks: Publication = {
   relId: 9,
@@ -30,6 +31,7 @@ export const aiBenchmarks: Publication = {
       isDraft: true,
       tags: ["AI", "Benchmarks", "Introduction"],
       content: aboutAiBenchmarks,
+      coverImage: aboutCover.src,
     },
   ],
   coverImage: publicationCover.src,

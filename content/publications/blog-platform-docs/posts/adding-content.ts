@@ -365,7 +365,25 @@ A coverImage does two jobs: the cover shown on the site, and the Open Graph imag
 
 Draw covers at 1200 by 630 when possible. That is the frame most social networks show and the ratio the page-top banner uses, so a cover at that size shows whole rather than cropped.
 
-For a branded cover, post or publication alike, use the 11blog-generate-covers skill under v0/skills/. It generates the source in the separate 11brands checkout configured by the gitignored .env.brand-assets.local file, then copies a new versioned image into the right assets directory: the publication's for a single-file post, the post's own for a directory module. Several covers in one style: pass every title in one run, producing one generation folder and one manifest for the set instead of one folder per file. Run the 11blog-verify-covers skill afterwards over the same set: it checks every consumer is byte-identical to its source, is 1200 by 630, wired into a record, and written down in SOURCES.md. Record the shared run stamp in the nearest SOURCES.md files. Keep older versioned covers: shared previews cache image URLs.
+For a branded cover, post or publication alike, use the 11blog-generate-covers skill under v0/skills/. It generates the source in the separate 11brands checkout configured by the gitignored .env.brand-assets.local file, then copies a new versioned image into the right assets directory: the publication's for a single-file post, the post's own for a directory module. Several covers in one style: pass every title in one run, producing one generation folder and one manifest for the set instead of one folder per file. Run the 11blog-verify-covers skill afterwards over the same set: it checks every consumer is byte-identical to its source, is 1200 by 630, wired into a record, written down in SOURCES.md, and drawn with a title inside the budget below. Record the shared run stamp in the nearest SOURCES.md files. Keep older versioned covers: shared previews cache image URLs.
+
+#### The title is drawn into the picture, and it has a budget
+
+The generator draws a cover title as one line. It never wraps, and it is never truncated. It shrinks the font from 42pt down to 28pt trying to fit, and if the text still does not fit it draws it at 28pt anyway and lets it run off both edges of the card.
+
+That failure is silent in every direction. Nothing errors, the build passes, and the verify skill's byte-comparison passes too, because an overflowing card is still a faithful copy of an overflowing source. The only way to catch it is to look at the image.
+
+So the budget, measured against the card's font:
+
+| Title length | What happens |
+| --- | --- |
+| 37 characters or fewer | Draws at the full 42pt |
+| 38 to 56 | Fits, at a smaller size |
+| 57 or more | Runs off the card |
+
+**The card title is not the post title.** It is chosen for the card, and it is short by default: a record's own title is used verbatim only when it already fits. Shorten by dropping leading articles, trailing qualifiers, and subtitle clauses, keeping the words a reader would search for. A post titled "Yes, the current job hunting landscape is a mess, here's how you can play around it" carries a card reading "2025 job hunting landscape". Renaming the post is a separate decision; the cover is not a reason to do it.
+
+Record the title you drew in SOURCES.md, in the Title drawn column. Nothing else in the repository remembers it, so without that record a later regeneration guesses a different short title and quietly changes the card.
 
 Other shapes still appear and a cover must survive them: the sixteen-by-nine card in a list, and the square thumbnail beside a row or a previous and next link. Both take a slice out of the middle. Keep anything that must stay readable, the title above all, near the centre; treat the outer edges as decoration you can afford to lose.
 

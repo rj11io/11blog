@@ -1,9 +1,13 @@
 import type { Publication } from "../../types"
 import { aboutAiCoachingAdvisory } from "./posts/about-ai-coaching-advisory"
 
-// No covers yet, on the publication or its post. Both fields are optional, and
-// the cards and pages fall back to a generated monogram, so nothing needs a
-// placeholder image in the meantime.
+// Both cards drop the middle noun: "AI coaching and advisory" rather than the
+// full "AI coaching, consultancy, and advisory". The full title is 38
+// characters, one over the budget where the card still draws at full size, so
+// it would have rendered a size smaller than every other cover in the set.
+import publicationCover from "./assets/ai-coaching-advisory-og-cover-v1.png"
+import aboutCover from "./assets/about-ai-coaching-advisory-og-cover-v1.png"
+
 export const aiCoachingAdvisory: Publication = {
   relId: 12,
   pubId: "ai-coaching-advisory",
@@ -34,6 +38,8 @@ export const aiCoachingAdvisory: Publication = {
       isDraft: true,
       tags: ["AI", "Coaching", "Introduction"],
       content: aboutAiCoachingAdvisory,
+      coverImage: aboutCover.src,
     },
   ],
+  coverImage: publicationCover.src,
 }
