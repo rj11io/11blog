@@ -41,11 +41,7 @@ Take this route if the building is part of the appeal. Bad route to take by acci
 
 ## Two: do it together
 
-The middle path, and what this site exists to support. Fork this blog's own repository, make it yours, deploy it:
-
-~~~text
-github.com/rj11io/11blog
-~~~
+The middle path, and what this site exists to support. Fork this blog's own repository at [github.com/rj11io/11blog](https://github.com/rj11io/11blog), make it yours, deploy it.
 
 Not a stripped starter kit: the running site, under the Apache License 2.0. What you get, the pieces that would otherwise be your weekends:
 
@@ -68,11 +64,7 @@ Required: comfort editing files in a repository and running a couple of commands
 
 Want more than a good blog (a specific design, a migration off an existing platform with every address preserved, custom features, integration with something you already run): that is a project, not a fork.
 
-That is what I do. Get in touch:
-
-~~~text
-www.rj11.io
-~~~
+That is what I do. Get in touch at [www.rj11.io](https://www.rj11.io).
 
 Plainly: you should not need this to have a blog. Routes one and two cover most people, and I would rather you took one than paid for something you did not need. Route three is for real, specific requirements.
 
