@@ -1,17 +1,17 @@
 export const designTokens = `
 # Design tokens and theming
 
-The blog's appearance is controlled by a set of named values in one stylesheet, v0/www/app/globals.css. A component almost never states a colour or a corner radius directly; it names a token, and the token has a different value in light and dark mode. This post explains the tokens, the two that carry real reasoning behind them, and what to do when you add a component.
+Appearance is controlled by named values in one stylesheet, v0/www/app/globals.css. Components name a token, not a colour or radius. Each token holds a light and a dark value. This post covers the tokens, the two with real reasoning behind them, and what to do when adding a component.
 
 ## Square corners, one lever
 
-The interface has no rounded corners anywhere, and that is enforced by a single value:
+No rounded corners anywhere. Enforced by one value:
 
 ~~~css
 --radius: 0rem;
 ~~~
 
-Every other radius in the system is derived from it:
+Every other radius derives from it:
 
 ~~~css
 --radius-sm: calc(var(--radius) * 0.6);
@@ -20,13 +20,13 @@ Every other radius in the system is derived from it:
 --radius-xl: calc(var(--radius) * 1.4);
 ~~~
 
-The stylesheet derives seven steps this way, sm through 4xl; the four shown are the pattern. Multiplying zero gives zero, so every step collapses to square. Setting --radius to 0.5rem would round the entire interface in proportion, including the shadcn components, which use these steps internally.
+Seven steps derived this way, sm through 4xl; the four shown are the pattern. Multiplying zero gives zero, so every step collapses to square. Setting --radius to 0.5rem would round the entire interface in proportion, including the shadcn components (they use these steps internally).
 
-This is the pattern to copy: one value that means something, and derived values that follow it. It is also why you should not write a corner radius directly on a component. Doing so takes that component out of the system and it will not follow the lever.
+Pattern to copy: one value with meaning, derived values that follow it. Never write a corner radius directly on a component: it leaves the system and stops following the lever.
 
 ## How a token reaches a class name
 
-Tokens are declared twice. Once as plain CSS custom properties holding the values, and once in a block that tells Tailwind they exist:
+Tokens are declared twice: as plain CSS custom properties holding values, and in a block telling Tailwind they exist:
 
 ~~~css
 @theme inline {
@@ -43,49 +43,49 @@ Tokens are declared twice. Once as plain CSS custom properties holding the value
 }
 ~~~
 
-The @theme block is what makes class names such as text-primary, bg-muted, and border-border available. The :root block is what gives them values. A new token needs both halves, or the class name will not exist.
+The @theme block creates the class names (text-primary, bg-muted, border-border). The :root block gives them values. A new token needs both halves or the class name will not exist.
 
-Colours are written in oklch, which states lightness first, then how saturated the colour is, then its hue. The useful property is that the first number is perceptual lightness, so two colours with the same first number look equally light. That makes it much easier to keep a palette even, and to reason about contrast before measuring it.
+Colours use oklch: lightness first, then saturation, then hue. The first number is perceptual lightness, so two colours with the same first number look equally light. Result: an even palette, and contrast reasoning before measuring.
 
-A value like oklch(0.556 0 0) has no saturation and no hue, so it is a pure grey at 55.6 per cent lightness.
+oklch(0.556 0 0): no saturation, no hue, pure grey at 55.6 per cent lightness.
 
 ## Light and dark
 
-Light mode values sit in :root. Dark mode values sit in a .dark block, and the class is put on the root element by the theme library.
+Light values sit in :root. Dark values sit in a .dark block; the theme library puts the class on the root element.
 
-Most tokens simply flip: the background goes from near-white to near-black, the foreground the other way. Two of them carry an explanation, and both explanations are worth reading before you change anything.
+Most tokens simply flip: background near-white to near-black, foreground the other way. Two carry an explanation. Read both before changing anything.
 
 ### The accent colour is not the same green in both modes
 
-One naming trap before the numbers: the token that carries the green is --primary. A separate pair named --accent and --accent-foreground also exists — a near-white grey in light mode, a dark grey in dark mode — used by the generated components for hover surfaces. Reaching for bg-accent expecting the green gives you grey; the green is bg-primary. This section says "accent" in the design sense and --primary is the token it means.
+Naming trap first: the green lives in --primary. A separate pair, --accent and --accent-foreground, also exists (near-white grey in light mode, dark grey in dark mode), used by the generated components for hover surfaces. bg-accent gives grey; the green is bg-primary. This section says "accent" in the design sense; --primary is the token it means.
 
-In light mode the accent is a deep green. In dark mode it is a light mint. These are not two shades of one colour picked by eye; the dark one exists to meet a contrast requirement.
+Light mode: deep green. Dark mode: light mint. Not two shades picked by eye; the mint exists to meet a contrast requirement.
 
-The comment in the stylesheet records the numbers. The original deep green measured 2.6 to 1 against the dark background, well below the 4.5 to 1 minimum for normal text. The mint replacement measures 9.2 to 1 against the background and 8.3 to 1 against card surfaces.
+The stylesheet comment records the numbers. The original deep green measured 2.6 to 1 against the dark background, below the 4.5 to 1 minimum for normal text. The mint measures 9.2 to 1 against the background and 8.3 to 1 against card surfaces.
 
-The reason the deep green failed is that in dark mode the accent is used mostly as text: eyebrow labels, active states, small signals. A colour that works as a fill behind white text does not work as text on a dark background.
+Why the deep green failed: in dark mode the accent is mostly text (eyebrow labels, active states, small signals). A colour that works as a fill behind white text does not work as text on a dark background.
 
-That flip has a consequence. Because the accent is now the light colour in dark mode, anything sitting on top of an accent-filled button must be dark. That is what --primary-foreground is for, and in dark mode it is a very dark green measuring 7.0 to 1 against the fill.
+Consequence: the accent is the light colour in dark mode, so anything on an accent-filled button must be dark. That is --primary-foreground. In dark mode it is a very dark green, 7.0 to 1 against the fill.
 
-If you change the accent, measure both directions: the accent as text on the background, and the foreground token as text on the accent.
+Changing the accent: measure both directions. The accent as text on the background, and the foreground token as text on the accent.
 
 ### One token mixes two others
 
-Badges need a faint wash of the accent that stays readable when it sits on top of a photograph. It is defined as a mix rather than a fixed colour:
+Badges need a faint accent wash that stays readable over photographs. Defined as a mix, not a fixed colour:
 
 ~~~css
 --accent-surface: color-mix(in oklab, var(--primary) 12%, var(--background));
 ~~~
 
-Twelve per cent accent, the rest page background. Because both ingredients change between light and dark mode, this one line produces the right result in both, and it stays fully opaque, so cover art cannot show through and ruin the contrast.
+Twelve per cent accent, the rest page background. Both ingredients change per mode, so this one line produces the right result in both. Fully opaque: cover art cannot show through and ruin the contrast.
 
-It is declared once, in :root, and deliberately not repeated in the .dark block. The reason is that .dark also targets the root element, so both ingredients already hold their per-mode values by the time the mix is resolved. Repeating it would be redundant, and the comment in the file says so.
+Declared once, in :root, and deliberately not repeated in the .dark block. Reason: .dark also targets the root element, so both ingredients already hold their per-mode values when the mix resolves. Repeating it would be redundant; the comment in the file says so.
 
 ## The chart tokens do a second job
 
-Five tokens named --chart-1 through --chart-5 exist for data visualisation, and nothing on the blog currently charts anything. They are used instead by the generated cover art.
+Five tokens, --chart-1 through --chart-5, exist for data visualisation. Nothing on the blog currently charts anything. They are used by the generated cover art.
 
-When a post or publication has no cover photograph, v0/www/components/media/cover-image.tsx draws one: a soft gradient, a fine diagonal texture, and the publication's initials. The gradient's colours are pairs of chart tokens:
+Posts and publications without a cover photograph get one drawn by v0/www/components/media/cover-image.tsx: soft gradient, fine diagonal texture, the publication's initials. The gradient's colours are pairs of chart tokens:
 
 ~~~ts
 const palettes = [
@@ -97,20 +97,20 @@ const palettes = [
 ] as const
 ~~~
 
-A hash of the title picks the palette and the gradient angle, so a given title always produces the same artwork, and generated covers follow light and dark mode with no extra work. Changing the chart tokens changes every generated cover.
+A hash of the title picks the palette and gradient angle: same title, same artwork. Generated covers follow light and dark mode with no extra work. Changing the chart tokens changes every generated cover.
 
 ## Type
 
-Two families, loaded through Next.js font handling in v0/www/app/layout.tsx and exposed as tokens:
+Two families, loaded through Next.js font handling in v0/www/app/layout.tsx, exposed as tokens:
 
-- Inter for body text, headings, navigation, and interface labels, as --font-sans.
-- Geist Mono for code, the site wordmark, and version numbers, as --font-mono.
+- Inter: body text, headings, navigation, interface labels. Token --font-sans.
+- Geist Mono: code, the site wordmark, version numbers. Token --font-mono.
 
-A third token, --font-heading, points at the sans family. It exists so headings could be given their own face later without touching every heading in the codebase.
+A third token, --font-heading, points at the sans family. Purpose: headings could get their own face later without touching every heading in the codebase.
 
 ## Code colours
 
-Code highlighting is done by Shiki, which produces markup carrying both a light and a dark colour on every token. The stylesheet picks between them:
+Shiki highlights code and emits markup carrying both a light and a dark colour on every token. The stylesheet picks between them:
 
 ~~~css
 .shiki, .shiki span {
@@ -122,28 +122,28 @@ Code highlighting is done by Shiki, which produces markup carrying both a light 
 }
 ~~~
 
-Backgrounds are forced transparent so the code block sits on the blog's own surface rather than the theme's. This is one of the few places the codebase uses !important, and it is because the highlighter writes its colours inline.
+Backgrounds are forced transparent, so code blocks sit on the blog's own surface rather than the theme's. One of the few !important uses in the codebase; needed because the highlighter writes its colours inline.
 
 ## Switching mode
 
-Theme switching uses next-themes, configured in v0/www/components/theme-provider.tsx. It follows the operating system by default, writes a class on the root element, and suppresses transitions while switching so the whole page does not animate.
+next-themes, configured in v0/www/components/theme-provider.tsx. Follows the operating system by default, writes a class on the root element, suppresses transitions while switching so the page does not animate.
 
-There are two ways to change mode. The button in the header, and pressing the letter d. The hotkey ignores the key press when a modifier is held, when a key is being held down, and when the focus is in a text field, a textarea, a select, or any editable element, so it cannot fire while you are typing.
+Two ways to change mode: the header button, and the letter d. The hotkey ignores the press when a modifier is held, when a key is being held down, or when focus is in a text field, textarea, select, or any editable element. It cannot fire while typing.
 
-One detail in the toggle button worth knowing if you touch it: before the page has hydrated, the button renders an empty placeholder rather than a sun or moon. The server does not know which mode the visitor prefers, so guessing would cause a mismatch between the server output and the browser. The button waits until it is running in the browser to decide which icon to show.
+Toggle button detail worth knowing if you touch it: before hydration it renders an empty placeholder, not a sun or moon. The server does not know the visitor's mode; guessing would mismatch server output and browser. The button decides the icon only once it runs in the browser.
 
 ## Component defaults
 
-v0/www/components.json records the choices used when generating shadcn components: the radix-rhea style, a neutral base colour, colours delivered as CSS variables rather than fixed values, and Lucide for icons.
+v0/www/components.json records the shadcn generation choices: radix-rhea style, a neutral base colour, colours delivered as CSS variables rather than fixed values, Lucide for icons.
 
-The variables setting is the important one. It is what makes generated components read the same tokens as the rest of the interface, so they follow light and dark mode and the radius lever without editing.
+The variables setting is the important one. Generated components read the same tokens as the rest of the interface, so they follow light and dark mode and the radius lever without editing.
 
 ## When you add a component
 
-- Name a token; do not write a colour. If the colour you want does not exist as a token, add one, in both the @theme block and the value blocks.
-- Do not write a corner radius. The system is square, from one lever.
-- Structure comes from thin borders, using border-border. Not from shadows.
-- Check the component in both modes before committing. The theme hotkey makes this a single keystroke.
-- If you introduce a colour used as text, check it measures at least 4.5 to 1 against every surface it will sit on. Both surfaces, both modes. That rule, and the rest of what a new component owes its readers, is in the [Accessibility contract](/blog-platform-docs/accessibility-contract).
-- Record the reasoning in a comment when a value exists for a measurable reason. The two comments in this stylesheet are the reason its unusual choices have survived.
+- Name a token, not a colour. Missing token: add one, in both the @theme block and the value blocks.
+- No corner radii. The system is square, from one lever.
+- Structure comes from thin borders, using border-border. Not shadows.
+- Check both modes before committing. The theme hotkey makes it one keystroke.
+- New text colour: at least 4.5 to 1 against every surface it sits on. Both surfaces, both modes. That rule, plus the rest of what a new component owes readers: [Accessibility contract](/blog-platform-docs/accessibility-contract).
+- Comment the reasoning when a value exists for a measurable reason. The two comments in this stylesheet are why its unusual choices survived.
 `

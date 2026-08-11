@@ -23,7 +23,7 @@ The primary [11blog logo](./logo/README.md) pairs a geometric double-one mark wi
 - Use sharp lines, square corners, and crisp edges. The core interface has no border radius.
 - Define structure with thin hairline borders rather than shadows or decorative containers.
 - Keep surfaces flat and quiet. Use contrast, spacing, and rules to establish hierarchy.
-- Use the green primary color selectively for actions, active states, eyebrows, and small signals—not as a large decorative fill.
+- Use the green primary color selectively for actions, active states, eyebrows, and small signals, not as a large decorative fill.
 - Prefer generous negative space and a measured editorial rhythm over dense layouts.
 
 ## Typography
@@ -61,4 +61,4 @@ The primary [11blog logo](./logo/README.md) pairs a geometric double-one mark wi
 
 ## Direction in one line
 
-Sharp editorial structure, disciplined spacing, and a restrained green signal color—all in service of clear reading.
+Sharp editorial structure, disciplined spacing, and a restrained green signal color, all in service of clear reading.

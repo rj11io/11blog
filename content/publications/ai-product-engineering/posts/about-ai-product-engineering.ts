@@ -2,5 +2,5 @@ export const aboutAiProductEngineering = `# About AI product engineering
 
 ## Test
 
-This publication is being prepared. It will cover the engineering work required to turn AI capabilities into dependable products: architecture, evaluation, interfaces, operations, and failure handling.
+Not written yet. Planned: the engineering work that turns AI capabilities into dependable products. Architecture, evaluation, interfaces, operations, failure handling.
 `

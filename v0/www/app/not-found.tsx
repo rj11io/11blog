@@ -5,7 +5,7 @@ import { browseContentHref } from "@content/routes"
 /**
  * Served for every unknown address: a mistyped path, a draft's address, or a
  * removed page with no redirect. Every content route sets dynamicParams to
- * false, so this page does real work — see urls-and-redirects in the docs
+ * false, so this page does real work. See urls-and-redirects in the docs
  * publication before deleting anything with an address.
  */
 export default function NotFound() {
@@ -20,7 +20,7 @@ export default function NotFound() {
         </h1>
         <p className="mx-auto mt-4 max-w-md text-muted-foreground">
           The address may be mistyped, or the page may have been renamed or
-          unpublished. Nothing here is hidden — an address either works or it
+          unpublished. Nothing here is hidden: an address either works or it
           does not.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

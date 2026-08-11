@@ -1,9 +1,9 @@
 export const authorsAndBylines = `
 # Authors and bylines
 
-Every post on this blog names at least one author, and every author has a page listing their work. Authors are the one part of the content that is shared across publications, which makes the file that holds them the one place a small mistake shows up everywhere.
+Every post names at least one author. Every author gets a page listing their work. Authors are shared across publications, so one mistake in the authors file shows up everywhere.
 
-They all live in a single file: content/authors.ts.
+All authors live in one file: content/authors.ts.
 
 ## What an author is
 
@@ -34,43 +34,42 @@ They all live in a single file: content/authors.ts.
 | tags | Yes | Subject tags, searchable and filterable in the authors view of browse. |
 | links | No | External links, each a label and a full web address. |
 
-Posts refer to an author by id, in their authorIds list. Nothing else connects them.
+Posts reference authors by id, in their authorIds list. No other connection.
 
 ## displayName is doing two jobs
 
-This is the field most likely to catch you out, because it is used in two very different ways.
+Two uses, easy to get wrong:
 
-First, it is the **avatar fallback**. When an author has no photograph, their displayName is drawn inside a small square: twelve pixels of type on a byline, fourteen on a card, and much larger on the author page. It is sized as initials, so two or three characters is the working limit. Put a full name in there and it will overflow its square on every card on the site.
+- **Avatar fallback.** No photograph: displayName is drawn in a small square. 12px type on a byline, 14px on a card, larger on the author page. Sized for initials, so two or three characters is the limit. A full name overflows the square on every card.
+- **In a sentence.** The author page heads its work list with "Latest posts by" plus displayName. Browse shows it as a small badge. Must read as prose: "Latest posts by RJ" works, "Latest posts by R" does not.
 
-Second, it appears **in a sentence**. The author page heads its list of work with "Latest posts by" followed by the displayName, and the browse page shows it as a small badge. So the value also has to read acceptably in prose. "Latest posts by RJ" is fine. "Latest posts by R" is not.
-
-Initials are the format that satisfies both jobs. The two current authors use RJ and AI.
+Initials satisfy both jobs. Current authors: RJ and AI.
 
 ## Photographs, and one gap
 
-An avatar is a path to a file served by the site, so /static/blog-authors/rj-pic.png. Author photographs are the main reason that directory exists; see [Adding a publication or post](/blog-platform-docs/adding-content) for the layout.
+avatar is a path served by the site: /static/blog-authors/rj-pic.png. Author photographs are the main reason that directory exists. Layout: [Adding a publication or post](/blog-platform-docs/adding-content).
 
-Unlike a post's images, they are rendered with the optimising image component, at fixed sizes, cropped to fill a square.
+Unlike a post's images, avatars render through the optimising image component, at fixed sizes, cropped to fill a square.
 
-**Nothing validates the path.** Cover images are checked for being root-relative or HTTPS, but the avatar field is not checked at all. A typo produces a broken image on the author page, every card, and every byline, and no command in the project will tell you. Open one author page after changing an avatar.
+**Nothing validates the path.** Cover images are checked (root-relative or HTTPS); the avatar field is not checked at all. A typo breaks the image on the author page, every card, and every byline, and no command reports it. After changing an avatar, open one author page.
 
-When there is no photograph the initials square appears instead, tinted with the accent colour. It is a deliberate design rather than a placeholder, so an author with no photograph does not look unfinished.
+No photograph: the initials square appears, tinted with the accent colour. Deliberate design, not a placeholder. An author without a photograph does not look unfinished.
 
 ## Bios are plain text
 
-The bio is rendered as a single paragraph. It is not passed through the Markdown renderer, so asterisks, links, and line breaks written into it will appear literally. If you need a link, use the links list.
+The bio renders as one paragraph. Not passed through the Markdown renderer: asterisks, links, and line breaks appear literally. Need a link: use the links list.
 
-The same bio appears in three places at three widths: the author page, the author card on the landing page, and the author result in browse. Two or three sentences works in all of them; a long bio pushes the cards out of alignment with their neighbours.
+The same bio appears in three places at three widths: author page, author card on the landing page, author result in browse. Two or three sentences fits all three. A long bio pushes the cards out of alignment.
 
 ## Links
 
-Each link is a label and a full web address, and both are validated. A label cannot be empty, and an address must be complete, using http or https. Writing example.com/notes fails the build; https://example.com/notes passes.
+Each link is a label plus a full web address, both validated. Empty label fails. Incomplete address fails: example.com/notes fails the build, https://example.com/notes passes.
 
-Links appear only on the author page, as a row of bordered buttons, opening in a new tab. There is no limit, but the row wraps, so four or five is the practical maximum before it stops reading as a row.
+Links appear only on the author page, as a row of bordered buttons opening in a new tab. No limit, but the row wraps: four or five is the practical maximum before it stops reading as a row.
 
 ## Post counts are derived, not set
 
-There is no field for how many posts an author has written. The registry counts them:
+No field for post count. The registry counts:
 
 ~~~ts
 postCount: postPreviews.filter((post) =>
@@ -78,17 +77,20 @@ postCount: postPreviews.filter((post) =>
 ).length
 ~~~
 
-So the count follows the posts and cannot disagree with them. It is shown on the author card, on the author page, and as a badge in browse, and it is one of the fields the authors search matches.
+The count follows the posts and cannot disagree with them. Shown on the author card, on the author page, and as a badge in browse. Also one of the fields the authors search matches.
 
-Ordering differs by surface: the landing page lists authors by post count, most first, with names breaking a tie. Browse defaults to the same most-posts order and offers least posts, A-Z, and Z-A as alternatives — see [Search, tags, and discovery](/blog-platform-docs/search-and-discovery).
+Ordering differs by surface:
+
+- Landing page: post count, most first, names break ties.
+- Browse: same default, plus least posts, A-Z, and Z-A. See [Search, tags, and discovery](/blog-platform-docs/search-and-discovery).
 
 ## Bylines
 
-A post's authorIds is a list, and its order is preserved everywhere. First in the list is first in the byline. Nothing sorts it, so the order is an editorial decision you make per post.
+authorIds is a list, order preserved everywhere. First in the list, first in the byline. Nothing sorts it: order is an editorial decision per post.
 
-On a post page the byline appears under "Written by" as a row of avatar-and-name links, one per author, each linking to that author's page.
+Post page: byline under "Written by", a row of avatar-and-name links, one per author, each linking to that author's page.
 
-In browse results the names are joined into a sentence:
+Browse results join the names into a sentence:
 
 | Authors | Rendered as |
 | --- | --- |
@@ -100,27 +102,27 @@ Three or more uses a comma before the final "and".
 
 ## Publications have authors too
 
-A publication has no author field, and it does not need one. Its authors are the people with a byline on at least one of its posts, collected by the registry, and they are shown exactly the way a post's authors are: the same byline component, the same "Written by" label, the same avatar-and-name links to each author page.
+A publication has no author field. Its authors are the people with a byline on at least one of its posts, collected by the registry. Shown exactly as a post's authors: same byline component, same "Written by" label, same avatar-and-name links.
 
-The order is by how many posts each person wrote, then by name when counts tie. So whoever wrote most of a publication appears first, and a publication written entirely by one person shows one name.
+Order: posts written, most first, name breaks ties. A publication written entirely by one person shows one name.
 
-They are derived rather than declared because a field on the publication would be a second place for the same fact to live, and the two would eventually disagree. The cost of deriving is nothing to maintain: add a post with a new author and that author joins the publication's byline on the next build, and if you remove their last post they leave it.
+Derived, not declared: a field on the publication would be a second place for the same fact, and the two would eventually disagree. Maintenance cost of deriving: zero. Add a post with a new author, they join the publication's byline on the next build. Remove their last post, they leave it.
 
-Publication cards phrase it more briefly, matching post cards: "By" followed by the names.
+Publication cards phrase it briefly, matching post cards: "By" plus the names.
 
 ## The rules the build enforces
 
-- Every post needs at least one author.
-- No author may appear twice on the same post.
+- Every post: at least one author.
+- No author twice on the same post.
 - Every id in authorIds must exist in content/authors.ts.
-- An author id must be a valid slug, and unique.
-- name, displayName, and bio must all have text in them.
-- Tags follow the usual rules: no blanks, no surrounding spaces, no duplicates within one list.
-- Every link needs a non-empty label and a complete http or https address.
+- Author id: valid slug, unique.
+- name, displayName, and bio: non-empty.
+- Tags: no blanks, no surrounding spaces, no duplicates within one list.
+- Every link: non-empty label, complete http or https address.
 
-The full set of messages is in [Content validation rules](/blog-platform-docs/content-validation).
+Full set of messages: [Content validation rules](/blog-platform-docs/content-validation).
 
-One rule is checked twice, in two different places, and the two messages look different. The validator names the post by its numeric ID:
+One rule is checked twice, in two places, with different messages. The validator names the post by numeric ID:
 
 ~~~text
 blog-platform-docs/402 references unknown author assistant-id
@@ -132,30 +134,30 @@ The registry checks again while resolving authors for display, and names the pos
 Adding a publication or post references unknown author assistant-id
 ~~~
 
-Seeing the second form means the first check passed, which in practice means an author was removed from the file while a post still referenced them.
+The second form means the first check passed. In practice: an author was removed from the file while a post still referenced them.
 
 ## Adding, renaming, and removing
 
-**Adding** an author is one entry in content/authors.ts. Their page is generated on the next build, whether or not they have written anything.
+**Adding**: one entry in content/authors.ts. The page is generated on the next build, posts or not.
 
-That last part is worth knowing: an author with no posts still gets a page. It shows their details, a count of zero, and an empty list, with no message explaining the emptiness. Add the author in the same change as their first post and the question does not arise.
+An author with no posts still gets a page: details, a count of zero, an empty list, no message explaining the emptiness. Add the author in the same change as their first post.
 
-**Renaming** an author's id changes their public address, because the id is the URL. That needs a redirect, exactly like renaming a publication:
+**Renaming** the id changes the public address, because the id is the URL. Needs a redirect, same as renaming a publication:
 
 ~~~ts
 { source: "/authors/old-id", destination: "/authors/new-id", permanent: true }
 ~~~
 
-Changing the name, displayName, bio, or avatar costs nothing, since none of those are in the address.
+name, displayName, bio, and avatar are not in the address. Changing them costs nothing.
 
-**Removing** an author who has posts fails the build, with one of the two messages above. That is the right behaviour: it forces you to decide what happens to the writing rather than leaving posts pointing at nobody. Either reassign the posts to another author or remove them too.
+**Removing** an author who has posts fails the build, with one of the two messages above. Intentional: forces a decision on the writing instead of leaving posts pointing at nobody. Reassign the posts to another author or remove them too.
 
 ## Checklist for a new author
 
-1. Choose an id in lowercase with hyphens. It becomes their public address, so choose it as carefully as a post slug.
-2. Set displayName to two or three characters, so it works as both an avatar and a name in a sentence.
-3. Write a bio of two or three sentences, in plain text.
-4. Add a photograph if you have one, then open the author page to confirm the path is right. Nothing validates it.
+1. Choose an id: lowercase, hyphens. It becomes the public address, so choose it as carefully as a post slug.
+2. Set displayName to two or three characters: works as both an avatar and a name in a sentence.
+3. Write a bio: two or three sentences, plain text.
+4. Add a photograph if you have one, then open the author page to confirm the path. Nothing validates it.
 5. Give two or three subject tags, matching the capitalisation of tags already in use. See [Search, tags, and discovery](/blog-platform-docs/search-and-discovery).
 6. Add external links with complete addresses.
 7. Add them alongside their first post, so they never appear with an empty page.

@@ -2,5 +2,5 @@ export const aboutTechTutorials = `# About Tech tutorials
 
 ## Test
 
-This publication is being prepared. It will contain practical, reproducible technical guides with enough context to understand both the steps and the decisions behind them.
+Not written yet. Planned: practical technical guides with reproducible steps, plus the reasoning behind each decision rather than the steps alone.
 `

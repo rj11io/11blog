@@ -1,15 +1,15 @@
 export const contributeToThePlatform = `
 # Contribute to the platform
 
-This blog is developed in the open, at [github.com/rj11io/11blog](https://github.com/rj11io/11blog). Contributions are welcome in two shapes: writing, meaning a new post or a correction to one, and code, meaning a change to the platform itself. Both arrive the same way, as a pull request, and this post is the path from fork to merged.
+Developed in the open at [github.com/rj11io/11blog](https://github.com/rj11io/11blog). Two contribution shapes: writing (new post or correction), code (platform change). Both arrive as pull requests. This post: fork to merged.
 
 ## The shortest contribution
 
-You do not need a fork to point out a problem. If a post is broken, unclear, or plainly wrong, open an issue on the repository and say so. This documentation is only worth trusting because wrong claims in it keep getting caught, and some of the catches come from readers. [Supporting the platform](/blog-platform-docs/supporting-the-platform) counts this as real support, because it is.
+No fork needed to report a problem. Post broken, unclear, or wrong: open an issue. This documentation stays trustworthy because wrong claims keep getting caught, some by readers. [Supporting the platform](/blog-platform-docs/supporting-the-platform) counts this as real support.
 
 ## Before either kind
 
-Fork the repository, clone your fork, and get the site running locally. [Running and releasing the blog](/blog-platform-docs/running-the-blog) covers it; the short version:
+Fork the repository, clone your fork, run the site locally. Full guide: [Running and releasing the blog](/blog-platform-docs/running-the-blog). Short version:
 
 ~~~bash
 cd v0/www
@@ -17,7 +17,7 @@ npm install
 npm run dev
 ~~~
 
-Work on a branch, and run the three checks before you push:
+Work on a branch. Run three checks before pushing:
 
 ~~~bash
 npm run typecheck
@@ -25,33 +25,37 @@ npm run lint
 npm run build
 ~~~
 
-They fail for different reasons and none covers another. The build is the one that runs the content validator, so it is the one that judges your writing rather than just your types.
+Each fails for different reasons, none covers another. Only the build runs the content validator: it judges writing, not just types.
 
 ## Contributing writing
 
 Four steps.
 
-**Add yourself as an author.** Every post carries a byline, and bylines resolve against content/authors.ts. Follow the checklist in [Authors and bylines](/blog-platform-docs/authors-and-bylines): a lowercase id, a two-or-three character displayName, a plain-text bio, and a photograph if you want one, checked by opening your author page, because nothing validates the path.
-
-**Write the post.** [Adding a publication or post](/blog-platform-docs/adding-content) is the format guide, and [Markdown reference](/blog-platform-docs/markdown-reference) shows every form the renderer supports. Put the post in the publication it belongs to, in the right position in its posts array, since array order is reading order.
-
-**Check what search will see.** Post bodies are invisible to search on this site, so the title, the excerpt, and the tags carry all the discoverability. [Search, tags, and discovery](/blog-platform-docs/search-and-discovery) changes how you write all three.
-
-**Click every link you wrote.** Nothing validates links in prose. A link to a page that does not exist builds happily and returns a 404 to your reader.
+- **Add yourself as an author.** Bylines resolve against content/authors.ts. Checklist in [Authors and bylines](/blog-platform-docs/authors-and-bylines): lowercase id, two-or-three character displayName, plain-text bio, optional photograph. Check the photo by opening your author page: nothing validates the path.
+- **Write the post.** Format guide: [Adding a publication or post](/blog-platform-docs/adding-content). Every supported form: [Markdown reference](/blog-platform-docs/markdown-reference). Put the post in the right publication, right position in its posts array: array order is reading order.
+- **Check what search will see.** Post bodies are invisible to search here. Title, excerpt, tags carry all discoverability. [Search, tags, and discovery](/blog-platform-docs/search-and-discovery) changes how you write all three.
+- **Click every link you wrote.** Nothing validates links in prose. A link to a missing page builds fine, returns a 404 to the reader.
 
 ## Contributing code
 
-Read first, then change. Each part of the platform has a post that documents it, and [Working with the platform](/blog-platform-docs/working-with-the-platform) maps which one covers the thing you are about to touch. The repository's AGENTS.md carries the same map in table form, plus the hard rules that are easy to break by accident.
+Read first, then change. Each platform part has a documenting post. [Working with the platform](/blog-platform-docs/working-with-the-platform) maps which post covers what. AGENTS.md carries the same map as a table, plus the hard rules easy to break by accident.
 
-Two rules matter more than the rest.
+Two rules above the rest.
 
-**Update the documentation in the same commit.** A meaningful change to the platform updates the post that describes it. These posts are published, so a stale one is a public false statement rather than a private note. If no post covers what you changed, write one.
-
-**Your commit message decides the release.** The pipeline reads Conventional Commits: a fix commit cuts a patch, a feature commit cuts a minor, and chore or docs commits release nothing. Write the summary line as a changelog entry a reader can understand, because that is exactly what it becomes.
+- **Update the documentation in the same commit.** A meaningful platform change updates the post describing it. Posts are published: a stale one is a public false statement, not a private note. No post covers the change: write one.
+- **Your commit message decides the release.** Pipeline reads Conventional Commits: fix: cuts a patch, feat: cuts a minor, chore: and docs: release nothing. The summary line becomes a changelog entry: write it as one.
 
 ## What a review looks at
 
-A pull request is checked against the same things these posts warn about: the three checks pass, internal links were clicked, unfinished work is flagged as a draft rather than half-published, new syntax comes with its example in the Markdown reference, and anything whose URL moved comes with a redirect. None of that is bureaucracy; each item is a specific way a reader gets hurt.
+A pull request is checked against what these posts warn about:
 
-If you plan to change the shape of the content itself, meaning the types, the registry, or the validation, read [The content contract](/blog-platform-docs/content-contract) first and expect the review to take longer. That boundary is the platform's one deliberate rigidity, and it is guarded accordingly.
+- Three checks pass.
+- Internal links clicked.
+- Unfinished work flagged as draft, not half-published.
+- New syntax ships with its example in the Markdown reference.
+- Moved URLs ship with redirects.
+
+Each item is a specific way a reader gets hurt.
+
+Changing the content shape (types, registry, validation): read [The content contract](/blog-platform-docs/content-contract) first, expect a longer review. That boundary is the platform's one deliberate rigidity, guarded accordingly.
 `

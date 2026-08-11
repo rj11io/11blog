@@ -2,7 +2,7 @@ export const aboutAiCoachingAdvisory = `# About AI coaching, consultancy, and ad
 
 ## What this publication will cover
 
-This publication is being prepared. It will cover the practice of helping other people and organisations work with AI: coaching individuals through it, consulting on specific problems, and advising on the decisions that are hard to reverse.
+Not written yet. Planned: the practice of helping people and organisations work with AI. Coaching individuals through it, consulting on specific problems, advising on the decisions that are hard to reverse.
 
 ## Why it is separate from the other AI publications
 

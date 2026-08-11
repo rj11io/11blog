@@ -11,7 +11,7 @@ export const onlinePresence: Publication = {
   pubId: "online-presence",
   title: "Build an online presence",
   description:
-    "How to build and own your online presence: why a site of your own beats a rented platform, and three ways to get one.",
+    "Building and owning your online presence: why a site of your own beats a rented platform, and three ways to get one.",
   created: "2026-07-14",
   updated: "2026-08-02",
   isNSFW: false,
@@ -20,9 +20,9 @@ export const onlinePresence: Publication = {
   isDraft: true,
   tags: ["Online Presence", "Publishing", "Independence"],
   synopsis:
-    "Two posts on putting your work on the internet under your own name. The first makes the case, without the usual overreach: owning a site does not make you invulnerable, because you still depend on a registrar, a host, and a CDN. What it buys you is portability, which is a smaller claim and a real one. The second is practical, comparing three routes by what they cost in time, money, and control.",
+    "Two posts on putting your work on the internet under your own name. The first makes the case without the usual overreach: owning a site does not make you invulnerable, since you still depend on a registrar, a host, and a CDN. What it buys is portability, a smaller claim and a real one. The second is practical, comparing three routes by what each costs in time, money, and control.",
   editorNotes:
-    "Written for anyone whose work lives somewhere they do not control. The technical documentation for the platform behind the middle route lives in Blog platform docs.",
+    "For anyone whose work lives somewhere they do not control. Technical documentation for the platform behind the middle route: Blog platform docs.",
   // Editorial order, which is what the previous and next links follow. Both
   // posts share a created date, so unlike the docs publication there is no
   // oldest-to-newest sequence here to preserve: this array order is the only
@@ -45,7 +45,7 @@ export const onlinePresence: Publication = {
       slug: "build-your-own-blog",
       title: "Build your own blog",
       excerpt:
-        "Do it yourself, do it together with the 11blog boilerplate, or have it done. What each route costs in time, money, and control.",
+        "Do it yourself, do it together by forking the 11blog repository, or have it done. What each route costs in time, money, and control.",
       created: "2026-07-15",
       // Renamed from "Three ways to build your own blog" on 2026-08-02, which
       // moved the address as well as the title. See the redirect in
@@ -65,7 +65,7 @@ export const onlinePresence: Publication = {
       slug: "own-your-platform",
       title: "Own your platform",
       excerpt:
-        "What actually goes wrong when your work lives on someone else's platform, and the smaller, truer claim about what owning your own buys you.",
+        "What actually goes wrong when your work lives on someone else's platform, and the smaller, truer claim about what owning your own buys.",
       created: "2026-07-15",
       updated: "2026-07-30",
       authorIds: ["rj11io"],

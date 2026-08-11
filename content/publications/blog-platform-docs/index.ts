@@ -40,7 +40,7 @@ export const blogPlatformDocs: Publication = {
   pubId: "blog-platform-docs",
   title: "Blog platform docs",
   description:
-    "The complete documentation for 11blog: writing posts, the content contract, extending the renderer, and running the site.",
+    "Complete documentation for 11blog: writing posts, the content contract, extending the renderer, running the site.",
   created: "2026-07-01",
   isNSFW: false,
   isNew: false,
@@ -48,9 +48,9 @@ export const blogPlatformDocs: Publication = {
   isDraft: false,
   tags: ["Blog", "Technology", "Publishing", "Documentation"],
   synopsis:
-    "Seventeen posts covering the platform end to end: how to add a publication or post, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages are rendered, and how to extend, theme, operate, copy, and contribute to the whole thing. Start with Working with the platform, which maps the rest by what you are trying to do. This is also the manual for the 11blog boilerplate, so anything here applies to a copy you run yourself.",
+    "Seventeen posts, the platform end to end: adding content, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages render, and how to extend, theme, operate, copy, and contribute. Start with Working with the platform: it maps the rest by task. The 11blog repository is public, so everything here applies to a copy you fork and run yourself.",
   editorNotes:
-    "Written inside the system it describes, which is the point: every post here is rendered by the platform it documents, so a broken claim shows up as a broken page. Read the post that covers a thing before changing that thing, and update it in the same commit.",
+    "Written inside the system it describes: every post renders on the platform it documents, so a broken claim is a broken page. Read the post covering a thing before changing that thing. Update it in the same commit.",
   // Editorial order, which is what the previous and next links follow. It runs
   // oldest to newest and low level to high level: the platform's shape first,
   // then extending, operating, writing, and community, with the map post dated
@@ -67,7 +67,7 @@ export const blogPlatformDocs: Publication = {
       slug: "content-contract",
       title: "The content contract",
       excerpt:
-        "Why the writing lives outside the web application, what the boundary guarantees, and how to put a different front end in front of it.",
+        "Why the writing lives outside the web application, what the boundary guarantees, and what a replacement front end must provide.",
       created: "2026-07-01",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -83,7 +83,7 @@ export const blogPlatformDocs: Publication = {
       slug: "rendering-model",
       title: "How pages are rendered",
       excerpt:
-        "Static pages, server components, the few interactive islands, and why content images use plain image elements.",
+        "Static pages, server components, the few interactive islands, and why content images are plain image elements.",
       created: "2026-07-02",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -99,7 +99,7 @@ export const blogPlatformDocs: Publication = {
       slug: "extending-the-renderer",
       title: "Extending the renderer",
       excerpt:
-        "The five-step recipe behind the blog's shortcodes, the directive path for containers, and how to add one of your own.",
+        "The five steps behind the blog's shortcodes, the directive path for containers, and how to add one of your own.",
       created: "2026-07-03",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -115,7 +115,7 @@ export const blogPlatformDocs: Publication = {
       slug: "design-tokens",
       title: "Design tokens and theming",
       excerpt:
-        "The named values behind the interface, the two that carry measured reasoning, and what to do when you add a component.",
+        "Named values behind the interface, the two carrying measured contrast reasoning, and what to do when you add a component.",
       created: "2026-07-04",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -131,7 +131,7 @@ export const blogPlatformDocs: Publication = {
       slug: "accessibility-contract",
       title: "Accessibility contract",
       excerpt:
-        "What the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, and the gaps that remain.",
+        "What the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, plus the gaps that remain.",
       created: "2026-07-05",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -147,7 +147,7 @@ export const blogPlatformDocs: Publication = {
       slug: "urls-and-redirects",
       title: "URLs, slugs, and redirects",
       excerpt:
-        "How addresses are built and resolved, and the runbook for renaming a publication or post without breaking old links.",
+        "How addresses are built and resolved, plus the runbook for renaming a publication or post without breaking old links.",
       created: "2026-07-06",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -179,7 +179,7 @@ export const blogPlatformDocs: Publication = {
       slug: "feeds-and-crawlers",
       title: "Feeds, crawlers, and the 404 page",
       excerpt:
-        "The RSS feed, the sitemap, the robots file, and the 404 page: what serves the site's machine readers, and why none of it needs maintaining.",
+        "RSS feed, sitemap, robots file, 404 page: what serves the site's machine readers, and why none of it needs maintaining.",
       created: "2026-07-08",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -195,7 +195,7 @@ export const blogPlatformDocs: Publication = {
       slug: "content-validation",
       title: "Content validation rules",
       excerpt:
-        "Every rule the content checker enforces, the message it throws, and what to change when it fails.",
+        "Every rule the content checker enforces, the exact message it throws, and what to change when a build fails.",
       created: "2026-07-09",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -212,7 +212,7 @@ export const blogPlatformDocs: Publication = {
       slug: "adding-content",
       title: "Adding a publication or post",
       excerpt:
-        "How to add a publication or post using the blog's content format, with a checklist for each.",
+        "Adding a publication or post in the blog's content format. Both post layouts, every required field, a checklist for each.",
       created: "2026-07-11",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -228,7 +228,7 @@ export const blogPlatformDocs: Publication = {
       slug: "authors-and-bylines",
       title: "Authors and bylines",
       excerpt:
-        "The author record, the two jobs its display name does, and what happens when you rename or remove one.",
+        "The author record, the two jobs displayName does, and what happens when you rename or remove one.",
       created: "2026-07-12",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -244,7 +244,7 @@ export const blogPlatformDocs: Publication = {
       slug: "search-and-discovery",
       title: "Search, tags, and discovery",
       excerpt:
-        "What the blog's searches actually look at, why post bodies are not among them, and how tags behave.",
+        "What the blog's searches actually match, why post bodies are not among them, and how tags behave.",
       created: "2026-07-13",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -260,7 +260,7 @@ export const blogPlatformDocs: Publication = {
       slug: "run-your-own-copy",
       title: "Run your own copy",
       excerpt:
-        "How to take the boilerplate and make it yours: what to replace, what to configure, and what to leave alone.",
+        "Forking the public 11blog repository and making it yours: what to replace, what to configure, what to leave alone.",
       created: "2026-07-14",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -276,7 +276,7 @@ export const blogPlatformDocs: Publication = {
       slug: "contribute-to-the-platform",
       title: "Contribute to the platform",
       excerpt:
-        "How to contribute a post or a platform change: fork, add yourself as an author, run the checks, and open a pull request.",
+        "Contributing a post or a platform change: fork, add yourself as an author, run the checks, open a pull request.",
       created: "2026-07-15",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,
@@ -308,7 +308,7 @@ export const blogPlatformDocs: Publication = {
       slug: "working-with-the-platform",
       title: "Working with the platform",
       excerpt:
-        "What the platform is, what it deliberately is not, and which post to read for whatever you are trying to do.",
+        "What the platform is, what it deliberately is not, and which post to read for each job.",
       created: "2026-07-31",
       authorIds: ["rj11io", "11ai"],
       isNSFW: false,

@@ -1,13 +1,13 @@
 export const contentValidation = `
 # Content validation rules
 
-Every publication, post, author, and image in this blog is checked against a set of rules before the site can be built. If a rule fails, the build stops with a message naming the exact field. Nothing reaches a page half-formed.
+Every publication, post, author, and image is checked against a set of rules before the site builds. A failing rule stops the build with a message naming the exact field.
 
-This post lists every rule, the message you will see when it fails, and what to change. The checks themselves live in content/validation.ts.
+This post lists every rule, its failure message, and the fix. The checks live in content/validation.ts.
 
 ## When the check runs
 
-The check is not a test you can choose to run. It happens while the content is being loaded.
+Not an optional test. Runs while content loads.
 
 content/registry.ts imports every publication and the author list, then calls the checker immediately:
 
@@ -24,172 +24,172 @@ export const blogAuthors: Author[] = authors
 validatePublications(authoredPublications, blogAuthors)
 ~~~
 
-Note which list is checked. authoredPublications is everything that has been written, drafts included, and the check runs on it before the draft filter removes anything. So an unfinished post is held to every rule here while it waits, and marking something a draft never postpones a failure to the day you publish it.
+Checked list: authoredPublications. Everything written, drafts included, checked before the draft filter removes anything. Drafts are held to every rule while they wait. Marking something a draft never postpones a failure to publish day.
 
-Because that call sits at the top level of the module, it runs the first time anything actually executes the registry. Two things do that:
+The call sits at module top level, so it runs the first time anything executes the registry. Two triggers:
 
-- **npm run build**, run from v0/www, while it collects page data. A rule failure stops the build.
-- **npm run dev**, also from v0/www, when a page that reads the registry is first rendered. The failure appears in the terminal and in the browser.
+- **npm run build**, from v0/www, while collecting page data. A rule failure stops the build.
+- **npm run dev**, also from v0/www, when a page that reads the registry first renders. Failure appears in the terminal and in the browser.
 
-One command does **not** catch these: npm run typecheck. It only checks types, and it never runs the code. A date written as 2026-02-30 is a perfectly valid string, so typecheck reports nothing and the build then fails with:
+One command does **not** catch these: npm run typecheck. It checks types, never runs the code. A date written as 2026-02-30 is a valid string, so typecheck reports nothing and the build then fails with:
 
 ~~~text
 Error: Failed to collect configuration for /[pubId]
   [cause]: Error: example-publication/315.created must be a real ISO date
 ~~~
 
-The practical effect: after editing content, run build, or keep the dev server running and open the page. Typecheck alone will not tell you whether your content is valid.
+Practical effect: after editing content, run build, or keep the dev server running and open the page. Typecheck alone does not validate content.
 
 ## How to read a failure
 
-Messages are built from a label that points at the thing being checked, followed by the problem.
+Message shape: a label pointing at the checked thing, then the problem.
 
-A publication-level problem names the publication:
+Publication-level problem, names the publication:
 
 ~~~text
 example-publication.description must not be empty
 ~~~
 
-A post-level problem names the publication, a slash, and the post's numeric ID:
+Post-level problem, names publication, slash, numeric post ID:
 
 ~~~text
 example-publication/302.created must use YYYY-MM-DD format
 ~~~
 
-A problem inside a post's image configuration extends the same path:
+Problem inside a post's image configuration, extends the same path:
 
 ~~~text
 blog-platform-docs/401.images.workspace-overview.alt must not be empty
 ~~~
 
-The checker throws on the first problem it finds and stops. If your content has three mistakes, you will see them one at a time, in order. Fix, re-run, repeat.
+Checker throws on the first problem and stops. Three mistakes surface one at a time, in order. Fix, re-run, repeat.
 
-The order of checking is fixed: all authors first, then each publication in the order it appears in the registry array, and within a publication each post in the order it appears in the posts array.
+Checking order is fixed: all authors, then each publication in registry-array order, then each post in posts-array order within its publication.
 
 ## Shared checks
 
-Five kinds of check are reused across the whole content set. Understanding these five explains most of the rules.
+Five check kinds reused across the whole content set. These five explain most rules.
 
 ### Identifiers
 
-Author IDs, publication IDs, and post slugs all use the same shape: lowercase letters and digits, in groups joined by single hyphens.
+Author IDs, publication IDs, and post slugs share one shape: lowercase letters and digits, groups joined by single hyphens.
 
 ~~~text
 ^[a-z0-9]+(?:-[a-z0-9]+)*$
 ~~~
 
-So example-publication and rj11io pass. Example-Publication, example_publication, -example-publication, and example--publication all fail. There are no underscores, no capitals, and no hyphen at either end.
+Passes: example-publication, rj11io. Fails: Example-Publication, example_publication, -example-publication, example--publication. No underscores, no capitals, no hyphen at either end.
 
-This is the same string that appears in the URL, which is why the rule is strict.
+Same string appears in the URL, hence the strict rule.
 
 ### Dates
 
-Every date is a plain calendar date written year first:
+Plain calendar date, year first:
 
 ~~~text
 ^\\d{4}-\\d{2}-\\d{2}$
 ~~~
 
-Passing the format check is not enough. The date is then parsed and converted back to text, and the result must match what you wrote. That second step rejects dates that look right but do not exist, such as 2026-02-30 or 2026-13-01.
+Format check is not enough. The date is parsed and converted back to text; the result must match the input. This rejects well-shaped dates that do not exist: 2026-02-30, 2026-13-01.
 
-When a post or publication has an updated date, it must not be earlier than its created date. The comparison is a plain text comparison, which works because this date format sorts correctly as text.
+An updated date must not be earlier than its created date. Comparison is plain text, valid because this format sorts correctly as text.
 
 ### Tags
 
-Tags are checked three ways:
+Three checks:
 
-- No tag may be empty or only spaces.
-- No tag may have a leading or trailing space. "Systems " fails; the checker will not silently trim it for you.
-- No two tags in the same list may be the same, ignoring capitals. Adding both "Systems" and "systems" to one post fails.
+- No tag empty or only spaces.
+- No leading or trailing space. "Systems " fails; the checker will not silently trim it.
+- No two tags in one list may match, ignoring capitals. "Systems" plus "systems" on one post fails.
 
 ### Web addresses
 
-An author's link must be a complete web address using http or https. A partial address such as example.com/notes fails, because it cannot be turned into a working link.
+Author links must be complete web addresses using http or https. Partial addresses fail: example.com/notes cannot become a working link.
 
 ### Image sources
 
-Image sources follow a different, tighter rule than author links. A source either starts with a forward slash, meaning a file served from the site itself, or it is a complete https address. Plain http is rejected for images, and a bare filename is rejected.
+Tighter rule than author links. A source starts with a forward slash (file served from the site) or is a complete https address. Plain http rejected. Bare filename rejected.
 
-So /static/blog-authors/rj-pic.png passes and https://images.example.com/photo.webp passes. http://images.example.com/photo.webp does not.
+Passes: /static/blog-authors/rj-pic.png, https://images.example.com/photo.webp. Fails: http://images.example.com/photo.webp.
 
 ## Author rules
 
-Authors live in content/authors.ts. For each author:
+Authors live in content/authors.ts. Per author:
 
-- The ID must be a valid identifier, as described above.
-- No two authors may share an ID.
-- name, displayName, and bio must all have text in them.
+- ID must be a valid identifier (shape above).
+- No two authors share an ID.
+- name, displayName, and bio must have text.
 - Tags must pass the three tag checks.
-- Each link must have a label with text in it, and a complete http or https address.
+- Each link needs a label with text and a complete http or https address.
 
-Link problems name the position in the list, counting from zero, so rj11io.links[1].url points at the second link.
+Link problems name the list position, counting from zero: rj11io.links[1].url is the second link.
 
 ## Publication rules
 
-For each publication:
+Per publication:
 
-- relId must be a whole number greater than zero, and no two publications may share one.
-- pubId must be a valid identifier, and no two publications may share one.
-- pubId must not be one of the reserved words authors, browse, or publications. Those three are real routes on the site, and a publication using them would be unreachable.
-- title and description must have text in them.
-- created must be a real date. updated, if present, must also be a real date and must not come before created.
+- relId: whole number greater than zero, unique across publications.
+- pubId: valid identifier, unique across publications.
+- pubId must not be one of the reserved words authors, browse, or publications. Those three are real routes; a publication using them would be unreachable.
+- title and description must have text.
+- created must be a real date. updated, if present, must be a real date and not before created.
 - Tags must pass the three tag checks.
 - coverImage, if present, must pass the image source rule.
 - isDraft and isFeatured must not both be true.
-- A publication that is not a draft must contain at least one post, and must not consist entirely of draft posts.
+- A non-draft publication must contain at least one post and must not consist entirely of draft posts.
 
-The reserved-word rule is worth remembering when naming a new publication. A publication called "Browse" would need a different ID, such as browse-guide.
+Reserved words matter when naming a new publication. A publication called "Browse" needs a different ID, such as browse-guide.
 
-The draft rules exist because none of these failures announces itself. A featured draft is removed from the site by the draft filter, and the featured list is built after that, so a publication promoted to the home page is quietly missing from it. A published publication with no posts, or whose every post is a draft, renders as a page with no posts and a card claiming 0 posts. All are caught at the build instead. See [Adding a publication or post](/blog-platform-docs/adding-content) for how drafts work.
+Draft rules exist because none of these failures announces itself. A featured draft: the draft filter removes it, the featured list is built after, so a publication promoted to the home page is quietly missing from it. A published publication with no posts, or all-draft posts: renders a page with no posts and a card claiming 0 posts. All caught at build instead. See [Adding a publication or post](/blog-platform-docs/adding-content) for how drafts work.
 
 ## Post rules
 
-For each post inside a publication:
+Per post inside a publication:
 
-- postId must be a whole number greater than zero, and no two posts in the same publication may share one. Posts in different publications may reuse a number.
-- slug is optional, but when present it must be a valid identifier and must be unique within the publication.
-- title must have text in it.
-- created must be a real date. updated, if present, must not come before created.
-- The post must list at least one author.
-- No author may be listed twice on the same post.
-- Every author listed must exist in content/authors.ts.
+- postId: whole number greater than zero, unique within the publication. Posts in different publications may reuse a number.
+- slug: optional. When present, a valid identifier, unique within the publication.
+- title must have text.
+- created must be a real date. updated, if present, not before created.
+- At least one author.
+- No author listed twice on one post.
+- Every listed author must exist in content/authors.ts.
 - Tags must pass the three tag checks.
 - coverImage, if present, must pass the image source rule.
-- content must have text in it. A post with an empty body fails the build.
-- isDraft and isFeatured must not both be true, for the same reason as the publication rule above.
+- content must have text. An empty body fails the build.
+- isDraft and isFeatured must not both be true, same reason as the publication rule above.
 
-There is a second, later check on authors. The registry resolves each post's authors into display details, and if it cannot find one it throws a message naming the post by title rather than by ID. Seeing that form means the post passed the first check but the author disappeared afterwards, which normally means an author was deleted from content/authors.ts while a post still referenced them.
+Second, later check on authors: the registry resolves each post's authors into display details. A missing author throws a message naming the post by title, not by ID. That form means the post passed the first check and the author disappeared afterwards, normally an author deleted from content/authors.ts while a post still referenced them.
 
 ## Image rules
 
-A post's named images are checked one by one. Each key must be a lowercase identifier, and may use hyphens, underscores, or colons as separators between groups. Colons are what make keys such as quilted:title-below possible.
+A post's named images are checked one by one. Each key: lowercase identifier; hyphens, underscores, or colons as separators between groups. Colons enable keys such as quilted:title-below.
 
-Keep image keys lowercase. The renderer's own pattern for reading a shortcode accepts capitals, but the checker does not, so an uppercase key fails the build before it can ever be rendered.
+Keep image keys lowercase. The renderer's shortcode pattern accepts capitals; the checker does not. An uppercase key fails the build before it can render.
 
-For each image:
+Per image:
 
 - src must pass the image source rule.
-- thumbnailSrc, if present, must pass the same rule.
-- width and height must both be whole numbers greater than zero. These reserve the right space on the page before the file arrives, so they are not optional.
-- alt must have text in it. There is no way to configure an image without describing it.
-- title and subtitle, if present, must have text in them. Leave them out rather than setting them to an empty string.
+- thumbnailSrc, if present, same rule.
+- width and height: whole numbers greater than zero. They reserve page space before the file arrives, so not optional.
+- alt must have text. No way to configure an image without describing it.
+- title and subtitle, if present, must have text. Omit them rather than set an empty string.
 
 ## Image list rules
 
-For each named image list:
+Per named image list:
 
-- The key must follow the same lowercase identifier rule as image keys.
-- The list must contain at least one image.
-- ariaLabel, if present, must have text in it.
-- Every image in the list is checked with the full set of image rules above, and failures name their position, such as .images[2].alt.
+- Key follows the same lowercase identifier rule as image keys.
+- At least one image.
+- ariaLabel, if present, must have text.
+- Every image in the list is checked with the full image rules above. Failures name their position, such as .images[2].alt.
 
 ## Message reference
 
-Three message families repeat across levels, so the table shows one representative of each rather than every label they can carry:
+Three message families repeat across levels. The table shows one representative of each:
 
-- **must not be empty** fires for every required text field: an author's name, displayName, bio, and link labels; a publication's title and description; a post's title; an image's alt, title, and subtitle; and an image list's ariaLabel.
-- **must use YYYY-MM-DD format**, **must be a real ISO date**, and **must not be before …created** fire for updated exactly as they do for created.
-- **The three tag messages** fire with a post label, such as example-publication/302.tags, exactly as they do with an author label.
+- **must not be empty**: every required text field. Author name, displayName, bio, and link labels; publication title and description; post title; image alt, title, and subtitle; image list ariaLabel.
+- **must use YYYY-MM-DD format**, **must be a real ISO date**, and **must not be before …created**: fire for updated exactly as for created.
+- **The three tag messages**: fire with a post label, such as example-publication/302.tags, exactly as with an author label.
 
 Everything else appears verbatim:
 
@@ -233,18 +233,18 @@ Everything else appears verbatim:
 
 ## Fixing a failing build
 
-1. Read the label. Everything before the first dot tells you which file to open.
+1. Read the label. Text before the first dot names the file to open.
 2. Make one change.
-3. Check it. The dev server is the fastest way: leave it running and reload the page. Otherwise run build.
+3. Check it. Fastest: dev server running, reload the page. Otherwise run build.
 4. Repeat until it passes.
 
-If you are adding content in bulk, expect several rounds. The checker deliberately stops at the first problem rather than collecting them, which keeps each message unambiguous.
+Bulk content: expect several rounds. The checker stops at the first problem instead of collecting them, which keeps each message unambiguous.
 
 ## Adding a rule
 
-The checker is plain TypeScript with no schema library, so a new rule is a new function and a new call. Keep three habits:
+Plain TypeScript, no schema library. A new rule is a new function and a new call. Three habits:
 
-- Write the message in the same shape as the existing ones: the label, then what is wrong, in lower case.
-- Build the label from the pieces already in scope, so it points at one field.
-- Add the rule to this post's reference table in the same change. A rule nobody can find is a rule that surprises people.
+- Write the message in the shape of the existing ones: label, then what is wrong, lower case.
+- Build the label from pieces already in scope, so it points at one field.
+- Add the rule to this post's reference table in the same change. A rule nobody can find surprises people.
 `
