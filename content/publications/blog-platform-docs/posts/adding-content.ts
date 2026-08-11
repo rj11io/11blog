@@ -377,7 +377,7 @@ Adding a post and adding a publication are different jobs. Use the checklist tha
 6. Put named single-image and image-list configurations in the post's .images.ts file when needed.
 7. Give configured images dimensions, useful alt text, and separate thumbnail and lightbox sources where practical.
 8. Add a coverImage, imported rather than written as a path, and remember it doubles as the post's link preview.
-9. Check component syntax against the [Markdown reference](/blog-platform-docs/markdown-reference) reference.
+9. Check component syntax against the [Markdown reference](/blog-platform-docs/markdown-reference).
 10. Add the post to its publication's posts array, in the position it should read.
 11. Set isDraft to true if the post is not ready to be read, and remember that build will then leave it out. Set isFeatured to false while it is a draft; the two together fail validation.
 12. Run typecheck, lint, and build, all from v0/www — the root package.json has none of these scripts. The build is the step that runs the content validator and generates the new route, so a passing typecheck on its own proves nothing about the content.
