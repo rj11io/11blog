@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/rj11io/11blog/compare/v1.12.0...v1.12.1) (2026-08-11)
+
+
+### Bug Fixes
+
+* links ([ee8ab6e](https://github.com/rj11io/11blog/commit/ee8ab6e0379cf525b5ac81555ab98e9ddec6aaa2))
+
 # [1.12.0](https://github.com/rj11io/11blog/compare/v1.11.0...v1.12.0) (2026-08-11)
 
 
