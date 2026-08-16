@@ -31,6 +31,8 @@ Three replacements make the content yours.
 - Publications: remove the publication directories under content/publications, write your first one following [Adding a publication or post](/blog-platform-docs/adding-content). The registry imports every publication by name: removing one means removing its import too. One decision to make deliberately: keep blog-platform-docs if you want the manual published on your own site, drop it if you would rather read it here.
 - Redirects: the list in v0/www/next.config.ts is this site's address history, none of it yours. Empty it, let your own history accumulate. Why the file only grows after that: [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
 
+With no published posts or publications, production remains valid: the landing page shows a neutral pre-publication state instead of empty content sections. Browse distinguishes that state from an empty search result. Development and SHOW_DRAFTS=1 previews still show drafts.
+
 ## Configure the site's identity
 
 - Address: v0/www/lib/site.ts holds siteOrigin, the one place the site's own domain is written. Set it to yours first. Every share link and link preview builds from it; a copy still pointing at blog.rj11.io sends your readers here.
