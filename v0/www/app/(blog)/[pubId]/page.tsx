@@ -4,10 +4,13 @@ import { notFound } from "next/navigation"
 
 import { AuthorByline } from "../components/author-byline"
 import { PublicationBrowser } from "../components/publication-browser"
+import { BookmarkButton } from "@/app/components/bookmark-button"
+import { BookmarksProvider } from "@/app/components/bookmarks-provider"
 import { ShareActions } from "@/app/components/share-actions"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
 import { absoluteUrl } from "@/lib/site"
+import { publicationBookmarkKey } from "@/lib/bookmarks"
 import {
   browseContentHref,
   defaultBrowseContentType,
@@ -118,9 +121,17 @@ export default async function PublicationPage({
         */}
         <header className="mt-8 border-b border-border pb-10 lg:pb-14">
           <div>
-            <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">
-              Publication
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <p className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">
+                Publication
+              </p>
+              <BookmarkButton
+                targetType="publication"
+                targetKey={publicationBookmarkKey(publication.pubId)}
+                href={publicationHref(publication.pubId)}
+                title={publication.title}
+              />
+            </div>
             {/*
               Only the standing badges. Tags moved down to the row of facts below
               the description, where the post page keeps them. Rendered
@@ -196,11 +207,13 @@ export default async function PublicationPage({
           </div>
         </header>
 
-        <PublicationBrowser
-          posts={previews}
-          synopsis={publication.synopsis}
-          editorNotes={publication.editorNotes}
-        />
+        <BookmarksProvider>
+          <PublicationBrowser
+            posts={previews}
+            synopsis={publication.synopsis}
+            editorNotes={publication.editorNotes}
+          />
+        </BookmarksProvider>
 
         {/*
           After the post list rather than in the header, so it closes the page

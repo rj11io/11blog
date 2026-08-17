@@ -21,7 +21,9 @@ All three built ahead of time, like every page on the blog. Each has its own pag
 
 Nothing else about the view is in the address. Search text and selected tags live in the page and vanish on leaving. A filtered view cannot be sent to anyone, only the content type can. Worth knowing before telling someone to "search for X on the browse page".
 
-Two things persist: card-or-list layout and sort order. Layout is stored in the browser under 11blog:view-mode and shared by every list on the site: choosing list on the browse page also gives list inside a publication, this visit and the next. Sort choices are stored the same way (see Sorting below). Reader preferences, not shareable view state, so they live in the browser, not the address.
+Layout and sort order persist. Layout is stored in the browser under 11blog:view-mode and shared by every list on the site: choosing list on the browse page also gives list inside a publication, this visit and the next. Sort choices are stored the same way (see Sorting below). Reader preferences, not shareable view state, so they live in the browser, not the address.
+
+Bookmarks persist separately as reader data. They are records rather than one preference value, stored under lsdb:11blog:bookmarks-v1. The central Bookmarked switches persist independently under 11blog:bookmarked-filter:posts, 11blog:bookmarked-filter:publications, and 11blog:bookmarked-filter:authors. Publication post browsers use their own 11blog:bookmarked-filter:publication-posts preference. None changes another.
 
 Pages are built ahead of time, so the server cannot know the preference: a stored choice of list draws briefly as cards before the page corrects itself. See [How pages are rendered](/blog-platform-docs/rendering-model).
 
@@ -68,6 +70,16 @@ The available tag list is the set of tags used by the content type in view, sort
 
 No tag page, no way to link to a tag. A tag is a filter inside the browse page, not an address.
 
+## Bookmarked combines with search and tags
+
+Posts, publications, and authors have a Bookmarked toggle. It becomes available after the browser reads the bookmark collection, then narrows the current results to stable target keys in that collection. Each content type remembers its own toggle state across navigation, reloads, and other tabs.
+
+It combines with every other filter using AND. Bookmarked plus a search term means bookmarks matching the term. Add two tags and each result must also carry both. The result count and empty state update through the same path as search and tags; Clear filters resets all three.
+
+Only author, publication, and post detail pages write the collection. Result cards remain links with no nested bookmark control. An author record uses author: followed by its author ID. A publication record uses publication: followed by its publication ID. A post record uses post: followed by its publication ID and numeric post ID, so a later slug change does not lose the match.
+
+This is local to one browser profile. No account, sync service, server database, feed field, sitemap entry, or content-registry field exists for it. Blocking local storage disables bookmark behavior but leaves the complete unfiltered list usable.
+
 ## Sorting
 
 Two option sets, because the three content types do not sort on the same things. A post cannot be ordered by how many posts it has.
@@ -93,7 +105,7 @@ Authors keep a separate remembered choice. Changing author order does not distur
 
 ### Where the choice lives
 
-Stored in the browser under 11blog:content-sort and 11blog:author-sort, alongside the layout preference at 11blog:view-mode. All three run through the same small store: shared by every list on the page, survives navigation, follows along in other tabs.
+Stored in the browser under 11blog:content-sort and 11blog:author-sort, alongside the layout preference at 11blog:view-mode. Those three and the four Bookmarked preferences run through the same small store: each survives navigation and follows along in other tabs, while its own sharing rules determine which lists use it.
 
 Pages are built ahead of time, so the server cannot know any of them: a stored choice shows for one frame as the default before the page corrects itself. See [How pages are rendered](/blog-platform-docs/rendering-model).
 
@@ -110,7 +122,7 @@ The value still exists in the sort function, so the behaviour is reachable and c
 
 A publication page has its own search box, deliberately narrower than the browse page. Matches only the **title, excerpt, and tags** of posts in that publication. Not the publication name (every result shares it), not author names.
 
-Tag list drawn only from that publication's posts. Same five sort options, sharing the option list and sort function with the browse page. Alongside the posts, section buttons switch to the publication's synopsis and editor notes; each section appears only if that field is filled in.
+Tag list drawn only from that publication's posts. Same five sort options, sharing the option list and sort function with the central browse page. Bookmarked is available here too, but its persisted state is separate from central browse. It narrows only this publication's posts and still combines with search and tags using AND. Alongside the posts, section buttons switch to the publication's synopsis and editor notes; each section appears only if that field is filled in.
 
 ## The other ways in
 

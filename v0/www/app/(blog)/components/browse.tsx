@@ -2,12 +2,25 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Grid2X2, List, Search, SlidersHorizontal } from "lucide-react"
+import {
+  Bookmark,
+  Grid2X2,
+  List,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react"
 import * as React from "react"
 
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
+import { useBookmarkedFilter } from "@/hooks/use-bookmarked-filter"
+import { useBookmarks } from "@/hooks/use-bookmarks"
 import { joinAuthorNames } from "@/lib/authors"
+import {
+  authorBookmarkKey,
+  postBookmarkKey,
+  publicationBookmarkKey,
+} from "@/lib/bookmarks"
 import {
   authorSortOptions,
   contentSortOptions,
@@ -71,9 +84,7 @@ export function sortContent<T extends SortableContent>(
 
   switch (sortOrder) {
     case "updated":
-      return sorted.sort((a, b) =>
-        lastTouched(b).localeCompare(lastTouched(a))
-      )
+      return sorted.sort((a, b) => lastTouched(b).localeCompare(lastTouched(a)))
     case "az":
       return sorted.sort((a, b) => a.title.localeCompare(b.title))
     case "za":
@@ -553,6 +564,9 @@ export function Browse({
   const [query, setQuery] = React.useState("")
   const [selectedTags, setSelectedTags] = React.useState<string[]>([])
   const [filtersOpen, setFiltersOpen] = React.useState(false)
+  const [bookmarkedOnly, setBookmarkedOnly] = useBookmarkedFilter(contentType)
+  const { bookmarkedKeys, status: bookmarksStatus } = useBookmarks()
+  const bookmarkFilterActive = bookmarkedOnly && bookmarksStatus === "ready"
 
   const availableTags = React.useMemo(
     () =>
@@ -587,11 +601,21 @@ export function Browse({
         .toLocaleLowerCase()
       return (
         (!needle || searchText.includes(needle)) &&
-        matchesTags(post.tags, activeSelectedTags)
+        matchesTags(post.tags, activeSelectedTags) &&
+        (!bookmarkFilterActive ||
+          bookmarkedKeys.has(postBookmarkKey(post.publicationId, post.postId)))
       )
     })
     return sortContent(filtered, contentSort)
-  }, [activeSelectedTags, contentSort, contentType, posts, query])
+  }, [
+    activeSelectedTags,
+    bookmarkedKeys,
+    bookmarkFilterActive,
+    contentSort,
+    contentType,
+    posts,
+    query,
+  ])
 
   const filteredPublications = React.useMemo(() => {
     if (contentType !== "publications") return []
@@ -608,11 +632,21 @@ export function Browse({
         .toLocaleLowerCase()
       return (
         (!needle || searchText.includes(needle)) &&
-        matchesTags(publication.tags, activeSelectedTags)
+        matchesTags(publication.tags, activeSelectedTags) &&
+        (!bookmarkFilterActive ||
+          bookmarkedKeys.has(publicationBookmarkKey(publication.pubId)))
       )
     })
     return sortContent(filtered, contentSort)
-  }, [activeSelectedTags, contentSort, contentType, publications, query])
+  }, [
+    activeSelectedTags,
+    bookmarkedKeys,
+    bookmarkFilterActive,
+    contentSort,
+    contentType,
+    publications,
+    query,
+  ])
 
   const filteredAuthors = React.useMemo(() => {
     if (contentType !== "authors") return []
@@ -630,11 +664,21 @@ export function Browse({
         .toLocaleLowerCase()
       return (
         (!needle || searchText.includes(needle)) &&
-        matchesTags(author.tags, activeSelectedTags)
+        matchesTags(author.tags, activeSelectedTags) &&
+        (!bookmarkFilterActive ||
+          bookmarkedKeys.has(authorBookmarkKey(author.id)))
       )
     })
     return sortAuthors(filtered, authorSort)
-  }, [activeSelectedTags, authorSort, authors, contentType, query])
+  }, [
+    activeSelectedTags,
+    authorSort,
+    authors,
+    bookmarkedKeys,
+    bookmarkFilterActive,
+    contentType,
+    query,
+  ])
 
   // Authors sort on their own axis and keep their own remembered choice, so the
   // control below switches which preference it drives rather than which control
@@ -662,6 +706,7 @@ export function Browse({
       : contentType === "publications"
         ? publications.length
         : authors.length
+  const canFilterBookmarked = sourceCount > 0
 
   function pruneSelectedTags(nextType: ContentType) {
     const nextTags = getTags(
@@ -774,6 +819,24 @@ export function Browse({
             </div>
           )}
 
+          {canFilterBookmarked && (
+            <div className="flex items-end">
+              <button
+                type="button"
+                aria-pressed={bookmarkedOnly}
+                disabled={bookmarksStatus !== "ready"}
+                onClick={() => setBookmarkedOnly(!bookmarkedOnly)}
+                className="inline-flex h-11 items-center gap-2 border border-input bg-background px-3 text-sm font-semibold text-muted-foreground transition outline-none hover:border-foreground/40 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-pressed:border-primary aria-pressed:bg-primary/10 aria-pressed:text-primary"
+              >
+                <Bookmark
+                  aria-hidden="true"
+                  className={`size-4 ${bookmarkedOnly ? "fill-current" : ""}`}
+                />
+                Bookmarked
+              </button>
+            </div>
+          )}
+
           <div>
             <span className="mb-2 block text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
               Layout
@@ -883,10 +946,11 @@ export function Browse({
                 onClick={() => {
                   setQuery("")
                   setSelectedTags([])
+                  setBookmarkedOnly(false)
                 }}
                 className="mt-3 text-sm font-semibold text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
               >
-                Clear search and tags
+                Clear filters
               </button>
             </>
           )}
