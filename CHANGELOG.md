@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/rj11io/11blog/compare/v1.14.0...v1.15.0) (2026-08-17)
+
+
+### Features
+
+* **bookmarks:** add browser-local bookmarks to 11blog ([3eed05c](https://github.com/rj11io/11blog/commit/3eed05cb63fbf5f5d694868f363fd01c63fbc9a3))
+
 # [1.14.0](https://github.com/rj11io/11blog/compare/v1.13.0...v1.14.0) (2026-08-16)
 
 
