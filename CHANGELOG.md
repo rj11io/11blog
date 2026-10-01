@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/rj11io/11blog/compare/v1.16.0...v1.17.0) (2026-10-01)
+
+
+### Features
+
+* **11blog-018:** propagate and resync scripts ([f519607](https://github.com/rj11io/11blog/commit/f5196070a6bca5a936deda1cda31d16b125a1da3))
+
 # [1.16.0](https://github.com/rj11io/11blog/compare/v1.15.0...v1.16.0) (2026-10-01)
 
 
