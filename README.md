@@ -51,6 +51,10 @@ Edit publication files under `content/publications/`, authors in `content/author
 
 Set `isDraft: true` on anything not ready. The dev server shows drafts with a Draft badge; `build` leaves them out, so a draft has no address on the live site.
 
+## Copies
+
+`v0/scripts/propagate.py` makes a new site from this platform, `v0/scripts/resync.py` updates one. See `v0/scripts/README.md`.
+
 ## Documentation
 
 The platform documents itself, in the Blog platform docs publication under `content/publications/blog-platform-docs/`. Twenty-two posts covering writing, extending, theming, operating, copying, and contributing. Start with [Working with the platform](https://blog.rj11.io/blog-platform-docs/working-with-the-platform), which maps the rest by task.
