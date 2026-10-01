@@ -233,18 +233,20 @@ export const authorPreviews: AuthorListItem[] = blogAuthors.map((author) => ({
   ).length,
 }))
 
-export function getPublication(pubId: string) {
-  return publications.find((publication) => publication.pubId === pubId)
-}
-
-/** A publication by id, only if its blog is the given section's. */
+/**
+ * A publication by section and id. The pair is the key: a pubId is unique
+ * within its section, not across the site.
+ */
 export function getSectionPublication(sectionId: string, pubId: string) {
-  const publication = getPublication(pubId)
-  return publication && (publication.sectionId ?? rootSectionId) === sectionId ? publication : undefined
+  return publications.find(
+    (publication) =>
+      publication.pubId === pubId && (publication.sectionId ?? rootSectionId) === sectionId
+  )
 }
 
-export function getPost(pubId: string, postKey: string) {
-  const publication = getPublication(pubId)
+/** A post by section, publication and slug or number. */
+export function getSectionPost(sectionId: string, pubId: string, postKey: string) {
+  const publication = getSectionPublication(sectionId, pubId)
   if (!publication) return undefined
 
   const postIndex = publication.posts.findIndex(
@@ -279,11 +281,6 @@ export function getSectionAuthors(sectionId: string): AuthorListItem[] {
     ...author,
     postCount: posts.filter((post) => post.authors.some((postAuthor) => postAuthor.id === author.id)).length,
   }))
-}
-
-/** A post by publication and slug or number, only inside the section. */
-export function getSectionPost(sectionId: string, pubId: string, postKey: string) {
-  return getSectionPublication(sectionId, pubId) ? getPost(pubId, postKey) : undefined
 }
 
 export function getPostsByAuthor(authorId: string) {

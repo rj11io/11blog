@@ -80,13 +80,17 @@ npm run lint
 npm run build
 ```
 
+```bash
+npm test
+```
+
 Dev server, from the repository root, serving on port 3000 (the Next.js default):
 
 ```bash
 npm --prefix v0/www run dev
 ```
 
-**Run all three checks before committing.** They fail for different reasons, none covers another.
+**Run all four checks before committing.** They fail for different reasons, none covers another. `test` covers the block parsers and the section tree, the pure functions a build only exercises with the content it has.
 
 **A passing `typecheck` proves nothing about content.** It checks types, never runs your code. The validator executes when the registry is imported: during `build`, and when the dev server renders a page. A date written as `2026-02-30` is a valid string, so `typecheck` passes and `build` fails.
 

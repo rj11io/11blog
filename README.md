@@ -40,10 +40,11 @@ Checks and production commands, all from `v0/www`:
 npm run lint
 npm run typecheck
 npm run build
+npm test
 npm run start
 ```
 
-Run `lint`, `typecheck`, and `build` before committing. They fail for different reasons and none covers another. Only `build` runs the content validator.
+Run `lint`, `typecheck`, `build` and `test` before committing. They fail for different reasons and none covers another. Only `build` runs the content validator.
 
 ## Add content
 
