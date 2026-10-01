@@ -69,7 +69,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Why the writing lives outside the web application, what the boundary guarantees, and what a replacement front end must provide.",
       created: "2026-07-01",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -85,7 +85,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Static pages, server components, the few interactive islands, and why content images are plain image elements.",
       created: "2026-07-02",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -101,7 +101,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "The five steps behind the blog's shortcodes, the directive path for containers, and how to add one of your own.",
       created: "2026-07-03",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -117,7 +117,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Named values behind the interface, the two carrying measured contrast reasoning, and what to do when you add a component.",
       created: "2026-07-04",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -133,7 +133,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "What the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, plus the gaps that remain.",
       created: "2026-07-05",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -149,7 +149,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "How addresses are built and resolved, plus the runbook for renaming a publication or post without breaking old links.",
       created: "2026-07-06",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -165,7 +165,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Starting the site, the checks to run before committing, and how a commit message becomes a release.",
       created: "2026-07-07",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -181,7 +181,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "RSS feed, sitemap, robots file, 404 page: what serves the site's machine readers, and why none of it needs maintaining.",
       created: "2026-07-08",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -197,7 +197,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Every rule the content checker enforces, the exact message it throws, and what to change when a build fails.",
       created: "2026-07-09",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -214,7 +214,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Adding a publication or post in the blog's content format. Both post layouts, every required field, a checklist for each.",
       created: "2026-07-11",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -230,7 +230,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "The author record, the two jobs displayName does, and what happens when you rename or remove one.",
       created: "2026-07-12",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -246,7 +246,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "What the blog's searches actually match, why post bodies are not among them, and how tags behave.",
       created: "2026-07-13",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -262,7 +262,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Forking the public 11blog repository and making it yours: what to replace, what to configure, what to leave alone.",
       created: "2026-07-14",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -278,7 +278,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Contributing a post or a platform change: fork, add yourself as an author, run the checks, open a pull request.",
       created: "2026-07-15",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -294,7 +294,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "Three ways to help this blog keep going: pass a post on, sponsor one, or support the work directly.",
       created: "2026-07-30",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,
@@ -310,7 +310,7 @@ export const blogPlatformDocs: Publication = {
       excerpt:
         "What the platform is, what it deliberately is not, and which post to read for each job.",
       created: "2026-07-31",
-      authorIds: ["rj11io", "11ai"],
+      authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
       isFeatured: false,

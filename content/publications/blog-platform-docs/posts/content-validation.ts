@@ -140,7 +140,7 @@ Per publication:
 
 Reserved words matter when naming a new publication. A publication called "Browse" needs a different ID, such as browse-guide.
 
-Draft rules exist because none of these failures announces itself. A featured draft: the draft filter removes it, the featured list is built after, so a publication promoted to the home page is quietly missing from it. A published publication with no posts, or all-draft posts: renders a page with no posts and a card claiming 0 posts. All caught at build instead. See [Adding a publication or post](/blog-platform-docs/adding-content) for how drafts work.
+Draft rules exist because none of these failures announces itself. A featured draft: the draft filter removes it, the featured list is built after, so a publication promoted to the home page is quietly missing from it. A published publication with no posts, or all-draft posts: renders a page with no posts and a card claiming 0 posts. All caught at build instead. See [Adding a publication or post](/blog/blog-platform-docs/adding-content) for how drafts work.
 
 ## Post rules
 

@@ -41,23 +41,23 @@ All seventeen live in `content/publications/blog-platform-docs/posts/`. New here
 
 | If you are… | Read | Published at |
 | --- | --- | --- |
-| New to the platform | `working-with-the-platform.ts` | `/blog-platform-docs/working-with-the-platform` |
-| Changing types, the registry, or the boundary | `content-contract.ts` | `/blog-platform-docs/content-contract` |
-| Adding a component, or wondering what runs where | `rendering-model.ts` | `/blog-platform-docs/rendering-model` |
-| Adding Markdown syntax | `extending-the-renderer.ts` | `/blog-platform-docs/extending-the-renderer` |
-| Touching colours, spacing, or theming | `design-tokens.ts` | `/blog-platform-docs/design-tokens` |
-| Building any interactive element | `accessibility-contract.ts` | `/blog-platform-docs/accessibility-contract` |
-| Renaming anything with a URL | `urls-and-redirects.ts` | `/blog-platform-docs/urls-and-redirects` |
-| Running, checking, or releasing | `running-the-blog.ts` | `/blog-platform-docs/running-the-blog` |
-| Touching the feed, sitemap, robots, or 404 page | `feeds-and-crawlers.ts` | `/blog-platform-docs/feeds-and-crawlers` |
-| Hitting a content error message | `content-validation.ts` | `/blog-platform-docs/content-validation` |
-| Looking up Markdown syntax | `markdown-reference/` | `/blog-platform-docs/markdown-reference` |
-| Writing or editing a post | `adding-content.ts` | `/blog-platform-docs/adding-content` |
-| Adding or changing an author | `authors-and-bylines.ts` | `/blog-platform-docs/authors-and-bylines` |
-| Choosing tags, titles, or excerpts | `search-and-discovery.ts` | `/blog-platform-docs/search-and-discovery` |
-| Setting up your own copy of the platform | `run-your-own-copy.ts` | `/blog-platform-docs/run-your-own-copy` |
-| Contributing a post or a code change | `contribute-to-the-platform.ts` | `/blog-platform-docs/contribute-to-the-platform` |
-| Changing how readers can support the blog | `supporting-the-platform.ts` | `/blog-platform-docs/supporting-the-platform` |
+| New to the platform | `working-with-the-platform.ts` | `/blog/blog-platform-docs/working-with-the-platform` |
+| Changing types, the registry, or the boundary | `content-contract.ts` | `/blog/blog-platform-docs/content-contract` |
+| Adding a component, or wondering what runs where | `rendering-model.ts` | `/blog/blog-platform-docs/rendering-model` |
+| Adding Markdown syntax | `extending-the-renderer.ts` | `/blog/blog-platform-docs/extending-the-renderer` |
+| Touching colours, spacing, or theming | `design-tokens.ts` | `/blog/blog-platform-docs/design-tokens` |
+| Building any interactive element | `accessibility-contract.ts` | `/blog/blog-platform-docs/accessibility-contract` |
+| Renaming anything with a URL | `urls-and-redirects.ts` | `/blog/blog-platform-docs/urls-and-redirects` |
+| Running, checking, or releasing | `running-the-blog.ts` | `/blog/blog-platform-docs/running-the-blog` |
+| Touching the feed, sitemap, robots, or 404 page | `feeds-and-crawlers.ts` | `/blog/blog-platform-docs/feeds-and-crawlers` |
+| Hitting a content error message | `content-validation.ts` | `/blog/blog-platform-docs/content-validation` |
+| Looking up Markdown syntax | `markdown-reference/` | `/blog/blog-platform-docs/markdown-reference` |
+| Writing or editing a post | `adding-content.ts` | `/blog/blog-platform-docs/adding-content` |
+| Adding or changing an author | `authors-and-bylines.ts` | `/blog/blog-platform-docs/authors-and-bylines` |
+| Choosing tags, titles, or excerpts | `search-and-discovery.ts` | `/blog/blog-platform-docs/search-and-discovery` |
+| Setting up your own copy of the platform | `run-your-own-copy.ts` | `/blog/blog-platform-docs/run-your-own-copy` |
+| Contributing a post or a code change | `contribute-to-the-platform.ts` | `/blog/blog-platform-docs/contribute-to-the-platform` |
+| Changing how readers can support the blog | `supporting-the-platform.ts` | `/blog/blog-platform-docs/supporting-the-platform` |
 
 ## Commands
 

@@ -1,27 +1,29 @@
 export const urlsAndRedirects = `
 # URLs, slugs, and redirects
 
-One file builds every address. Every address that ever worked keeps working. This post covers: how URLs are built, how a post is found from one, what to do on a rename. Doc map: [Working with the platform](/blog-platform-docs/working-with-the-platform).
+One file builds every address. Every address that ever worked keeps working. This post covers: how URLs are built, how a post is found from one, what to do on a rename. Doc map: [Working with the platform](/blog/blog-platform-docs/working-with-the-platform).
 
 ## One file owns every URL shape
 
 content/routes.ts is the only place that knows the site's address shapes:
 
 ~~~ts
+export const blogHref = "/blog"
+
 export const browseContentTypes = ["posts", "publications", "authors"] as const
 export const defaultBrowseContentType: BrowseContentType = "posts"
-export const browseHref = "/browse"
+export const browseHref = \`\${blogHref}/browse\`
 
 export function browseContentHref(contentType: BrowseContentType) {
   return \`\${browseHref}/\${contentType}\`
 }
 
 export function publicationHref(pubId: string) {
-  return \`/\${encodeURIComponent(pubId)}\`
+  return \`\${blogHref}/\${encodeURIComponent(pubId)}\`
 }
 
 export function authorHref(authorId: string) {
-  return \`/authors/\${encodeURIComponent(authorId)}\`
+  return \`\${blogHref}/authors/\${encodeURIComponent(authorId)}\`
 }
 
 export function postHref(pubId: string, post: Pick<Post, "postId" | "slug">) {
@@ -29,7 +31,7 @@ export function postHref(pubId: string, post: Pick<Post, "postId" | "slug">) {
 }
 ~~~
 
-Pages, cards, breadcrumbs, next-and-previous links: all call these functions. Two exceptions: the header's home link (a literal slash), and redirect sources in next.config.ts (historical addresses, plain strings, never rebuilt by a helper). Changing a live address shape is a one-file change; the compiler finds every caller.
+Pages, cards, breadcrumbs, next-and-previous links, the header's home link: all call these functions or use blogHref. One exception: redirect sources in next.config.ts (historical addresses, plain strings, never rebuilt by a helper). Changing a live address shape is a one-file change; the compiler finds every caller. Moving the whole blog under /blog on 2026-10-01 was exactly that: blogHref appeared, three helpers gained the prefix, and nothing else in the app changed.
 
 Two properties:
 
@@ -40,23 +42,24 @@ The addresses on the site:
 
 | Address | What it shows |
 | --- | --- |
-| / | The landing page |
-| /browse/posts | The searchable index of posts |
-| /browse/publications | The searchable index of publications |
-| /browse/authors | The searchable index of authors |
-| /{pubId} | One publication and its posts |
-| /{pubId}/{slug} | One post |
-| /authors/{authorId} | One author and everything they have written |
+| / | The site root. Redirects to /blog until a landing page for the whole site exists |
+| /blog | The blog landing page |
+| /blog/browse/posts | The searchable index of posts |
+| /blog/browse/publications | The searchable index of publications |
+| /blog/browse/authors | The searchable index of authors |
+| /blog/{pubId} | One publication and its posts |
+| /blog/{pubId}/{slug} | One post |
+| /blog/authors/{authorId} | One author and everything they have written |
 
-Publications sit at the top level, no prefix. Deliberate. Reason for the reserved-word rule below.
+Everything the blog serves sits under /blog. The site root and any other top-level path are free for a landing page, tools, or resources, so a copy of this platform is a blog section inside a site rather than the whole site. Inside /blog, publications sit directly under the prefix with no further nesting. Reason for the reserved-word rule below.
 
-Browse has three addresses, content type as a path segment, not a query parameter. Two consequences: each of the three is built ahead of time with its own title and description; an unrecognised type such as /browse/drafts is a 404, not a page quietly showing something else.
+Browse has three addresses, content type as a path segment, not a query parameter. Two consequences: each of the three is built ahead of time with its own title and description; an unrecognised type such as /blog/browse/drafts is a 404, not a page quietly showing something else.
 
-/browse alone redirects to /browse/posts. No link inside the site points there: every one calls browseContentHref, so site navigation never passes through that redirect. It exists for external links and hand-typed addresses.
+/blog/browse alone redirects to /blog/browse/posts. No link inside the site points there: every one calls browseContentHref, so site navigation never passes through that redirect. It exists for external links and hand-typed addresses.
 
 ## How a post URL is resolved
 
-Request for /blog-platform-docs/adding-content: the registry looks up the publication by ID, then searches its posts for a match on slug or numeric ID as text:
+Request for /blog/blog-platform-docs/adding-content: the registry looks up the publication by ID, then searches its posts for a match on slug or numeric ID as text:
 
 ~~~ts
 const postIndex = publication.posts.findIndex(
@@ -72,15 +75,15 @@ The lookup accepts either form; only one is built as a page. The route lists its
 postId: post.slug ?? String(post.postId),
 ~~~
 
-A post with a slug contributes only its slug. Nothing outside that list exists: /blog-platform-docs/402 returns 404 even though the lookup would resolve it. Every post currently has a slug, so no numeric address exists on the site.
+A post with a slug contributes only its slug. Nothing outside that list exists: /blog/blog-platform-docs/402 returns 404 even though the lookup would resolve it. Every post currently has a slug, so no numeric address exists on the site.
 
 The numeric branch matters only for a post with no slug; then it is that post's single address. Rule: one address per post, slug if present, number otherwise.
 
-The lookup also returns the post's array position, used for the previous and next links at the foot of a post. Editorial order is array order. See [The content contract](/blog-platform-docs/content-contract).
+The lookup also returns the post's array position, used for the previous and next links at the foot of a post. Editorial order is array order. See [The content contract](/blog/blog-platform-docs/content-contract).
 
 ## Reserved publication IDs
 
-Publications live at the top level, so a publication ID could collide with a real route. Three words refused outright:
+Publications live directly under /blog, so a publication ID could collide with a real route at that level. Three words refused outright:
 
 ~~~text
 authors
@@ -90,7 +93,7 @@ publications
 
 A publication using one would be shadowed by the same-name route and unreachable. The validator rejects it with "browse: pubId conflicts with a reserved route" before the site builds.
 
-New top-level route: add its name to reservedPublicationIds in content/validation.ts in the same change. Forgotten, it surfaces much later as a publication that will not open.
+New route directly under /blog: add its name to reservedPublicationIds in content/validation.ts in the same change. Forgotten, it surfaces much later as a publication that will not open.
 
 ## Only known addresses exist
 
@@ -112,12 +115,12 @@ generateStaticParams lists every address to build. dynamicParams false: anything
 Three consequences:
 
 - **New content requires a build.** No way to add a post to a running site. Intended trade: the site is a set of files, nothing generated at request time.
-- **A draft has no address.** The list comes from the registry, drafts already removed. Nothing is built, the path is a 404 like any other unknown address. No page checks a flag; no half-published state. See [Adding a publication or post](/blog-platform-docs/adding-content).
-- **A typo in a link is caught as a 404, not as a broken page.** Not checked: links written inside post prose. /blog-platform-docs/does-not-exist builds happily and 404s for the reader. Click the internal links you write.
+- **A draft has no address.** The list comes from the registry, drafts already removed. Nothing is built, the path is a 404 like any other unknown address. No page checks a flag; no half-published state. See [Adding a publication or post](/blog/blog-platform-docs/adding-content).
+- **A typo in a link is caught as a 404, not as a broken page.** Not checked: links written inside post prose. /blog/blog-platform-docs/does-not-exist builds happily and 404s for the reader. Click the internal links you write.
 
 ## Internal and external links in prose
 
-The renderer sorts links into three kinds in v0/www/app/(blog)/components/markdown.tsx, test defined in markdown-utils.ts:
+The renderer sorts links into three kinds in v0/www/app/blog/components/markdown.tsx, test defined in markdown-utils.ts:
 
 - Starts with a hash: plain anchor, browser handles it, jumps within the page.
 - Starts with a single forward slash: internal, app navigation, no page reload.
@@ -155,11 +158,11 @@ First rename, four rules:
 Second rename, two rules:
 
 ~~~ts
-{ source: "/blog-platform/:postId", destination: "/blog-platform-docs/:postId", permanent: true },
-{ source: "/blog-platform", destination: "/blog-platform-docs", permanent: true },
+{ source: "/blog-platform/:postId", destination: "/blog/blog-platform-docs/:postId", permanent: true },
+{ source: "/blog-platform", destination: "/blog/blog-platform-docs", permanent: true },
 ~~~
 
-The first set still points at blog-platform, no longer a real publication. Deliberate: **redirects chain.** /blog-tech/design-tokens forwards to /blog-platform/design-tokens, the browser follows, the second set forwards to /blog-platform-docs/design-tokens. Two hops, one working page.
+The first set still points at blog-platform, no longer a real publication. Deliberate: **redirects chain.** /blog-tech/design-tokens forwards to /blog-platform/design-tokens, the browser follows, the second set forwards to /blog/blog-platform-docs/design-tokens. Two hops, one working page.
 
 Pointing old rules straight at the current name would save a hop, but every rename would then mean editing every rule that ever pointed at the old name. Chaining: each rename adds rules, never edits them. Harder to get wrong.
 
@@ -167,7 +170,7 @@ One exception in the file. Three rules handle posts renamed whose publication th
 
 ~~~ts
 { source: "/blog-platform/markdown-components",
-  destination: "/blog-platform-docs/markdown-reference", permanent: true },
+  destination: "/blog/blog-platform-docs/markdown-reference", permanent: true },
 ~~~
 
 They must sit above the general /blog-platform/:postId rule. A source matches on path alone, first matching rule wins; listed after it, an old slug forwards to a publication with no post by that name.
@@ -175,34 +178,55 @@ They must sit above the general /blog-platform/:postId rule. A source matches on
 Two more rules handle the dropped prefix for every other publication:
 
 ~~~ts
-{ source: "/publications/:pubId/:postId", destination: "/:pubId/:postId", permanent: true },
-{ source: "/publications/:pubId", destination: "/:pubId", permanent: true },
+{ source: "/publications/:pubId/:postId", destination: "/blog/:pubId/:postId", permanent: true },
+{ source: "/publications/:pubId", destination: "/blog/:pubId", permanent: true },
 ~~~
 
 Ordering: specific blog-tech rules before general prefix rules (first match wins). Reversed, nothing breaks outright: /publications/blog-tech strips to /blog-tech, itself a redirect source, and the chain above still resolves. Cost: an extra hop per request. Specific rules first keeps every historical address within at most three hops.
 
 permanent true sends a 308: browsers and search engines record the move as final.
 
+### Moving the whole blog under a prefix
+
+Third worked example, the largest: on 2026-10-01 every blog address moved under /blog. Three helpers changed in routes.ts, the route folder moved from a route group to a real segment, and every address that existed on that day got a redirect.
+
+The tempting rule is one catch-all, /:pubId to /blog/:pubId. It is wrong. Redirects run before the filesystem, public files included, so that rule would also forward /feed.xml, /static/..., and /blog itself. The file instead names the eleven publications that existed on the day of the move:
+
+~~~ts
+{ source: "/:pubId(ai-benchmarks|ai-coaching-advisory|...|tech-tutorials)/:postId",
+  destination: "/blog/:pubId/:postId", permanent: true },
+{ source: "/:pubId(ai-benchmarks|ai-coaching-advisory|...|tech-tutorials)",
+  destination: "/blog/:pubId", permanent: true },
+{ source: "/authors/:authorId", destination: "/blog/authors/:authorId", permanent: true },
+{ source: "/browse/:content(posts|publications|authors)",
+  destination: "/blog/browse/:content", permanent: true },
+~~~
+
+A publication created after the move never had a root address, so the list never grows. Two more decisions in that change:
+
+- Every older rule whose destination named a live address was edited to carry the prefix, so an old link still lands in one hop. The chaining rule above was not broken: rules pointing at an already-redirected address were left alone.
+- The site root forwards to /blog with permanent false, a 307. The root will become a landing page for the whole site; a cached 308 would keep sending readers past it.
+
 ### Moving a query parameter into the path
 
 Second worked example: the browse page. Covers a case the publication rename does not: old addresses that differed only by query string.
 
-Content type used to be a query parameter. /browse?content=publications is now /browse/publications. Four rules:
+Content type used to be a query parameter. /browse?content=publications is now /blog/browse/publications. Four rules, destinations carrying the prefix since the move:
 
 ~~~ts
 { source: "/browse", has: [{ type: "query", key: "content", value: "publications" }],
-  destination: "/browse/publications", permanent: true },
+  destination: "/blog/browse/publications", permanent: true },
 { source: "/browse", has: [{ type: "query", key: "content", value: "authors" }],
-  destination: "/browse/authors", permanent: true },
+  destination: "/blog/browse/authors", permanent: true },
 { source: "/browse", has: [{ type: "query", key: "content", value: "posts" }],
-  destination: "/browse/posts", permanent: true },
-{ source: "/browse", destination: "/browse/posts", permanent: true },
+  destination: "/blog/browse/posts", permanent: true },
+{ source: "/browse", destination: "/blog/browse/posts", permanent: true },
 ~~~
 
 Two takeaways:
 
 - **A source matches the path only.** All four rules share one source; the query is matched separately through has. The bare rule must come last: listed first, it matches every /browse request regardless of query, and an old authors link lands on posts.
-- **The query string survives the redirect.** /browse?content=authors arrives at /browse/authors?content=authors. The parameter is now meaningless, the page ignores it, it stays in the address. Stripping it needs middleware, not worth writing for something a reader will not notice.
+- **The query string survives the redirect.** /browse?content=authors arrives at /blog/browse/authors?content=authors. The parameter is now meaningless, the page ignores it, it stays in the address. Stripping it needs middleware, not worth writing for something a reader will not notice.
 
 ### Renaming a publication
 
@@ -218,7 +242,7 @@ Same shape, one rule instead of two. Real rule, in the file:
 
 ~~~ts
 { source: "/online-presence/three-ways-to-build-a-blog",
-  destination: "/online-presence/build-your-own-blog", permanent: true }
+  destination: "/blog/online-presence/build-your-own-blog", permanent: true }
 ~~~
 
 No safety net. The numeric ID is not a working address (see above), so the redirect is the only thing keeping the old link alive. Write it in the same change as the rename, not afterwards.
@@ -231,7 +255,7 @@ Nothing checks any of this. Grep for the old slug and the old title separately b
 
 ### Removing a publication or post
 
-Deleting content leaves its address returning 404 (the styled page covered in [Feeds, crawlers, and the 404 page](/blog-platform-docs/feeds-and-crawlers)). If the piece was public for any length of time, redirect somewhere sensible instead: the publication it belonged to, or /browse/posts. A real page beats a dead end.
+Deleting content leaves its address returning 404 (the styled page covered in [Feeds, crawlers, and the 404 page](/blog/blog-platform-docs/feeds-and-crawlers)). If the piece was public for any length of time, redirect somewhere sensible instead: the publication it belonged to, or /blog/browse/posts. A real page beats a dead end.
 
 Setting isDraft on something already published removes its address the same way. Same treatment: add a redirect if the address was public for any length of time, and check whether another post links to it in prose (nothing validates those links).
 

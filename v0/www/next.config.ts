@@ -4,6 +4,61 @@ import type { NextConfig } from "next"
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // The whole blog moved under /blog on 2026-10-01 (11brain task
+      // 11blog-001). The site root is reserved for a landing page and for
+      // sections that are not the blog, so a copy of this platform can host
+      // tools and resources next to its posts. Until that landing page exists
+      // the root forwards to the blog, temporarily: a 307 is not cached, so the
+      // root can become a real page later without fighting old browser caches.
+      {
+        source: "/",
+        destination: "/blog",
+        permanent: false,
+      },
+      // Every address that existed before the move keeps working. Publications
+      // used to sit at the top level, so a general /:pubId rule would also
+      // swallow /blog itself, /feed.xml, /static and anything else at the root
+      // (redirects run before the filesystem, public files included). The rule
+      // therefore names the eleven publications that existed on the day of the
+      // move. A publication created after it never had a root address, so it
+      // needs no entry here.
+      {
+        source: "/browse/:content(posts|publications|authors)",
+        destination: "/blog/browse/:content",
+        permanent: true,
+      },
+      {
+        source: "/authors/:authorId",
+        destination: "/blog/authors/:authorId",
+        permanent: true,
+      },
+      // The 11ai author was removed on 2026-10-01 (11brain task 11blog-002):
+      // every post is written by RJ. An author id is a public address, so the
+      // old page forwards to the author who took over the bylines. Sits below
+      // the /authors rule above so an old root link chains through it.
+      {
+        source: "/blog/authors/11ai",
+        destination: "/blog/authors/rj11io",
+        permanent: true,
+      },
+      {
+        source:
+          "/:pubId(ai-benchmarks|ai-coaching-advisory|ai-product-engineering|ai-skills-spotlight|ai-tech-forecast|blog-platform-docs|online-presence|personal-notes|project-postmortems|rnd|tech-tutorials)/:postId",
+        destination: "/blog/:pubId/:postId",
+        permanent: true,
+      },
+      {
+        source:
+          "/:pubId(ai-benchmarks|ai-coaching-advisory|ai-product-engineering|ai-skills-spotlight|ai-tech-forecast|blog-platform-docs|online-presence|personal-notes|project-postmortems|rnd|tech-tutorials)",
+        destination: "/blog/:pubId",
+        permanent: true,
+      },
+      // Everything below predates the move. Each destination that named a live
+      // address now carries the /blog prefix, so an old link lands in one hop.
+      // Destinations that name an older, already-redirected address (the
+      // /blog-tech rules pointing at /blog-platform) are left alone: they chain
+      // into the rules above them, as the docs post on redirects explains.
+      //
       // The browse page moved from a query parameter to a path segment on
       // 2026-07-31: /browse?content=publications became /browse/publications.
       //
@@ -13,19 +68,19 @@ const nextConfig: NextConfig = {
       {
         source: "/browse",
         has: [{ type: "query", key: "content", value: "publications" }],
-        destination: "/browse/publications",
+        destination: "/blog/browse/publications",
         permanent: true,
       },
       {
         source: "/browse",
         has: [{ type: "query", key: "content", value: "authors" }],
-        destination: "/browse/authors",
+        destination: "/blog/browse/authors",
         permanent: true,
       },
       {
         source: "/browse",
         has: [{ type: "query", key: "content", value: "posts" }],
-        destination: "/browse/posts",
+        destination: "/blog/browse/posts",
         permanent: true,
       },
       // Bare /browse, and any unrecognised content value, land on the default
@@ -33,7 +88,7 @@ const nextConfig: NextConfig = {
       // one uses browseContentHref so navigation never pays for a redirect.
       {
         source: "/browse",
-        destination: "/browse/posts",
+        destination: "/blog/browse/posts",
         permanent: true,
       },
       // "Three ways to build your own blog" became "Build your own blog" on
@@ -44,7 +99,7 @@ const nextConfig: NextConfig = {
       // does not matter. It sits here because it is the most recent.
       {
         source: "/online-presence/three-ways-to-build-a-blog",
-        destination: "/online-presence/build-your-own-blog",
+        destination: "/blog/online-presence/build-your-own-blog",
         permanent: true,
       },
       // "A tour of the platform" became "Working with the platform" on
@@ -52,7 +107,7 @@ const nextConfig: NextConfig = {
       // while this rule keeps bookmarks and shared links working.
       {
         source: "/blog-platform-docs/start-here",
-        destination: "/blog-platform-docs/working-with-the-platform",
+        destination: "/blog/blog-platform-docs/working-with-the-platform",
         permanent: true,
       },
       // Blog Platform posts renamed on 2026-07-31, when the publication grew
@@ -65,17 +120,17 @@ const nextConfig: NextConfig = {
       // it is forwarded to /blog-platform/markdown-components and then here.
       {
         source: "/blog-platform/markdown-components",
-        destination: "/blog-platform-docs/markdown-reference",
+        destination: "/blog/blog-platform-docs/markdown-reference",
         permanent: true,
       },
       {
         source: "/blog-platform/markdown-blog-format",
-        destination: "/blog-platform-docs/adding-content",
+        destination: "/blog/blog-platform-docs/adding-content",
         permanent: true,
       },
       {
         source: "/blog-platform/custom-components",
-        destination: "/blog-platform-docs/extending-the-renderer",
+        destination: "/blog/blog-platform-docs/extending-the-renderer",
         permanent: true,
       },
       // The publication was renamed from blog-platform to blog-platform-docs on
@@ -92,12 +147,12 @@ const nextConfig: NextConfig = {
       // at most three hops.
       {
         source: "/blog-platform/:postId",
-        destination: "/blog-platform-docs/:postId",
+        destination: "/blog/blog-platform-docs/:postId",
         permanent: true,
       },
       {
         source: "/blog-platform",
-        destination: "/blog-platform-docs",
+        destination: "/blog/blog-platform-docs",
         permanent: true,
       },
       {
@@ -122,12 +177,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/publications/:pubId/:postId",
-        destination: "/:pubId/:postId",
+        destination: "/blog/:pubId/:postId",
         permanent: true,
       },
       {
         source: "/publications/:pubId",
-        destination: "/:pubId",
+        destination: "/blog/:pubId",
         permanent: true,
       },
     ]

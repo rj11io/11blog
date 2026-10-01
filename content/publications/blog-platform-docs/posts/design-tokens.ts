@@ -144,6 +144,6 @@ The variables setting is the important one. Generated components read the same t
 - No corner radii. The system is square, from one lever.
 - Structure comes from thin borders, using border-border. Not shadows.
 - Check both modes before committing. The theme hotkey makes it one keystroke.
-- New text colour: at least 4.5 to 1 against every surface it sits on. Both surfaces, both modes. That rule, plus the rest of what a new component owes readers: [Accessibility contract](/blog-platform-docs/accessibility-contract).
+- New text colour: at least 4.5 to 1 against every surface it sits on. Both surfaces, both modes. That rule, plus the rest of what a new component owes readers: [Accessibility contract](/blog/blog-platform-docs/accessibility-contract).
 - Comment the reasoning when a value exists for a measurable reason. The two comments in this stylesheet are why its unusual choices survived.
 `

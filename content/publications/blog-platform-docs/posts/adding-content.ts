@@ -1,7 +1,7 @@
 export const addingContent = `
 # Adding a publication or post
 
-How to add a publication or post to the blog's internal content system. Markdown syntax and custom renderer behavior: [Markdown reference](/blog-platform-docs/markdown-reference). New to the platform: [Working with the platform](/blog-platform-docs/working-with-the-platform) maps all the documentation.
+How to add a publication or post to the blog's internal content system. Markdown syntax and custom renderer behavior: [Markdown reference](/blog/blog-platform-docs/markdown-reference). New to the platform: [Working with the platform](/blog/blog-platform-docs/working-with-the-platform) maps all the documentation.
 
 ## Content architecture
 
@@ -268,7 +268,7 @@ A published publication needs at least one published post. An empty posts array 
 
 ### One thing to check by hand
 
-Nothing validates links in post prose: drafting a post another post links to leaves a link to a 404. Before drafting an already-published post, search the content directory for the slug and remove or reword any link found. Drafting something public also deserves a redirect: see [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
+Nothing validates links in post prose: drafting a post another post links to leaves a link to a 404. Before drafting an already-published post, search the content directory for the slug and remove or reword any link found. Drafting something public also deserves a redirect: see [URLs, slugs, and redirects](/blog/blog-platform-docs/urls-and-redirects).
 
 ## Post body rules
 
@@ -282,7 +282,7 @@ Blank line between paragraphs, headings, lists, quotes, tables, and code blocks.
 
 The renderer supports normal Markdown: paragraphs, emphasis, strong text, strikethrough, inline code, headings, links, images, blockquotes, unordered and ordered lists, task-list checkboxes, horizontal rules, tables, fenced code blocks, hard line breaks.
 
-The remark-gfm plugin adds autolink literals, footnotes, strikethrough, tables, and task lists. Executable reference for each form: [Markdown reference](/blog-platform-docs/markdown-reference).
+The remark-gfm plugin adds autolink literals, footnotes, strikethrough, tables, and task lists. Executable reference for each form: [Markdown reference](/blog/blog-platform-docs/markdown-reference).
 
 Custom YouTube embed: a standalone shortcode with an 11-character video ID:
 
@@ -300,14 +300,14 @@ Any Markdown, including the other components.
 :::
 ~~~
 
-The [Markdown reference](/blog-platform-docs/markdown-reference) shows both forms and what belongs inside one.
+The [Markdown reference](/blog/blog-platform-docs/markdown-reference) shows both forms and what belongs inside one.
 
 ## Links and images
 
 Internal links: root-relative paths:
 
 ~~~md
-[Browse the posts](/browse/posts)
+[Browse the posts](/blog/browse/posts)
 [Jump to a section](#section-heading)
 ~~~
 
@@ -413,7 +413,7 @@ Adding a post and adding a publication are different jobs. Use the matching chec
 6. Put named single-image and image-list configurations in the post's .images.ts file when needed.
 7. Give configured images dimensions, useful alt text, and separate thumbnail and lightbox sources where practical.
 8. Add a coverImage, imported rather than written as a path. It doubles as the post's link preview.
-9. Check component syntax against the [Markdown reference](/blog-platform-docs/markdown-reference).
+9. Check component syntax against the [Markdown reference](/blog/blog-platform-docs/markdown-reference).
 10. Add the post to its publication's posts array, in reading position.
 11. Set isDraft to true if the post is not ready to be read; the build then leaves it out. Set isFeatured to false while it is a draft; the two together fail validation.
 12. Run typecheck, lint, and build, all from v0/www (the root package.json has none of these scripts). The build runs the content validator and generates the new route; a passing typecheck alone proves nothing about the content.
@@ -429,5 +429,5 @@ Adding a post and adding a publication are different jobs. Use the matching chec
 7. Set isDraft to true if the publication is not ready. Same if every post in it is still a draft; validation requires this rather than suggests it.
 8. Run typecheck, lint, and build from v0/www.
 
-Rules behind each step, and the exact message thrown when one fails: [Content validation rules](/blog-platform-docs/content-validation).
+Rules behind each step, and the exact message thrown when one fails: [Content validation rules](/blog/blog-platform-docs/content-validation).
 `

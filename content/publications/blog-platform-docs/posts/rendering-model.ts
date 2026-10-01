@@ -18,7 +18,7 @@ export function generateStaticParams() {
 }
 ~~~
 
-Publication, author, and browse routes do the same with their own lists. dynamicParams false: an unlisted address is a 404, never rendered on demand. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects). Each route also exports generateMetadata, building the page title, description, and link-preview tags from the same registry data at the same time.
+Publication, author, and browse routes do the same with their own lists. dynamicParams false: an unlisted address is a 404, never rendered on demand. See [URLs, slugs, and redirects](/blog/blog-platform-docs/urls-and-redirects). Each route also exports generateMetadata, building the page title, description, and link-preview tags from the same registry data at the same time.
 
 Possible because content is imported code, not fetched data. The registry assembles and validates everything before any page function runs, so a page is a function from in-memory data to markup.
 
@@ -55,7 +55,7 @@ Twenty-two hand-written entries opt in, each with a reason:
 | hooks/use-bookmarked-filter.ts | Remembers independent Bookmarked filters for central browse and publication post browsers |
 | hooks/use-bookmarks.ts | Reads, writes, and subscribes to browser-local bookmarks |
 
-Vendored components under components/ui carry the same directive (generator output). Most are never imported, so never ship. One does: the dialog, which the image viewer is built on. See [Design tokens and theming](/blog-platform-docs/design-tokens) for what that directory is.
+Vendored components under components/ui carry the same directive (generator output). Most are never imported, so never ship. One does: the dialog, which the image viewer is built on. See [Design tokens and theming](/blog/blog-platform-docs/design-tokens) for what that directory is.
 
 Everything else runs server-only, including the Markdown renderer and every page. The renderer still emits interactive islands (an inline image, a gallery): those are the client components in the table, imported at the leaves. The parsing and the component map never ship.
 
@@ -93,7 +93,7 @@ export async function CodeBlock({ code, language }) {
 
 Shiki, the highlighter, runs during the build. Its themes and language grammars are large; none reach the browser. The reader receives already-coloured markup. The block ships two small things of its own, the header bar's language label and the copy button (a client component). The highlighting never ships.
 
-Every token carries both a light and a dark colour; the stylesheet picks between them. Switching mode recolours code without re-highlighting anything. See [Design tokens and theming](/blog-platform-docs/design-tokens).
+Every token carries both a light and a dark colour; the stylesheet picks between them. Switching mode recolours code without re-highlighting anything. See [Design tokens and theming](/blog/blog-platform-docs/design-tokens).
 
 Unknown languages fall back to plain text rather than failing, so a fenced block labelled with something Shiki does not recognise still renders.
 
@@ -116,7 +116,7 @@ ssr false: not rendered on the server either. Correct for something that only ex
 
 Next.js has an image component that optimises and resizes images. The blog does not use it for content images. Cover art, post images, gallery items: all plain image elements, with the objecting lint rule switched off at each of those lines.
 
-Reason, stated in a comment in cover-image.tsx: content can point at any host, and the optimising component requires every host listed in configuration up front. Content needing a configuration change before it can reference an image breaks the boundary between content and website. See [The content contract](/blog-platform-docs/content-contract).
+Reason, stated in a comment in cover-image.tsx: content can point at any host, and the optimising component requires every host listed in configuration up front. Content needing a configuration change before it can reference an image breaks the boundary between content and website. See [The content contract](/blog/blog-platform-docs/content-contract).
 
 Author photographs live in the site's own public directory and are known ahead of time, so they do use the optimising component.
 
@@ -147,7 +147,7 @@ Related trick in the same component: the photograph's key is set to its source. 
 
 ## The browse page reads its state from the route
 
-The browse page shows one of three content types, chosen by path segment: /browse/posts, /browse/publications, /browse/authors. The route resolves the segment on the server and passes it down as an ordinary prop:
+The browse page shows one of three content types, chosen by path segment: /blog/browse/posts, /blog/browse/publications, /blog/browse/authors. The route resolves the segment on the server and passes it down as an ordinary prop:
 
 ~~~tsx
 <Browse
@@ -235,7 +235,7 @@ export function createHeadingIdFactory() {
 }
 ~~~
 
-It strips accents, lowercases, replaces anything not a letter or digit with a hyphen, trims stray hyphens from the ends, falls back to the word section when nothing survives, and appends a number to repeats so two identical headings get distinct identifiers. The sidebar and the renderer both use it and both walk the document in the same order, so links and targets always agree. One subtlety keeps the walks in step: both passes skip the inside of container directives, so a heading inside an accordion neither gets an anchor nor advances the duplicate counter. [Extending the renderer](/blog-platform-docs/extending-the-renderer) explains the machinery.
+It strips accents, lowercases, replaces anything not a letter or digit with a hyphen, trims stray hyphens from the ends, falls back to the word section when nothing survives, and appends a number to repeats so two identical headings get distinct identifiers. The sidebar and the renderer both use it and both walk the document in the same order, so links and targets always agree. One subtlety keeps the walks in step: both passes skip the inside of container directives, so a heading inside an accordion neither gets an anchor nor advances the duplicate counter. [Extending the renderer](/blog/blog-platform-docs/extending-the-renderer) explains the machinery.
 
 Changing how identifiers are made changes both callers together, and old links to old anchors break. Same problem as renaming a slug, one level down.
 

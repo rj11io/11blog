@@ -1,7 +1,7 @@
 export const contentContract = `
 # The content contract
 
-The writing does not live inside the website. It lives in a directory next to it, in plain TypeScript, and the website imports it. This post: why, what the boundary guarantees, and what a replacement website must provide. Map of the documentation set: [Working with the platform](/blog-platform-docs/working-with-the-platform).
+The writing does not live inside the website. It lives in a directory next to it, in plain TypeScript, and the website imports it. This post: why, what the boundary guarantees, and what a replacement website must provide. Map of the documentation set: [Working with the platform](/blog/blog-platform-docs/working-with-the-platform).
 
 ## Two directories, one boundary
 
@@ -32,8 +32,8 @@ Two settings in v0/www/tsconfig.json do the work (trimmed here to the boundary e
 
 - Alias: the website writes @content/registry, not a chain of parent directories.
 - Include: content files are type-checked as part of the website's own typecheck. A type mistake in a content file fails the same command that checks the components.
-- Rule violations are separate, caught by the build: [Content validation rules](/blog-platform-docs/content-validation).
-- The bundler needs matching configuration: [Running and releasing the blog](/blog-platform-docs/running-the-blog).
+- Rule violations are separate, caught by the build: [Content validation rules](/blog/blog-platform-docs/content-validation).
+- The bundler needs matching configuration: [Running and releasing the blog](/blog/blog-platform-docs/running-the-blog).
 
 ## The registry is the only door
 
@@ -42,8 +42,8 @@ content/registry.ts is the entry point. Pages import from it. Nothing in the web
 Five jobs, in order:
 
 - **Assembles.** Imports each publication into a private array, authoredPublications: everything written, drafts included. Re-exports the author list as blogAuthors.
-- **Validates.** Calls the checker at module top level, so importing the registry validates the content. Rule failure is build failure. Runs on the full authored list, before anything is hidden, so drafts meet the same rules as published posts. See [Content validation rules](/blog-platform-docs/content-validation).
-- **Filters.** Removes drafts, exports the rest as publications. Both levels: a draft publication takes its posts with it, a draft post disappears from a published publication. Posts of a draft publication get marked as drafts themselves (truth restated), so badges check one flag, not two. The only place in the site where a draft is hidden. See [Adding a publication or post](/blog-platform-docs/adding-content) for how the flag behaves.
+- **Validates.** Calls the checker at module top level, so importing the registry validates the content. Rule failure is build failure. Runs on the full authored list, before anything is hidden, so drafts meet the same rules as published posts. See [Content validation rules](/blog/blog-platform-docs/content-validation).
+- **Filters.** Removes drafts, exports the rest as publications. Both levels: a draft publication takes its posts with it, a draft post disappears from a published publication. Posts of a draft publication get marked as drafts themselves (truth restated), so badges check one flag, not two. The only place in the site where a draft is hidden. See [Adding a publication or post](/blog/blog-platform-docs/adding-content) for how the flag behaves.
 - **Derives.** Pre-computes the shapes pages need; no page joins data itself. Every derived export is built from the filtered list, so hiding a draft needs no other change: counts, lists, addresses, previous and next links all follow.
 - **Looks things up.** Exports the functions that find one publication, post, or author. These read the filtered list too: a draft's address resolves to nothing, the page returns 404.
 
@@ -133,14 +133,14 @@ The one-way dependency makes a different front end bounded work, not a rewrite. 
 - **A way to import a .md file as a string.** content/markdown.d.ts already declares the shape; the bundler needs a loader that produces it. The current one is three lines.
 - **A way to import an image file and read its source, width, and height.** Post image modules rely on this; it is the only other build-time capability the content assumes. Caveat: the type declaration that makes those image imports check today comes from Next.js, through the global reference in v0/www/next-env.d.ts, not from the content directory. A replacement front end must supply its own equivalent declaration.
 - **The five routes.** Landing, browse, publication, post, author. content/routes.ts owns their addresses through its link builders; the shape of each page is the front end's to design.
-- **A Markdown renderer** handling standard Markdown, the GitHub extensions, the three custom shortcodes, the accordion container, and the bare YouTube URL form. See [Extending the renderer](/blog-platform-docs/extending-the-renderer).
+- **A Markdown renderer** handling standard Markdown, the GitHub extensions, the three custom shortcodes, the accordion container, and the bare YouTube URL form. See [Extending the renderer](/blog/blog-platform-docs/extending-the-renderer).
 
 Everything else, including all validation, comes with the content.
 
 ## Rules for changing the contract
 
 - **Adding an optional field is safe.** Existing content stays valid, existing pages ignore it. Add a validation rule for it at the same time.
-- **Adding a required field changes every publication file.** Do it deliberately, and update [Adding a publication or post](/blog-platform-docs/adding-content) in the same change.
+- **Adding a required field changes every publication file.** Do it deliberately, and update [Adding a publication or post](/blog/blog-platform-docs/adding-content) in the same change.
 - **Never import from v0/www inside content.** It reverses the dependency and makes the content layer unusable anywhere else. Nothing in the website is worth it.
 - **Format knowledge in content, appearance knowledge in the website.** "A body starts with a first-level heading" is format: stripLeadingH1 belongs in content. "A second-level heading has a top margin" is appearance: belongs in the renderer.
 - **Keep the registry the only entry point.** If a page needs something the registry does not expose, add a derived export or a lookup function. Do not reach past it.

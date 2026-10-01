@@ -17,7 +17,7 @@ Share row at the foot of every post and publication page:
 
 Method matters more than network choice. One person with the exact problem beats several hundred without it. Broadcasts get scrolled past. "This is the thing you were stuck on last week" does not.
 
-How the row is built, and why almost none of it is JavaScript: [How pages are rendered](/blog-platform-docs/rendering-model).
+How the row is built, and why almost none of it is JavaScript: [How pages are rendered](/blog/blog-platform-docs/rendering-model).
 
 ## Sponsor a post or a publication
 
@@ -46,5 +46,5 @@ Goes to the same person who writes the posts and maintains the code. No login, n
 
 Mostly time. Serving static files costs very little. Writing them does not. Every post here: read the code, run it, rewrite the parts that turned out to be wrong on the first attempt. The rewrite is the expensive step. Support buys more of it.
 
-Fourth kind of help, free. The code is public at [github.com/rj11io/11blog](https://github.com/rj11io/11blog), Apache License 2.0, so it is also the thing you fork to run your own. If something here is broken, unclear, or plainly untrue, saying so is a real contribution. Claims here have been caught and corrected before, some from outside. That is what makes the publication worth trusting. Full path, from pointing out a problem to sending the fix: [Contribute to the platform](/blog-platform-docs/contribute-to-the-platform).
+Fourth kind of help, free. The code is public at [github.com/rj11io/11blog](https://github.com/rj11io/11blog), Apache License 2.0, so it is also the thing you fork to run your own. If something here is broken, unclear, or plainly untrue, saying so is a real contribution. Claims here have been caught and corrected before, some from outside. That is what makes the publication worth trusting. Full path, from pointing out a problem to sending the fix: [Contribute to the platform](/blog/blog-platform-docs/contribute-to-the-platform).
 `

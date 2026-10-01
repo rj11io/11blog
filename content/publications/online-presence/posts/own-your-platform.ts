@@ -48,7 +48,7 @@ That is lock-in: not that you cannot go, but that going costs everything you bui
 
 Own content and code, and leaving costs a deployment. The writing is a directory of files on your machine and in version control; the renderer reads those files. Host suspends you tonight: point the domain elsewhere, deploy the same files. An afternoon, not a rebuild.
 
-This site makes that literally true: the writing lives in one directory with no dependency on the framework that renders it, documented in [the content contract](/blog-platform-docs/content-contract). Delete the website, rewrite it in something else, and not a word of the writing changes.
+This site makes that literally true: the writing lives in one directory with no dependency on the framework that renders it, documented in [the content contract](/blog/blog-platform-docs/content-contract). Delete the website, rewrite it in something else, and not a word of the writing changes.
 
 ## Two things worth owning above all
 
@@ -71,5 +71,5 @@ For plenty of people that trade is wrong. This post does not argue everyone shou
 
 ## Where to start
 
-Three routes, by how much you want to do yourself: [Build your own blog](/online-presence/build-your-own-blog).
+Three routes, by how much you want to do yourself: [Build your own blog](/blog/online-presence/build-your-own-blog).
 `

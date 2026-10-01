@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import {
+  blogHref,
   browseContentHref,
   defaultBrowseContentType,
 } from "@content/routes"
@@ -26,7 +27,7 @@ export function SiteHeader() {
           className="flex items-center gap-6"
         >
           <Link
-            href="/"
+            href={blogHref}
             aria-label="11blog home"
             className="font-mono text-sm font-medium text-foreground transition hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >

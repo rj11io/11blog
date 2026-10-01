@@ -5,7 +5,7 @@ What the blog guarantees for readers on a screen reader, a keyboard, a high-cont
 
 ## What an author must provide
 
-One rule is build-enforced: every configured image must be described. The validator requires alt text on every named image and every gallery image, and rejects an empty string. No way to add a configured image without a description. See [Content validation rules](/blog-platform-docs/content-validation).
+One rule is build-enforced: every configured image must be described. The validator requires alt text on every named image and every gallery image, and rejects an empty string. No way to add a configured image without a description. See [Content validation rules](/blog/blog-platform-docs/content-validation).
 
 Two author responsibilities are conventions, not enforced rules:
 
@@ -138,7 +138,7 @@ The general rule: every animation must have a reduced-motion form, and that form
 
 Text must measure at least 4.5 to 1 against every surface it sits on, in both colour modes.
 
-The dark-mode accent colour exists because of this rule. The original deep green measured 2.6 to 1 against the dark background. Replaced with a light mint measuring 9.2 to 1, plus a dark foreground token for text sitting on an accent fill. Numbers recorded in comments in the stylesheet; full reasoning in [Design tokens and theming](/blog-platform-docs/design-tokens).
+The dark-mode accent colour exists because of this rule. The original deep green measured 2.6 to 1 against the dark background. Replaced with a light mint measuring 9.2 to 1, plus a dark foreground token for text sitting on an accent fill. Numbers recorded in comments in the stylesheet; full reasoning in [Design tokens and theming](/blog/blog-platform-docs/design-tokens).
 
 One token exists specifically to protect contrast: the badge surface is an opaque mix, not a translucent tint. A badge on cover art keeps a known background instead of inheriting whatever the photograph provides.
 
@@ -177,7 +177,7 @@ Stated plainly: a contract with unstated gaps is misleading.
 
 **Heading order is not checked.** Skipping from a second-level heading to a fourth builds fine and produces a table of contents that misrepresents the document. The validator could enforce this.
 
-**Prose links are not checked.** A link in a post's body pointing at an address that does not exist builds without complaint. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
+**Prose links are not checked.** A link in a post's body pointing at an address that does not exist builds without complaint. See [URLs, slugs, and redirects](/blog/blog-platform-docs/urls-and-redirects).
 
 **Not every animation has a reduced-motion form yet.** The viewer's zoom and pan transition, the hover arrow slides on cards, and the card hover colour transitions all run regardless of the setting. The rule in the Motion section is the contract; these are its known violations.
 

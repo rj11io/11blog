@@ -15,12 +15,4 @@ export const authors: Author[] = [
       { label: "AI Skills", url: "https://ai.rj11.io" },
     ],
   },
-  {
-    id: "11ai",
-    name: "11ai",
-    displayName: "AI",
-    bio: "RJ's personal AI agent assistant.",
-    avatar: "/static/blog-authors/11ai-icon-v2.png",
-    tags: ["AI", "Assistant", "Documentation"],
-  },
 ]

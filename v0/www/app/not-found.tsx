@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { browseContentHref } from "@content/routes"
+import { blogHref, browseContentHref } from "@content/routes"
 
 /**
  * Served for every unknown address: a mistyped path, a draft's address, or a
@@ -25,7 +25,7 @@ export default function NotFound() {
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
-            href="/"
+            href={blogHref}
             className="border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors outline-none hover:bg-muted/60 focus-visible:ring-2 focus-visible:ring-ring"
           >
             Go to the landing page

@@ -1,7 +1,7 @@
 export const runningTheBlog = `
 # Running and releasing the blog
 
-Operator mechanics: start the site locally, check before committing, know what a push to main does. For writing content, see [Adding a publication or post](/blog-platform-docs/adding-content).
+Operator mechanics: start the site locally, check before committing, know what a push to main does. For writing content, see [Adding a publication or post](/blog/blog-platform-docs/adding-content).
 
 ## Two package manifests, two jobs
 
@@ -50,7 +50,7 @@ SHOW_DRAFTS=1 overrides the production behaviour:
 SHOW_DRAFTS=1 npm run build
 ~~~
 
-Use case: a Vercel preview environment. Set the variable there, drafts publish at the preview address, an unfinished post can be handed out for a read without touching blog.rj11.io. **Never set it on the production environment.** Flag defined in content/drafts.ts. Filter behaviour: [Adding a publication or post](/blog-platform-docs/adding-content).
+Use case: a Vercel preview environment. Set the variable there, drafts publish at the preview address, an unfinished post can be handed out for a read without touching blog.rj11.io. **Never set it on the production environment.** Flag defined in content/drafts.ts. Filter behaviour: [Adding a publication or post](/blog/blog-platform-docs/adding-content).
 
 ## The checks
 
@@ -71,7 +71,7 @@ Also npm run format: rewrites files with Prettier, including the Tailwind class-
 - lint catches the rules the Next.js configuration enforces.
 - build is the only command that executes the content and generates every page. Only one that catches a content validation failure, a publication missing from the registry, or a post that cannot render.
 
-Easy to get wrong: the content validator runs when the registry executes, meaning during a build and when the dev server renders a page. Not during typecheck. A date written as 2026-02-30 is a valid string: typecheck passes, build fails. A passing typecheck is not evidence content is valid. See [Content validation rules](/blog-platform-docs/content-validation).
+Easy to get wrong: the content validator runs when the registry executes, meaning during a build and when the dev server renders a page. Not during typecheck. A date written as 2026-02-30 is a valid string: typecheck passes, build fails. A passing typecheck is not evidence content is valid. See [Content validation rules](/blog/blog-platform-docs/content-validation).
 
 ## Why the build reaches outside the app directory
 
@@ -106,7 +106,7 @@ turbopack: {
 
 The loader is three lines: takes the file's text, exports it as a string. All a post body needs to be.
 
-Move the app, or add a second one, and both settings move with it. That is the cost of framework-independent content, and it is worth paying. See [The content contract](/blog-platform-docs/content-contract).
+Move the app, or add a second one, and both settings move with it. That is the cost of framework-independent content, and it is worth paying. See [The content contract](/blog/blog-platform-docs/content-contract).
 
 ## How a release happens
 

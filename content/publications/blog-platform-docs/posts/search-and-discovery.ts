@@ -10,12 +10,12 @@ Headline fact, everything follows from it: **post bodies are not searched.** Not
 Shows one content type at a time: posts, publications, or authors. Each has its own address:
 
 ~~~text
-/browse/posts
-/browse/publications
-/browse/authors
+/blog/browse/posts
+/blog/browse/publications
+/blog/browse/authors
 ~~~
 
-These are the only three. Content type is a path segment, so an unrecognised one such as /browse/drafts is a 404. A request for /browse alone redirects to /browse/posts.
+These are the only three. Content type is a path segment, so an unrecognised one such as /blog/browse/drafts is a 404. A request for /blog/browse alone redirects to /blog/browse/posts.
 
 All three built ahead of time, like every page on the blog. Each has its own page title and description.
 
@@ -25,9 +25,9 @@ Layout and sort order persist. Layout is stored in the browser under 11blog:view
 
 Bookmarks persist separately as reader data. They are records rather than one preference value, stored under lsdb:11blog:bookmarks-v1. The central Bookmarked switches persist independently under 11blog:bookmarked-filter:posts, 11blog:bookmarked-filter:publications, and 11blog:bookmarked-filter:authors. Publication post browsers use their own 11blog:bookmarked-filter:publication-posts preference. None changes another.
 
-Pages are built ahead of time, so the server cannot know the preference: a stored choice of list draws briefly as cards before the page corrects itself. See [How pages are rendered](/blog-platform-docs/rendering-model).
+Pages are built ahead of time, so the server cannot know the preference: a stored choice of list draws briefly as cards before the page corrects itself. See [How pages are rendered](/blog/blog-platform-docs/rendering-model).
 
-Formerly a query parameter, written /browse?content=posts. Those addresses still work and land on the right tab. See [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects).
+Formerly a query parameter, written /browse?content=posts. Those addresses still work and land on the right tab. See [URLs, slugs, and redirects](/blog/blog-platform-docs/urls-and-redirects).
 
 ## What each search looks at
 
@@ -107,7 +107,7 @@ Authors keep a separate remembered choice. Changing author order does not distur
 
 Stored in the browser under 11blog:content-sort and 11blog:author-sort, alongside the layout preference at 11blog:view-mode. Those three and the four Bookmarked preferences run through the same small store: each survives navigation and follows along in other tabs, while its own sharing rules determine which lists use it.
 
-Pages are built ahead of time, so the server cannot know any of them: a stored choice shows for one frame as the default before the page corrects itself. See [How pages are rendered](/blog-platform-docs/rendering-model).
+Pages are built ahead of time, so the server cannot know any of them: a stored choice shows for one frame as the default before the page corrects itself. See [How pages are rendered](/blog/blog-platform-docs/rendering-model).
 
 ### The option that used to be here
 
@@ -130,7 +130,7 @@ Search is not the only route to a post.
 
 - The landing page lists recent posts and recent publications by created date: a new post appears there on publication, no tagging or configuration needed.
 - An author page lists everything that author has written, newest first, linked from every byline. In practice the most reliable way to find a body of related work: it does not depend on consistent tags.
-- Previous and next links at the foot of a post follow the publication's editorial order, the intended reading path through a series. See [The content contract](/blog-platform-docs/content-contract).
+- Previous and next links at the foot of a post follow the publication's editorial order, the intended reading path through a series. See [The content contract](/blog/blog-platform-docs/content-contract).
 
 ## What this means when you write
 

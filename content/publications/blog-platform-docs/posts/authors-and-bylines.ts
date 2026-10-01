@@ -26,7 +26,7 @@ All authors live in one file: content/authors.ts.
 
 | Field | Required | What it does |
 | --- | --- | --- |
-| id | Yes | The author's public address, at /authors/{id}. Lowercase letters, digits, and single hyphens. |
+| id | Yes | The author's public address, at /blog/authors/{id}. Lowercase letters, digits, and single hyphens. |
 | name | Yes | The full name, used in bylines, page headings, and cards. |
 | displayName | Yes | A short form. Doing two jobs; see below. |
 | bio | Yes | One paragraph of plain text, shown on the author page and on every author card. |
@@ -47,7 +47,7 @@ Initials satisfy both jobs. Current authors: RJ and AI.
 
 ## Photographs, and one gap
 
-avatar is a path served by the site: /static/blog-authors/rj-pic.png. Author photographs are the main reason that directory exists. Layout: [Adding a publication or post](/blog-platform-docs/adding-content).
+avatar is a path served by the site: /static/blog-authors/rj-pic.png. Author photographs are the main reason that directory exists. Layout: [Adding a publication or post](/blog/blog-platform-docs/adding-content).
 
 Unlike a post's images, avatars render through the optimising image component, at fixed sizes, cropped to fill a square.
 
@@ -88,7 +88,7 @@ The count follows the posts and cannot disagree with them. Shown on the author c
 Ordering differs by surface:
 
 - Landing page: authors with at least one visible post only, ordered by post count; names break ties.
-- Browse: same default, plus least posts, A-Z, and Z-A. See [Search, tags, and discovery](/blog-platform-docs/search-and-discovery).
+- Browse: same default, plus least posts, A-Z, and Z-A. See [Search, tags, and discovery](/blog/blog-platform-docs/search-and-discovery).
 
 ## Bylines
 
@@ -101,7 +101,7 @@ Browse results join the names into a sentence:
 | Authors | Rendered as |
 | --- | --- |
 | One | Ricardo Jorge |
-| Two | Ricardo Jorge and 11ai |
+| Two | A and B |
 | Three or more | A, B, and C |
 
 Three or more uses a comma before the final "and".
@@ -126,7 +126,7 @@ Publication cards phrase it briefly, matching post cards: "By" plus the names.
 - Tags: no blanks, no surrounding spaces, no duplicates within one list.
 - Every link: non-empty label, complete http or https address.
 
-Full set of messages: [Content validation rules](/blog-platform-docs/content-validation).
+Full set of messages: [Content validation rules](/blog/blog-platform-docs/content-validation).
 
 One rule is checked twice, in two places, with different messages. The validator names the post by numeric ID:
 
@@ -151,12 +151,14 @@ An author with no published posts still gets a page: details, a count of zero, a
 **Renaming** the id changes the public address, because the id is the URL. Needs a redirect, same as renaming a publication:
 
 ~~~ts
-{ source: "/authors/old-id", destination: "/authors/new-id", permanent: true }
+{ source: "/blog/authors/old-id", destination: "/blog/authors/new-id", permanent: true }
 ~~~
 
 name, displayName, bio, and avatar are not in the address. Changing them costs nothing.
 
 **Removing** an author who has posts fails the build, with one of the two messages above. Intentional: forces a decision on the writing instead of leaving posts pointing at nobody. Reassign the posts to another author or remove them too.
+
+Worked example: the 11ai author, an AI assistant credited on the documentation posts, was removed on 2026-10-01. Three things in one change: its id dropped from every authorIds list, its entry deleted from content/authors.ts, and a redirect from /blog/authors/11ai to /blog/authors/rj11io, because the author page was a public address. The avatar file went with it.
 
 ## Checklist for a new author
 
@@ -164,7 +166,7 @@ name, displayName, bio, and avatar are not in the address. Changing them costs n
 2. Set displayName to two or three characters: works as both an avatar and a name in a sentence.
 3. Write a bio: two or three sentences, plain text.
 4. Add a photograph if you have one, then open the author page to confirm the path. Nothing validates it.
-5. Give two or three subject tags, matching the capitalisation of tags already in use. See [Search, tags, and discovery](/blog-platform-docs/search-and-discovery).
+5. Give two or three subject tags, matching the capitalisation of tags already in use. See [Search, tags, and discovery](/blog/blog-platform-docs/search-and-discovery).
 6. Add external links with complete addresses.
 7. Add them alongside their first post, so they never appear with an empty page.
 8. Run typecheck, lint, and build.

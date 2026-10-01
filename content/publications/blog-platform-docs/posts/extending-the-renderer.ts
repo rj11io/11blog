@@ -3,7 +3,7 @@ export const extendingTheRenderer = `
 
 The blog adds four pieces of syntax to Markdown: a named image, an image list, a YouTube embed, an accordion container. First three are shortcodes, written and built the same way. The accordion is a directive, covered in its own section below. This post explains both shapes so you can add another.
 
-To use the existing syntax, read [Markdown reference](/blog-platform-docs/markdown-reference) instead. This post is for changing the renderer. Documentation map: [Working with the platform](/blog-platform-docs/working-with-the-platform).
+To use the existing syntax, read [Markdown reference](/blog/blog-platform-docs/markdown-reference) instead. This post is for changing the renderer. Documentation map: [Working with the platform](/blog/blog-platform-docs/working-with-the-platform).
 
 ## The shape of a shortcode
 
@@ -17,7 +17,7 @@ A shortcode is a paragraph containing only an at sign, a name in square brackets
 
 Already valid Markdown. A parser reads it as two nodes: plain text "@", then a link with label "image" and address "workspace-overview". No parser changes needed. All the work is recognising that pair and swapping it for something else.
 
-Recognition happens in a remark plugin. Remark is the blog's Markdown parser; a plugin is a function that walks the parsed document and edits it before it becomes HTML. All plugins live in one file: v0/www/app/(blog)/components/markdown-utils.ts.
+Recognition happens in a remark plugin. Remark is the blog's Markdown parser; a plugin is a function that walks the parsed document and edits it before it becomes HTML. All plugins live in one file: v0/www/app/blog/components/markdown-utils.ts.
 
 ## The five steps
 
@@ -187,7 +187,7 @@ if (!image) {
 }
 ~~~
 
-Reasoning: the author sees the mistake immediately, the reader never sees a broken component. If a validation rule could catch the mistake instead, prefer that. See [Content validation rules](/blog-platform-docs/content-validation).
+Reasoning: the author sees the mistake immediately, the reader never sees a broken component. If a validation rule could catch the mistake instead, prefer that. See [Content validation rules](/blog/blog-platform-docs/content-validation).
 
 ## Containers are directives, not shortcodes
 
@@ -228,11 +228,11 @@ For post-level configuration: add a field to the Post type in content/types.ts, 
 
 - **No raw HTML support.** The renderer does not enable it; enabling it lets content inject arbitrary markup. A new component is the supported way to add a new shape.
 
-- **No MDX.** MDX lets a post import and run components directly. That collapses the boundary the content layer depends on; content stops being plain data. See [The content contract](/blog-platform-docs/content-contract).
+- **No MDX.** MDX lets a post import and run components directly. That collapses the boundary the content layer depends on; content stops being plain data. See [The content contract](/blog/blog-platform-docs/content-contract).
 
 - **No skipping the argument check.** Every existing plugin validates its argument before putting it in an attribute. A YouTube ID goes straight into a URL; unvalidated, it is a hole.
 
-- **No client components unless needed.** The renderer runs on the server. A callout, a table, an embed frame: all fine as server components. Reach for "use client" only for state or an event handler, and read [How pages are rendered](/blog-platform-docs/rendering-model) first.
+- **No client components unless needed.** The renderer runs on the server. A callout, a table, an embed frame: all fine as server components. Reach for "use client" only for state or an event handler, and read [How pages are rendered](/blog/blog-platform-docs/rendering-model) first.
 
 ## Checklist
 
@@ -243,6 +243,6 @@ For post-level configuration: add a field to the Post type in content/types.ts, 
 4. Add the property to MarkdownElementProps.
 5. Add the component to the components object and to the type after satisfies.
 6. Decide how a missing or malformed argument behaves, in development and in production.
-7. Document the syntax in [Markdown reference](/blog-platform-docs/markdown-reference), with a live example so the reference stays executable.
+7. Document the syntax in [Markdown reference](/blog/blog-platform-docs/markdown-reference), with a live example so the reference stays executable.
 8. Run typecheck, lint, and build.
 `

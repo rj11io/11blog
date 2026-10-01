@@ -3,7 +3,7 @@ export const workingWithThePlatform = `
 
 This publication documents 11blog, the platform this site runs on. Seventeen posts. This one is the map: what the platform is, what it is not, which post to read for each job.
 
-Want your own blog rather than to work on this one: start with [Build your own blog](/online-presence/build-your-own-blog).
+Want your own blog rather than to work on this one: start with [Build your own blog](/blog/online-presence/build-your-own-blog).
 
 ## What 11blog is
 
@@ -37,48 +37,48 @@ In exchange: pages that are files, content that outlives the renderer, a build t
 
 ## Where to start
 
-Five groups, each building on the last: the platform's shape, extending it, operating it, writing on it, joining in. Every post links onward to what it depends on. Previous and next links follow this same order; this post is the last stop. To walk the groups in order, start from [The content contract](/blog-platform-docs/content-contract).
+Five groups, each building on the last: the platform's shape, extending it, operating it, writing on it, joining in. Every post links onward to what it depends on. Previous and next links follow this same order; this post is the last stop. To walk the groups in order, start from [The content contract](/blog/blog-platform-docs/content-contract).
 
 ### Understanding
 
 For evaluating the approach, or changing its shape.
 
-- [The content contract](/blog-platform-docs/content-contract): why the writing sits outside the application, what the boundary guarantees, what a replacement front end must provide.
-- [How pages are rendered](/blog-platform-docs/rendering-model): static generation, the few components that run in the browser and why, the trades taken on images.
+- [The content contract](/blog/blog-platform-docs/content-contract): why the writing sits outside the application, what the boundary guarantees, what a replacement front end must provide.
+- [How pages are rendered](/blog/blog-platform-docs/rendering-model): static generation, the few components that run in the browser and why, the trades taken on images.
 
 ### Extending
 
 For adding to the platform rather than writing on it.
 
-- [Extending the renderer](/blog-platform-docs/extending-the-renderer): the recipe behind the custom shortcodes, walked end to end with a new one.
-- [Design tokens and theming](/blog-platform-docs/design-tokens): the named values behind the interface, including the two that carry measured reasoning.
-- [Accessibility contract](/blog-platform-docs/accessibility-contract): what the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, plus the gaps that remain.
+- [Extending the renderer](/blog/blog-platform-docs/extending-the-renderer): the recipe behind the custom shortcodes, walked end to end with a new one.
+- [Design tokens and theming](/blog/blog-platform-docs/design-tokens): the named values behind the interface, including the two that carry measured reasoning.
+- [Accessibility contract](/blog/blog-platform-docs/accessibility-contract): what the blog guarantees for keyboard, screen reader, contrast, and reduced-motion readers, plus the gaps that remain.
 
 ### Operating
 
 For running the thing.
 
-- [URLs, slugs, and redirects](/blog-platform-docs/urls-and-redirects): how addresses are built, and the runbook for renaming anything without breaking old links.
-- [Running and releasing the blog](/blog-platform-docs/running-the-blog): the dev server, the checks to run before committing, how a commit message becomes a release.
-- [Feeds, crawlers, and the 404 page](/blog-platform-docs/feeds-and-crawlers): the RSS feed, the sitemap, the robots file, the page a dead link lands on.
+- [URLs, slugs, and redirects](/blog/blog-platform-docs/urls-and-redirects): how addresses are built, and the runbook for renaming anything without breaking old links.
+- [Running and releasing the blog](/blog/blog-platform-docs/running-the-blog): the dev server, the checks to run before committing, how a commit message becomes a release.
+- [Feeds, crawlers, and the 404 page](/blog/blog-platform-docs/feeds-and-crawlers): the RSS feed, the sitemap, the robots file, the page a dead link lands on.
 
 ### Writing
 
 For adding or editing content.
 
-- [Content validation rules](/blog-platform-docs/content-validation): every rule the build enforces, the exact message each throws, what to change. Read it when a build fails.
-- [Markdown reference](/blog-platform-docs/markdown-reference): every form the renderer supports, written out and rendered live on the page.
-- [Adding a publication or post](/blog-platform-docs/adding-content): the entry point for writers. Both post formats, every required field, a checklist per job.
-- [Authors and bylines](/blog-platform-docs/authors-and-bylines): the author record, and what happens when you rename or remove one.
-- [Search, tags, and discovery](/blog-platform-docs/search-and-discovery): what readers can actually search, which changes how you write a title, an excerpt, and a tag.
+- [Content validation rules](/blog/blog-platform-docs/content-validation): every rule the build enforces, the exact message each throws, what to change. Read it when a build fails.
+- [Markdown reference](/blog/blog-platform-docs/markdown-reference): every form the renderer supports, written out and rendered live on the page.
+- [Adding a publication or post](/blog/blog-platform-docs/adding-content): the entry point for writers. Both post formats, every required field, a checklist per job.
+- [Authors and bylines](/blog/blog-platform-docs/authors-and-bylines): the author record, and what happens when you rename or remove one.
+- [Search, tags, and discovery](/blog/blog-platform-docs/search-and-discovery): what readers can actually search, which changes how you write a title, an excerpt, and a tag.
 
 ### Community
 
 For taking the platform yourself, or helping this blog.
 
-- [Run your own copy](/blog-platform-docs/run-your-own-copy): the checklist for forking this repository and making it yours. What to replace, what to configure, what to leave alone.
-- [Contribute to the platform](/blog-platform-docs/contribute-to-the-platform): the path from fork to merged, for a post or for code.
-- [Supporting the platform](/blog-platform-docs/supporting-the-platform): for readers rather than maintainers. Three ways to help this blog keep going; passing a post to someone who needs it matters most.
+- [Run your own copy](/blog/blog-platform-docs/run-your-own-copy): the checklist for forking this repository and making it yours. What to replace, what to configure, what to leave alone.
+- [Contribute to the platform](/blog/blog-platform-docs/contribute-to-the-platform): the path from fork to merged, for a post or for code.
+- [Supporting the platform](/blog/blog-platform-docs/supporting-the-platform): for readers rather than maintainers. Three ways to help this blog keep going; passing a post to someone who needs it matters most.
 
 ## Three things that catch everyone
 
@@ -98,9 +98,9 @@ For what changed and when, read the changelog in the repository, not any post he
 
 ## Running your own copy
 
-This blog's own repository is public, at [github.com/rj11io/11blog](https://github.com/rj11io/11blog), under the Apache License 2.0. Fork it and everything in this publication applies to your copy: same platform, same code. [Run your own copy](/blog-platform-docs/run-your-own-copy) is the checklist.
+This blog's own repository is public, at [github.com/rj11io/11blog](https://github.com/rj11io/11blog), under the Apache License 2.0. Fork it and everything in this publication applies to your copy: same platform, same code. [Run your own copy](/blog/blog-platform-docs/run-your-own-copy) is the checklist.
 
-For the argument that running your own is worth the trouble: [Own your platform](/online-presence/own-your-platform).
+For the argument that running your own is worth the trouble: [Own your platform](/blog/online-presence/own-your-platform).
 
 ## How these posts are maintained
 

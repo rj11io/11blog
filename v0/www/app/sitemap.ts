@@ -5,14 +5,20 @@ import {
   blogAuthors,
   publicationPreviews,
 } from "@content/registry"
-import { authorHref, browseContentTypes, browseContentHref } from "@content/routes"
+import {
+  authorHref,
+  blogHref,
+  browseContentTypes,
+  browseContentHref,
+} from "@content/routes"
 import { absoluteUrl } from "@/lib/site"
 
 /**
  * Built from the registry, so it lists exactly what the site serves: drafts are
  * already gone, and every address comes from the same route helpers the pages
  * use. A post's lastModified is its updated date when it has one, otherwise
- * created; the landing page takes the newest date on the site.
+ * created; the blog landing page takes the newest date on the site. The site
+ * root is not listed: it redirects to the blog until a landing page exists.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const postEntries = allPosts.map((post) => ({
@@ -26,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .at(-1)
 
   return [
-    { url: absoluteUrl("/"), lastModified: newest },
+    { url: absoluteUrl(blogHref), lastModified: newest },
     ...browseContentTypes.map((contentType) => ({
       url: absoluteUrl(browseContentHref(contentType)),
       lastModified: newest,
