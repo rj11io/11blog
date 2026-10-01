@@ -1,11 +1,14 @@
 import type { Metadata } from "next"
 
 import { rootSection } from "@content/registry"
+import { blogHref } from "@content/routes"
+import { siteName } from "@/lib/site"
 
 import { BlogLanding } from "./components/pages/blog-landing"
 
 export const metadata: Metadata = {
-  title: "11blog",
+  title: { absolute: siteName },
+  alternates: { canonical: blogHref },
   description:
     "Independent publications about projects, technology, AI, personal notes, publishing, and online presence.",
 }
