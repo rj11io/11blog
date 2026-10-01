@@ -16,9 +16,9 @@ import type { Section } from "@content/types"
 import { Browse } from "../browse"
 
 const descriptions: Record<BrowseContentType, string> = {
-  posts: "Search and filter every post across the collection.",
+  posts: "Search every post, filter by tag, sort by date.",
   publications:
-    "Every publication in the collection, with its subject and post count.",
+    "Every publication, with its subject and how many posts it holds.",
   authors: "Everyone who writes here, and what each of them has written.",
 }
 

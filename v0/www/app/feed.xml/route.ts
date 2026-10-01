@@ -50,7 +50,7 @@ export function GET() {
   <channel>
     <title>11blog</title>
     <link>${siteOrigin}</link>
-    <description>A personal blog whose editorial content lives in TypeScript.</description>
+    <description>Independent publications about projects, technology, AI, personal notes, publishing, and online presence.</description>
     <language>en</language>
     <atom:link href="${absoluteUrl("/feed.xml")}" rel="self" type="application/rss+xml"/>
 ${items}

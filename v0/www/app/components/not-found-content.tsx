@@ -25,16 +25,15 @@ export function NotFoundContent() {
           This page does not exist
         </h1>
         <p className="mx-auto mt-4 max-w-md text-muted-foreground">
-          The address may be mistyped, or the page may have been renamed or
-          unpublished. Nothing here is hidden: an address either works or it
-          does not.
+          The address may be mistyped, or the page may have moved or been
+          unpublished.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             href={homeHref}
             className="border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors outline-none hover:bg-muted/60 focus-visible:ring-2 focus-visible:ring-ring"
           >
-            Go to the landing page
+            Go to the home page
           </Link>
           <Link
             href={browseContentHref("posts")}
