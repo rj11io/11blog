@@ -1,4 +1,3 @@
-import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -6,22 +5,18 @@ import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
 import { joinAuthorNames } from "@/lib/authors"
 import {
-  authorPreviews,
-  postPreviews,
-  publicationPreviews,
+  getSectionAuthors,
+  getSectionPosts,
+  getSectionPublications,
+  sectionTree,
 } from "@content/registry"
 import { browseContentHref, defaultBrowseContentType } from "@content/routes"
 import type {
   AuthorListItem,
   PostPreview,
   PublicationPreview,
+  Section,
 } from "@content/types"
-
-export const metadata: Metadata = {
-  title: "11blog",
-  description:
-    "Independent publications about projects, technology, AI, personal notes, publishing, and online presence.",
-}
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   day: "numeric",
@@ -38,19 +33,25 @@ function byNewest<T extends { created: string }>(items: readonly T[]) {
   return [...items].sort((a, b) => b.created.localeCompare(a.created))
 }
 
-const featuredPosts = byNewest(
-  postPreviews.filter((post) => post.isFeatured)
-).slice(0, 3)
-const latestPosts = byNewest(postPreviews).slice(0, 5)
-const featuredPublications = byNewest(
-  publicationPreviews.filter((publication) => publication.isFeatured)
-).slice(0, 2)
-const latestPublications = byNewest(publicationPreviews).slice(0, 4)
-const authors = [...authorPreviews]
-  .filter((author) => author.postCount > 0)
-  .sort((a, b) => b.postCount - a.postCount || a.name.localeCompare(b.name))
-const hasVisibleContent =
-  postPreviews.length > 0 || publicationPreviews.length > 0
+/** Everything the landing shows, scoped to one section. */
+function landingData(section: Section) {
+  const posts = getSectionPosts(section.id)
+  const publications = getSectionPublications(section.id)
+  return {
+    featuredPosts: byNewest(posts.filter((post) => post.isFeatured)).slice(0, 3),
+    latestPosts: byNewest(posts).slice(0, 5),
+    featuredPublications: byNewest(
+      publications.filter((publication) => publication.isFeatured)
+    ).slice(0, 2),
+    latestPublications: byNewest(publications).slice(0, 4),
+    authors: getSectionAuthors(section.id)
+      .filter((author) => author.postCount > 0)
+      .sort((a, b) => b.postCount - a.postCount || a.name.localeCompare(b.name)),
+    hasVisibleContent: posts.length > 0 || publications.length > 0,
+    postCount: posts.length,
+    publicationCount: publications.length,
+  }
+}
 
 function postSeed(post: PostPreview) {
   return `${post.publicationId}-${post.postId}-${post.title}`
@@ -481,7 +482,30 @@ function Stat({ value, label }: { value: number; label: string }) {
   )
 }
 
-export default function HomePage() {
+export type BlogLandingHero = {
+  eyebrow: string
+  title: string
+  description: string
+}
+
+/**
+ * The landing page of a section's blog. The root section's wrapper at
+ * app/blog/page.tsx passes the site's own copy; a section passes its title
+ * and description. Everything listed comes from that section alone.
+ */
+export function BlogLanding({ section, hero }: { section: Section; hero: BlogLandingHero }) {
+  const path = sectionTree.path(section.id)
+  const {
+    featuredPosts,
+    latestPosts,
+    featuredPublications,
+    latestPublications,
+    authors,
+    hasVisibleContent,
+    postCount,
+    publicationCount,
+  } = landingData(section)
+
   return (
     <main className="min-h-svh bg-background">
       <div className="mx-auto max-w-7xl px-5 pt-10 pb-20 sm:px-8 sm:pt-14 lg:px-10 lg:pt-16 lg:pb-28">
@@ -490,31 +514,28 @@ export default function HomePage() {
           className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-16"
         >
           <div>
-            <Eyebrow>Independent publications</Eyebrow>
+            <Eyebrow>{hero.eyebrow}</Eyebrow>
             <h1
               id="hero-heading"
               className="mt-4 max-w-2xl text-4xl font-semibold tracking-[-0.04em] text-balance sm:text-6xl lg:text-7xl"
             >
-              Field notes, kept in public.
+              {hero.title}
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-pretty text-muted-foreground sm:text-xl sm:leading-9">
-              A collection of publications about projects, technology, AI,
-              personal notes, publishing, and online presence. Each one is a
-              short series, written slowly and left here to be read in any
-              order.
+              {hero.description}
             </p>
 
             {hasVisibleContent ? (
               <>
                 <div className="mt-8 flex flex-wrap items-center gap-3">
                   <Link
-                    href={browseContentHref(defaultBrowseContentType)}
+                    href={browseContentHref(defaultBrowseContentType, path)}
                     className="inline-flex h-11 items-center bg-primary px-5 text-sm font-semibold text-primary-foreground transition outline-none hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     Browse the blog
                   </Link>
                   <Link
-                    href={browseContentHref("publications")}
+                    href={browseContentHref("publications", path)}
                     className="inline-flex h-11 items-center border border-border px-5 text-sm font-semibold transition outline-none hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     Explore publications
@@ -522,11 +543,8 @@ export default function HomePage() {
                 </div>
 
                 <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-border pt-6">
-                  <Stat value={postPreviews.length} label="Posts" />
-                  <Stat
-                    value={publicationPreviews.length}
-                    label="Publications"
-                  />
+                  <Stat value={postCount} label="Posts" />
+                  <Stat value={publicationCount} label="Publications" />
                   {/* DO NOT DELETE: Keep this commented to hide the Authors statistic from the home page UI. */}
                   {/* <Stat value={authorPreviews.length} label="Authors" /> */}
                 </dl>
@@ -557,7 +575,7 @@ export default function HomePage() {
               eyebrow="Editor's picks"
               title="Featured posts"
               description="The pieces worth starting with."
-              actionHref={browseContentHref("posts")}
+              actionHref={browseContentHref("posts", path)}
               actionLabel="All posts"
             />
             {featuredPosts.length === 1 ? (
@@ -592,7 +610,7 @@ export default function HomePage() {
               id="latest-posts-heading"
               eyebrow="Recently published"
               title="Latest posts"
-              actionHref={browseContentHref("posts")}
+              actionHref={browseContentHref("posts", path)}
               actionLabel="All posts"
             />
             <div className="mt-2 divide-y divide-border">
@@ -616,7 +634,7 @@ export default function HomePage() {
               eyebrow="In focus"
               title="Featured publications"
               description="Longer running series, each with its own subject and rhythm."
-              actionHref={browseContentHref("publications")}
+              actionHref={browseContentHref("publications", path)}
               actionLabel="All publications"
             />
             <div
@@ -644,7 +662,7 @@ export default function HomePage() {
               id="latest-publications-heading"
               eyebrow="The shelf"
               title="Latest publications"
-              actionHref={browseContentHref("publications")}
+              actionHref={browseContentHref("publications", path)}
               actionLabel="All publications"
             />
             <div className="mt-2 divide-y divide-border">
@@ -668,7 +686,7 @@ export default function HomePage() {
               eyebrow="Who writes here"
               title="Authors"
               description="A short list of authors, and everything each of them has written."
-              actionHref={browseContentHref("authors")}
+              actionHref={browseContentHref("authors", path)}
               actionLabel="All authors"
             />
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -2,8 +2,9 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { AuthorByline } from "../components/author-byline"
-import { PublicationBrowser } from "../components/publication-browser"
+import { AuthorByline } from "../author-byline"
+import { PublicationBrowser } from "../publication-browser"
+import { SectionCrumbs } from "../section-breadcrumb"
 import { BookmarkButton } from "@/app/components/bookmark-button"
 import { BookmarksProvider } from "@/app/components/bookmarks-provider"
 import { ShareActions } from "@/app/components/share-actions"
@@ -18,14 +19,11 @@ import {
 } from "@content/routes"
 import {
   getPostPreview,
-  getPublication,
   getPublicationAuthors,
-  publications,
+  getSectionPublication,
+  sectionTree,
 } from "@content/registry"
-
-type PublicationPageProps = {
-  params: Promise<{ pubId: string }>
-}
+import type { Section } from "@content/types"
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   day: "numeric",
@@ -34,17 +32,8 @@ const dateFormatter = new Intl.DateTimeFormat("en", {
   timeZone: "UTC",
 })
 
-export const dynamicParams = false
-
-export function generateStaticParams() {
-  return publications.map((publication) => ({ pubId: publication.pubId }))
-}
-
-export async function generateMetadata({
-  params,
-}: PublicationPageProps): Promise<Metadata> {
-  const { pubId } = await params
-  const publication = getPublication(pubId)
+export function publicationMetadata(section: Section, pubId: string): Metadata {
+  const publication = getSectionPublication(section.id, pubId)
   if (!publication) return { title: "Publication not found" }
 
   return {
@@ -59,11 +48,10 @@ export async function generateMetadata({
   }
 }
 
-export default async function PublicationPage({
-  params,
-}: PublicationPageProps) {
-  const { pubId } = await params
-  const publication = getPublication(pubId)
+/** One publication inside a section. The root wrapper lives at app/blog/[pubId]. */
+export function PublicationPage({ section, pubId }: { section: Section; pubId: string }) {
+  const path = sectionTree.path(section.id)
+  const publication = getSectionPublication(section.id, pubId)
   if (!publication) notFound()
 
   const previews = publication.posts.map((post) =>
@@ -75,9 +63,10 @@ export default async function PublicationPage({
       <div className="mx-auto max-w-7xl px-5 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
           <ol className="flex flex-wrap items-center gap-2">
+            <SectionCrumbs section={section} />
             <li>
               <Link
-                href={browseContentHref(defaultBrowseContentType)}
+                href={browseContentHref(defaultBrowseContentType, path)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse
@@ -86,7 +75,7 @@ export default async function PublicationPage({
             <li aria-hidden="true">/</li>
             <li>
               <Link
-                href={browseContentHref("publications")}
+                href={browseContentHref("publications", path)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Publications
@@ -128,7 +117,7 @@ export default async function PublicationPage({
               <BookmarkButton
                 targetType="publication"
                 targetKey={publicationBookmarkKey(publication.pubId)}
-                href={publicationHref(publication.pubId)}
+                href={publicationHref(publication.pubId, path)}
                 title={publication.title}
               />
             </div>
@@ -221,7 +210,7 @@ export default async function PublicationPage({
           bottom padding, which keeps it clear of the last row of cards.
         */}
         <ShareActions
-          url={absoluteUrl(publicationHref(publication.pubId))}
+          url={absoluteUrl(publicationHref(publication.pubId, path))}
           title={publication.title}
           text={publication.description}
           label="Share this publication"

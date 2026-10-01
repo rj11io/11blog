@@ -1,18 +1,16 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
 
 import { BookmarksProvider } from "@/app/components/bookmarks-provider"
-import { Browse } from "../../components/browse"
 import {
-  authorPreviews,
-  postPreviews,
-  publicationPreviews,
+  getSectionAuthors,
+  getSectionPosts,
+  getSectionPublications,
+  sectionTree,
 } from "@content/registry"
 import { browseContentTypes, type BrowseContentType } from "@content/routes"
+import type { Section } from "@content/types"
 
-type BrowsePageProps = {
-  params: Promise<{ content: string }>
-}
+import { Browse } from "../browse"
 
 const descriptions: Record<BrowseContentType, string> = {
   posts: "Search and filter every post across the collection.",
@@ -21,31 +19,20 @@ const descriptions: Record<BrowseContentType, string> = {
   authors: "Everyone who writes here, and what each of them has written.",
 }
 
-export const dynamicParams = false
-
-export function generateStaticParams() {
-  return browseContentTypes.map((content) => ({ content }))
-}
-
-function isBrowseContentType(value: string): value is BrowseContentType {
+export function isBrowseContentType(value: string): value is BrowseContentType {
   return browseContentTypes.some((type) => type === value)
 }
 
-export async function generateMetadata({
-  params,
-}: BrowsePageProps): Promise<Metadata> {
-  const { content } = await params
-  if (!isBrowseContentType(content)) return { title: "Not found" }
-
+export function browseMetadata(section: Section, content: BrowseContentType): Metadata {
   return {
     title: `Browse ${content}`,
     description: descriptions[content],
   }
 }
 
-export default async function BrowsePage({ params }: BrowsePageProps) {
-  const { content } = await params
-  if (!isBrowseContentType(content)) notFound()
+/** The browse index of a section's blog. The root wrapper lives at app/blog/browse. */
+export function BrowsePage({ section, content }: { section: Section; content: BrowseContentType }) {
+  const path = sectionTree.path(section.id)
 
   return (
     <main className="min-h-svh bg-background">
@@ -53,9 +40,10 @@ export default async function BrowsePage({ params }: BrowsePageProps) {
         <BookmarksProvider>
           <Browse
             contentType={content}
-            authors={authorPreviews}
-            posts={postPreviews}
-            publications={publicationPreviews}
+            sectionPath={path}
+            authors={getSectionAuthors(section.id)}
+            posts={getSectionPosts(section.id)}
+            publications={getSectionPublications(section.id)}
           />
         </BookmarksProvider>
       </div>

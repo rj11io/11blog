@@ -46,6 +46,8 @@ type ContentType = BrowseContentType
 type BrowseProps = {
   /** Comes from the URL segment, resolved by the route rather than read here. */
   contentType: ContentType
+  /** The section's path segments, so the tabs stay inside the section's blog. */
+  sectionPath?: readonly string[]
   authors: AuthorListItem[]
   posts: PostPreview[]
   publications: PublicationPreview[]
@@ -554,6 +556,7 @@ function PublicationResult({
 
 export function Browse({
   contentType,
+  sectionPath,
   authors,
   posts,
   publications,
@@ -757,7 +760,7 @@ export function Browse({
               return (
                 <Link
                   key={type}
-                  href={browseContentHref(type)}
+                  href={browseContentHref(type, sectionPath)}
                   aria-current={isSelected ? "page" : undefined}
                   onClick={() => pruneSelectedTags(type)}
                   className={`px-4 py-2 text-sm font-medium capitalize transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring ${

@@ -25,11 +25,13 @@ Open the URL it prints. Addresses:
 
 | Address | Shows |
 | --- | --- |
-| `/` | Landing page: featured and recent posts, featured and recent publications, authors |
-| `/browse/posts`, `/browse/publications`, `/browse/authors` | The searchable indexes. `/browse` redirects to the first |
-| `/{pubId}` | One publication |
-| `/{pubId}/{postId}` | One post |
-| `/authors/{authorId}` | One author and their posts |
+| `/` | Redirects to `/blog` on a single-section site like this one; the root landing on a sectioned site |
+| `/blog` | Blog landing: featured and recent posts, featured and recent publications, authors |
+| `/blog/browse/posts`, `/blog/browse/publications`, `/blog/browse/authors` | The searchable indexes. `/blog/browse` redirects to the first |
+| `/blog/{pubId}` | One publication |
+| `/blog/{pubId}/{postId}` | One post |
+| `/blog/authors/{authorId}` | One author and their posts |
+| `/{section}/...` | The same under a section, for a site with several. This site has one, the root |
 | `/feed.xml`, `/sitemap.xml`, `/robots.txt` | Built from the registry at build time |
 
 Checks and production commands, all from `v0/www`:
@@ -51,6 +53,6 @@ Set `isDraft: true` on anything not ready. The dev server shows drafts with a Dr
 
 ## Documentation
 
-The platform documents itself, in the Blog platform docs publication under `content/publications/blog-platform-docs/`. Seventeen posts covering writing, extending, theming, operating, copying, and contributing. Start with [Working with the platform](https://blog.rj11.io/blog-platform-docs/working-with-the-platform), which maps the rest by task.
+The platform documents itself, in the Blog platform docs publication under `content/publications/blog-platform-docs/`. Twenty-two posts covering writing, extending, theming, operating, copying, and contributing. Start with [Working with the platform](https://blog.rj11.io/blog-platform-docs/working-with-the-platform), which maps the rest by task.
 
 Working in this repo as a person or an agent: read [AGENTS.md](./AGENTS.md) first.

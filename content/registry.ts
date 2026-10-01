@@ -1,5 +1,8 @@
 import { authors } from "./authors"
 import { includeDrafts } from "./drafts"
+import { resources } from "./resources"
+import { sections } from "./sections"
+import { createSectionTree, rootSectionId } from "./section-tree"
 import { aiBenchmarks } from "./publications/ai-benchmarks"
 import { aiCoachingAdvisory } from "./publications/ai-coaching-advisory"
 import { aiProductEngineering } from "./publications/ai-product-engineering"
@@ -22,7 +25,7 @@ import type {
   Publication,
   PublicationPreview,
 } from "./types"
-import { validatePublications } from "./validation"
+import { validatePublications, validateResources } from "./validation"
 
 /**
  * Everything that has been written, drafts included. Private on purpose: this is
@@ -51,7 +54,26 @@ export const blogAuthors: Author[] = authors
  * and cannot take an address that already belongs to something live. That is the
  * whole gain over the older habit of commenting out an import.
  */
-validatePublications(authoredPublications, blogAuthors)
+validatePublications(authoredPublications, blogAuthors, sections)
+validateResources(resources, sections)
+
+/**
+ * The section tree, validated above. Pages read a section's address, children
+ * and ancestors from here; publications say which section they belong to.
+ */
+export const sectionTree = createSectionTree(sections)
+
+export const rootSection = sectionTree.get(rootSectionId)
+
+/** The curated resources of a section, in authored order. */
+export function getSectionResources(sectionId: string) {
+  return resources.filter((resource) => resource.sectionId === sectionId)
+}
+
+function sectionOf(publication: Pick<Publication, "sectionId">) {
+  const sectionId = publication.sectionId ?? rootSectionId
+  return { sectionId, sectionPath: sectionTree.path(sectionId) }
+}
 
 /**
  * What the site serves. Every export below is derived from this, so hiding a
@@ -134,26 +156,39 @@ export function getPublicationAuthors(publication: Publication) {
   return authorsFromPosts(publication.posts)
 }
 
-export const allPosts: PostListItem[] = publications.flatMap((publication) =>
-  publication.posts.map((post, editorialIndex) => ({
+export const allPosts: PostListItem[] = publications.flatMap((publication) => {
+  const { sectionId, sectionPath } = sectionOf(publication)
+  return publication.posts.map((post, editorialIndex) => ({
     ...post,
     authors: resolveAuthors(post),
+    sectionId,
+    sectionPath,
     publicationId: publication.pubId,
     publicationTitle: publication.title,
-    publicationHref: publicationHref(publication.pubId),
-    href: postHref(publication.pubId, post),
+    publicationHref: publicationHref(publication.pubId, sectionPath),
+    href: postHref(publication.pubId, post, sectionPath),
     editorialIndex,
   }))
-)
+})
 
 export const publicationPreviews: PublicationPreview[] = publications.map(
-  ({ posts, ...publication }) => ({
-    ...publication,
-    href: publicationHref(publication.pubId),
-    postCount: posts.length,
-    authors: authorsFromPosts(posts),
-  })
+  ({ posts, ...publication }) => {
+    const { sectionId, sectionPath } = sectionOf(publication)
+    return {
+      ...publication,
+      sectionId,
+      sectionPath,
+      href: publicationHref(publication.pubId, sectionPath),
+      postCount: posts.length,
+      authors: authorsFromPosts(posts),
+    }
+  }
 )
+
+/** Publications whose blog is this section's. */
+export function getSectionPublications(sectionId: string) {
+  return publicationPreviews.filter((publication) => publication.sectionId === sectionId)
+}
 
 function toPostPreview(post: PostListItem): PostPreview {
   return {
@@ -173,6 +208,8 @@ function toPostPreview(post: PostListItem): PostPreview {
     // the draft badge has something to read when drafts are being served.
     isDraft: post.isDraft,
     tags: post.tags,
+    sectionId: post.sectionId,
+    sectionPath: post.sectionPath,
     publicationId: post.publicationId,
     publicationTitle: post.publicationTitle,
     publicationHref: post.publicationHref,
@@ -200,6 +237,12 @@ export function getPublication(pubId: string) {
   return publications.find((publication) => publication.pubId === pubId)
 }
 
+/** A publication by id, only if its blog is the given section's. */
+export function getSectionPublication(sectionId: string, pubId: string) {
+  const publication = getPublication(pubId)
+  return publication && (publication.sectionId ?? rootSectionId) === sectionId ? publication : undefined
+}
+
 export function getPost(pubId: string, postKey: string) {
   const publication = getPublication(pubId)
   if (!publication) return undefined
@@ -223,6 +266,26 @@ export function getAuthor(authorId: string) {
   return authorsById.get(authorId)
 }
 
+/** Posts whose publication belongs to the section, or to it and everything below it. */
+export function getSectionPosts(sectionId: string, includeDescendants = false): PostPreview[] {
+  const ids = new Set([sectionId, ...(includeDescendants ? sectionTree.descendants(sectionId).map((section) => section.id) : [])])
+  return postPreviews.filter((post) => ids.has(post.sectionId))
+}
+
+/** Every author, with the post count inside the section. */
+export function getSectionAuthors(sectionId: string): AuthorListItem[] {
+  const posts = getSectionPosts(sectionId)
+  return authorPreviews.map((author) => ({
+    ...author,
+    postCount: posts.filter((post) => post.authors.some((postAuthor) => postAuthor.id === author.id)).length,
+  }))
+}
+
+/** A post by publication and slug or number, only inside the section. */
+export function getSectionPost(sectionId: string, pubId: string, postKey: string) {
+  return getSectionPublication(sectionId, pubId) ? getPost(pubId, postKey) : undefined
+}
+
 export function getPostsByAuthor(authorId: string) {
   return postPreviews.filter((post) =>
     post.authors.some((author) => author.id === authorId)
@@ -231,13 +294,16 @@ export function getPostsByAuthor(authorId: string) {
 
 export function getPostPreview(publication: Publication, post: Post) {
   const editorialIndex = publication.posts.indexOf(post)
+  const { sectionId, sectionPath } = sectionOf(publication)
   const item: PostListItem = {
     ...post,
     authors: resolveAuthors(post),
+    sectionId,
+    sectionPath,
     publicationId: publication.pubId,
     publicationTitle: publication.title,
-    publicationHref: publicationHref(publication.pubId),
-    href: postHref(publication.pubId, post),
+    publicationHref: publicationHref(publication.pubId, sectionPath),
+    href: postHref(publication.pubId, post, sectionPath),
     editorialIndex,
   }
   return toPostPreview(item)

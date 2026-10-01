@@ -5,16 +5,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       // The whole blog moved under /blog on 2026-10-01 (11brain task
-      // 11blog-001). The site root is reserved for a landing page and for
-      // sections that are not the blog, so a copy of this platform can host
-      // tools and resources next to its posts. Until that landing page exists
-      // the root forwards to the blog, temporarily: a 307 is not cached, so the
-      // root can become a real page later without fighting old browser caches.
-      {
-        source: "/",
-        destination: "/blog",
-        permanent: false,
-      },
+      // 11blog-001). The site root is app/(main)/page.tsx: it forwards to the
+      // blog on a single-section site and is the landing page of a sectioned
+      // one, so no rule for / lives here.
       // Every address that existed before the move keeps working. Publications
       // used to sit at the top level, so a general /:pubId rule would also
       // swallow /blog itself, /feed.xml, /static and anything else at the root

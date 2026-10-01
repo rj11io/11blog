@@ -2,24 +2,25 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { AuthorByline } from "../../components/author-byline"
-import { ContentIndex } from "../../components/content-index"
+import { AuthorByline } from "../author-byline"
+import { ContentIndex } from "../content-index"
 import { BookmarkButton } from "@/app/components/bookmark-button"
 import {
   CONTENT_HEADING_OFFSET,
   CONTENT_TITLE_ID,
-} from "../../components/markdown-headings"
-import { Markdown } from "../../components/markdown"
-import { extractMarkdownHeadings } from "../../components/markdown-headings"
+} from "../markdown-headings"
+import { Markdown } from "../markdown"
+import { SectionCrumbs } from "../section-breadcrumb"
+import { extractMarkdownHeadings } from "../markdown-headings"
 import { ShareActions } from "@/app/components/share-actions"
 import { CoverImage } from "@/components/media/cover-image"
 import { coverMonogram } from "@/components/media/cover-monogram"
 import { absoluteUrl } from "@/lib/site"
 import { postBookmarkKey } from "@/lib/bookmarks"
 import {
-  allPosts,
-  getPost,
   getPostContent,
+  getSectionPost,
+  sectionTree,
   stripLeadingH1,
 } from "@content/registry"
 import {
@@ -28,11 +29,7 @@ import {
   postHref,
   publicationHref,
 } from "@content/routes"
-import type { Post } from "@content/types"
-
-type PostPageProps = {
-  params: Promise<{ pubId: string; postId: string }>
-}
+import type { Post, Section } from "@content/types"
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   day: "numeric",
@@ -62,20 +59,8 @@ function AdjacentCover({
   )
 }
 
-export const dynamicParams = false
-
-export function generateStaticParams() {
-  return allPosts.map((post) => ({
-    pubId: post.publicationId,
-    postId: post.slug ?? String(post.postId),
-  }))
-}
-
-export async function generateMetadata({
-  params,
-}: PostPageProps): Promise<Metadata> {
-  const { pubId, postId } = await params
-  const result = getPost(pubId, postId)
+export function postMetadata(section: Section, pubId: string, postId: string): Metadata {
+  const result = getSectionPost(section.id, pubId, postId)
   if (!result) return { title: "Post not found" }
 
   return {
@@ -92,9 +77,18 @@ export async function generateMetadata({
   }
 }
 
-export default async function PostPage({ params }: PostPageProps) {
-  const { pubId, postId } = await params
-  const result = getPost(pubId, postId)
+/** One post inside a section. The root wrapper lives at app/blog/[pubId]/[postId]. */
+export function PostPage({
+  section,
+  pubId,
+  postId,
+}: {
+  section: Section
+  pubId: string
+  postId: string
+}) {
+  const path = sectionTree.path(section.id)
+  const result = getSectionPost(section.id, pubId, postId)
   if (!result) notFound()
 
   const { authors, publication, post, postIndex } = result
@@ -111,9 +105,10 @@ export default async function PostPage({ params }: PostPageProps) {
       <div className="mx-auto max-w-7xl px-5 py-4 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
         <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
           <ol className="flex flex-wrap items-center gap-2">
+            <SectionCrumbs section={section} />
             <li>
               <Link
-                href={browseContentHref(defaultBrowseContentType)}
+                href={browseContentHref(defaultBrowseContentType, path)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Browse
@@ -122,7 +117,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <li aria-hidden="true">/</li>
             <li>
               <Link
-                href={browseContentHref("publications")}
+                href={browseContentHref("publications", path)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 Publications
@@ -131,7 +126,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <li aria-hidden="true">/</li>
             <li>
               <Link
-                href={publicationHref(publication.pubId)}
+                href={publicationHref(publication.pubId, path)}
                 className="underline-offset-4 hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 {publication.title}
@@ -179,7 +174,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <header className="border-b border-border pb-6 sm:pb-8">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <Link
-                  href={publicationHref(publication.pubId)}
+                  href={publicationHref(publication.pubId, path)}
                   className="group inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] text-foreground uppercase outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <span
@@ -225,7 +220,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   <BookmarkButton
                     targetType="post"
                     targetKey={postBookmarkKey(publication.pubId, post.postId)}
-                    href={postHref(publication.pubId, post)}
+                    href={postHref(publication.pubId, post, path)}
                     title={post.title}
                   />
                 </div>
@@ -307,7 +302,7 @@ export default async function PostPage({ params }: PostPageProps) {
               The two together read as one footer rather than two stray rules.
             */}
             <ShareActions
-              url={absoluteUrl(postHref(publication.pubId, post))}
+              url={absoluteUrl(postHref(publication.pubId, post, path))}
               title={post.title}
               text={post.excerpt}
               label="Share this post"
@@ -320,7 +315,7 @@ export default async function PostPage({ params }: PostPageProps) {
             >
               {previous ? (
                 <Link
-                  href={postHref(publication.pubId, previous)}
+                  href={postHref(publication.pubId, previous, path)}
                   className="flex items-center gap-4 border border-border p-4 transition outline-none hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:p-5"
                 >
                   <AdjacentCover
@@ -342,7 +337,7 @@ export default async function PostPage({ params }: PostPageProps) {
               )}
               {next && (
                 <Link
-                  href={postHref(publication.pubId, next)}
+                  href={postHref(publication.pubId, next, path)}
                   className="flex flex-row-reverse items-center gap-4 border border-border p-4 text-right transition outline-none hover:border-foreground/40 hover:bg-muted/40 focus-visible:ring-2 focus-visible:ring-ring sm:col-start-2 sm:p-5"
                 >
                   <AdjacentCover
