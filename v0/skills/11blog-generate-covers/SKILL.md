@@ -88,9 +88,9 @@ Copy each file byte-for-byte to its consumer path, renamed to the next unused
 version. Never overwrite an existing version; old versions stay, because shared
 link previews cache image URLs.
 
-- Single-file post (posts/slug.ts): content/publications/<pubId>/assets/<slug>-og-cover-vN.png
-- Directory post (posts/slug/index.ts): content/publications/<pubId>/posts/<slug>/assets/<slug>-og-cover-vN.png
-- Publication cover: content/publications/<pubId>/assets/<name>-og-cover-vN.png, keeping the established <name> prefix
+- Single-file post (posts/slug.ts): v0/content/publications/<pubId>/assets/<slug>-og-cover-vN.png
+- Directory post (posts/slug/index.ts): v0/content/publications/<pubId>/posts/<slug>/assets/<slug>-og-cover-vN.png
+- Publication cover: v0/content/publications/<pubId>/assets/<name>-og-cover-vN.png, keeping the established <name> prefix
 
 ## Wire and record
 

@@ -22,7 +22,7 @@ source file recorded in the nearest SOURCES.md.
 
 ~~~bash
 cmp "$ELEVENBRANDS_DIR/v1/integrations/<stamp>/<key>/og-content/<source>.png" \
-  content/publications/<pubId>/assets/<consumer>.png
+  v0/content/publications/<pubId>/assets/<consumer>.png
 ~~~
 
    Any difference means the consumer file was modified after copying, which is
