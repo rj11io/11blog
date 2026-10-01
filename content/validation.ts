@@ -1,4 +1,5 @@
 import type { Author, PostImage, Publication } from "./types"
+import { validateContentBlocks } from "./blocks"
 
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/
 const pubIdPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
@@ -265,6 +266,7 @@ export function validatePublications(
       if (!post.content?.trim()) {
         throw new Error(`${publication.pubId}/${post.postId} has no content`)
       }
+      validateContentBlocks(post.content, `${publication.pubId}/${post.postId}`)
 
       for (const [key, image] of Object.entries(post.images ?? {})) {
         const label = `${publication.pubId}/${post.postId}.images.${key}`

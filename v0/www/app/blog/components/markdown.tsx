@@ -12,7 +12,10 @@ import {
   CONTENT_HEADING_OFFSET,
   createHeadingIdFactory,
 } from "./markdown-headings"
+import { isBlockLanguage } from "@content/blocks"
+
 import { CodeBlock } from "./code-block"
+import { FencedBlock } from "./blocks/fenced-block"
 import {
   isInternalHref,
   remarkAccordion,
@@ -288,6 +291,13 @@ function MarkdownPre({ children }: MarkdownElementProps) {
   ) {
     const language = child.props.className.match(/language-([\w-]+)/)?.[1]
     const code = reactNodeText(child.props.children).replace(/\n$/, "")
+
+    // A language that names a block component (chart, and the others listed
+    // in content/blocks) is data, not code to highlight. Everything else is
+    // a code block as before.
+    if (language && isBlockLanguage(language.toLowerCase())) {
+      return <FencedBlock language={language.toLowerCase() as never} code={code} />
+    }
 
     return <CodeBlock code={code} language={language} />
   }

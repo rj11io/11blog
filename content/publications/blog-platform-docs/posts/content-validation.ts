@@ -229,6 +229,15 @@ Everything else appears verbatim:
 | blog-platform-docs/401.images.hero.width must be a positive integer | A dimension is missing, zero, or fractional. height has an identical message | Read the real pixel dimensions and use them |
 | blog-platform-docs/401.images.hero.alt must not be empty | An image has no description | Describe the image |
 | blog-platform-docs/401.imageLists.gallery must contain at least one image | A configured list is empty | Add images, or remove the list |
+| blog-platform-docs/418: chart block 1 not valid JSON (Unexpected token) | A chart block's body does not parse as JSON. The number counts chart blocks in that post, first is 1 | Fix the JSON. Trailing commas and single quotes are the usual cause |
+| blog-platform-docs/418: chart block 2 type must be one of bar, line, area, pie, radar, radial | The type field is missing or not a known chart type | Use one of the six |
+| blog-platform-docs/418: chart block 2 data[3].visits must be a number, it is a series | A row has a string where every other row has a number, or a series key is missing in a row | Make every row carry every series as a number. The same shape of message covers the category field, which must be a string in every row |
+| blog-platform-docs/419: flow block 1 edges[1].to must name a node id | An edge points at an id no node has | Fix the id, or add the node |
+| blog-platform-docs/419: flow block 1 either every node has x and y, or none does | Some nodes carry positions and others do not | Position all of them, or let the layout place them |
+| blog-platform-docs/420: pokepaste block 1 set 3 EVs Spe is 300, the most is 252 | An EV above 252, or an IV above 31. The message names the set by its position | Correct the number |
+| blog-platform-docs/420: pokepaste block 1 set 2 has an unreadable line "Jolly" | A line that is not a known field, a move, or a nature | Check the format table in the Pokepaste post |
+| blog-platform-docs/421: map block 1 markers[2] lat must be a number from -90 to 90 | A coordinate is out of range or not a number. lng says -180 to 180 | Check the coordinate, latitude comes first |
+| blog-platform-docs/421: map block 1 needs a center, or at least one marker, circle, line or area to fit | Nothing on the map and no centre to frame | Add a point, or a center |
 | Example post title references unknown author assistant-id | The registry's later author lookup failed; the author was removed while a post still referenced them | Restore the author, or update the post's authorIds |
 
 ## Fixing a failing build

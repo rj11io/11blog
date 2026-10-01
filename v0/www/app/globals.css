@@ -156,3 +156,132 @@
     color: var(--shiki-dark) !important;
   }
 }
+
+/*
+ * React Flow, used by the flow block. Its own stylesheet ships with the
+ * component; these variables point its colours at the site's tokens so a
+ * flow chart matches the cards around it in both themes. Edge labels and
+ * controls follow the same tokens.
+ */
+.react-flow {
+  --xy-background-color: var(--card);
+  --xy-background-pattern-color: var(--border);
+  --xy-edge-stroke: var(--muted-foreground);
+  --xy-edge-stroke-selected: var(--primary);
+  --xy-edge-label-background-color: var(--card);
+  --xy-edge-label-color: var(--foreground);
+  --xy-controls-button-background-color: var(--card);
+  --xy-controls-button-background-color-hover: var(--muted);
+  --xy-controls-button-color: var(--foreground);
+  --xy-controls-button-border-color: var(--border);
+  --xy-minimap-background-color: var(--card);
+  --xy-minimap-mask-background-color: color-mix(in oklch, var(--muted) 70%, transparent);
+  --xy-minimap-node-background-color: var(--muted-foreground);
+  --xy-attribution-background-color: transparent;
+}
+
+.react-flow .react-flow__attribution a {
+  color: var(--muted-foreground);
+}
+
+.react-flow .react-flow__edge-path,
+.react-flow .react-flow__arrowhead * {
+  stroke: var(--xy-edge-stroke);
+}
+
+.react-flow .react-flow__arrowhead * {
+  fill: var(--xy-edge-stroke);
+}
+
+/*
+ * Pokémon type colours, used by the pokepaste block for the Tera type badge.
+ * Domain data, not interface colours: the classic set Bulbapedia and
+ * pokepast.es use, kept as tokens so a component names a type, never a hex.
+ * Stellar has no classic colour; this one is a teal that reads on both themes.
+ */
+:root {
+  --type-normal: #a8a878;
+  --type-fire: #f08030;
+  --type-water: #6890f0;
+  --type-electric: #f8d030;
+  --type-grass: #78c850;
+  --type-ice: #98d8d8;
+  --type-fighting: #c03028;
+  --type-poison: #a040a0;
+  --type-ground: #e0c068;
+  --type-flying: #a890f0;
+  --type-psychic: #f85888;
+  --type-bug: #a8b820;
+  --type-rock: #b8a038;
+  --type-ghost: #705898;
+  --type-dragon: #7038f8;
+  --type-dark: #705848;
+  --type-steel: #b8b8d0;
+  --type-fairy: #ee99ac;
+  --type-stellar: #40b5a5;
+}
+
+/*
+ * Leaflet, used by the map block. Its stylesheet ships with the component;
+ * these rules point popups, controls and the attribution at the site's
+ * tokens. Dark mode inverts the tile layer only: OpenStreetMap serves one
+ * light style, and a filtered copy keeps labels readable without a second
+ * provider. Overlays and pins sit in other panes and keep their colours.
+ */
+.leaflet-container {
+  background: var(--muted);
+  font-family: inherit;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--card);
+  color: var(--foreground);
+  border-radius: 0;
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--foreground) 15%, transparent);
+}
+
+.leaflet-popup-content {
+  margin: 0.75rem 1rem;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: var(--muted-foreground);
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background: var(--card);
+  color: var(--foreground);
+  border-bottom-color: var(--border);
+}
+
+.leaflet-bar {
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.leaflet-control-attribution {
+  background: color-mix(in oklch, var(--card) 85%, transparent);
+  color: var(--muted-foreground);
+}
+
+.leaflet-control-attribution a {
+  color: var(--foreground);
+}
+
+.leaflet-tooltip {
+  background: var(--card);
+  color: var(--foreground);
+  border-color: var(--border);
+  border-radius: 0;
+}
+
+.blog-map-pin {
+  background: transparent;
+  border: 0;
+}
+
+.dark .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9) saturate(0.6);
+}

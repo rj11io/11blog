@@ -37,7 +37,7 @@ A second, unrelated `AGENTS.md` sits at `v0/www/AGENTS.md`. It warns that this N
 
 The Blog platform docs publication documents this platform. It is the source of truth, written for whoever maintains the repo. Read the post covering a thing before changing that thing.
 
-All seventeen live in `content/publications/blog-platform-docs/posts/`. New here: start with Working with the platform. The table puts that entry post first, then follows editorial order.
+All twenty-one live in `content/publications/blog-platform-docs/posts/`. New here: start with Working with the platform. The table puts that entry post first, then follows editorial order.
 
 | If you are… | Read | Published at |
 | --- | --- | --- |
@@ -52,6 +52,10 @@ All seventeen live in `content/publications/blog-platform-docs/posts/`. New here
 | Touching the feed, sitemap, robots, or 404 page | `feeds-and-crawlers.ts` | `/blog/blog-platform-docs/feeds-and-crawlers` |
 | Hitting a content error message | `content-validation.ts` | `/blog/blog-platform-docs/content-validation` |
 | Looking up Markdown syntax | `markdown-reference/` | `/blog/blog-platform-docs/markdown-reference` |
+| Putting a chart in a post, or changing the chart block | `charts.ts` | `/blog/blog-platform-docs/charts` |
+| Putting a flow chart in a post, or changing the flow block | `flow-charts.ts` | `/blog/blog-platform-docs/flow-charts` |
+| Putting a Pokémon team in a post, or changing the pokepaste block | `pokepaste.ts` | `/blog/blog-platform-docs/pokepaste` |
+| Putting a map in a post, or changing the map block | `maps.ts` | `/blog/blog-platform-docs/maps` |
 | Writing or editing a post | `adding-content.ts` | `/blog/blog-platform-docs/adding-content` |
 | Adding or changing an author | `authors-and-bylines.ts` | `/blog/blog-platform-docs/authors-and-bylines` |
 | Choosing tags, titles, or excerpts | `search-and-discovery.ts` | `/blog/blog-platform-docs/search-and-discovery` |
@@ -122,6 +126,7 @@ Meaningful means it alters what someone else would need to know:
 | A validation rule or its message | `content-validation.ts`, including its message table |
 | A route, slug, or redirect | `urls-and-redirects.ts` |
 | Markdown syntax or a renderer component | `markdown-reference/` **and** `extending-the-renderer.ts` |
+| A block component or its JSON shape (`content/blocks/`) | that block's own post, plus `markdown-reference/` and `content-validation.ts` |
 | A design token, or theming behaviour | `design-tokens.ts` |
 | An accessibility guarantee, or a new interactive element | `accessibility-contract.ts` |
 | Search fields, tag behaviour, or sorting | `search-and-discovery.ts` |

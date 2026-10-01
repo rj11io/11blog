@@ -1,7 +1,7 @@
 export const workingWithThePlatform = `
 # Working with the platform
 
-This publication documents 11blog, the platform this site runs on. Seventeen posts. This one is the map: what the platform is, what it is not, which post to read for each job.
+This publication documents 11blog, the platform this site runs on. Twenty-one posts. This one is the map: what the platform is, what it is not, which post to read for each job.
 
 Want your own blog rather than to work on this one: start with [Build your own blog](/blog/online-presence/build-your-own-blog).
 
@@ -68,6 +68,10 @@ For adding or editing content.
 
 - [Content validation rules](/blog/blog-platform-docs/content-validation): every rule the build enforces, the exact message each throws, what to change. Read it when a build fails.
 - [Markdown reference](/blog/blog-platform-docs/markdown-reference): every form the renderer supports, written out and rendered live on the page.
+- [Charts](/blog/blog-platform-docs/charts): six chart types drawn from a JSON block, each rendered live with the JSON that drew it.
+- [Flow charts](/blog/blog-platform-docs/flow-charts): nodes and edges from a JSON block, laid out on their own, read-only in both themes.
+- [Pokepaste](/blog/blog-platform-docs/pokepaste): a Pokémon team in the Showdown export text, rendered as cards, and where the sprites come from.
+- [Maps](/blog/blog-platform-docs/maps): markers, routes, areas and sized circles from a JSON block, on OpenStreetMap tiles.
 - [Adding a publication or post](/blog/blog-platform-docs/adding-content): the entry point for writers. Both post formats, every required field, a checklist per job.
 - [Authors and bylines](/blog/blog-platform-docs/authors-and-bylines): the author record, and what happens when you rename or remove one.
 - [Search, tags, and discovery](/blog/blog-platform-docs/search-and-discovery): what readers can actually search, which changes how you write a title, an excerpt, and a tag.

@@ -1,7 +1,7 @@
 export const extendingTheRenderer = `
 # Extending the renderer
 
-The blog adds four pieces of syntax to Markdown: a named image, an image list, a YouTube embed, an accordion container. First three are shortcodes, written and built the same way. The accordion is a directive, covered in its own section below. This post explains both shapes so you can add another.
+The blog adds syntax to Markdown in three shapes. Shortcodes: a named image, an image list, a YouTube embed. A directive: the accordion container. Fenced blocks: a code block whose language names a component, such as chart. This post explains all three so you can add another.
 
 To use the existing syntax, read [Markdown reference](/blog/blog-platform-docs/markdown-reference) instead. This post is for changing the renderer. Documentation map: [Working with the platform](/blog/blog-platform-docs/working-with-the-platform).
 
@@ -212,6 +212,25 @@ Two costs of remark-directive, both already paid in remarkAccordion. Extend it r
 
 One interaction: extractMarkdownHeadings skips every container subtree, and remarkAccordion marks every heading inside any container (recognised or misspelled) so it renders without an anchor id and the duplicate-id counters in the two passes stay aligned. A new container whose headings SHOULD appear in the table of contents needs both sides changed together: the skip in markdown-headings.ts and the marking in markdown-utils.ts.
 
+## Fenced blocks are the third shape
+
+A shortcode carries one short argument. A directive wraps Markdown. Neither carries data: a chart needs rows and series, a map needs coordinates. For that the blog reuses the code fence:
+
+~~~text
+~~~chart
+{ "type": "bar", "data": [{ "month": "Jan", "visits": 120 }] }
+~~~
+~~~
+
+Markdown already parses it as a code block with the language chart. No new parser rule. Two places decide what happens next:
+
+- **content/blocks/**: one parser per language, pure TypeScript, no React. It turns the string into a typed spec or throws a message. blocks/index.ts lists the languages. The content validator runs every parser over every post at build time, so bad data fails the build with the post and the block number, the same message the dev server shows in a red box.
+- **v0/www/app/blog/components/blocks/**: fenced-block.tsx routes a language to its component; the pre element handler in markdown.tsx hands it any code block whose language is in that list. The component that draws is a client component when the library needs the browser, wrapped in block-frame.tsx, a server-rendered figure with the caption.
+
+Adding a block: a parser file in content/blocks with its entry in blocks/index.ts, a component in the blocks folder with its case in fenced-block.tsx, a reference post like [Charts](/blog/blog-platform-docs/charts), and a line in the Markdown reference. The parser is the contract: keep it strict, keep the data JSON, and let the build do the checking.
+
+Why not a shortcode with a key into a data file, like images? Images are files that need a build-time import for hashed URLs. Chart data is plain JSON that belongs next to the prose it illustrates, and a fence keeps it there, readable in the source and copyable from the reference page.
+
 ## Components that need post data
 
 The image and image list components need data the Markdown does not contain: the post's configured images. They get it by closure. The components object is built inside the Markdown function, which receives images and imageLists as arguments; a small wrapper passes them through:
@@ -236,7 +255,7 @@ For post-level configuration: add a field to the Post type in content/types.ts, 
 
 ## Checklist
 
-0. Decide the shape: a leaf embed is a shortcode (five steps above); a component with a Markdown body is a directive (extend remarkAccordion's pattern).
+0. Decide the shape: a leaf embed is a shortcode (five steps above); a component with a Markdown body is a directive (extend remarkAccordion's pattern); a component that needs data is a fenced block (section above).
 1. Write the plugin in markdown-utils.ts: strict guard, validated argument.
 2. Hyphenated hName, all-lowercase property names.
 3. Add the plugin to the remarkPlugins array in markdown.tsx.

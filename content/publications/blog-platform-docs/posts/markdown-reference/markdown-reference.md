@@ -2,7 +2,7 @@
 
 ## Prose and inline formatting
 
-This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, `inline code`, an [internal blog link](/browse/posts), and an [external reference](https://example.com).
+This paragraph demonstrates **bold text**, _italic text_, ~~strikethrough text~~, `inline code`, an [internal blog link](/blog/browse/posts), and an [external reference](https://example.com).
 
 ### Lists and tasks
 
@@ -173,10 +173,64 @@ Masonry: each image keeps its natural aspect ratio in balanced columns.
 
 @[image-list](masonry:title-below)
 
+## Block components
+
+A fenced code block whose language names a component is data, not code. The renderer draws it; the build validates it. One per component, each with its own reference page:
+
+- [Charts](/blog/blog-platform-docs/charts): the language chart, a JSON body.
+- [Flow charts](/blog/blog-platform-docs/flow-charts): the language flow, nodes and edges as JSON.
+- [Pokepaste](/blog/blog-platform-docs/pokepaste): the language pokepaste, a team in the Showdown export text.
+- [Maps](/blog/blog-platform-docs/maps): the language map, markers and routes as JSON.
+
+~~~chart
+{
+  "type": "bar",
+  "title": "A chart inside the reference",
+  "data": [
+    { "quarter": "Q1", "posts": 5 },
+    { "quarter": "Q2", "posts": 8 },
+    { "quarter": "Q3", "posts": 6 }
+  ]
+}
+~~~
+
+~~~flow
+{
+  "title": "A flow chart inside the reference",
+  "height": 220,
+  "nodes": [
+    { "id": "md", "label": "Markdown", "kind": "input" },
+    { "id": "html", "label": "HTML", "kind": "output" }
+  ],
+  "edges": [{ "from": "md", "to": "html", "label": "render" }]
+}
+~~~
+
+~~~pokepaste
+Pikachu @ Light Ball
+Ability: Static
+Tera Type: Electric
+EVs: 252 SpA / 4 SpD / 252 Spe
+Timid Nature
+- Thunderbolt
+- Volt Switch
+~~~
+
+~~~map
+{
+  "title": "A map inside the reference",
+  "height": 240,
+  "markers": [{ "lat": 38.7223, "lng": -9.1393, "title": "Lisbon" }],
+  "zoom": 10
+}
+~~~
+
+Any other language is a code block with syntax highlighting, as above.
+
 ## Links and line breaks
 
 - [This hash link](#heading-depth) jumps within the post.
-- Internal paths like [the browse page](/browse/posts) stay in the app router.
+- Internal paths like [the browse page](/blog/browse/posts) stay in the app router.
 - External links like [the project reference](https://example.com) open in a new tab.
 - The new-tab rule covers http and https only. Mailto links and the email autolinks below open in the same tab.
 

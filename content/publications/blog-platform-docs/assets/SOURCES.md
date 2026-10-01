@@ -135,3 +135,21 @@ Every file is brought in with a static import, so renaming or removing one
 breaks the build rather than producing a missing image. Add the new version
 alongside and update the import. Keep old versioned files for provenance and
 cached previews. Do not overwrite a versioned file in place.
+
+## Block component docs covers, 2026-10-01
+
+Four covers for the block component reference posts, generated in one run in the
+main 11blog style and copied here byte-for-byte. Imported one per task as each
+post lands; the run folder keeps the other three until then.
+
+- Brand: `11blog` (`v1/brands/11blog/config.json`)
+- Generator: `v1/scripts/generate_integration.py`, source `11blog`, kind `og-content`
+- Run: `v1/integrations/20261001-142229/11blog/og-content/`
+- Dimensions: 1200 × 630, PNG
+
+| Consumer file | Source file | Title drawn |
+| --- | --- | --- |
+| `charts-og-cover-v1.png` | `charts-og-content.png` | Charts |
+| `flow-charts-og-cover-v1.png` | `flow-charts-og-content.png` | Flow charts |
+| `pokepaste-og-cover-v1.png` | `pokepaste-og-content.png` | Pokepaste |
+| `maps-og-cover-v1.png` | `maps-og-content.png` | Maps |

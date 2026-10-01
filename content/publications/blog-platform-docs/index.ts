@@ -10,6 +10,10 @@ import { designTokens } from "./posts/design-tokens"
 import { extendingTheRenderer } from "./posts/extending-the-renderer"
 import { feedsAndCrawlers } from "./posts/feeds-and-crawlers"
 import { markdownReference } from "./posts/markdown-reference"
+import { charts } from "./posts/charts"
+import { flowCharts } from "./posts/flow-charts"
+import { pokepaste } from "./posts/pokepaste"
+import { maps } from "./posts/maps"
 import { renderingModel } from "./posts/rendering-model"
 import { runningTheBlog } from "./posts/running-the-blog"
 import { runYourOwnCopy } from "./posts/run-your-own-copy"
@@ -34,6 +38,10 @@ import feedsAndCrawlersCover from "./assets/feeds-and-crawlers-og-cover-v4.png"
 import runYourOwnCopyCover from "./assets/run-your-own-copy-og-cover-v4.png"
 import contributeToThePlatformCover from "./assets/contribute-to-the-platform-og-cover-v4.png"
 import supportingThePlatformCover from "./assets/supporting-the-platform-og-cover-v4.png"
+import chartsCover from "./assets/charts-og-cover-v1.png"
+import flowChartsCover from "./assets/flow-charts-og-cover-v1.png"
+import pokepasteCover from "./assets/pokepaste-og-cover-v1.png"
+import mapsCover from "./assets/maps-og-cover-v1.png"
 
 export const blogPlatformDocs: Publication = {
   relId: 4,
@@ -48,7 +56,7 @@ export const blogPlatformDocs: Publication = {
   isDraft: false,
   tags: ["Blog", "Technology", "Publishing", "Documentation"],
   synopsis:
-    "Seventeen posts, the platform end to end: adding content, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages render, and how to extend, theme, operate, copy, and contribute. Start with Working with the platform: it maps the rest by task. The 11blog repository is public, so everything here applies to a copy you fork and run yourself.",
+    "Twenty-one posts, the platform end to end: adding content, every Markdown form the renderer supports, the rules the build enforces, why the writing lives outside the web application, how pages render, and how to extend, theme, operate, copy, and contribute. Start with Working with the platform: it maps the rest by task. The 11blog repository is public, so everything here applies to a copy you fork and run yourself.",
   editorNotes:
     "Written inside the system it describes: every post renders on the platform it documents, so a broken claim is a broken page. Read the post covering a thing before changing that thing. Update it in the same commit.",
   // Editorial order, which is what the previous and next links follow. It runs
@@ -208,12 +216,76 @@ export const blogPlatformDocs: Publication = {
     },
     markdownReference,
     {
+      postId: 418,
+      slug: "charts",
+      title: "Charts",
+      excerpt:
+        "Every chart type the renderer draws from a JSON block, rendered live with the JSON that drew it.",
+      created: "2026-07-11",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: false,
+      tags: ["Markdown", "Charts", "Documentation"],
+      content: charts,
+      coverImage: chartsCover.src,
+    },
+    {
+      postId: 419,
+      slug: "flow-charts",
+      title: "Flow charts",
+      excerpt:
+        "Nodes and edges from a JSON block, laid out on their own, drawn read-only with React Flow.",
+      created: "2026-07-12",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: false,
+      tags: ["Markdown", "Diagrams", "Documentation"],
+      content: flowCharts,
+      coverImage: flowChartsCover.src,
+    },
+    {
+      postId: 420,
+      slug: "pokepaste",
+      title: "Pokepaste",
+      excerpt:
+        "A Pokémon team in the Showdown export format, rendered as cards with sprites, the way pokepast.es shows it.",
+      created: "2026-07-13",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: false,
+      tags: ["Markdown", "Gaming", "Documentation"],
+      content: pokepaste,
+      coverImage: pokepasteCover.src,
+    },
+    {
+      postId: 421,
+      slug: "maps",
+      title: "Maps",
+      excerpt:
+        "Markers, routes, areas and sized circles from a JSON block, drawn with Leaflet on OpenStreetMap tiles in both themes.",
+      created: "2026-07-14",
+      authorIds: ["rj11io"],
+      isNSFW: false,
+      isNew: false,
+      isFeatured: false,
+      isDraft: false,
+      tags: ["Markdown", "Maps", "Documentation"],
+      content: maps,
+      coverImage: mapsCover.src,
+    },
+    {
       postId: 402,
       slug: "adding-content",
       title: "Adding a publication or post",
       excerpt:
         "Adding a publication or post in the blog's content format. Both post layouts, every required field, a checklist for each.",
-      created: "2026-07-11",
+      created: "2026-07-15",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
@@ -229,7 +301,7 @@ export const blogPlatformDocs: Publication = {
       title: "Authors and bylines",
       excerpt:
         "The author record, the two jobs displayName does, and what happens when you rename or remove one.",
-      created: "2026-07-12",
+      created: "2026-07-16",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
@@ -245,7 +317,7 @@ export const blogPlatformDocs: Publication = {
       title: "Search, tags, and discovery",
       excerpt:
         "What the blog's searches actually match, why post bodies are not among them, and how tags behave.",
-      created: "2026-07-13",
+      created: "2026-07-17",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
@@ -261,7 +333,7 @@ export const blogPlatformDocs: Publication = {
       title: "Run your own copy",
       excerpt:
         "Forking the public 11blog repository and making it yours: what to replace, what to configure, what to leave alone.",
-      created: "2026-07-14",
+      created: "2026-07-18",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
@@ -277,7 +349,7 @@ export const blogPlatformDocs: Publication = {
       title: "Contribute to the platform",
       excerpt:
         "Contributing a post or a platform change: fork, add yourself as an author, run the checks, open a pull request.",
-      created: "2026-07-15",
+      created: "2026-07-19",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
