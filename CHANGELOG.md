@@ -1,3 +1,12 @@
+# [1.16.0](https://github.com/rj11io/11blog/compare/v1.15.0...v1.16.0) (2026-10-01)
+
+
+### Features
+
+* **11blog-003:** block components for charts, flow charts, pokepaste ([2b4e732](https://github.com/rj11io/11blog/commit/2b4e73269e167658737fe209ec865eef1c5ce644))
+* **11blog-011:** sections and modules ([fcbfe24](https://github.com/rj11io/11blog/commit/fcbfe243a722e12bfd591d0053abeac3d5f4bace))
+* **11blog-015:** title template, canonical links, breadcrumb data ([6b9e952](https://github.com/rj11io/11blog/commit/6b9e952c71734a00d85d8d38bca8c858637ec9ad))
+
 # [1.15.0](https://github.com/rj11io/11blog/compare/v1.14.0...v1.15.0) (2026-08-17)
 
 
