@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/rj11io/11blog/compare/v1.17.0...v1.18.0) (2026-10-01)
+
+
+### Features
+
+* **11blog-021:** loose ends after sections ([9c6d737](https://github.com/rj11io/11blog/commit/9c6d737051b3b4a50cbbe18d25a275054269c1ca))
+
 # [1.17.0](https://github.com/rj11io/11blog/compare/v1.16.0...v1.17.0) (2026-10-01)
 
 
