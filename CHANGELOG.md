@@ -1,3 +1,18 @@
+# [1.19.0](https://github.com/rj11io/11blog/compare/v1.18.0...v1.19.0) (2026-10-02)
+
+
+### Bug Fixes
+
+* **11blog-022:** root browse covers the whole site - every post, publication and author below the root on a sectioned site - a section's own browse stays scoped to it, a single-section site is unchanged ([194c105](https://github.com/rj11io/11blog/commit/194c10522b09e039de84c86b8e719dd37b8a6b03))
+* **11blog-022:** wordmark and 404 buttons point at the site's real landing - homeHref in lib/section-routes: / on a sectioned site, /blog on a single-section one - the header and the 404 page use it ([dfcc54a](https://github.com/rj11io/11blog/commit/dfcc54a3d9fbb6bb8fe2b7620ed561f322a888c4))
+* **11gg-009:** identity script renames the feed channel, not the first item - the title and description replacements are anchored to the channel block and count-checked - 11gg's live feed had every item titled 11gg and a channel titled 11blog ([0ee2107](https://github.com/rj11io/11blog/commit/0ee2107443a893b9adc6352f96a1649c5250978a))
+
+
+### Features
+
+* **11blog-023:** landing copy follows the copywriting rule - section landing: In this section, module cards named after the publication or tool, Latest posts - blog landing: empty state and one eyebrow reworded - games page: a sentence instead of a count ([433770e](https://github.com/rj11io/11blog/commit/433770e5f37647b6cf8340d975bc7cf2afb4a0c8))
+* **11blog-023:** list and page copy follows the copywriting rule - browse: title, descriptions and empty state - tools and resources pages carry the module in the title - post without a body, 404, author labels reworded - feed description says what the site is, not how it is built ([c65d7b5](https://github.com/rj11io/11blog/commit/c65d7b5d0a667e874d036f9971d0d95742422b9f))
+
 # [1.18.0](https://github.com/rj11io/11blog/compare/v1.17.0...v1.18.0) (2026-10-01)
 
 
