@@ -11,11 +11,13 @@ export const techTutorials: Publication = {
   description:
     "Practical technical guides with reproducible steps and the reasoning behind them.",
   created: "2026-08-04",
+  updated: "2026-10-03",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["Technology", "Tutorials", "Engineering"],
+  synopsis: "Start with About Tech tutorials, the draft reading guide. Articles and their reading links will be added as they become available.",
   posts: [
     {
       postId: 701,
@@ -24,6 +26,7 @@ export const techTutorials: Publication = {
       excerpt:
         "A placeholder for practical technical guides and implementation walkthroughs.",
       created: "2026-08-04",
+      updated: "2026-10-03",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,

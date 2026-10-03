@@ -11,11 +11,13 @@ export const projectPostmortems: Publication = {
   description:
     "Honest reviews of completed projects: what worked, what failed, and what changed afterwards.",
   created: "2026-08-04",
+  updated: "2026-10-03",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["Projects", "Retrospectives", "Lessons Learned"],
+  synopsis: "Start with About Project postmortems, the draft reading guide. Articles and their reading links will be added as they become available.",
   posts: [
     {
       postId: 601,
@@ -24,6 +26,7 @@ export const projectPostmortems: Publication = {
       excerpt:
         "A placeholder for future reviews of completed projects and the lessons they produced.",
       created: "2026-08-04",
+      updated: "2026-10-03",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,

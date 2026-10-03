@@ -7,4 +7,8 @@ Not written yet. Planned: the practice of helping people and organisations work 
 ## Why it is separate from the other AI publications
 
 The other AI publications here are about building things. This one is about the work around the building: what to attempt, in what order, and what to leave alone.
+
+## Where to start
+
+There are no articles to read yet. This draft guide will collect available articles in reading order, with short summaries. The coverage above is planned, not published.
 `

@@ -13,11 +13,13 @@ export const researchAndDevelopment: Publication = {
   description:
     "Research notes and experiments for developing new ideas, tools, and systems.",
   created: "2026-08-09",
+  updated: "2026-10-03",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["Research", "Development", "Experiments"],
+  synopsis: "Start with About research and development, the draft reading guide. Articles and their reading links will be added as they become available.",
   posts: [
     {
       postId: 1401,
@@ -26,6 +28,7 @@ export const researchAndDevelopment: Publication = {
       excerpt:
         "A placeholder for research notes, experiments, and development work.",
       created: "2026-08-09",
+      updated: "2026-10-03",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,

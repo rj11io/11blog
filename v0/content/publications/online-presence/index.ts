@@ -15,32 +15,18 @@ export const onlinePresence: Publication = {
   description:
     "Building and owning your online presence: why a site of your own beats a rented platform, and three ways to get one.",
   created: "2026-07-14",
-  updated: "2026-08-02",
+  updated: "2026-10-03",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["Online Presence", "Publishing", "Independence"],
   synopsis:
-    "Two posts on putting your work on the internet under your own name. The first makes the case without the usual overreach: owning a site does not make you invulnerable, since you still depend on a registrar, a host, and a CDN. What it buys is portability, a smaller claim and a real one. The second is practical, comparing three routes by what each costs in time, money, and control.",
+    "Two posts on putting your work on the internet under your own name. Start with Build your own blog for three practical routes and their costs in time, money, and control. Then read Own your platform for the case for portability and the dependencies that ownership still leaves in place.",
   editorNotes:
-    "For anyone whose work lives somewhere they do not control. Technical documentation for the platform behind the middle route: Blog platform docs.",
-  // Editorial order, which is what the previous and next links follow. Both
-  // posts share a created date, so unlike the docs publication there is no
-  // oldest-to-newest sequence here to preserve: this array order is the only
-  // thing deciding the chain, and it reads options, then argument.
-  //
-  // The tie also means the default newest-first listing cannot separate them, so
-  // it falls back to array order and reads the same way round rather than
-  // reversed. The listing therefore opens with the options, and so does the
-  // "Last updated" sort, since Build your own blog was renamed on 2026-08-02
-  // and now carries the later revision. That sort used to lead with the
-  // argument; nothing depends on it doing so.
-  //
-  // If you want the argument to lead the listing, give it a later created date
-  // rather than reordering this array; the array is what the chain follows.
-  // Both posts link to each other in prose, so the chain direction carries
-  // little weight either way.
+    "For anyone whose work lives somewhere they do not control. Technical documentation for the platform behind the middle route: Blog platform docs. Index exception: these two interconnected draft articles do not need a separate guide; revisit when the series grows.",
+  // Two interconnected draft articles need no separate guide yet.
+  // Array order is the reading sequence; keep actual dates for sorted cards.
   posts: [
     {
       postId: 502,

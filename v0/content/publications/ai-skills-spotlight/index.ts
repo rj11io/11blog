@@ -14,11 +14,13 @@ export const aiSkillsSpotlight: Publication = {
   description:
     "Focused examinations of individual AI skills: their design, uses, strengths, and practical limits.",
   created: "2026-08-04",
+  updated: "2026-10-03",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["AI", "Skills", "Analysis"],
+  synopsis: "Start with About AI skills spotlight, the draft reading guide. Articles and their reading links will be added as they become available.",
   posts: [
     {
       postId: 1101,
@@ -27,6 +29,7 @@ export const aiSkillsSpotlight: Publication = {
       excerpt:
         "A placeholder for focused examinations of individual AI skills.",
       created: "2026-08-04",
+      updated: "2026-10-03",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,

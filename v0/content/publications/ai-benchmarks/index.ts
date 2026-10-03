@@ -11,11 +11,13 @@ export const aiBenchmarks: Publication = {
   description:
     "Repeatable evaluations of AI systems, with close analysis of results, limits, and product claims.",
   created: "2026-08-04",
+  updated: "2026-10-03",
   isNSFW: false,
   isNew: false,
   isFeatured: false,
   isDraft: true,
   tags: ["AI", "Benchmarks", "Analysis"],
+  synopsis: "Start with About AI benchmarks and analysis, the draft reading guide. Articles and their reading links will be added as they become available.",
   posts: [
     {
       postId: 901,
@@ -24,6 +26,7 @@ export const aiBenchmarks: Publication = {
       excerpt:
         "A placeholder for repeatable AI benchmarks and analysis of their results.",
       created: "2026-08-04",
+      updated: "2026-10-03",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,

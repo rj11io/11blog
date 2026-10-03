@@ -15,14 +15,16 @@ export const aiCoachingAdvisory: Publication = {
   description:
     "Helping people and organisations work with AI: coaching, consulting on specific problems, and advising on the decisions that are hard to reverse.",
   created: "2026-08-05",
+  updated: "2026-10-03",
   isNSFW: false,
   isNew: false,
   // Draft until there is a real post in it. This hides the publication and
-  // everything inside it, which is why the post below can be left published: one
-  // edit here reveals the whole thing when it is ready.
+  // everything inside it. Publish the guide and publication together when
+  // an article is ready; each keeps its own explicit draft flag.
   isDraft: true,
   isFeatured: false,
   tags: ["AI", "Coaching", "Advisory"],
+  synopsis: "Start with About AI coaching, consultancy, and advisory, the draft reading guide. Articles and their reading links will be added as they become available.",
   posts: [
     {
       postId: 1201,
@@ -31,6 +33,7 @@ export const aiCoachingAdvisory: Publication = {
       excerpt:
         "A placeholder for notes on coaching, consulting, and advising on AI work.",
       created: "2026-08-05",
+      updated: "2026-10-03",
       authorIds: ["rj11io"],
       isNSFW: false,
       isNew: false,
