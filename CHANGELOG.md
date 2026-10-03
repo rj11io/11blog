@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/rj11io/11blog/compare/v1.19.0...v1.19.1) (2026-10-03)
+
+
+### Bug Fixes
+
+* **11blog-026:** clarify game sections and sitemap routes ([693b3ab](https://github.com/rj11io/11blog/commit/693b3abf87a143dc91bc54c2890baee0e1648768))
+
 # [1.19.0](https://github.com/rj11io/11blog/compare/v1.18.0...v1.19.0) (2026-10-02)
 
 
